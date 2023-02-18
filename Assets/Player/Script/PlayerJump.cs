@@ -25,7 +25,7 @@ public class PlayerJump : MonoBehaviour
     private float FallTime = 0.0f; // 落ち始めてからの時間
 
     // 外部取得
-    public GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
+    private GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
     private Transform thisTransform; // 自身のTransformを取得する変数
     private GroundCheck ground; // 接地判定用のスクリプトを取得する変数
@@ -35,6 +35,10 @@ public class PlayerJump : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //----------------------------------------------------------------------------------------------------------
+        // PlayerInputManagerを探す
+        PlayerInputManager = GameObject.Find("PlayerInputManager");
+
         //----------------------------------------------------------------------------------------------------------
         // ゲームオブジェクトPlayerInputManagerが持つPlayerInputManagerスクリプトを取得
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();

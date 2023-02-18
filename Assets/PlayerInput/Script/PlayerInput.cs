@@ -20,13 +20,17 @@ public class PlayerInput : MonoBehaviour
     public Vector2 R_move;     // 右スティックの入力量を取得する変数
    
     // 外部取得
-    public GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
+    private GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
 
     //----------------------------------------------------------------------------------------------------------
     // - 初期化処理 -
     void Start()
     {
+        //----------------------------------------------------------------------------------------------------------
+        // PlayerInputManagerを探す
+        PlayerInputManager = GameObject.Find("PlayerInputManager");
+
         //----------------------------------------------------------------------------------------------------------
         // ゲームオブジェクトPlayerInputManagerが持つPlayerInputManagerスクリプトを取得
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();

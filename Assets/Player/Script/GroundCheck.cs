@@ -13,8 +13,8 @@ public class GroundCheck : MonoBehaviour
 
     private string groundTag = "Ground"; // Groundタグ名を文字列型で持っている変数
     public bool isGround = false; // 最終的に接地しているかしていないかの情報を持つ
-    public float AdjustY = 0.1f; // 画像の空白部分を無視するための調整用変数
-    public float AdjustX = 0.2f; // 画像の空白部分を無視するための調整用変数
+    private float AdjustY = 0.03f; // 画像の空白部分を無視するための調整用変数
+    private float AdjustX = 0.41f; // 画像の空白部分を無視するための調整用変数
 
     // 外部取得
     private Transform thistransform; // レイによる当たり判定をとるオブジェクトの原点座標
@@ -36,10 +36,10 @@ public class GroundCheck : MonoBehaviour
 
         // x:left y:bottom
         Vector2 origin_left = new Vector2(thistransform.position.x - thistransform.localScale.x / 2.0f + AdjustX, 
-            thistransform.position.y - thistransform.localScale.y / 2.0f - AdjustY);
+            thistransform.position.y - thistransform.localScale.y / 2.0f + AdjustY);
         // x:right y:bottom
         Vector2 origin_right = new Vector2(thistransform.position.x + thistransform.localScale.x / 2.0f - AdjustX, 
-            thistransform.position.y - thistransform.localScale.y / 2.0f - AdjustY);
+            thistransform.position.y - thistransform.localScale.y / 2.0f + AdjustY);
         // 向き
         Vector2 direction = new Vector2(0, -1);
         // 長さ

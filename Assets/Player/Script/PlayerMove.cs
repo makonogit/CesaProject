@@ -17,7 +17,7 @@ public class PlayerMove : MonoBehaviour
     Vector2 movement; // 入力量を取得する変数
 
     // 外部取得
-    public GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
+    private GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
     private Transform thisTransform; // 自身のTransformを取得する変数
 
@@ -27,6 +27,10 @@ public class PlayerMove : MonoBehaviour
     // - 初期化処理 -
     void Start()
     {
+        //----------------------------------------------------------------------------------------------------------
+        // PlayerInputManagerを探す
+        PlayerInputManager = GameObject.Find("PlayerInputManager");
+
         //----------------------------------------------------------------------------------------------------------
         // ゲームオブジェクトPlayerInputManagerが持つPlayerInputManagerスクリプトを取得
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();

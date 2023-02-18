@@ -16,8 +16,10 @@ public class PlayerInputManager : MonoBehaviour
     private Vector2 movement; // 入力量を取得する変数
 
     //ジャンプ用
-    public bool IsJump = false; // 現在ジャンプボタンが押されているか 
-    public bool JumpTrigger = false; // ジャンプ入力離さないと二回目以降ジャンプしないようにする
+    [Header("ジャンプ中")]
+    public bool IsJump = false; // 現在ジャンプボタンが押されているか
+    [Header("")]
+    [SerializeField] bool JumpTrigger = false; // ジャンプ入力離さないと二回目以降ジャンプしないようにする
 
     //ひび生成用
     private Vector2 CrackPower; //ひびを入れる強さ

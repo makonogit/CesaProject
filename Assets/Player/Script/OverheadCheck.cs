@@ -13,8 +13,8 @@ public class OverheadCheck : MonoBehaviour
 
     private string groundTag = "Ground"; // Groundタグ名を文字列型で持っている変数
     public bool isOverhead = false; // 最終的に天井と衝突しているかしていないかの情報を持つ
-    public float AdjustY = 0.1f; // 画像の空白部分を無視するための調整用変数
-    public float AdjustX = 0.2f; // 画像の空白部分を無視するための調整用変数
+    private float AdjustY = -0.15f; // 画像の空白部分を無視するための調整用変数
+    private float AdjustX = 0.41f; // 画像の空白部分を無視するための調整用変数
 
     // 外部取得
     private Transform thistransform; // レイによる当たり判定をとるオブジェクトの原点座標
