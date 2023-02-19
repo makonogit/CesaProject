@@ -14,7 +14,10 @@ public class HitEnemy : MonoBehaviour
     private string enemyTag = "Enemy"; // 文字列Enemyを持つ変数
 
     public float NoDamageTime = 100.0f; //無敵時間
-    public float HitTime = 0.0f; // 敵と接触している時間
+    [SerializeField] float HitTime = 0.0f; // 敵と接触している時間
+
+    [Header("敵によるダメージ")]
+    public int Damage = 10; // 接触時にくらうダメージ
 
     // 外部取得
     public GameOver gameOver; // ゲームオーバー画面遷移用スクリプト取得用変数
@@ -38,8 +41,8 @@ public class HitEnemy : MonoBehaviour
         if (collision.gameObject.tag == enemyTag)
         {
             //---------------------------------------------------------
-            // HP -1
-            gameOver.HP--;
+            // HP -Damage
+            gameOver.DecreaseHP(Damage);
 
             //---------------------------------------------------------
             // アルファ値変更
@@ -59,8 +62,8 @@ public class HitEnemy : MonoBehaviour
             if (HitTime > NoDamageTime)
             {
                 //---------------------------------------------------------
-                // HP -1
-                gameOver.HP--;
+                // HP -Damage
+                gameOver.DecreaseHP(Damage);
 
                 //---------------------------------------------------------
                 // アルファ値変更

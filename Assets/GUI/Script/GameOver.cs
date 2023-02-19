@@ -12,7 +12,10 @@ public class GameOver : MonoBehaviour
     //---------------------------------------------------------
     // - 変数宣言 -
 
+    [Header("現在のHP")]
     public int HP = 5; //体力
+
+    [Header("最大HP")]
     public int maxHp = 5; //マックるHP
 
     // Update is called once per frame
@@ -26,5 +29,10 @@ public class GameOver : MonoBehaviour
             // "GameOver"シーンに遷移
             SceneManager.LoadScene("GameOver");
         }
+    }
+
+    public void DecreaseHP(float _hp)
+    {
+        HP = HP - (int)_hp;
     }
 }

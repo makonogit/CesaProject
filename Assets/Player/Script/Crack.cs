@@ -38,6 +38,9 @@ public class Crack : MonoBehaviour
     [System.NonSerialized]
     public bool RadialCrackFlg = false;   //放射線状にひびを生成
 
+    // 二宮追加
+    private PlayerDamaged playerDamaged; // HP減らすためのセッター呼び出す用
+
 
     //----------------------------------------------------------------------------------------------------------
     // - 初期化処理 -
@@ -54,7 +57,10 @@ public class Crack : MonoBehaviour
         Trans = this.GetComponent<Transform>();
 
         CrackPower = 0.0f;
-       
+
+        // 二宮追加
+        playerDamaged = GetComponent<PlayerDamaged>();
+
     }
 
 
@@ -97,6 +103,10 @@ public class Crack : MonoBehaviour
         //ひびの個数を指定して生成
         if (CreateCrackFlg)
         {
+            //-------------------------------
+            // HP減少情報セット
+            playerDamaged.SetCrackInfo(CrackPower);
+
             Order.CrackFlg = CreateCrackFlg;
             Order.numSummon = CrackPower;
             Order.CrackPos = CrackPos;
