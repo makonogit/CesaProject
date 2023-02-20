@@ -5,6 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CrackMove : MonoBehaviour
 {
@@ -14,10 +15,9 @@ public class CrackMove : MonoBehaviour
     [Header("ひび移動速度")]
     public float CrackMoveSpeed;
 
-    Vector2[] Point;               //当たったedgecolliderのPoint座標
+    public Vector2[] Point;               //当たったedgecolliderのPoint座標
     EdgeCollider2D Edge;           //当たったEdgeCollider
     int PointNum;                  //当たったedgecolliderのPoint数
-    bool CrackMoveFlg;             //ひびの移動開始フラグ
 
     [Header("point(デバッグ用に表示)")]
     [SerializeField] int LeftPointNum;       //左のPointの添字
@@ -32,10 +32,10 @@ public class CrackMove : MonoBehaviour
     float Distance;             //pointとの距離計算用
     float EndDistance;          //終点・始点との距離計算用
 
-    bool RightMoveFlg = false;   //右移動中フラグ
-    bool LeftMoveFlg = false;    //左移動中フラグ
-    bool UpMoveFlg = false;      //上移動中フラグ
-    bool DownMoveFlg = false;    //下移動中フラグ
+    public bool RightMoveFlg = false;   //右移動中フラグ
+    public bool LeftMoveFlg = false;    //左移動中フラグ
+    public bool UpMoveFlg = false;      //上移動中フラグ
+    public bool DownMoveFlg = false;    //下移動中フラグ
 
     [Header("InputManager用オブジェクト")]
     public GameObject PlayerInputManager;       // ゲームオブジェクトPlayerInputManagerを取得する変数
@@ -44,7 +44,16 @@ public class CrackMove : MonoBehaviour
     PlayerMove Move;                    //移動スクリプト
     Rigidbody2D thisrigidbody;          //このオブジェクトのrigitbody
 
-    List<Direction> Pointdirections;     //前回Pointに対しての向き
+    //移動状態
+    public enum MoveState
+    {
+        Walk,           //歩いている
+        CrackHold,      //ひびの中に入っている
+        CrackMove,      //ひびの中を移動中
+        CrackMoveEnd,   //ひびの中の移動終了
+    }
+
+    public MoveState movestate;
 
     //ひびの向き
     enum Direction
@@ -58,44 +67,56 @@ public class CrackMove : MonoBehaviour
 
     private void Start()
     {
-        CrackMoveFlg = false;
+
         thisrigidbody = this.gameObject.GetComponent<Rigidbody2D>();
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
         Jump = this.gameObject.GetComponent<PlayerJump>();
         Move = this.gameObject.GetComponent<PlayerMove>();
 
+        movestate = MoveState.Walk;
         Distance = 0.0f;
     }
 
     private void Update()
     {
+
+        //if (Gamepad.current.bButton.wasPressedThisFrame)
+        //{
+        //    Debug.Log("Press");
+        //}
+
         //------------------------------------------------
         //プレイヤーがひびの中に入っていたら移動処理
-        if (CrackMoveFlg)
+        if (movestate >= MoveState.CrackHold)
         {
+
             //------------------------------------------------
             //スティック入力で位置更新
             if (EdgeDirection == Direction.Right || EdgeDirection == Direction.Left)
             {
-                if (ScriptPIManager.GetMovement().x >= 0.9f && LeftMoveFlg == false)
+                if (ScriptPIManager.GetMovement().x >= 0.9f && LeftMoveFlg == false && RightPointNum > -1 && RightPointNum < PointNum)
                 {
+                    movestate = MoveState.CrackMove;
                     RightMoveFlg = true;
                 }
 
-                if (ScriptPIManager.GetMovement().x <= -0.9f && RightMoveFlg == false)
+                if (ScriptPIManager.GetMovement().x <= -0.9f && RightMoveFlg == false && LeftPointNum > -1 && LeftPointNum < PointNum)
                 {
+                    movestate = MoveState.CrackMove;
                     LeftMoveFlg = true;
                 }
             }
             if (EdgeDirection == Direction.UP || EdgeDirection == Direction.Down)
             {
-                if (ScriptPIManager.GetMovement().y >= 0.9f && DownMoveFlg == false)
+                if (ScriptPIManager.GetMovement().y >= 0.9f && DownMoveFlg == false && UPPointNum > -1 && UPPointNum < PointNum)
                 {
+                    movestate = MoveState.CrackMove;
                     UpMoveFlg = true;
                 }
 
-                if (ScriptPIManager.GetMovement().y <= -0.9f && UpMoveFlg == false)
+                if (ScriptPIManager.GetMovement().y <= -0.9f && UpMoveFlg == false && DownPointNum > -1 && DownPointNum < PointNum)
                 {
+                    movestate = MoveState.CrackMove;
                     DownMoveFlg = true;
                 }
             }
@@ -104,6 +125,7 @@ public class CrackMove : MonoBehaviour
             //右入力あれば右に移動
             if (RightMoveFlg)
             {
+                Debug.Log("Move");
                 //----------------------------------
                 //目的地(Point座標)まで移動
                 transform.position = Vector3.MoveTowards(transform.position, Edge.points[RightPointNum], CrackMoveSpeed * Time.deltaTime);
@@ -139,7 +161,7 @@ public class CrackMove : MonoBehaviour
                         LeftPointNum++;
                         RightPointNum++;
                     }
-                    if(EdgeDirection == Direction.Left && RightPointNum > 0)
+                    if (EdgeDirection == Direction.Left && RightPointNum > 0)
                     {
                         LeftPointNum--;
                         RightPointNum--;
@@ -290,138 +312,123 @@ public class CrackMove : MonoBehaviour
 
             }
 
+
             //--------------------------------------------------
             //始点or終点にいたらボタン入力でひびから出る
-            if (!LeftMoveFlg && !RightMoveFlg && !DownMoveFlg && !UpMoveFlg &&EndDistance <= 0.15f)
+            if (!LeftMoveFlg && !RightMoveFlg && !DownMoveFlg && !UpMoveFlg && EndDistance <= 0.15f)
             {
-                if (ScriptPIManager.GetCrackMove())
-                {
-                    EndDistance = 1.0f;
-                    CrackMoveFlg = false;
-                    thisrigidbody.constraints = RigidbodyConstraints2D.None;
-                    thisrigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-                    Jump.enabled = true;
-                    Move.enabled = true;
-                }
+                movestate = MoveState.CrackMoveEnd;
+            }
 
+            if (Gamepad.current.bButton.wasPressedThisFrame && movestate == MoveState.CrackMoveEnd)
+            {
+                Debug.Log("pressrelease");
+                EndDistance = 1.0f;
+                movestate = MoveState.Walk;
+                thisrigidbody.constraints = RigidbodyConstraints2D.None;
+                thisrigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+                Jump.enabled = true;
+                Move.enabled = true;
             }
 
         }
-
     }
 
-
     //ひびのあたり判定
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
+        CrackStart(collision);
+    }
 
-        //-----------------------------------
-        //ひびとぶつかったらEdgeColliderの情報を取得
-        if (collision.gameObject.tag == "Crack" && CrackMoveFlg == false)
+    void CrackStart(Collider2D HitCollider)
+    {
+        //----------------------------------------------------------------
+        //ひびとぶつかっていて移動中じゃなければEdgeColliderの情報を取得
+        if (HitCollider.gameObject.tag == "Crack")
         {
-           // Debug.Log("Hit");
-            Edge = collision.gameObject.GetComponent<EdgeCollider2D>();
-            Point = Edge.points;
-            PointNum = Edge.pointCount;
 
-
-            //---------------------------------------
-            //ひびの向きを取得(ゴリ押しです...)
+            if (movestate == MoveState.Walk || movestate == MoveState.CrackMoveEnd)
             {
+                // Debug.Log("Hit");
+                Edge = HitCollider.gameObject.GetComponent<EdgeCollider2D>();
+                Point = Edge.points;
+                PointNum = Edge.pointCount;
 
-                //for(int i = 0; i < Edge.pointCount; i++)
-                //{
-                //    //-------------------------------------------
-                //    //X,Yそれぞれの距離を求めて、近い方を優先
-                //    float PointDistanceX = 0;
-                //    float PointDistanceY = 0;
-
-                //    if(Edge.points[i].y < Edge.points[i + 1].y && PointDistanceX < PointDistanceY)
-                //    {
-                //        Pointdirections.Add(Direction.UP);
-                //    }
-                //    if (Edge.points[i].y > Edge.points[i + 1].y && PointDistanceX < PointDistanceY)
-                //    {
-                //        Pointdirections.Add(Direction.Down);
-                //    }
-
-                //    if (Edge.points[i].x < Edge.points[i + 1].x && PointDistanceX > PointDistanceY)
-                //    {
-                //        Pointdirections.Add(Direction.Right);
-                //    }
-                //    if (Edge.points[i].x > Edge.points[i + 1].x && PointDistanceX > PointDistanceY)
-                //    {
-                //        Pointdirections.Add(Direction.Left);
-                //    }
-
-                //}
-
-                if (Edge.pointCount > 2)
+                //----------------------------------------------------
+                //ひびの向きを取得(ゴリ押しです...)
                 {
-                    //上向き
-                    if (Edge.points[0].y < Edge.points[1].y &&
-                       Edge.points[1].y < Edge.points[2].y)
+
+                    if (Edge.pointCount > 2)
                     {
-                        EdgeDirection = Direction.UP;
+                        //上向き
+                        if (Edge.points[0].y < Edge.points[1].y &&
+                           Edge.points[1].y < Edge.points[2].y)
+                        {
+                            EdgeDirection = Direction.UP;
+                        }
+
+                        //下向き
+                        if (Edge.points[0].y > Edge.points[1].y &&
+                           Edge.points[1].y > Edge.points[2].y)
+                        {
+                            EdgeDirection = Direction.Down;
+                        }
+
+                        //右向き
+                        if (Edge.points[0].x < Edge.points[1].x &&
+                            Edge.points[1].x < Edge.points[2].x)
+                        {
+                            EdgeDirection = Direction.Right;
+                        }
+
+                        //左向き
+                        if (Edge.points[0].x > Edge.points[1].x &&
+                            Edge.points[1].x > Edge.points[2].x)
+                        {
+                            EdgeDirection = Direction.Left;
+                        }
+                    }
+                    else
+                    {
+                        //上向き
+                        if (Edge.points[0].y < Edge.points[1].y)
+                        {
+                            EdgeDirection = Direction.UP;
+                        }
+
+                        //下向き
+                        if (Edge.points[0].y > Edge.points[1].y)
+                        {
+                            EdgeDirection = Direction.Down;
+                        }
+
+                        //右向き
+                        if (Edge.points[0].x < Edge.points[1].x)
+                        {
+                            EdgeDirection = Direction.Right;
+                        }
+
+                        //左向き
+                        if (Edge.points[0].x > Edge.points[1].x)
+                        {
+                            EdgeDirection = Direction.Left;
+                        }
                     }
 
-                    //下向き
-                    if (Edge.points[0].y > Edge.points[1].y &&
-                       Edge.points[1].y > Edge.points[2].y)
-                    {
-                        EdgeDirection = Direction.Down;
-                    }
-
-                    //右向き
-                    if (Edge.points[0].x < Edge.points[1].x &&
-                        Edge.points[1].x < Edge.points[2].x)
-                    {
-                        EdgeDirection = Direction.Right;
-                    }
-
-                    //左向き
-                    if (Edge.points[0].x > Edge.points[1].x &&
-                        Edge.points[1].x > Edge.points[2].x)
-                    {
-                        EdgeDirection = Direction.Left;
-                    }
-                }
-                else
-                {
-                    //上向き
-                    if (Edge.points[0].y < Edge.points[1].y)
-                    {
-                        EdgeDirection = Direction.UP;
-                    }
-
-                    //下向き
-                    if (Edge.points[0].y > Edge.points[1].y)
-                    {
-                        EdgeDirection = Direction.Down;
-                    }
-
-                    //右向き
-                    if (Edge.points[0].x < Edge.points[1].x)
-                    {
-                        EdgeDirection = Direction.Right;
-                    }
-
-                    //左向き
-                    if (Edge.points[0].x > Edge.points[1].x)
-                    {
-                        EdgeDirection = Direction.Left;
-                    }
                 }
 
             }
 
             //----------------------------------------------------
             //入力があればプレイヤーの座標を固定(ひびの中に入る)
-            if (ScriptPIManager.GetCrackMove() && CrackMoveFlg == false)
+            if (Gamepad.current.bButton.wasPressedThisFrame && movestate == MoveState.Walk)
             {
-                CrackMoveFlg = true;
-                thisrigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
-                //thisrigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;    //バグる
+                Debug.Log("press");
+                movestate = MoveState.CrackHold;
+                EndDistance = 1.0f;
+                HitCollider.ClosestPoint(this.transform.position);
+                thisrigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+
                 Jump.enabled = false;
                 Move.enabled = false;
 
@@ -527,6 +534,5 @@ public class CrackMove : MonoBehaviour
 
         }
     }
-
 
 }

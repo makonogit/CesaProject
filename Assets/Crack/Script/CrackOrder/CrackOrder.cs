@@ -31,6 +31,8 @@ public class CrackOrder : MonoBehaviour
     public Vector3 RayDirection;    //レイの向き
     public float RayAngle;
 
+    public float Raylength = 0.5f;         //レイの長さ
+
     //------------------------------------------------------------------------------
     //―初期化処理―
     void Start()
@@ -47,21 +49,24 @@ public class CrackOrder : MonoBehaviour
         //---------------------------------------------------------
         //Rayを飛ばして何かとぶつかったら生成を止める
 
-            //Rayの向きを設定
-            RayDirection = new Vector3(Mathf.Cos((RayAngle + 90) * Mathf.PI / 180) , Mathf.Sin((RayAngle + 90) * Mathf.PI / 180) , 0);
-            Vector3 origin = new Vector3(EC2D.points[EC2D.pointCount - 1].x, EC2D.points[EC2D.pointCount - 1].y, 0.0f);
-            Vector3 Distance = RayDirection * 1.0f;
+        //Rayの向きを設定
+        RayDirection = new Vector3(Mathf.Cos((RayAngle + 90) * Mathf.PI / 180) , Mathf.Sin((RayAngle + 90) * Mathf.PI / 180) , 0);
+        Vector3 origin = new Vector3(EC2D.points[EC2D.pointCount - 1].x, EC2D.points[EC2D.pointCount - 1].y, 0.0f);
+        Vector3 Distance = RayDirection * Raylength;
 
-            RaycastHit2D hit = Physics2D.Raycast(origin, RayDirection, 1.0f, -1);
+        RaycastHit2D hit = Physics2D.Raycast(origin, RayDirection, Raylength, -1);
 
-            Debug.DrawRay(origin, Distance, Color.red);
+        Debug.DrawRay(origin, Distance, Color.red);
 
 
-            if (hit)
-            {
-                numSummon = 0;
-            }
-       
+        //---------------------------------------------------
+        //衝突したら最後のpoint座標を衝突した座標に合わせる
+        if (hit)
+        {
+            EC2D.points[EC2D.pointCount - 1] = hit.point;
+            numSummon = 0;
+        }
+
 
         if (CrackFlg)
         {

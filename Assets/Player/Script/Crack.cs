@@ -33,6 +33,7 @@ public class Crack : MonoBehaviour
     private Transform Trans;                    // Transformを取得する変数
     public GameObject PrehubObject;             // ひびを生成するオブジェクト
 
+    CrackMove Move;
     CrackOrder Order;
 
     [System.NonSerialized]
@@ -51,7 +52,9 @@ public class Crack : MonoBehaviour
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
         
         Order = PrehubObject.GetComponent<CrackOrder>();
-        
+
+        Move = gameObject.GetComponent<CrackMove>();
+
         //----------------------------------------------------------------------------------------------------------
         // PlayerのTransformを取得する
         Trans = this.GetComponent<Transform>();
@@ -68,9 +71,10 @@ public class Crack : MonoBehaviour
     void Update()
     {
         //---------------------------------------------
-        //はじき入力
-        if((ScriptPIManager.GetCarackPower().x == 1 || ScriptPIManager.GetCarackPower().x == -1) ||
-            ScriptPIManager.GetCarackPower().y == 1 || ScriptPIManager.GetCarackPower().y == -1)
+        //はじき入力(移動中じゃなければ)
+        if(((ScriptPIManager.GetCarackPower().x == 1 || ScriptPIManager.GetCarackPower().x == -1) ||
+            ScriptPIManager.GetCarackPower().y == 1 || ScriptPIManager.GetCarackPower().y == -1) &&
+            Move.movestate == CrackMove.MoveState.Walk)
         {
             //----------------------------------------------------------------------------------------------------------
             // ひびを入れる強さを加算
