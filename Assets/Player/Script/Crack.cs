@@ -42,6 +42,7 @@ public class Crack : MonoBehaviour
     // 二宮追加
     private PlayerDamaged playerDamaged; // HP減らすためのセッター呼び出す用
 
+    private PlayerJump Jump;            //ジャンプ停止用
 
     //----------------------------------------------------------------------------------------------------------
     // - 初期化処理 -
@@ -55,6 +56,8 @@ public class Crack : MonoBehaviour
 
         Move = gameObject.GetComponent<CrackMove>();
 
+        Jump = gameObject.GetComponent<PlayerJump>();
+
         //----------------------------------------------------------------------------------------------------------
         // PlayerのTransformを取得する
         Trans = this.GetComponent<Transform>();
@@ -63,6 +66,7 @@ public class Crack : MonoBehaviour
 
         // 二宮追加
         playerDamaged = GetComponent<PlayerDamaged>();
+
 
     }
 
@@ -88,19 +92,30 @@ public class Crack : MonoBehaviour
             //ひびの座標を更新
             CrackPos = transform.position;
 
+            //生成中はジャンプ禁止
+            Jump.enabled = false;
+
         }
         else if (CrackPower > 0.0f)
         {
             //パワーによって放射線状にひびが入る
             if (CrackPower < MaxCrackNum)
             {
-                CreateCrackFlg = true;
+                if (ScriptPIManager.GetCrackMove())
+                {
+                    CreateCrackFlg = true;
+                }
             }
             else if(CrackPower > MaxCrackNum)
             {
                 CrackPower = 0.0f;
                // RadialCrackFlg = true;
             }
+        }
+        else
+        {
+            //生成中以外はジャンプ可能にする
+            Jump.enabled = true;
         }
 
         //--------------------------

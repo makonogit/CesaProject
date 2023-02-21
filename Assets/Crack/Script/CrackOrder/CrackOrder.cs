@@ -46,6 +46,8 @@ public class CrackOrder : MonoBehaviour
     [SerializeField]
     public CrackState crackState = CrackState.NoneCreate;
 
+    public Vector2 Hitpoint;
+
     //------------------------------------------------------------------------------
     //―初期化処理―
     void Start()
@@ -64,20 +66,23 @@ public class CrackOrder : MonoBehaviour
 
         //Rayの向きを設定
         RayDirection = new Vector3(Mathf.Cos((RayAngle + 90) * Mathf.PI / 180) , Mathf.Sin((RayAngle + 90) * Mathf.PI / 180) , 0);
-        Vector3 origin = new Vector3(EC2D.points[EC2D.pointCount - 1].x, EC2D.points[EC2D.pointCount - 1].y, 0.0f);
+        Vector3 origin = new Vector3(EC2D.points[EC2D.pointCount - 1].x, EC2D.points[EC2D.pointCount - 1].y + 0.0001f, 0.0f);
         Vector3 Distance = RayDirection * Raylength;
 
         RaycastHit2D hit = Physics2D.Raycast(origin, RayDirection, Raylength, -1);
 
         Debug.DrawRay(origin, Distance, Color.red);
 
-
         //---------------------------------------------------
-        //衝突したら最後のpoint座標を衝突した座標に合わせる
+        //タグと同一の衝突したら最後のpoint座標を衝突した座標に合わせる
         if (hit)
         {
-            EC2D.points[EC2D.pointCount - 1] = hit.point;
-            numSummon = 0;
+            if (hit.collider.gameObject.tag == "Crack")
+            {
+                Hitpoint = hit.point;
+                EC2D.points[EC2D.pointCount - 1] = hit.point;
+                numSummon = 0;
+            }
         }
 
 

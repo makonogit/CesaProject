@@ -85,10 +85,6 @@ public class CrackMove : MonoBehaviour
         if (Hit)
         {
             CrackStart(HitCollider);
-            if (Gamepad.current.bButton.wasPressedThisFrame)
-            {
-                Debug.Log("Press");
-            }
         }
 
         //------------------------------------------------
