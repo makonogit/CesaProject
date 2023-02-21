@@ -1,0 +1,34 @@
+//---------------------------------------------------------
+//’S“–ÒF“ñ‹{—å
+//“à—e@F¶¬’†‚Ì‚Ğ‚Ñ‚ğ“G‚É“–‚Ä‚½‚É“G‚ª€‚Ê
+//---------------------------------------------------------
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyCrackHit : MonoBehaviour
+{
+    //---------------------------------------------------------
+    // - •Ï”éŒ¾ -
+    private string CrackTag = "Crack";
+
+    // ŠO•”æ“¾
+    private CrackOrder order = null;
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //---------------------------------------------------------
+        // “–‚½‚Á‚½‚à‚Ì‚ª‚Ğ‚Ñ‚È‚ç
+        if (collision.gameObject.tag == CrackTag)
+        {
+            // “–‚½‚Á‚½‚Ğ‚Ñ‚ÌCrackOrder‚ğæ“¾
+            order = collision.gameObject.GetComponent<CrackOrder>();
+
+            // ¶¬’†‚È‚ç
+            if (order.crackState == CrackOrder.CrackState.NowCreate)
+            {
+                // “G‚ğÁ‚·
+                Destroy(this.gameObject);
+            }
+        }  
+    }
+}

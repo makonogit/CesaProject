@@ -31,7 +31,7 @@ public class HitEnemy : MonoBehaviour
     //---------------------------------------------------------
     // Enemyタグを持つオブジェクトとの衝突があった時に
     // gameOverスクリプトが持つ変数 HP を-1する
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         //---------------------------------------------------------
         // 初期化
@@ -52,7 +52,7 @@ public class HitEnemy : MonoBehaviour
         }
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
         //---------------------------------------------------------
         // Enemyタグかどうか

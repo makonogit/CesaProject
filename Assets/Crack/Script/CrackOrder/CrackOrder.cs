@@ -33,6 +33,19 @@ public class CrackOrder : MonoBehaviour
 
     public float Raylength = 0.5f;         //レイの長さ
 
+    public int CreateNum = 0; // そのひびの生成順に割り当てられる
+
+     //ひびの生成状態
+    public enum CrackState
+    {
+        NoneCreate, //生成していない
+        NowCreate,  //生成中
+        OldCreate,  //生成終了
+    }
+
+    [SerializeField]
+    public CrackState crackState = CrackState.NoneCreate;
+
     //------------------------------------------------------------------------------
     //―初期化処理―
     void Start()
@@ -70,6 +83,9 @@ public class CrackOrder : MonoBehaviour
 
         if (CrackFlg)
         {
+            // 状態を生成中にする
+            crackState = CrackState.NowCreate;
+
             //---------------------------------------------------------
             // 呼び出すオブジェの位置を設定
             GameObject obj = Instantiate(PrefabObject, CrackPos, Quaternion.Euler(new Vector3(0.0f, 0.0f, CrackAngle)), Trans);
@@ -80,31 +96,18 @@ public class CrackOrder : MonoBehaviour
             // 呼んだので呼び数を減らす。
             numSummon--;
             CrackFlg = false;
-      
         }
 
         //---------------------------------------------------------
         // 呼びきったら、ポイントをセットしてなければ
         if (numSummon <= 0 && SetPointFlg == false)
         {
+            // 状態を生成済みにする
+            crackState = CrackState.OldCreate;
             SetPointFlg = true;
             // ポイントセット
             //EC2D.SetPoints(Points);
             EC2D.offset = new Vector2(this.transform.position.x * -1, this.transform.position.y * -1);
         }
     }
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    // Debug.Log("Hit");
-    //    if (collision.CompareTag("Ground"))
-    //    {
-    //        numSummon = 0;
-    //    }
-    //    if (collision.CompareTag("Crack"))
-    //    {
-    //        Debug.Log("Hit");
-    //    }
-    //}
-
 }
