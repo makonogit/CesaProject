@@ -22,7 +22,7 @@ public class PlayerJump : MonoBehaviour
     private bool isJump = false; // ジャンプ中かどうか
     private float axel = 9.8f; // 重力加速度
     private float JumpTime = 0.0f; // ジャンプが始まってから落ち始めるまでの経過時間
-    private float FallTime = 0.0f; // 落ち始めてからの時間
+    public float FallTime = 0.0f; // 落ち始めてからの時間
 
     // 外部取得
     private GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
@@ -31,6 +31,7 @@ public class PlayerJump : MonoBehaviour
     private GroundCheck ground; // 接地判定用のスクリプトを取得する変数
     private OverheadCheck overhead; // 接地判定用のスクリプトを取得する変数
     private Rigidbody2D thisRigidbody2d; // rigidbody2dを取得する変数
+    private CrackMove crackmove;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +56,8 @@ public class PlayerJump : MonoBehaviour
         //当たり判定処理取得
         ground = GetComponent<GroundCheck>();
         overhead = GetComponent<OverheadCheck>();
+
+        crackmove = GetComponent<CrackMove>();
     }
 
     // Update is called once per frame
@@ -141,7 +144,7 @@ public class PlayerJump : MonoBehaviour
         // 自由落下（加速度加味）
 
         // 地面についてないかつ、ジャンプ入力もない(PlayerInputManagerスクリプトの変数Resetがtrueか未入力)時
-        if(isGround == false && Jump == false)
+        if(isGround == false && Jump == false && crackmove.movestate == CrackMove.MoveState.Walk)
         {
             //----------------------------------------------------------------------------------------------------------
             // 自由落下、落下状態の時間が経てばたつほど落下速度上昇

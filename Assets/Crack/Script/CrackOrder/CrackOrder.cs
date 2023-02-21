@@ -77,7 +77,7 @@ public class CrackOrder : MonoBehaviour
         //タグと同一の衝突したら最後のpoint座標を衝突した座標に合わせる
         if (hit)
         {
-            if (hit.collider.gameObject.tag == "Crack")
+            if (hit.collider.gameObject.tag == "Crack" || hit.collider.gameObject.tag == "Ground")
             {
                 Hitpoint = hit.point;
                 EC2D.points[EC2D.pointCount - 1] = hit.point;
