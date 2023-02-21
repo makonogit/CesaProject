@@ -65,6 +65,9 @@ public class CrackMove : MonoBehaviour
     }
     Direction EdgeDirection;
 
+    bool Hit = false;
+    Collider2D HitCollider;
+
     private void Start()
     {
 
@@ -79,11 +82,14 @@ public class CrackMove : MonoBehaviour
 
     private void Update()
     {
-
-        //if (Gamepad.current.bButton.wasPressedThisFrame)
-        //{
-        //    Debug.Log("Press");
-        //}
+        if (Hit)
+        {
+            CrackStart(HitCollider);
+            if (Gamepad.current.bButton.wasPressedThisFrame)
+            {
+                Debug.Log("Press");
+            }
+        }
 
         //------------------------------------------------
         //プレイヤーがひびの中に入っていたら移動処理
@@ -125,7 +131,7 @@ public class CrackMove : MonoBehaviour
             //右入力あれば右に移動
             if (RightMoveFlg)
             {
-                Debug.Log("Move");
+               // Debug.Log("Move");
                 //----------------------------------
                 //目的地(Point座標)まで移動
                 transform.position = Vector3.MoveTowards(transform.position, Edge.points[RightPointNum], CrackMoveSpeed * Time.deltaTime);
@@ -322,7 +328,7 @@ public class CrackMove : MonoBehaviour
 
             if (Gamepad.current.bButton.wasPressedThisFrame && movestate == MoveState.CrackMoveEnd)
             {
-                Debug.Log("pressrelease");
+               // Debug.Log("pressrelease");
                 EndDistance = 1.0f;
                 movestate = MoveState.Walk;
                 thisrigidbody.constraints = RigidbodyConstraints2D.None;
@@ -337,7 +343,19 @@ public class CrackMove : MonoBehaviour
     //ひびのあたり判定
     void OnTriggerStay2D(Collider2D collision)
     {
-        CrackStart(collision);
+        if (collision.gameObject.tag == "Crack")
+        {
+            Hit = true;
+            HitCollider = collision;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Crack")
+        {
+            Hit = false;
+        }
     }
 
     void CrackStart(Collider2D HitCollider)

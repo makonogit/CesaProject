@@ -100,8 +100,19 @@ public class PlayerInput : MonoBehaviour
 
     public void OnCrackMove(InputAction.CallbackContext context)
     {
+
         if (context.phase == InputActionPhase.Started)
         {
+          
+            if (ScriptPIManager.GetCrackMove() == false)
+            {
+                ScriptPIManager.SetCrackMove(true);
+            }
+        }
+
+        if(context.phase == InputActionPhase.Performed)
+        {
+      
             if (ScriptPIManager.GetCrackMove() == false)
             {
                 ScriptPIManager.SetCrackMove(true);

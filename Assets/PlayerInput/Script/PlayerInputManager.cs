@@ -25,7 +25,7 @@ public class PlayerInputManager : MonoBehaviour
     private Vector2 CrackPower; //ひびを入れる強さ
 
     //ひびの移動用
-    private bool CrackMoveflg = false; //ひびの移動開始フラグ
+    public bool CrackMoveflg = false; //ひびの移動開始フラグ
 
     //右スティック
     private Vector2 R_move;
