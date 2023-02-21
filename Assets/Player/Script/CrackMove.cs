@@ -30,7 +30,7 @@ public class CrackMove : MonoBehaviour
     public int MinPointNum;     //1番近いPointの添字
 
     float Distance;             //pointとの距離計算用
-    float EndDistance;          //終点・始点との距離計算用
+    public float EndDistance;          //終点・始点との距離計算用
 
     public bool RightMoveFlg = false;   //右移動中フラグ
     public bool LeftMoveFlg = false;    //左移動中フラグ
@@ -141,7 +141,7 @@ public class CrackMove : MonoBehaviour
                 Distance = Vector3.Distance(this.transform.position,
                                  new Vector3(Edge.points[RightPointNum].x, Edge.points[RightPointNum].y, 0.0f));
 
-                if (Distance <= 0.15f)
+                if (Distance <= 0)
                 {
                     //-----------------------------------------
                     //終点まで移動したら終了
@@ -180,6 +180,7 @@ public class CrackMove : MonoBehaviour
             //左入力あれば左に移動
             if (LeftMoveFlg)
             {
+                
                 //----------------------------------
                 //目的地(Point座標)まで移動
                 transform.position = Vector3.MoveTowards(transform.position, Edge.points[LeftPointNum], CrackMoveSpeed * Time.deltaTime);
@@ -189,7 +190,7 @@ public class CrackMove : MonoBehaviour
                 Distance = Vector3.Distance(this.transform.position,
                            new Vector3(Edge.points[LeftPointNum].x, Edge.points[LeftPointNum].y, 0.0f));
 
-                if (Distance <= 0.15f)
+                if (Distance <= 0)
                 {
                     //-----------------------------------------
                     //終点まで移動したら終了
@@ -235,7 +236,7 @@ public class CrackMove : MonoBehaviour
                 Distance = Vector3.Distance(this.transform.position,
                                  new Vector3(Edge.points[UPPointNum].x, Edge.points[UPPointNum].y, 0.0f));
 
-                if (Distance <= 0.15f)
+                if (Distance <= 0)
                 {
                     //-----------------------------------------
                     //終点まで移動したら終了
@@ -283,7 +284,7 @@ public class CrackMove : MonoBehaviour
                 Distance = Vector3.Distance(this.transform.position,
                                  new Vector3(Edge.points[DownPointNum].x, Edge.points[DownPointNum].y, 0.0f));
 
-                if (Distance <= 0.15f)
+                if (Distance <= 0)
                 {
                     //-----------------------------------------
                     //終点まで移動したら終了
@@ -321,7 +322,7 @@ public class CrackMove : MonoBehaviour
 
             //--------------------------------------------------
             //始点or終点にいたらボタン入力でひびから出る
-            if (!LeftMoveFlg && !RightMoveFlg && !DownMoveFlg && !UpMoveFlg && EndDistance <= 0.15f)
+            if (!LeftMoveFlg && !RightMoveFlg && !DownMoveFlg && !UpMoveFlg && EndDistance <= 0)
             {
                 movestate = MoveState.CrackMoveEnd;
             }
