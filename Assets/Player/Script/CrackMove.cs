@@ -329,7 +329,11 @@ public class CrackMove : MonoBehaviour
 
             if (Gamepad.current.bButton.wasPressedThisFrame && movestate == MoveState.CrackMoveEnd)
             {
-               // Debug.Log("pressrelease");
+                // Debug.Log("pressrelease");
+                RightPointNum = 0;
+                LeftPointNum = 0;
+                UPPointNum = 0;
+                DownPointNum = 0;
                 EndDistance = 1.0f;
                 movestate = MoveState.Walk;
                 thisrigidbody.constraints = RigidbodyConstraints2D.None;
