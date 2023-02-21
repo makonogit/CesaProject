@@ -19,7 +19,7 @@ public class CameraControl : MonoBehaviour
     public float UpPos;    // 上端
 
     // 外部取得
-    public GameObject player; // プレイヤーのゲームオブジェクトを保持
+    private GameObject target; // プレイヤーのゲームオブジェクトを保持
     private Vector3 offset; // プレイヤーとカメラの位置関係を保持
     private Transform thisTransform; // カメラの現在座標を持つ
 
@@ -29,11 +29,22 @@ public class CameraControl : MonoBehaviour
     GameObject LeftDown; 
     GameObject RightUp;
 
+    private GameObject CameraArea;
+    private CameraZoom zoom;
+
     //------------------------------------------------------------------------------------------------------
     //* 初期化処理 *
     //------------------------------------------------------------------------------------------------------
     void Start()
     {
+        // 最初の追従ターゲットはプレイヤー
+        target = GameObject.Find("player");
+
+        // ズームエリアのオブジェクト探す
+        CameraArea = GameObject.Find("GoalArea");
+        // ズームスクリプト取得
+        zoom = CameraArea.GetComponent<CameraZoom>();
+
         //-----------------------------------------
         // カメラのサイズをとるために必要
         Cam = GetComponent<Camera>();
@@ -43,7 +54,7 @@ public class CameraControl : MonoBehaviour
         thisTransform = GetComponent<Transform>();
 
         // ゲームスタート時でのプレイヤーとカメラの位置関係を記憶
-        offset = thisTransform.position - player.transform.position;
+        offset = thisTransform.position - target.transform.position;
 
         // 移動範囲の素となるゲームオブジェクトを探す
         LeftDown = GameObject.Find("LeftDown");
@@ -62,8 +73,28 @@ public class CameraControl : MonoBehaviour
     //------------------------------------------------------------------------------------------------------
     void LateUpdate()   // すべてのゲームオブジェクトのUpdateメソッドが呼び出された後に実行される関数
     {
+        // エリア内にいるかいないかで追従ターゲットを変える
+        if(zoom.InArea == true)
+        {
+            // エリア内でターゲットがプレイヤーなら
+            if(target.name == "player")
+            {
+                // ターゲットを変更
+                target = GameObject.Find("GoalArea");
+            }
+        }
+        else
+        {
+            // エリア外でターゲットがゴールエリアなら
+            if (target.name == "GoalArea")
+            {
+                // ターゲットを変更
+                target = GameObject.Find("player");
+            }
+        }
+
         // プレイヤーの現在位置から新しいカメラの位置を作成
-        Vector3 vector = player.transform.position + offset;
+        Vector3 vector = target.transform.position + offset;
 
         //------------------------------------------------------------------------------------------------------
         // 左端より左に行こうとしたらカメラのx座標固定

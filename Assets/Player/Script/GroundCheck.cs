@@ -37,6 +37,10 @@ public class GroundCheck : MonoBehaviour
         // x:left y:bottom
         Vector2 origin_left = new Vector2(thistransform.position.x - thistransform.localScale.x / 2.0f + AdjustX, 
             thistransform.position.y - thistransform.localScale.y / 2.0f + AdjustY);
+
+        // x:原点 y;bottom
+        Vector2 origin_middle = new Vector2(thistransform.position.x, thistransform.position.y - thistransform.localScale.y / 2.0f + AdjustY - 0.1f);
+
         // x:right y:bottom
         Vector2 origin_right = new Vector2(thistransform.position.x + thistransform.localScale.x / 2.0f - AdjustX, 
             thistransform.position.y - thistransform.localScale.y / 2.0f + AdjustY);
@@ -51,18 +55,40 @@ public class GroundCheck : MonoBehaviour
         // レイ飛ばして何かとぶつかったら生成やめる
         // 左下
         RaycastHit2D hit_l = Physics2D.Raycast(origin_left, direction, length, -1); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+
+        // 中央
+        RaycastHit2D hit_m = Physics2D.Raycast(origin_middle, direction, length, -1); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+
         // 右下
         RaycastHit2D hit_r = Physics2D.Raycast(origin_right, direction, length, -1); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
 
         //----------------------------------------------------------------------------------------------------------
         // レイを描画
         Debug.DrawRay(origin_left, distance, Color.red);
+        Debug.DrawRay(origin_middle, distance, Color.red);
         Debug.DrawRay(origin_right, distance, Color.red);
 
+        int touch = 0;
+
+        // 当たっているかつ、タグがGroundならカウントを増やす
+        if (hit_l && hit_l.collider.gameObject.tag == groundTag)
+        {
+            touch++;
+        }
+        if (hit_m && hit_m.collider.gameObject.tag == groundTag)
+        {
+            touch++;
+        }
+        if (hit_r && hit_r.collider.gameObject.tag == groundTag)
+        {
+            touch++;
+        }
+
+        //Debug.Log(touch);
+
         //----------------------------------------------------------------------------------------------------------
-        // 当たっているかつ、タグがGroundならisGroundをtrueにする
-        if ((hit_l && hit_l.collider.gameObject.tag == groundTag) ||
-            (hit_r && hit_r.collider.gameObject.tag == groundTag))
+        // 二本以上地面に触れていたら
+        if (touch >= 2)
         {
             isGround = true;
             // 当たっているタグ名を表示
