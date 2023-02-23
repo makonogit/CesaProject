@@ -30,6 +30,9 @@ public class PlayerInputManager : MonoBehaviour
     //右スティック
     private Vector2 R_move;
 
+    //マウス座標
+    private Vector2 MousePos;
+
     //----------------------------------------------------------------------------------------------------------
     // - ゲッター ・ セッター -
 
@@ -133,5 +136,25 @@ public class PlayerInputManager : MonoBehaviour
     {
         CrackMoveflg = _CrackMoveflg;
     }
+
+
+    //----------------------------------------------------------------------------------------------------------
+    // マウス
+    //----------------------------------------------------------------------------------------------------------
+
+    //戻り値：Vector2型（マウスの座標）
+    //引数　：無し
+    public Vector2 GetMousePos()
+    {
+        return MousePos;
+    }
+
+    //戻り値：無し
+    //引数　：Vector2型（マウスの座標）
+    public void SetMousePos(Vector2 _MousePos)
+    {
+        MousePos = _MousePos;
+    }
+
 
 }

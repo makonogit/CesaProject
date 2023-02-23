@@ -56,7 +56,6 @@ public class CrackOrder : MonoBehaviour
     [SerializeField]
     public CrackState crackState = CrackState.NoneCreate;
 
-    
     float _creatTime;// ‚Ğ‚Ñ‚ğ¶¬‚·‚éŠÔ
 
     float _nextAngle;// Ÿ‚Ì‚Ğ‚Ñ‚ÌŠp“x
@@ -102,7 +101,6 @@ public class CrackOrder : MonoBehaviour
             Vector3 origin = new Vector3(Points[Points.Count - 1].x,Points[Points.Count - 1].y + 0.0001f, 0.0f);
             Vector3 Distance = RayDirection * _Scale.y;
             
-
             RaycastHit2D hit = Physics2D.Raycast(origin, RayDirection, Raylength, 3);
 
             Debug.DrawRay(origin, Distance, Color.red,1000,false);

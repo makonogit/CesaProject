@@ -25,9 +25,9 @@ public class HaveNails : MonoBehaviour
         if (collision.tag == NailTag)
         {
             NailsNum++;
+            // アイテムとしての釘は消す
+            Destroy(collision.gameObject);
         }
 
-        // アイテムとしての釘は消す
-        Destroy(collision.gameObject);
     }
 }

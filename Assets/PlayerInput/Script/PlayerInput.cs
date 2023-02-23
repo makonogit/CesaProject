@@ -18,7 +18,11 @@ public class PlayerInput : MonoBehaviour
     // ひび用
     public Vector2 R_Push;     // 右スティックの入力量を取得する変数(Press)
     public Vector2 R_move;     // 右スティックの入力量を取得する変数
-   
+
+    // マウスの座標
+    [SerializeField]
+    private Vector2 MousePos;  //マウス座標を保持する変数
+
     // 外部取得
     private GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
@@ -135,6 +139,17 @@ public class PlayerInput : MonoBehaviour
         R_move = context.ReadValue<Vector2>();
 
         ScriptPIManager.SetRmove(R_move);
+    }
+
+
+    public void OnMousePos(InputAction.CallbackContext context)
+    {
+        //---------------------------------------------------------------
+        //マウスの座標を取得
+        MousePos = context.ReadValue<Vector2>();
+
+        ScriptPIManager.SetMousePos(MousePos);
+
     }
 
 }
