@@ -17,8 +17,10 @@ public class PlayerJump : MonoBehaviour
     public float JumpHeight = 5.0f; // ジャンプできる高さ
     public float Gravity = 6.0f; // 重力
     private float JumpPos; // ジャンプする瞬間のプレイヤーの高さ
+    [SerializeField]
     private bool isGround = false; // 地面に触れているか
     private bool isOverhead = false; // 天井に触れているか
+    [SerializeField]
     private bool isJump = false; // ジャンプ中かどうか
     private float axel = 9.8f; // 重力加速度
     private float JumpTime = 0.0f; // ジャンプが始まってから落ち始めるまでの経過時間
@@ -31,7 +33,12 @@ public class PlayerJump : MonoBehaviour
     private GroundCheck ground; // 接地判定用のスクリプトを取得する変数
     private OverheadCheck overhead; // 接地判定用のスクリプトを取得する変数
     private Rigidbody2D thisRigidbody2d; // rigidbody2dを取得する変数
-    private CrackMove crackmove;
+    
+    //-------------菅----------------
+    private CrackMove crackmove;        
+    private Crack createcrack;      //ジャンプ中ひび生成できないようにする
+    private GameObject LineObj;
+    private PredictionLine Line;    //ジャンプ中の予測線も無効化
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +64,13 @@ public class PlayerJump : MonoBehaviour
         ground = GetComponent<GroundCheck>();
         overhead = GetComponent<OverheadCheck>();
 
+        //------------追加担当：菅--------------------
+        createcrack = GetComponent<Crack>();
         crackmove = GetComponent<CrackMove>();
+
+        LineObj = GameObject.Find("Line");
+        Line = LineObj.GetComponent<PredictionLine>();
+
     }
 
     // Update is called once per frame
@@ -175,6 +188,20 @@ public class PlayerJump : MonoBehaviour
             // 経過時間を初期化
             JumpTime = 0.0f;
         }
+
+        //------------------------------------------------------
+        //ジャンプ中はひび生成不可にする
+        if (isJump && !isGround)
+        {
+            Line.enabled = false;
+            createcrack.enabled = false;
+        }
+        else
+        {
+            Line.enabled = true;
+            createcrack.enabled = true;
+        }
+
 
         //----------------------------------------------------------------------------------------------------------
         // プレイヤーの座標に加算?

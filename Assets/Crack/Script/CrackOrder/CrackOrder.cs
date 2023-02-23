@@ -40,6 +40,11 @@ public class CrackOrder : MonoBehaviour
 
     public int CreateNum = 0; // そのひびの生成順に割り当てられる
 
+    
+    float CreateTime = 0.0f;      //ひびが生成完了してから時間を計測する(敵をたおせるまでの時間)
+    [SerializeField,Header("敵との当たり判定を取得する時間")]
+    float EnemyHitTime = 0.5f;    //敵の当たり判定を取る時間
+
      //ひびの生成状態
     public enum CrackState
     {
@@ -171,9 +176,18 @@ public class CrackOrder : MonoBehaviour
         // 呼びきったら、ポイントをセットしてなければ
         else if (SetPointFlg == false) 
         {
-            // 状態を生成済みにする
-            crackState = CrackState.OldCreate;
-            SetPointFlg = true;
+            //--------------------------------
+            //生成後時間計測、ひびを生成済みにする
+            if(CreateTime < EnemyHitTime)
+            {
+                CreateTime += Time.deltaTime;
+            }
+            else
+            {
+                // 状態を生成済みにする
+                crackState = CrackState.OldCreate;
+                SetPointFlg = true;
+            }
         }
         
     }
