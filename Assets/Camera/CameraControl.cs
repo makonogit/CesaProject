@@ -59,12 +59,6 @@ public class CameraControl : MonoBehaviour
         // 移動範囲の素となるゲームオブジェクトを探す
         LeftDown = GameObject.Find("LeftDown");
         RightUp = GameObject.Find("RightUp");
-
-        // 移動範囲制限に必要な四頂点の座標
-        LeftPos = LeftDown.transform.position.x + Cam.orthographicSize * 2;
-        DownPos = LeftDown.transform.position.y + Cam.orthographicSize;
-        RightPos = RightUp.transform.position.x - Cam.orthographicSize * 2;
-        UpPos = RightUp.transform.position.y - Cam.orthographicSize;
     }
     //------------------------------------------------------------------------------------------------------
 
@@ -95,6 +89,12 @@ public class CameraControl : MonoBehaviour
 
         // プレイヤーの現在位置から新しいカメラの位置を作成
         Vector3 vector = target.transform.position + offset;
+
+        // 移動範囲制限に必要な四頂点の座標
+        LeftPos = LeftDown.transform.position.x + Cam.orthographicSize * 2;
+        DownPos = LeftDown.transform.position.y + Cam.orthographicSize;
+        RightPos = RightUp.transform.position.x - Cam.orthographicSize * 2;
+        UpPos = RightUp.transform.position.y - Cam.orthographicSize;
 
         //------------------------------------------------------------------------------------------------------
         // 左端より左に行こうとしたらカメラのx座標固定

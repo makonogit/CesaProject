@@ -54,13 +54,13 @@ public class GroundCheck : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // レイ飛ばして何かとぶつかったら生成やめる
         // 左下
-        RaycastHit2D hit_l = Physics2D.Raycast(origin_left, direction, length, -1); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+        RaycastHit2D hit_l = Physics2D.Raycast(origin_left, direction, length); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
 
         // 中央
-        RaycastHit2D hit_m = Physics2D.Raycast(origin_middle, direction, length, -1); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+        RaycastHit2D hit_m = Physics2D.Raycast(origin_middle, direction, length); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
 
         // 右下
-        RaycastHit2D hit_r = Physics2D.Raycast(origin_right, direction, length, -1); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+        RaycastHit2D hit_r = Physics2D.Raycast(origin_right, direction, length); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
 
         //----------------------------------------------------------------------------------------------------------
         // レイを描画
