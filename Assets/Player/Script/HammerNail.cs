@@ -56,7 +56,7 @@ public class HammerNail : MonoBehaviour
 
         //--------------------------------------------
         //マウスポインタ用オブジェクトを取得
-        MousePointa = GameObject.Find("MousePointa");
+        MousePointa = GameObject.Find("Fairy");
         MousePointaRender = MousePointa.GetComponent<SpriteRenderer>();
 
         //--------------------------------------------

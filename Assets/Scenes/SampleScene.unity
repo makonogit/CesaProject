@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 85584702}
   - component: {fileID: 85584704}
   m_Layer: 0
-  m_Name: MousePointa
+  m_Name: Fairy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4077,6 +4077,14 @@ PrefabInstance:
     - target: {fileID: 6636130089559709829, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_SortingOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709830, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: delayTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709830, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: moveDistance
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709830, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: BlockLayer.m_Bits
