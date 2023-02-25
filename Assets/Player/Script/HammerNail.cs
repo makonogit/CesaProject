@@ -25,10 +25,10 @@ public class HammerNail : MonoBehaviour
     public GameObject CrackPrefab;              // ひび生成用プレハブオブジェクト
     private CrackOrder Order;                   // ひび生成用スクリプト
 
-    [SerializeField,Header("釘が生成可能な距離")]
+    [SerializeField, Header("釘が生成可能な距離")]
     private float NailsCreateDistance = 2.5f;   //釘が生成可能な距離
     public float NailsDistance;                 //前回の釘との距離
-    [SerializeField,Header("釘が生成可能か")]
+    [SerializeField, Header("釘が生成可能か")]
     private bool NailsCreateFlg = true;         //釘が生成可能か
     public bool MousePointaHit = false;         //マウスポインタが壁に当たっているか
 
@@ -38,7 +38,7 @@ public class HammerNail : MonoBehaviour
     private GameObject MousePointa;             //マウスポインタ用オブジェクト
     private SpriteRenderer MousePointaRender;   //マウスポインタのスプライトレンダー
 
-     //―追加担当者：中川直登―//
+    //―追加担当者：中川直登―//
     [Header("ひびを作るobj")]
     public GameObject _crackCreaterObj;
     CrackCreater _creater;
@@ -54,7 +54,7 @@ public class HammerNail : MonoBehaviour
         //--------------------------------------------
         // 釘の管理スクリプトを取得
         HaveNails = GetComponent<HaveNails>();
-        
+
         NailsTrans = NailPrehubObj.transform;
 
         //--------------------------------------------
@@ -63,8 +63,8 @@ public class HammerNail : MonoBehaviour
 
         //--------------------------------------------
         //マウスポインタ用オブジェクトを取得
-        MousePointa = GameObject.Find("Fairy");
-        MousePointaRender = MousePointa.GetComponent<SpriteRenderer>();
+        //MousePointa = GameObject.Find("Fairy");
+        //MousePointaRender = MousePointa.GetComponent<SpriteRenderer>();
 
         //--------------------------------------------
         //InputManagrを取得
@@ -80,89 +80,89 @@ public class HammerNail : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //マウスポインタの座標を常に更新
-        Vector3 MousePos = (Vector2)Camera.main.ScreenToWorldPoint(ScriptPIManager.GetMousePos());
-        MousePointa.transform.position = MousePos;
+        ////マウスポインタの座標を常に更新
+        //Vector3 MousePos = (Vector2)Camera.main.ScreenToWorldPoint(ScriptPIManager.GetMousePos());
+        //MousePointa.transform.position = MousePos;
 
-        //----------------------------------------
-        //釘を持っていたら釘を画面に打つ
-        if (HaveNails.NailsNum > 0)
+        ////----------------------------------------
+        ////釘を持っていたら釘を画面に打つ
+        //if (HaveNails.NailsNum > 0)
+        //{
+        //    //---------------------------------------------------------------------------
+        //    //前回打った釘との距離を求める(生成されていなかったらプレイヤーとの距離)
+        //    if (HammerNails > 0)
+        //    {
+        //        NailsDistance = Vector3.Distance(MousePos, NailsPoint[HammerNails - 1]);
+        //    }
+        //    else
+        //    {
+        //        NailsDistance = Vector3.Distance(MousePos, this.transform.position);
+        //    }
+
+        //    //----------------------------------------------------------------
+        //    //距離が生成可能な距離よりも離れているかで生成可能フラグを指定
+        //    if(NailsDistance < NailsCreateDistance && !MousePointaHit)
+        //    {
+        //        NailsCreateFlg = true;
+        //    }
+        //    else
+        //    {
+        //        NailsCreateFlg = false;
+        //    }
+
+        //    //----------------------------------------------------------------
+        //    //釘生成可能かどうかでマウスポインタの色を変更
+        //    MousePointaRender.color = NailsCreateFlg == true ? Color.white : Color.red;
+
+        //    //---------------------------------------------------------------------------
+        //    //左クリック検知+ひび生成中じゃない+釘を打てる範囲ならマウス座標に釘を生成
+        //    if (Mouse.current.leftButton.wasPressedThisFrame && !CreateCrack && NailsCreateFlg)
+        //    {
+        //        NailsTrans.position = new Vector3(ScriptPIManager.GetMousePos().x, ScriptPIManager.GetMousePos().y, 0);
+        //        // ワールド座標に変換Zのカメラ座標がおかしくなるのでVector2型にキャスト変換して対処
+        //        NailsTrans.position = (Vector2)Camera.main.ScreenToWorldPoint(NailsTrans.position);
+
+        //        //ポイント座標を追加
+        //        NailsPoint.Add(item:NailsTrans.position);
+
+        //        Instantiate(NailPrehubObj,NailsTrans.position,Quaternion.identity);
+
+        //        HammerNails++;
+        //        HaveNails.NailsNum--;
+        //    }
+
+        //}
+
+        ////----------------------------------------
+        ////壁に打った釘が1個以上あればひびを生成
+        //if (HammerNails > 0)
+        //{
+        //    //-------------------------------------
+        //    //右クリック検知でひびを生成
+        //    if (Mouse.current.rightButton.wasPressedThisFrame)
+        //    {
+        //        CreateCrack = true;
+        //    }
+
+        //------------------------------------
+        //ひび生成
+        if (CreateCrack)
         {
-            //---------------------------------------------------------------------------
-            //前回打った釘との距離を求める(生成されていなかったらプレイヤーとの距離)
-            if (HammerNails > 0)
-            {
-                NailsDistance = Vector3.Distance(MousePos, NailsPoint[HammerNails - 1]);
-            }
-            else
-            {
-                NailsDistance = Vector3.Distance(MousePos, this.transform.position);
-            }
+            //Order.numSummon = HammerNails;
+            //Order.CrackPos = NailsPoint[NailsPoint.Count - 1];
+            //Order.CrackFlg = CreateCrack;
+            ////Quaternion.LookRotation()
+            //HammerNails = 0;
+            //Instantiate(CrackPrefab, NailsPoint[NailsPoint.Count - 1], Quaternion.identity);
+            //CreateCrack = false;
+            // CrackCraeterを呼ぶ
+            CallCrackCreater();//―追加担当者：中川直登―//
 
-            //----------------------------------------------------------------
-            //距離が生成可能な距離よりも離れているかで生成可能フラグを指定
-            if(NailsDistance < NailsCreateDistance && !MousePointaHit)
-            {
-                NailsCreateFlg = true;
-            }
-            else
-            {
-                NailsCreateFlg = false;
-            }
-           
-            //----------------------------------------------------------------
-            //釘生成可能かどうかでマウスポインタの色を変更
-            MousePointaRender.color = NailsCreateFlg == true ? Color.white : Color.red;
-
-            //---------------------------------------------------------------------------
-            //左クリック検知+ひび生成中じゃない+釘を打てる範囲ならマウス座標に釘を生成
-            if (Mouse.current.leftButton.wasPressedThisFrame && !CreateCrack && NailsCreateFlg)
-            {
-                NailsTrans.position = new Vector3(ScriptPIManager.GetMousePos().x, ScriptPIManager.GetMousePos().y, 0);
-                // ワールド座標に変換Zのカメラ座標がおかしくなるのでVector2型にキャスト変換して対処
-                NailsTrans.position = (Vector2)Camera.main.ScreenToWorldPoint(NailsTrans.position);
-
-                //ポイント座標を追加
-                NailsPoint.Add(item:NailsTrans.position);
-
-                Instantiate(NailPrehubObj,NailsTrans.position,Quaternion.identity);
-
-                HammerNails++;
-                HaveNails.NailsNum--;
-            }
-           
         }
-
-        //----------------------------------------
-        //壁に打った釘が1個以上あればひびを生成
-        if (HammerNails > 0)
-        {
-            //-------------------------------------
-            //右クリック検知でひびを生成
-            if (Mouse.current.rightButton.wasPressedThisFrame)
-            {
-                CreateCrack = true;
-            }
-
-            //------------------------------------
-            //ひび生成
-            if (CreateCrack)
-            {
-                Order.numSummon = HammerNails;
-                Order.CrackPos = NailsPoint[NailsPoint.Count - 1];
-                Order.CrackFlg = CreateCrack;
-                //Quaternion.LookRotation()
-                HammerNails = 0;
-                Instantiate(CrackPrefab, NailsPoint[NailsPoint.Count - 1], Quaternion.identity);
-                CreateCrack = false;
-                // CrackCraeterを呼ぶ
-                CallCrackCreater();//―追加担当者：中川直登―//
-
-            }
-        }
-        
-
     }
+
+
+    
     //-----------------------------------------------------------------
     //―CrackCreaterを呼ぶ関数―           //―追加担当者：中川直登―//
     private void CallCrackCreater()

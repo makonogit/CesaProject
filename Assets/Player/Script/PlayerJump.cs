@@ -65,11 +65,11 @@ public class PlayerJump : MonoBehaviour
         overhead = GetComponent<OverheadCheck>();
 
         //------------追加担当：菅--------------------
-        createcrack = GetComponent<Crack>();
+       // createcrack = GetComponent<Crack>();
         crackmove = GetComponent<CrackAutoMove>();
 
-        LineObj = GameObject.Find("Line");
-        Line = LineObj.GetComponent<PredictionLine>();
+      //  LineObj = GameObject.Find("Line");
+      //  Line = LineObj.GetComponent<PredictionLine>();
 
     }
 
@@ -193,13 +193,13 @@ public class PlayerJump : MonoBehaviour
         //ジャンプ中はひび生成不可にする
         if (isJump && !isGround)
         {
-            Line.enabled = false;
-            createcrack.enabled = false;
+          //  Line.enabled = false;
+          //  createcrack.enabled = false;
         }
         else
         {
-            Line.enabled = true;
-            createcrack.enabled = true;
+          //  Line.enabled = true;
+           // createcrack.enabled = true;
         }
 
 
