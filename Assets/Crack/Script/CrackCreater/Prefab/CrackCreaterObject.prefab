@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5637831958228747137}
-  - component: {fileID: 1971962830990919829}
+  - component: {fileID: -5353853151192223698}
   - component: {fileID: 4912640675679485336}
   m_Layer: 0
   m_Name: CrackCreaterObject
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1971962830990919829
+--- !u!114 &-5353853151192223698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,17 +42,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 7869875550553585627}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 639320ca2c5259e43818dba56d8d0266, type: 3}
+  m_Script: {fileID: 11500000, guid: 97964b4eeb8d9964ca94caf951b5518d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nowState: 0
   _crackObject: {fileID: 4499913470512213667, guid: 1d4da18c1074cef45975fb088f8b86f4, type: 3}
   _divisionNum: {x: 5, y: 9}
   _rangeNum: {x: 0.2, y: 0.5}
-  _createTime: 1
+  _createTime: 0.0625
   _nailPoints: []
   _edgePoints: []
   _nailPointCount: 
+  _cracks: []
 --- !u!68 &4912640675679485336
 EdgeCollider2D:
   m_ObjectHideFlags: 0

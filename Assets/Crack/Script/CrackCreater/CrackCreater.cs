@@ -1,6 +1,6 @@
-//----------------------------------------------------------
-// ’S“–ÒF’†ì’¼“o
-// “à—e  F—^‚¦‚ç‚½ˆÊ’u‚©‚ç‚Ğ‚Ñ‚ğì‚é
+ï»¿//----------------------------------------------------------
+// æ‹…å½“è€…ï¼šä¸­å·ç›´ç™»
+// å†…å®¹  ï¼šä¸ãˆã‚‰ãŸä½ç½®ã‹ã‚‰ã²ã³ã‚’ä½œã‚‹
 //----------------------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
@@ -9,115 +9,115 @@ using UnityEngine;
 public class CrackCreater : MonoBehaviour
 {
     //-----------------------------------------------------------------
-    //\•Ï”\(Œö)Accessible variables
+    //â€•å¤‰æ•°â€•(å…¬)Accessible variables
 
-    // ó‘Ô
+    // çŠ¶æ…‹
     public enum CrackCreaterState
     {
-        NONE,       // ‰½‚à‚È‚¢
-        START,      // ì¬ŠJn
-        CREATING,   // ì¬’†
-        CRAETED,    // ì¬Š®—¹
+        NONE,       // ä½•ã‚‚ãªã„
+        START,      // ä½œæˆé–‹å§‹
+        CREATING,   // ä½œæˆä¸­
+        CRAETED,    // ä½œæˆå®Œäº†
     }
-    [System.NonSerialized]// ”ñ•\¦
-    public CrackCreaterState State; // ŠO•”‰{———p
+    [System.NonSerialized]// éè¡¨ç¤º
+    public CrackCreaterState State; // å¤–éƒ¨é–²è¦§ç”¨
 
-    [System.NonSerialized]// ”ñ•\¦
+    [System.NonSerialized]// éè¡¨ç¤º
     public EdgeCollider2D Edge2D;
 
     //-----------------------------------------------------------------
-    //\•Ï”\(„)Inaccessible variables
+    //â€•å¤‰æ•°â€•(ç§)Inaccessible variables
     [SerializeField]
-    private CrackCreaterState _nowState;// ¡‚Ìó‘Ô‚ğ“ü‚ê‚é•Ï”
-    
-    [Header("‚Ğ‚Ñ‚Ìobj")]
+    private CrackCreaterState _nowState;// ä»Šã®çŠ¶æ…‹ã‚’å…¥ã‚Œã‚‹å¤‰æ•°
+
+    [Header("ã²ã³ã®obj")]
     [SerializeField]
     private GameObject _crackObject;
 
-    [Header("•ªŠ„‚·‚é”‚Ì”ÍˆÍ(X`Y)")]
+    [Header("åˆ†å‰²ã™ã‚‹æ•°ã®ç¯„å›²(Xï½Y)")]
     [SerializeField]
     private Vector2Int _divisionNum;
 
-    [Header("ƒMƒUƒMƒU‚Ì”ÍˆÍ(0.0f`)")]
+    [Header("ã‚®ã‚¶ã‚®ã‚¶ã®ç¯„å›²(0.0fï½)")]
     [SerializeField]
     private Vector2 _rangeNum;
 
-    [Header("¶¬ŠÔ")]
+    [Header("ç”Ÿæˆæ™‚é–“")]
     [SerializeField]
     private float _createTime;
     private float _nowTime;
     private int _createCount;
 
     [SerializeField]
-    private List<Vector2> _nailPoints;// “B‚ÌÀ•WƒŠƒXƒg
+    private List<Vector2> _nailPoints;// é‡˜ã®åº§æ¨™ãƒªã‚¹ãƒˆ
     [SerializeField]
-    private List<Vector2> _edgePoints;// •Ó‚ÌÀ•WƒŠƒXƒg
+    private List<Vector2> _edgePoints;// è¾ºã®åº§æ¨™ãƒªã‚¹ãƒˆ
     [SerializeField]
-    private List<int> _nailPointCount;// •ÓƒŠƒXƒg’†‚Ì“B‚Ì”Ô†
+    private List<int> _nailPointCount;// è¾ºãƒªã‚¹ãƒˆä¸­ã®é‡˜ã®ç•ªå·
     [SerializeField]
-    private List<GameObject> _cracks;// ‚Ğ‚Ñ‚ÌƒIƒuƒWƒFƒNƒgƒŠƒXƒg
-    
+    private List<GameObject> _cracks;// ã²ã³ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒªã‚¹ãƒˆ
+
     //-----------------------------------------------------------------
-    //\ƒXƒ^[ƒgˆ—\
+    //â€•ã‚¹ã‚¿ãƒ¼ãƒˆå‡¦ç†â€•
     void Start()
     {
         //--------------------------------------
-        // ƒGƒbƒWƒRƒ‰ƒCƒ_[2D‚ª“ü‚Á‚Ä‚¢‚é‚©
+        // ã‚¨ãƒƒã‚¸ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼2DãŒå…¥ã£ã¦ã„ã‚‹ã‹
         Edge2D = GetComponent<EdgeCollider2D>();
-        if(Edge2D == null) 
+        if (Edge2D == null)
         {
-            Debug.LogError("EdgeCollider2D‚ªƒRƒ“ƒ|[ƒlƒ“ƒg‚³‚ê‚Ä‚Ü‚¹‚ñB");
+            Debug.LogError("EdgeCollider2DãŒã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã•ã‚Œã¦ã¾ã›ã‚“ã€‚");
         }
 
         //--------------------------------------
-        // “B‚ÌÀ•WƒŠƒXƒg‚É’l‚ª“ü‚Á‚Ä‚¢‚é‚©
-        if (_nailPoints == null) 
+        // é‡˜ã®åº§æ¨™ãƒªã‚¹ãƒˆã«å€¤ãŒå…¥ã£ã¦ã„ã‚‹ã‹
+        if (_nailPoints == null)
         {
-            Debug.LogError("“B‚ÌÀ•WƒŠƒXƒg‚ª“n‚³‚ê‚Ä‚Ü‚¹‚ñB");
+            Debug.LogError("é‡˜ã®åº§æ¨™ãƒªã‚¹ãƒˆãŒæ¸¡ã•ã‚Œã¦ã¾ã›ã‚“ã€‚");
             _nowState = CrackCreaterState.NONE;
         }
-        else 
+        else
         {
             _nowState = CrackCreaterState.START;
         }
-        // ó‘Ô‚ğ‹¤—L‚·‚é
+        // çŠ¶æ…‹ã‚’å…±æœ‰ã™ã‚‹
         State = _nowState;
     }
 
 
     //-----------------------------------------------------------------
-    //\XVˆ—\
+    //â€•æ›´æ–°å‡¦ç†â€•
     void Update()
     {
         //--------------------------------------
-        // ó‘Ô‚ªì¬ŠJn
-        if (_nowState == CrackCreaterState.START )
+        // çŠ¶æ…‹ãŒä½œæˆé–‹å§‹
+        if (_nowState == CrackCreaterState.START)
         {
-            EdgeSetting();//ƒGƒbƒW‚Ìİ’è
+            EdgeSetting();//ã‚¨ãƒƒã‚¸ã®è¨­å®š
             _createCount = 0;
             _nowState = CrackCreaterState.CREATING;
         }
 
         //--------------------------------------
-        // ó‘Ô‚ªì¬’†(‰‰o•”•ª)
+        // çŠ¶æ…‹ãŒä½œæˆä¸­(æ¼”å‡ºéƒ¨åˆ†)
         if (_nowState == CrackCreaterState.CREATING)
         {
             CreatingCrack();
         }
-        // ó‘Ô‚ğ‹¤—L‚·‚é
+        // çŠ¶æ…‹ã‚’å…±æœ‰ã™ã‚‹
         State = _nowState;
     }
 
 
     //-------------------------------------------------------
-    //\“BÀ•WƒŠƒXƒgİ’èŠÖ”\(Œö)
-    public void SetPointList(List<Vector2> _pointList) 
+    //â€•é‡˜åº§æ¨™ãƒªã‚¹ãƒˆè¨­å®šé–¢æ•°â€•(å…¬)
+    public void SetPointList(List<Vector2> _pointList)
     {
         _nailPoints = _pointList;
     }
 
     //-------------------------------------------------------
-    //\ó‘Ôİ’èŠÖ”\(Œö)
+    //â€•çŠ¶æ…‹è¨­å®šé–¢æ•°â€•(å…¬)
     public void SetState(CrackCreaterState _state)
     {
         _nowState = _state;
@@ -125,108 +125,108 @@ public class CrackCreater : MonoBehaviour
     }
 
     //-------------------------------------------------------
-    //\ƒGƒbƒWİ’èŠÖ”\(„)
+    //â€•ã‚¨ãƒƒã‚¸è¨­å®šé–¢æ•°â€•(ç§)
     private void EdgeSetting()
     {
         //--------------------------------------
-        // •Ó‚Ì’¸“_‚ğİ’è‚·‚é
-        for (int i = 0; i < _nailPoints.Count; i++)// “B‚Ì”ŒJ‚è•Ô‚·
+        // è¾ºã®é ‚ç‚¹ã‚’è¨­å®šã™ã‚‹
+        for (int i = 0; i < _nailPoints.Count; i++)// é‡˜ã®æ•°ç¹°ã‚Šè¿”ã™
         {
-            // “B‚ÌÀ•W‚ğ’Ç‰Á
+            // é‡˜ã®åº§æ¨™ã‚’è¿½åŠ 
             _edgePoints.Add(_nailPoints[i]);
-            // ÅŒã‚ÌÀ•W‚Å‚È‚¯‚ê‚Î
-            if (i != _nailPoints.Count-1) 
+            // æœ€å¾Œã®åº§æ¨™ã§ãªã‘ã‚Œã°
+            if (i != _nailPoints.Count - 1)
             {
-                // •ªŠ„ˆ—
+                // åˆ†å‰²å‡¦ç†
                 DivisionPositionSetting(i);
             }
         }
 
         //--------------------------------------
-        // 2‚Â’¸“_‚ÌŠÔ‚Éƒ|ƒCƒ“ƒg‚ğ’u‚­
-        for (int i = 0; i < _edgePoints.Count-1; i++)
+        // 2ã¤é ‚ç‚¹ã®é–“ã«ãƒã‚¤ãƒ³ãƒˆã‚’ç½®ã
+        for (int i = 0; i < _edgePoints.Count - 1; i++)
         {
-            // ’†ŠÔÀ•W‚ğ‹‚ß‚é
-            Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1])/2;
-            Vector3 _point = new Vector3(_center.x, _center.y,0);
+            // ä¸­é–“åº§æ¨™ã‚’æ±‚ã‚ã‚‹
+            Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1]) / 2;
+            Vector3 _point = new Vector3(_center.x, _center.y, 0);
 
-            // ƒŠƒXƒg‚É’Ç‰Á
-            // ŒÄ‚Ño‚µ
+            // ãƒªã‚¹ãƒˆã«è¿½åŠ 
+            // å‘¼ã³å‡ºã—
             _cracks.Add(Instantiate(_crackObject, _point, Quaternion.identity, transform));
-            // ”ñ•\¦
+            // éè¡¨ç¤º
             _cracks[i].SetActive(false);
-            
-            // “ñ‚Â‚Ì“B‚©‚ç‚’¼‚ÈŠp“x‚ğ‹‚ß‚é
-            Vector2 _vec = _edgePoints[i] - _edgePoints[i+1];
-            float _angle = Mathf.Atan2(_vec.y, _vec.x)*Mathf.Rad2Deg;
-            // Šp“xİ’è
+
+            // äºŒã¤ã®é‡˜ã‹ã‚‰å‚ç›´ãªè§’åº¦ã‚’æ±‚ã‚ã‚‹
+            Vector2 _vec = _edgePoints[i] - _edgePoints[i + 1];
+            float _angle = Mathf.Atan2(_vec.y, _vec.x) * Mathf.Rad2Deg;
+            // è§’åº¦è¨­å®š
             _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle);
-            // ƒTƒCƒYİ’è
-            _cracks[i].transform.localScale = new Vector3( _vec.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
-            
+            // ã‚µã‚¤ã‚ºè¨­å®š
+            _cracks[i].transform.localScale = new Vector3(_vec.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
+
         }
-        // ’¸“_‚ğİ’è‚·‚é
+        // é ‚ç‚¹ã‚’è¨­å®šã™ã‚‹
         Edge2D.SetPoints(_edgePoints);
     }
 
     //-------------------------------------------------------
-    //\•ªŠ„ˆÊ’uİ’èŠÖ”\(„)
-    private void DivisionPositionSetting(int _num) 
+    //â€•åˆ†å‰²ä½ç½®è¨­å®šé–¢æ•°â€•(ç§)
+    private void DivisionPositionSetting(int _num)
     {
-        if(_num == 0) 
+        if (_num == 0)
         {
             _nailPointCount.Add(_num);
         }
         _nailPointCount.Add(_nailPointCount[_num] + 1);
 
-        // “ñ‚Â‚Ì“B‚©‚ç‚’¼‚ÈŠp“x‚ğ‹‚ß‚é
+        // äºŒã¤ã®é‡˜ã‹ã‚‰å‚ç›´ãªè§’åº¦ã‚’æ±‚ã‚ã‚‹
         Vector2 _vec = _nailPoints[_num + 1] - _nailPoints[_num];
-        float _angle = Mathf.Atan2(_vec.y, _vec.x) ;
+        float _angle = Mathf.Atan2(_vec.y, _vec.x);
         _angle += (90 * Mathf.Deg2Rad);
-        // •ûŒüƒxƒNƒgƒ‹
+        // æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
         Vector2 _verticalVec = new Vector2(Mathf.Cos(_angle), Mathf.Sin(_angle));
 
-        // •ªŠ„”‚ğŒˆ’è‚·‚é
+        // åˆ†å‰²æ•°ã‚’æ±ºå®šã™ã‚‹
         int _division = Random.Range(_divisionNum.x, _divisionNum.y);
         //--------------------------------------
-        // •ªŠ„‚·‚é’¸“_•ªŒJ‚è•Ô‚·
+        // åˆ†å‰²ã™ã‚‹é ‚ç‚¹åˆ†ç¹°ã‚Šè¿”ã™
         for (int j = 1; j < _division; j++)
         {
-            //Šï”‚È‚ç|‹ô”‚È‚ç{
+            //å¥‡æ•°ãªã‚‰ï¼å¶æ•°ãªã‚‰ï¼‹
             float _odd = (j % 2 != 0 ? -1.0f : 1.0f);
-            // Š„‡‚ğ‹‚ß‚é
+            // å‰²åˆã‚’æ±‚ã‚ã‚‹
             float _percent = (float)j / ((float)_division);
-            // ŠÔ‚ÌÀ•W‚ğ‹‚ß‚é
+            // é–“ã®åº§æ¨™ã‚’æ±‚ã‚ã‚‹
             Vector2 _pos = _nailPoints[_num] * (1.0f - _percent);
-            _pos += _nailPoints[_num + 1] *  _percent;
-            if (j != 1 && j != _division - 1)// Å‰‚ÆÅŒãˆÈŠO
+            _pos += _nailPoints[_num + 1] * _percent;
+            if (j != 1 && j != _division - 1)// æœ€åˆã¨æœ€å¾Œä»¥å¤–
             {
                 _pos += _verticalVec * _odd * Random.Range(_rangeNum.x, _rangeNum.y);
             }
-            // ŠÔ‚ğ’Ç‰Á
+            // é–“ã‚’è¿½åŠ 
             _edgePoints.Add(_pos);
-            // _edgePoins‚ÌˆÊ’u‚ğŒvZ‚·‚é
-            _nailPointCount[_num +1] += 1;
+            // _edgePoinsã®ä½ç½®ã‚’è¨ˆç®—ã™ã‚‹
+            _nailPointCount[_num + 1] += 1;
         }
     }
     //-------------------------------------------------------
-    //\‚Ğ‚Ñ‰‰oŠÖ”\(„)
-    private void CreatingCrack() 
+    //â€•ã²ã³æ¼”å‡ºé–¢æ•°â€•(ç§)
+    private void CreatingCrack()
     {
-        // ŠÔŒvZ
+        // æ™‚é–“è¨ˆç®—
         _nowTime += Time.deltaTime;
-        // ¶¬ŠÔ‚ğ‰z‚¦‚½‚ç
-        if (_nowTime >= _createTime && _createCount < _cracks.Count) 
+        // ç”Ÿæˆæ™‚é–“ã‚’è¶ŠãˆãŸã‚‰
+        if (_nowTime >= _createTime && _createCount < _cracks.Count)
         {
-            // •\¦
+            // è¡¨ç¤º
             _cracks[_createCount].SetActive(true);
-            // Ÿ‚Ö
+            // æ¬¡ã¸
             _createCount++;
-            // ƒŠƒZƒbƒg
+            // ãƒªã‚»ãƒƒãƒˆ
             _nowTime = 0.0f;
         }
-        // ‘S‚Ä•\¦‚µ‚½‚ç
-        if(_createCount == _cracks.Count) 
+        // å…¨ã¦è¡¨ç¤ºã—ãŸã‚‰
+        if (_createCount == _cracks.Count)
         {
             _nowState = CrackCreaterState.CRAETED;
         }
