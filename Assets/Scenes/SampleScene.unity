@@ -440,6 +440,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1fef6f04878ac24988472feafb2db75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &308274772 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2407483779701676823, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
+  m_PrefabInstance: {fileID: 1183999418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &308274777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308274772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 142528dafbd633c4589ce2fae99fc2ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chirdren: {fileID: 5251174559313921992, guid: 78b0dcb8d656e89478b3417da5ff007c, type: 3}
 --- !u!1 &310221862
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,6 +1790,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2407483779701676817, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2407483779830078946, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
+      propertyPath: HP
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2407483779830078946, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
+      propertyPath: maxHp
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2407483779830078947, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1860,8 +1890,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: GUI
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 2407483780601017218, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 5646428876197510369, guid: 78b0dcb8d656e89478b3417da5ff007c, type: 3}
+    m_RemovedComponents:
+    - {fileID: 2407483780601017218, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
+--- !u!114 &1229118876 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2407483779830078946, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
+  m_PrefabInstance: {fileID: 1183999418}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47d6aa2a78eb7ce498b06dd076044e6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1249909763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3490,7 +3536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 28137785612753857, guid: f2b0c95af9ca52b499de701cc87fe149, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.84
+      value: 17.82
       objectReference: {fileID: 0}
     - target: {fileID: 28137785612753857, guid: f2b0c95af9ca52b499de701cc87fe149, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5192,7 +5238,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709830, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: moveDistance
-      value: 2
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709830, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: socialDistance
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709830, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: BlockLayer.m_Bits
@@ -5207,9 +5257,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709832, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: Damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709832, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: HitTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709832, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: gameOver
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1229118876}
     - target: {fileID: 6636130089559709832, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: NoDamageTime
       value: 2
