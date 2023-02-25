@@ -16,7 +16,7 @@ public class GameOver : MonoBehaviour
     public int HP = 5; //体力
 
     [Header("最大HP")]
-    public int maxHp = 5; //マックるHP
+    public int maxHp = 5; //マックスHP
 
     // Update is called once per frame
     void Update()

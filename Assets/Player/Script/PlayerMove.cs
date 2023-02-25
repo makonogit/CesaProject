@@ -26,10 +26,13 @@ public class PlayerMove : MonoBehaviour
     [System.NonSerialized]
     public PLAYERMODE mode = PLAYERMODE.FOLLOW; // プレイヤーの移動時のモード（追従、停止）
     private float LeaveTime; // 一定距離離れてからの経過時間
-    [Header("妖精とプレイヤーが保つ距離")]
+    //[Header("妖精とプレイヤーが保つ距離")]
+    [Header("プレイヤーが追従できる距離")]
     public float moveDistance = 3.0f; // 妖精とプレイヤーが保つ距離
     [Header("プレイヤーが動き始めるまでの時間")]
     public float delayTime = 0.8f; // 動き始めるまでの時間
+    [Header("プレイヤーと妖精のソーシャルディスタンス")]
+    public float socialDistance = 0.3f; // プレイヤーと妖精が重ならないようにする
 
     // 外部取得
     private GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
@@ -106,7 +109,8 @@ public class PlayerMove : MonoBehaviour
             float Distance = vector_PlayerFairy.magnitude;
 
             // プレイヤーと妖精の距離が一定距離以上なら
-            if(Distance >= moveDistance)
+            if(Distance >= socialDistance && Distance <= moveDistance)  // 一定距離以上一定距離内にいるときに追従
+            //if(Distance >= moveDistance) 一定距離以上にいるときに追従
             {
                 // 一定時間経過したら動き始める
                 if (LeaveTime >= delayTime)
