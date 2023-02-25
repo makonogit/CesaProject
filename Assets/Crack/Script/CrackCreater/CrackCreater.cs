@@ -42,12 +42,21 @@ public class CrackCreater : MonoBehaviour
     [SerializeField]
     private Vector2 _rangeNum;
 
+    [Header("生成時間")]
+    [SerializeField]
+    private float _createTime;
+    private float _nowTime;
+    private int _createCount;
+
     [SerializeField]
     private List<Vector2> _nailPoints;// 釘の座標リスト
     [SerializeField]
     private List<Vector2> _edgePoints;// 辺の座標リスト
     [SerializeField]
-    private List<int> _nailPointCount;
+    private List<int> _nailPointCount;// 辺リスト中の釘の番号
+    [SerializeField]
+    private List<GameObject> _cracks;// ひびのオブジェクトリスト
+    
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -85,6 +94,7 @@ public class CrackCreater : MonoBehaviour
         if (_nowState == CrackCreaterState.START )
         {
             EdgeSetting();//エッジの設定
+            _createCount = 0;
             _nowState = CrackCreaterState.CREATING;
         }
 
@@ -92,7 +102,7 @@ public class CrackCreater : MonoBehaviour
         // 状態が作成中(演出部分)
         if (_nowState == CrackCreaterState.CREATING)
         {
-
+            CreatingCrack();
         }
         // 状態を共有する
         State = _nowState;
@@ -104,6 +114,14 @@ public class CrackCreater : MonoBehaviour
     public void SetPointList(List<Vector2> _pointList) 
     {
         _nailPoints = _pointList;
+    }
+
+    //-------------------------------------------------------
+    //―状態設定関数―(公)
+    public void SetState(CrackCreaterState _state)
+    {
+        _nowState = _state;
+        State = _nowState;
     }
 
     //-------------------------------------------------------
@@ -131,17 +149,21 @@ public class CrackCreater : MonoBehaviour
             // 中間座標を求める
             Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1])/2;
             Vector3 _point = new Vector3(_center.x, _center.y,0);
-            
+
+            // リストに追加
             // 呼び出し
-            GameObject obj = Instantiate(_crackObject,_point,Quaternion.identity,transform);
+            _cracks.Add(Instantiate(_crackObject, _point, Quaternion.identity, transform));
+            // 非表示
+            _cracks[i].SetActive(false);
             
             // 二つの釘から垂直な角度を求める
             Vector2 _vec = _edgePoints[i] - _edgePoints[i+1];
             float _angle = Mathf.Atan2(_vec.y, _vec.x)*Mathf.Rad2Deg;
             // 角度設定
-            obj.transform.eulerAngles = new Vector3(0, 0, _angle);
+            _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle);
             // サイズ設定
-            obj.transform.localScale = new Vector3( _vec.magnitude, obj.transform.localScale.y, obj.transform.localScale.z);
+            _cracks[i].transform.localScale = new Vector3( _vec.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
+            
         }
         // 頂点を設定する
         Edge2D.SetPoints(_edgePoints);
@@ -185,6 +207,28 @@ public class CrackCreater : MonoBehaviour
             _edgePoints.Add(_pos);
             // _edgePoinsの位置を計算する
             _nailPointCount[_num +1] += 1;
+        }
+    }
+    //-------------------------------------------------------
+    //―ひび演出関数―(私)
+    private void CreatingCrack() 
+    {
+        // 時間計算
+        _nowTime += Time.deltaTime;
+        // 生成時間を越えたら
+        if (_nowTime >= _createTime && _createCount < _cracks.Count) 
+        {
+            // 表示
+            _cracks[_createCount].SetActive(true);
+            // 次へ
+            _createCount++;
+            // リセット
+            _nowTime = 0.0f;
+        }
+        // 全て表示したら
+        if(_createCount == _cracks.Count) 
+        {
+            _nowState = CrackCreaterState.CRAETED;
         }
     }
 }
