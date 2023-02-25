@@ -42,6 +42,7 @@ public class CrackMove : MonoBehaviour
     private PlayerInputManager ScriptPIManager; // PlayerInputManager
     PlayerJump Jump;                    //ジャンプスクリプト
     PlayerMove Move;                    //移動スクリプト
+    GroundCheck GroundCheck;            //接地判定
     Rigidbody2D thisrigidbody;          //このオブジェクトのrigitbody
 
     //移動状態
@@ -51,6 +52,7 @@ public class CrackMove : MonoBehaviour
         CrackHold,      //ひびの中に入っている
         CrackMove,      //ひびの中を移動中
         CrackMoveEnd,   //ひびの中の移動終了
+        CrackDown       //ひびの中から移動
     }
 
     public MoveState movestate;
@@ -63,6 +65,8 @@ public class CrackMove : MonoBehaviour
         Right,
         Left
     }
+
+    [SerializeField]
     Direction EdgeDirection;
 
     bool Hit = false;
@@ -75,6 +79,7 @@ public class CrackMove : MonoBehaviour
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
         Jump = this.gameObject.GetComponent<PlayerJump>();
         Move = this.gameObject.GetComponent<PlayerMove>();
+        GroundCheck = this.gameObject.GetComponent<GroundCheck>();
 
         movestate = MoveState.Walk;
         Distance = 0.0f;
@@ -93,38 +98,91 @@ public class CrackMove : MonoBehaviour
         {
 
             //------------------------------------------------
-            //スティック入力で位置更新
-            if (EdgeDirection == Direction.Right || EdgeDirection == Direction.Left)
+            //居てる位置によって位置更新
+            if(EdgeDirection == Direction.Right)
             {
-                if (ScriptPIManager.GetMovement().x >= 0.9f && LeftMoveFlg == false && RightPointNum > -1 && RightPointNum < PointNum)
+                if(MinPointNum == 0 && !RightMoveFlg)
                 {
                     movestate = MoveState.CrackMove;
                     RightMoveFlg = true;
                 }
-
-                if (ScriptPIManager.GetMovement().x <= -0.9f && RightMoveFlg == false && LeftPointNum > -1 && LeftPointNum < PointNum)
+                if (MinPointNum == Edge.pointCount - 1 && !LeftMoveFlg)
                 {
                     movestate = MoveState.CrackMove;
                     LeftMoveFlg = true;
                 }
             }
-            if (EdgeDirection == Direction.UP || EdgeDirection == Direction.Down)
+            if (EdgeDirection == Direction.Left)
             {
-                if (ScriptPIManager.GetMovement().y >= 0.9f && DownMoveFlg == false && UPPointNum > -1 && UPPointNum < PointNum)
+                if (MinPointNum == 0 && !LeftMoveFlg)
+                {
+                    movestate = MoveState.CrackMove;
+                    LeftMoveFlg = true;
+                }
+                if (MinPointNum == Edge.pointCount - 1 && !RightMoveFlg)
+                {
+                    movestate = MoveState.CrackMove;
+                    RightMoveFlg = true;
+                }
+            }
+            if (EdgeDirection == Direction.UP)
+            {
+                if (MinPointNum == 0 && !UpMoveFlg)
                 {
                     movestate = MoveState.CrackMove;
                     UpMoveFlg = true;
                 }
-
-                if (ScriptPIManager.GetMovement().y <= -0.9f && UpMoveFlg == false && DownPointNum > -1 && DownPointNum < PointNum)
+                if (MinPointNum == Edge.pointCount - 1 && !DownMoveFlg)
                 {
                     movestate = MoveState.CrackMove;
                     DownMoveFlg = true;
                 }
             }
+            if (EdgeDirection == Direction.Down)
+            {
+                if (MinPointNum == 0 && !DownMoveFlg)
+                {
+                    movestate = MoveState.CrackMove;
+                    DownMoveFlg = true;
+                }
+                if (MinPointNum == Edge.pointCount - 1 && !UpMoveFlg)
+                {
+                    movestate = MoveState.CrackMove;
+                    UpMoveFlg = true;
+                }
+            }
+
+            //if (EdgeDirection == Direction.Right || EdgeDirection == Direction.Left)
+            //{
+            //    if (ScriptPIManager.GetMovement().x >= 0.9f && LeftMoveFlg == false && RightPointNum > -1 && RightPointNum < PointNum)
+            //    {
+            //        movestate = MoveState.CrackMove;
+            //        RightMoveFlg = true;
+            //    }
+
+            //    if (ScriptPIManager.GetMovement().x <= -0.9f && RightMoveFlg == false && LeftPointNum > -1 && LeftPointNum < PointNum)
+            //    {
+            //        movestate = MoveState.CrackMove;
+            //        LeftMoveFlg = true;
+            //    }
+            //}
+            //if (EdgeDirection == Direction.UP || EdgeDirection == Direction.Down)
+            //{
+            //    if (ScriptPIManager.GetMovement().y >= 0.9f && DownMoveFlg == false && UPPointNum > -1 && UPPointNum < PointNum)
+            //    {
+            //        movestate = MoveState.CrackMove;
+            //        UpMoveFlg = true;
+            //    }
+
+            //    if (ScriptPIManager.GetMovement().y <= -0.9f && UpMoveFlg == false && DownPointNum > -1 && DownPointNum < PointNum)
+            //    {
+            //        movestate = MoveState.CrackMove;
+            //        DownMoveFlg = true;
+            //    }
+            //}
 
             //-------------------------------------
-            //右入力あれば右に移動
+            //右に移動
             if (RightMoveFlg)
             {
                // Debug.Log("Move");
@@ -155,7 +213,6 @@ public class CrackMove : MonoBehaviour
                         new Vector3(Edge.points[RightPointNum].x, Edge.points[RightPointNum].y, 0.0f));
                     }
 
-
                     //-------------------------------------------------------------
                     //目的地についたら次の目的地を指定(0.15fずれがあるので調整)
                     if (EdgeDirection == Direction.Right && RightPointNum < PointNum - 1)
@@ -173,7 +230,7 @@ public class CrackMove : MonoBehaviour
             }
 
             //---------------------------------------------
-            //左入力あれば左に移動
+            //左に移動
             if (LeftMoveFlg)
             {
                 
@@ -220,7 +277,7 @@ public class CrackMove : MonoBehaviour
             }
 
             //---------------------------------------------
-            //上入力あれば上に移動
+            //上に移動
             if (UpMoveFlg)
             {
                 //----------------------------------
@@ -268,7 +325,7 @@ public class CrackMove : MonoBehaviour
             }
 
             //---------------------------------------------
-            //下入力あれば下に移動
+            //下に移動
             if (DownMoveFlg)
             {
                 //----------------------------------
@@ -323,7 +380,7 @@ public class CrackMove : MonoBehaviour
                 movestate = MoveState.CrackMoveEnd;
             }
 
-            if (Gamepad.current.bButton.wasPressedThisFrame && movestate == MoveState.CrackMoveEnd)
+            if (/*Gamepad.current.bButton.wasPressedThisFrame && */movestate == MoveState.CrackMoveEnd)
             {
                 // Debug.Log("pressrelease");
                 RightPointNum = 0;
@@ -331,18 +388,23 @@ public class CrackMove : MonoBehaviour
                 UPPointNum = 0;
                 DownPointNum = 0;
                 EndDistance = 1.0f;
-                movestate = MoveState.Walk;
                 thisrigidbody.constraints = RigidbodyConstraints2D.None;
                 thisrigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
                 Jump.enabled = true;
                 Move.enabled = true;
+                movestate = MoveState.CrackDown;
+            }
+
+            if (GroundCheck.isGround && movestate == MoveState.CrackDown)
+            {
+                movestate = MoveState.Walk;
             }
 
         }
     }
 
     //ひびのあたり判定
-    void OnTriggerStay2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Crack")
         {
@@ -366,7 +428,7 @@ public class CrackMove : MonoBehaviour
         if (HitCollider.gameObject.tag == "Crack")
         {
 
-            if (movestate == MoveState.Walk || movestate == MoveState.CrackMoveEnd)
+            if (movestate == MoveState.Walk)
             {
                 // Debug.Log("Hit");
                 Edge = HitCollider.gameObject.GetComponent<EdgeCollider2D>();
@@ -436,21 +498,6 @@ public class CrackMove : MonoBehaviour
 
                 }
 
-            }
-
-            //----------------------------------------------------
-            //入力があればプレイヤーの座標を固定(ひびの中に入る)
-            if (Gamepad.current.bButton.wasPressedThisFrame && movestate == MoveState.Walk)
-            {
-                Debug.Log("press");
-                movestate = MoveState.CrackHold;
-                EndDistance = 1.0f;
-                HitCollider.ClosestPoint(this.transform.position);
-                thisrigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
-
-                Jump.enabled = false;
-                Move.enabled = false;
-
                 //---------------------------------------------
                 //現在地から1番近いPoint座標を求める
                 MinNearPoint = Edge.points[0];
@@ -487,9 +534,11 @@ public class CrackMove : MonoBehaviour
                         if (EdgeDirection == Direction.Right)
                         {
                             LeftPointNum = MinPointNum - 1;
+
                         }
                         if (EdgeDirection == Direction.Left)
                         {
+
                             LeftPointNum = MinPointNum + 1;
                         }
                     }
@@ -503,12 +552,26 @@ public class CrackMove : MonoBehaviour
                         if (EdgeDirection == Direction.Right)
                         {
                             RightPointNum = MinPointNum + 1;
+
                         }
                         if (EdgeDirection == Direction.Left)
                         {
                             RightPointNum = MinPointNum - 1;
                         }
                     }
+
+                    //if (MinNearPoint.x == this.transform.position.x)
+                    //{
+                    //    RightPointNum = MinPointNum;
+                    //    LeftPointNum = MinPointNum - 1;
+
+                    //    Debug.Log("Right" + RightPointNum);
+                    //    Debug.Log("Left" + LeftPointNum);
+                    //}
+
+                    //Debug.Log("NearPoint" + MinNearPoint);
+                   // Debug.Log("Right" + RightPointNum);
+                   // Debug.Log("Left" + LeftPointNum);
                 }
 
                 if (EdgeDirection == Direction.UP || EdgeDirection == Direction.Down)
@@ -548,6 +611,26 @@ public class CrackMove : MonoBehaviour
                     }
 
                 }
+
+               
+
+            }
+
+
+            //---------------------------------------------------------------------
+            //1番近い座標が始点か終点ならプレイヤーの座標を固定(ひびの中に入る)
+            if (/*Gamepad.current.bButton.wasPressedThisFrame &&*/ movestate == MoveState.Walk && 
+                (MinPointNum == 0 || MinPointNum == Edge.pointCount - 1))
+            {
+
+                // Debug.Log("press");
+                movestate = MoveState.CrackHold;
+                EndDistance = 1.0f;
+                HitCollider.ClosestPoint(this.transform.position);
+                thisrigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+
+                Jump.enabled = false;
+                Move.enabled = false;
 
             }
 

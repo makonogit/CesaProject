@@ -35,7 +35,7 @@ public class PlayerJump : MonoBehaviour
     private Rigidbody2D thisRigidbody2d; // rigidbody2dを取得する変数
     
     //-------------菅----------------
-    private CrackMove crackmove;        
+    private CrackAutoMove crackmove;        
     private Crack createcrack;      //ジャンプ中ひび生成できないようにする
     private GameObject LineObj;
     private PredictionLine Line;    //ジャンプ中の予測線も無効化
@@ -66,7 +66,7 @@ public class PlayerJump : MonoBehaviour
 
         //------------追加担当：菅--------------------
         createcrack = GetComponent<Crack>();
-        crackmove = GetComponent<CrackMove>();
+        crackmove = GetComponent<CrackAutoMove>();
 
         LineObj = GameObject.Find("Line");
         Line = LineObj.GetComponent<PredictionLine>();
@@ -157,7 +157,7 @@ public class PlayerJump : MonoBehaviour
         // 自由落下（加速度加味）
 
         // 地面についてないかつ、ジャンプ入力もない(PlayerInputManagerスクリプトの変数Resetがtrueか未入力)時
-        if(isGround == false && Jump == false && crackmove.movestate == CrackMove.MoveState.Walk)
+        if(isGround == false && Jump == false && crackmove.movestate == CrackAutoMove.MoveState.Walk)
         {
             //----------------------------------------------------------------------------------------------------------
             // 自由落下、落下状態の時間が経てばたつほど落下速度上昇
