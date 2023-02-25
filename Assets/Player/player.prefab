@@ -15,10 +15,10 @@ GameObject:
   - component: {fileID: 6636130089559709830}
   - component: {fileID: 6636130089559709833}
   - component: {fileID: 6636130089559709855}
-  - component: {fileID: 6636130089559709846}
   - component: {fileID: 6636130089559709841}
   - component: {fileID: 6636130089559709832}
   - component: {fileID: 177245301056531068}
+  - component: {fileID: 9156518258014670235}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -143,6 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 5
+  moveDistance: 3
+  delayTime: 0.8
   BlockLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -161,6 +163,9 @@ MonoBehaviour:
   JumpPower: 10
   JumpHeight: 3
   Gravity: 6
+  isGround: 0
+  isJump: 0
+  FallTime: 0
 --- !u!114 &6636130089559709855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,25 +183,6 @@ MonoBehaviour:
   MaxCrackNum: 0
   PlayerInputManager: {fileID: 0}
   PrehubObject: {fileID: 7886424780566056376, guid: 527b814f633e2594dae56d7ec13355cf, type: 3}
---- !u!114 &6636130089559709846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6636130089559709863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f28d9fc36c7555b4ebcc3e9afa1f15d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CrackMoveSpeed: 5
-  LeftPointNum: 0
-  RightPointNum: 0
-  UPPointNum: 0
-  DownPointNum: 0
-  MinPointNum: 0
-  PlayerInputManager: {fileID: 0}
 --- !u!114 &6636130089559709841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NoDamageTime: 3000
   HitTime: 0
+  Damage: 10
   gameOver: {fileID: 0}
   alpha: {fileID: 0}
 --- !u!114 &177245301056531068
@@ -238,3 +225,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+--- !u!114 &9156518258014670235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6636130089559709863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 860a6ab73f0c5904d8f98b6b243f62de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CrackMoveSpeed: 5
+  Point: []
+  NowPointNum: 0
+  MinPointNum: 0
+  MoveFlg: 0
+  movestate: 0
+  EdgeDirection: 0
