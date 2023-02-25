@@ -21,7 +21,6 @@ public class HitEnemy : MonoBehaviour
 
     // 外部取得
     public GameOver gameOver; // ゲームオーバー画面遷移用スクリプト取得用変数
-    public DownAlpha alpha; // UIのスクリプト
 
     void Update()
     {
@@ -33,22 +32,46 @@ public class HitEnemy : MonoBehaviour
     // gameOverスクリプトが持つ変数 HP を-1する
     void OnTriggerEnter2D(Collider2D collision)
     {
-        //---------------------------------------------------------
-        // 初期化
-        HitTime = 0.0f;
+        ////---------------------------------------------------------
+        //// Enemyタグかどうか
+        //if (collision.gameObject.tag == enemyTag)
+        //{
+        //    //---------------------------------------------------------
+        //    // HP -Damage
+        //    gameOver.DecreaseHP(Damage);
+
+        //    //---------------------------------------------------------
+        //    // 初期化
+        //    HitTime = 0.0f;
+
+        //    //---------------------------------------------------------
+        //    // アルファ値変更
+        //    //alpha.SetAlpha(gameOver.HP,gameOver.maxHp);
+        //}
+
         //---------------------------------------------------------
         // Enemyタグかどうか
         if (collision.gameObject.tag == enemyTag)
         {
-            //---------------------------------------------------------
-            // HP -Damage
-            gameOver.DecreaseHP(Damage);
+            // 接触時間が無敵時間より大きいならHP減らす
+            if (HitTime > NoDamageTime)
+            {
+                //---------------------------------------------------------
+                // HP -Damage
+                gameOver.DecreaseHP(Damage);
 
-            //---------------------------------------------------------
-            // アルファ値変更
-            alpha.SetAlpha(gameOver.HP,gameOver.maxHp);
+                //---------------------------------------------------------
+                // アルファ値変更
+                //alpha.SetAlpha(gameOver.HP, gameOver.maxHp);
 
-            Debug.Log("Hit");
+                //---------------------------------------------------------
+                // 接触時間リセット
+                HitTime = 0.0f;
+
+                Debug.Log(HitTime);
+                Debug.Log("HitTrigger");
+
+            }
         }
     }
 
@@ -67,13 +90,15 @@ public class HitEnemy : MonoBehaviour
 
                 //---------------------------------------------------------
                 // アルファ値変更
-                alpha.SetAlpha(gameOver.HP, gameOver.maxHp);
+                //alpha.SetAlpha(gameOver.HP, gameOver.maxHp);
 
                 //---------------------------------------------------------
                 // 接触時間リセット
                 HitTime = 0.0f;
 
-                Debug.Log("Hit");
+                Debug.Log(HitTime);
+
+                Debug.Log("HitStay");
 
             }
         }
