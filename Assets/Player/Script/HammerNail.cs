@@ -38,6 +38,13 @@ public class HammerNail : MonoBehaviour
     private GameObject MousePointa;             //マウスポインタ用オブジェクト
     private SpriteRenderer MousePointaRender;   //マウスポインタのスプライトレンダー
 
+     //―追加担当者：中川直登―//
+    [Header("ひびを作るobj")]
+    public GameObject _crackCreaterObj;
+    CrackCreater _creater;
+    //――――――――――――//
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,6 +70,10 @@ public class HammerNail : MonoBehaviour
         //InputManagrを取得
         PlayerInputManager = GameObject.Find("PlayerInputManager");
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
+        //--------------------------------------------
+        //CrackCreaterを取得  //―追加担当者：中川直登―//
+        _creater = _crackCreaterObj.GetComponent<CrackCreater>();
+
 
     }
 
@@ -144,10 +155,27 @@ public class HammerNail : MonoBehaviour
                 HammerNails = 0;
                 Instantiate(CrackPrefab, NailsPoint[NailsPoint.Count - 1], Quaternion.identity);
                 CreateCrack = false;
+                // CrackCraeterを呼ぶ
+                CallCrackCreater();//―追加担当者：中川直登―//
+
             }
         }
-
-
+        
 
     }
+    //-----------------------------------------------------------------
+    //―CrackCreaterを呼ぶ関数―           //―追加担当者：中川直登―//
+    private void CallCrackCreater()
+    {
+        // ネイル座標リストを渡す
+        _creater.SetPointList(NailsPoint);
+        // CrackCreaterを作る
+        GameObject obj = Instantiate(_crackCreaterObj);
+        // ネイル座標リストを初期化
+        for (; 0 < NailsPoint.Count;)
+        {
+            NailsPoint.RemoveAt(0);
+        }
+    }
+    //-----------------------------------------------------------------
 }
