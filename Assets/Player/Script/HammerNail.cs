@@ -41,6 +41,8 @@ public class HammerNail : MonoBehaviour
     private GameObject NailTarget;      //釘照準オブジェクト
     private Transform NailTargetTrans;  //釘照準オブジェクトのTransForm
 
+    private FairyMove NailTargetMove;         //釘の移動
+
     //―追加担当者：中川直登―//
     [Header("ひびを作るobj")]
     public GameObject _crackCreaterObj;
@@ -52,7 +54,6 @@ public class HammerNail : MonoBehaviour
     void Start()
     {
         HammerNails = 0;
-        NailsDistance = 0.0f;
 
         //--------------------------------------------
         // 釘の管理スクリプトを取得
@@ -73,6 +74,9 @@ public class HammerNail : MonoBehaviour
         //釘照準オブジェクトの取得
         NailTarget = GameObject.Find("Fairy1");
         NailTargetTrans = NailTarget.transform;
+        NailTargetMove = NailTarget.GetComponent<FairyMove>();
+
+        NailsDistance = NailTargetMove.Radius;
 
         //--------------------------------------------
         //InputManagrを取得
@@ -109,7 +113,7 @@ public class HammerNail : MonoBehaviour
 
             //----------------------------------------------------------------
             //距離が生成可能な距離よりも離れているかで生成可能フラグを指定
-            if (NailsDistance < NailsCreateDistance && ScriptPIManager.GetPlayerMode() == global::PlayerInputManager.PLAYERMODE.AIM)
+            if (NailsDistance < NailTargetMove.Radius && ScriptPIManager.GetPlayerMode() == global::PlayerInputManager.PLAYERMODE.AIM)
             {
                 NailsCreateFlg = true;
             }
@@ -135,6 +139,7 @@ public class HammerNail : MonoBehaviour
 
                 Instantiate(NailPrehubObj, NailsTrans.position, Quaternion.identity);
 
+                NailTargetMove.Radius += 1.0f;
                 HammerNails++;
                 HaveNails.NailsNum--;
             }
@@ -145,6 +150,7 @@ public class HammerNail : MonoBehaviour
         //ひび生成
         if (CreateCrack)
         {
+            NailTargetMove.Radius = NailsDistance;
             CallCrackCreater();//―追加担当者：中川直登―//
         }
     }
