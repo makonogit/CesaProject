@@ -24,7 +24,7 @@ public class PlayerInput : MonoBehaviour
     private Vector2 MousePos;  //マウス座標を保持する変数
 
     // 外部取得
-    private GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
+    private GameObject PlayerInputMane; // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
 
     //----------------------------------------------------------------------------------------------------------
@@ -33,11 +33,11 @@ public class PlayerInput : MonoBehaviour
     {
         //----------------------------------------------------------------------------------------------------------
         // PlayerInputManagerを探す
-        PlayerInputManager = GameObject.Find("PlayerInputManager");
+        PlayerInputMane = GameObject.Find("PlayerInputManager");
 
         //----------------------------------------------------------------------------------------------------------
         // ゲームオブジェクトPlayerInputManagerが持つPlayerInputManagerスクリプトを取得
-        ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
+        ScriptPIManager = PlayerInputMane.GetComponent<PlayerInputManager>();
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -104,32 +104,53 @@ public class PlayerInput : MonoBehaviour
 
     public void OnCrackMove(InputAction.CallbackContext context)
     {
-
-        if (context.phase == InputActionPhase.Started)
+        //---------------------------------------------------------------
+        // 押された時だけセット
+        if(context.phase == InputActionPhase.Started)
         {
-          
-            if (ScriptPIManager.GetCrackMove() == false)
+            // プレイヤーが移動モードなら
+            if(ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.MOVE)
             {
-                ScriptPIManager.SetCrackMove(true);
+                // 照準モードに切り替える
+                ScriptPIManager.SetPlayerMode(PlayerInputManager.PLAYERMODE.AIM);
             }
+            // プレイヤーが照準モードなら
+            else if (ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.AIM)
+            {
+                // 移動モードに切り替える
+                ScriptPIManager.SetPlayerMode(PlayerInputManager.PLAYERMODE.MOVE);
+            }
+
+            Debug.Log(ScriptPIManager.GetPlayerMode());
         }
 
-        if(context.phase == InputActionPhase.Performed)
-        {
-      
-            if (ScriptPIManager.GetCrackMove() == false)
-            {
-                ScriptPIManager.SetCrackMove(true);
-            }
-        }
 
-        if(context.phase == InputActionPhase.Canceled)
-        {
-            if (ScriptPIManager.GetCrackMove() == true)
-            {
-                ScriptPIManager.SetCrackMove(false);
-            }
-        }
+        //↓↓↓ver.ひびにはいる時の処理
+        //if (context.phase == InputActionPhase.Started)
+        //{
+
+        //    if (ScriptPIManager.GetCrackMove() == false)
+        //    {
+        //        ScriptPIManager.SetCrackMove(true);
+        //    }
+        //}
+
+        //if(context.phase == InputActionPhase.Performed)
+        //{
+
+        //    if (ScriptPIManager.GetCrackMove() == false)
+        //    {
+        //        ScriptPIManager.SetCrackMove(true);
+        //    }
+        //}
+
+        //if(context.phase == InputActionPhase.Canceled)
+        //{
+        //    if (ScriptPIManager.GetCrackMove() == true)
+        //    {
+        //        ScriptPIManager.SetCrackMove(false);
+        //    }
+        //}
     }
 
     public void OnRightMove(InputAction.CallbackContext context)

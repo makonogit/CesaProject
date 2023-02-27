@@ -33,6 +33,15 @@ public class PlayerInputManager : MonoBehaviour
     //マウス座標
     private Vector2 MousePos;
 
+    // 移動モードと照準モードを持つ
+    public enum PLAYERMODE
+    {
+        MOVE,  //移動
+        AIM,   //照準
+    }
+
+    private PLAYERMODE Mode = PLAYERMODE.MOVE; // プレイヤーの現在のモードを持つ変数
+
     //----------------------------------------------------------------------------------------------------------
     // - ゲッター ・ セッター -
 
@@ -156,5 +165,21 @@ public class PlayerInputManager : MonoBehaviour
         MousePos = _MousePos;
     }
 
+    //----------------------------------------------------------------------------------------------------------
+    // プレイヤーのモード変数
+    //----------------------------------------------------------------------------------------------------------
+    
+    //戻り値：PLAYERMODE型
+    //引数　：無し
+    public PLAYERMODE GetPlayerMode()
+    {
+        return Mode;
+    }
 
+    //戻り値：無し
+    //引数　：PLAYERMODE型
+    public void SetPlayerMode(PLAYERMODE _mode)
+    {
+        Mode = _mode;
+    }
 }

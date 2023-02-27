@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
 
     // 移動用
     public float Speed = 5f; // 移動速度用変数
-    //Vector2 movement; // 入力量を取得する変数
+    Vector2 movement; // 入力量を取得する変数
 
     // モード
     public enum PLAYERMODE
@@ -35,7 +35,7 @@ public class PlayerMove : MonoBehaviour
     public float socialDistance = 0.3f; // プレイヤーと妖精が重ならないようにする
 
     // 外部取得
-    private GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
+    private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
     private Transform thisTransform; // 自身のTransformを取得する変数
 
@@ -50,11 +50,11 @@ public class PlayerMove : MonoBehaviour
     {
         //----------------------------------------------------------------------------------------------------------
         // PlayerInputManagerを探す
-        PlayerInputManager = GameObject.Find("PlayerInputManager");
+        PlayerInputMana = GameObject.Find("PlayerInputManager");
 
         //----------------------------------------------------------------------------------------------------------
         // ゲームオブジェクトPlayerInputManagerが持つPlayerInputManagerスクリプトを取得
-        ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
+        ScriptPIManager = PlayerInputMana.GetComponent<PlayerInputManager>();
 
         //----------------------------------------------------------------------------------------------------------
         // 自身(player)の持つTransformを取得する
@@ -93,64 +93,77 @@ public class PlayerMove : MonoBehaviour
         //    Debug.Log(hit.collider);
         //}
 
-        // 追従モードなら
-        if(mode == PLAYERMODE.FOLLOW)
+        // 移動モードなら
+        if(ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.MOVE)
         {
             //----------------------------------------------------------------------------------------------------------
-            // "プレイヤーと妖精の距離が一定以上"かつ"距離が離れてから一定時間経過した"なら追従
+            // 普通の移動
+            //----------------------------------------------------------------------------------------------------------
+            // 移動量をPlayerInputManagerからとってくる
+            movement = ScriptPIManager.GetMovement();
 
-            // プレイヤーから妖精へのベクトルを求める
-            Vector3 vector_PlayerFairy = fairyTransform.position - thisTransform.position;
+            //----------------------------------------------------------------------------------------------------------
+            // プレイヤーのTransformに移動量を適応する
+            // スティックで上入力すると少し浮く問題があるため、Y,Zには直接値を入れて修正
+            thisTransform.Translate(movement.x * Speed * Time.deltaTime, 0.0f, 0.0f);
 
-            // x方向の距離だけ必要
-            vector_PlayerFairy.y = 0.0f;
 
-            // 妖精とプレイヤーの距離を求める
-            float Distance = vector_PlayerFairy.magnitude;
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //妖精に追従する時の処理
+            ////----------------------------------------------------------------------------------------------------------
+            //// "プレイヤーと妖精の距離が一定以上"かつ"距離が離れてから一定時間経過した"なら追従
 
-            // プレイヤーと妖精の距離が一定距離以上なら
-            if(Distance >= socialDistance && Distance <= moveDistance)  // 一定距離以上一定距離内にいるときに追従
-            //if(Distance >= moveDistance) 一定距離以上にいるときに追従
-            {
-                // 一定時間経過したら動き始める
-                if (LeaveTime >= delayTime)
-                {
-                    //----------------------------------------------------------------------------------------------------------
-                    // プレイヤーの移動
-                    thisTransform.Translate(vector_PlayerFairy.normalized.x * Speed * Time.deltaTime, 0.0f, 0.0f);
-                }
+            //// プレイヤーから妖精へのベクトルを求める
+            //Vector3 vector_PlayerFairy = fairyTransform.position - thisTransform.position;
 
-                // 時間加算
-                LeaveTime += Time.deltaTime;
-            }
-            else
-            {
-                // 初期化
-                LeaveTime = 0.0f;
-            }
+            //// x方向の距離だけ必要
+            //vector_PlayerFairy.y = 0.0f;
 
-            // 追従モード中に右クリックされたら停止モードにする
-            if (Mouse.current.rightButton.wasPressedThisFrame)
-            {
-                mode = PLAYERMODE.STOP;
-            }
+            //// 妖精とプレイヤーの距離を求める
+            //float Distance = vector_PlayerFairy.magnitude;
+
+            //// プレイヤーと妖精の距離が一定距離以上なら
+            //if(Distance >= socialDistance && Distance <= moveDistance)  // 一定距離以上一定距離内にいるときに追従
+            ////if(Distance >= moveDistance) 一定距離以上にいるときに追従
+            //{
+            //    // 一定時間経過したら動き始める
+            //    if (LeaveTime >= delayTime)
+            //    {
+            //        //----------------------------------------------------------------------------------------------------------
+            //        // プレイヤーの移動
+            //        thisTransform.Translate(vector_PlayerFairy.normalized.x * Speed * Time.deltaTime, 0.0f, 0.0f);
+            //    }
+
+            //    // 時間加算
+            //    LeaveTime += Time.deltaTime;
+            //}
+            //else
+            //{
+            //    // 初期化
+            //    LeaveTime = 0.0f;
+            //}
+
+            //// 追従モード中に右クリックされたら停止モードにする
+            //if (Mouse.current.rightButton.wasPressedThisFrame)
+            //{
+            //    mode = PLAYERMODE.STOP;
+            //}
         }
         // 停止モードなら
-        else if(mode == PLAYERMODE.STOP)
+        else if(ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.AIM)
         {
-            // その場で停止し続ける
+            // 移動はしない
 
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //妖精に追従する時の処理
+            //// 停止モード中に右クリックされたら追従モードにする
+            //if (Mouse.current.rightButton.wasPressedThisFrame)
+            //{
+            //    mode = PLAYERMODE.FOLLOW;
 
-            
-
-            // 停止モード中に右クリックされたら追従モードにする
-            if (Mouse.current.rightButton.wasPressedThisFrame)
-            {
-                mode = PLAYERMODE.FOLLOW;
-
-                // 初期化
-                LeaveTime = 0.0f;
-            }
+            //    // 初期化
+            //    LeaveTime = 0.0f;
+            //}
         }
     }
 }
