@@ -100,7 +100,7 @@ public class CrackCreater : MonoBehaviour
         {
             EdgeSetting();//エッジの設定
             _createCount = 0;
-            _nowState = CrackCreaterState.CREATING;
+            //_nowState = CrackCreaterState.CREATING;// 確認用
         }
 
         //--------------------------------------
@@ -407,21 +407,21 @@ public class CrackCreater : MonoBehaviour
         // 時間計算
         _nowTime += Time.deltaTime;
         // 生成時間を越えたら
-        if (_nowTime >= _createTime&& _addCrackCount!=0)
+        if (_nowTime >= _createTime&& _addCrackCount>0)
         {
             // 前表示
-            if (_addCrackNow.x > 0) 
+            if (_addCrackNow.x >= 0) 
             {
-                _cracks[_addCrackNow.x].SetActive(true);
-                _addCrackCount --;
-                _addCrackNow = new Vector2Int(_addCrackNow.x -1 , _addCrackNow.y);
+                _cracks[_addCrackNow.x].SetActive(true);// 表示
+                _addCrackCount --;// カウントを減らす
+                _addCrackNow = new Vector2Int(_addCrackNow.x -1 , _addCrackNow.y);// カウントを減らす
             }
             // 後ろ表示
             if (_addCrackNow.y < _cracks.Count) 
             {
-                _cracks[_addCrackNow.y].SetActive(true);
-                _addCrackCount++;
-                _addCrackNow = new Vector2Int(_addCrackNow.x , _addCrackNow.y + 1);
+                _cracks[_addCrackNow.y].SetActive(true);// 表示
+                _addCrackCount--;// カウントを減らす
+                _addCrackNow = new Vector2Int(_addCrackNow.x , _addCrackNow.y + 1);// カウントを減らす
             }
             // リセット
             _nowTime = 0.0f;
@@ -429,6 +429,7 @@ public class CrackCreater : MonoBehaviour
         // 全て表示したら
         if (_addCrackCount <= 0)
         {
+            // 状態変更
             _nowState = CrackCreaterState.CRAETED;
         }
     }
