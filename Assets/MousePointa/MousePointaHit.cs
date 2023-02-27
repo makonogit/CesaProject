@@ -23,7 +23,7 @@ public class MousePointaHit : MonoBehaviour
         if (collision.tag == "Ground")
         {
             Debug.Log("Enter");
-            HammerNail.MousePointaHit = true;
+         //   HammerNail.MousePointaHit = true;
         }
     }
 
@@ -34,7 +34,7 @@ public class MousePointaHit : MonoBehaviour
         if (collision.tag == "Ground")
         {
             Debug.Log("Exit");
-            HammerNail.MousePointaHit = false;
+          //  HammerNail.MousePointaHit = false;
         }
     }
 

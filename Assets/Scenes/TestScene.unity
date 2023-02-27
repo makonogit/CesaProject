@@ -316,9 +316,9 @@ GameObject:
   - component: {fileID: 85584700}
   - component: {fileID: 85584703}
   - component: {fileID: 85584702}
-  - component: {fileID: 85584704}
+  - component: {fileID: 85584705}
   m_Layer: 0
-  m_Name: Fairy
+  m_Name: Fairy1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -365,8 +365,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: ef8cb6c0f8057394d8be613dd29f45e6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: c031d1597ca73af42bcf3b70dd337b71, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -428,7 +428,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &85584704
+--- !u!114 &85584705
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -437,9 +437,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 85584699}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1fef6f04878ac24988472feafb2db75, type: 3}
+  m_Script: {fileID: 11500000, guid: 069f813d17a5a2a43aeac40086478b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 5
+  Radius: 3
+  AdjustX: 2
+  AdjustY: 1
 --- !u!1 &308274772 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2407483779701676823, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
@@ -5281,6 +5285,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1978350433}
     - target: {fileID: 6636130089559709855, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709855, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: MaxCrackNum
       value: 15
       objectReference: {fileID: 0}
@@ -5422,10 +5430,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NailPrehubObj: {fileID: 1063371085873975381, guid: 90647cb09a5f4284f84b2676cadc9e21, type: 3}
   CrackPrefab: {fileID: 7886424780566056376, guid: 527b814f633e2594dae56d7ec13355cf, type: 3}
-  NailsCreateDistance: 2.5
+  NailsCreateDistance: 4
   NailsDistance: 0
   NailsCreateFlg: 1
-  MousePointaHit: 0
   NailsPoint: []
   _crackCreaterObj: {fileID: 7869875550553585627, guid: 5e387acae0f89364487b0d1bae8712f2, type: 3}
 --- !u!114 &8059579095247675315
