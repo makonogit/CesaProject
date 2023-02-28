@@ -27,12 +27,14 @@ public class HammerNail : MonoBehaviour
 
     [SerializeField, Header("釘が生成可能な距離")]
     private float NailAddArea;                   //釘を拡大する範囲
+    private float HammerNailArea;                //釘を生成可能な範囲を保存
     private float NailsDistance;                 //前回の釘との距離
     [SerializeField, Header("釘が生成可能か")]
     private bool NailsCreateFlg = true;           //釘が生成可能か
     //public bool MousePointaHit = false;         //マウスポインタが壁に当たっているか
 
-    bool CreateCrack = false;                   //ひびが生成されたか
+    [Header("ひびが生成されたか")]
+    public bool CreateCrack = false;            //ひびが生成されたか
     bool CrackVibration = false;                //振動による影響
 
     [Header("釘の座標")]
@@ -46,6 +48,11 @@ public class HammerNail : MonoBehaviour
 
     private NailTargetMove NailTargetMove;      //釘の移動
 
+    private GameObject FallGage;        //壁の崩壊度UI
+    private FallWall fallwall;          //壁の崩壊度スクリプト
+
+    //----------------------------
+    //ひびの拡大用コライダー関係
     private GameObject ChilCrackArea;           //ひび拡大用子オブジェクト 
     private CircleCollider2D CircleCol;         //子オブジェクトのコライダーの情報
     [SerializeField,Header("コライダーの最大サイズ")]
@@ -54,10 +61,11 @@ public class HammerNail : MonoBehaviour
     private float ColExtendSpeed;               //コライダーの拡大スピード
 
 
-
     //―追加担当者：中川直登―//
     [Header("ひびを作るobj")]
     public GameObject _crackCreaterObj;
+    [System.NonSerialized]
+    public GameObject NewCrackObj;  //新しいヒビのオブジェクト
     CrackCreater _creater;
     //――――――――――――//
 
@@ -98,7 +106,12 @@ public class HammerNail : MonoBehaviour
         NailTargetTrans = NailTarget.transform;
         NailTargetMove = NailTarget.GetComponent<NailTargetMove>();
 
-        NailsDistance = NailTargetMove.Radius;
+        HammerNailArea = NailTargetMove.Radius;
+
+        //----------------------
+        //壁崩壊UIの情報取得
+        FallGage = GameObject.Find("Gage");
+        fallwall = FallGage.GetComponent<FallWall>();
 
         //--------------------------------------------
         // 子オブジェクトのCicreColliderを取得
@@ -221,10 +234,12 @@ public class HammerNail : MonoBehaviour
         //ひび生成
         if (CreateCrack)
         {
-            NailTargetMove.Radius = NailsDistance;  //釘生成範囲を初期化
+            NailTargetMove.Radius = HammerNailArea;  //釘生成範囲を初期化
 
             CallCrackCreater();//―追加担当者：中川直登―//
 
+            fallwall.CreateCrackFlg = CreateCrack;  //ひびの生成情報を崩壊スクリプトに渡す
+            fallwall.NowCrackObj = NewCrackObj;
             CreateCrack = false;
             CrackVibration = true;
             CircleCol.enabled = true;
@@ -261,7 +276,7 @@ public class HammerNail : MonoBehaviour
         // ネイル座標リストを渡す
         _creater.SetPointList(NailsPoint);
         // CrackCreaterを作る
-        GameObject obj = Instantiate(_crackCreaterObj);
+        NewCrackObj = Instantiate(_crackCreaterObj);
         // ネイル座標リストを初期化
         for (; 0 < NailsPoint.Count;)
         {

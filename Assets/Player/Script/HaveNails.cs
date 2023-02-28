@@ -15,6 +15,15 @@ public class HaveNails : MonoBehaviour
     [Header("釘所持数")]
     public int NailsNum = 0; // 持っている釘の数
 
+    private void Update()
+    {
+        //エンターで釘所持数が増える(デバック用)
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            NailsNum++;
+        }
+    }
+
     //落ちている釘に触れると釘所持数が増える
     private void OnTriggerEnter2D(Collider2D collision)
     {
