@@ -146,6 +146,13 @@ public class CrackCreater : MonoBehaviour
     }
 
     //-------------------------------------------------------
+    //―状態獲得関数―(公) 追加担当：菅眞心
+    public CrackCreaterState　GetState()
+    {
+        return _nowState;
+    }
+
+    //-------------------------------------------------------
     //―エッジ設定関数―(私)
     private void EdgeSetting()
     {

@@ -29,10 +29,12 @@ public class HammerNail : MonoBehaviour
     private float NailAddArea;                   //釘を拡大する範囲
     private float NailsDistance;                 //前回の釘との距離
     [SerializeField, Header("釘が生成可能か")]
-    private bool NailsCreateFlg = true;         //釘が生成可能か
+    private bool NailsCreateFlg = true;           //釘が生成可能か
     //public bool MousePointaHit = false;         //マウスポインタが壁に当たっているか
 
     bool CreateCrack = false;                   //ひびが生成されたか
+    bool CrackVibration = false;                //振動による影響
+
     [Header("釘の座標")]
     public List<Vector2> NailsPoint;            //釘の座標を取得
 
@@ -42,7 +44,16 @@ public class HammerNail : MonoBehaviour
     private GameObject NailTarget;      //釘照準オブジェクト
     private Transform NailTargetTrans;  //釘照準オブジェクトのTransForm
 
-    private NailTargetMove NailTargetMove;         //釘の移動
+    private NailTargetMove NailTargetMove;      //釘の移動
+
+    private GameObject ChilCrackArea;           //ひび拡大用子オブジェクト 
+    private CircleCollider2D CircleCol;         //子オブジェクトのコライダーの情報
+    [SerializeField,Header("コライダーの最大サイズ")]
+    private float MaxColSize;                   //コライダーの最大サイズ
+    [SerializeField, Header("コライダーの拡大スピード")]
+    private float ColExtendSpeed;               //コライダーの拡大スピード
+
+
 
     //―追加担当者：中川直登―//
     [Header("ひびを作るobj")]
@@ -58,6 +69,7 @@ public class HammerNail : MonoBehaviour
     private float DestroyNailColTime = 1.0f; // 使用済みの釘のコライダーが消える時間 
 
     GameObject obj; // 作ったゲームオブジェクトをキャストするため
+
 
 
     // Start is called before the first frame update
@@ -89,6 +101,13 @@ public class HammerNail : MonoBehaviour
         NailsDistance = NailTargetMove.Radius;
 
         //--------------------------------------------
+        // 子オブジェクトのCicreColliderを取得
+        ChilCrackArea = GameObject.Find("CrackGrowArea");
+        CircleCol = ChilCrackArea.GetComponent<CircleCollider2D>();
+        MaxColSize = 4.0f;
+        ColExtendSpeed = 15.0f;
+
+        //--------------------------------------------
         //InputManagrを取得
         PlayerInputManager = GameObject.Find("PlayerInputManager");
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
@@ -102,6 +121,9 @@ public class HammerNail : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //子オブジェクトと座標を同期
+        ChilCrackArea.transform.position = transform.position;
         ////マウスポインタの座標を常に更新
         //Vector3 MousePos = (Vector2)Camera.main.ScreenToWorldPoint(ScriptPIManager.GetMousePos());
         //MousePointa.transform.position = MousePos;
@@ -140,6 +162,7 @@ public class HammerNail : MonoBehaviour
             //左スティック押し込み検知+ひび生成中じゃない+釘を打てる範囲なら釘を生成
             if (Gamepad.current.leftStickButton.wasPressedThisFrame && !CreateCrack && NailsCreateFlg)
             {
+
                 NailsTrans.position = NailTargetTrans.position;
                 // ワールド座標に変換Zのカメラ座標がおかしくなるのでVector2型にキャスト変換して対処
                 //NailsTrans.position = (Vector2)Camera.main.ScreenToWorldPoint(NailsTrans.position);
@@ -198,11 +221,35 @@ public class HammerNail : MonoBehaviour
         //ひび生成
         if (CreateCrack)
         {
-            Debug.Log("!");
-            NailTargetMove.Radius = NailsDistance;
+            NailTargetMove.Radius = NailsDistance;  //釘生成範囲を初期化
+
             CallCrackCreater();//―追加担当者：中川直登―//
+
             CreateCrack = false;
+            CrackVibration = true;
+            CircleCol.enabled = true;
         }
+
+        //------------------------------------
+        //ひびを成長させる範囲を拡大していく
+        if (CrackVibration)
+        {
+            //------------------------
+            //コライダーを拡大する
+            if (CircleCol.radius < MaxColSize)
+            {
+                CircleCol.radius += ColExtendSpeed * Time.deltaTime;
+            }
+            else
+            {
+                //--------------------------------
+                //最大まで大きくなったら初期化
+                CircleCol.radius = 0.0f;
+                CrackVibration = false;
+                CircleCol.enabled = false;
+            }
+        }
+
     }
 
 
@@ -222,4 +269,5 @@ public class HammerNail : MonoBehaviour
         }
     }
     //-----------------------------------------------------------------
+
 }
