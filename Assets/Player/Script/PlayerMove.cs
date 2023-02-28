@@ -62,7 +62,7 @@ public class PlayerMove : MonoBehaviour
 
         //----------------------------------------------------------------------------------------------------------
         // ódê∏íTÇ∑
-        Fairy = GameObject.Find("Fairy1");
+        Fairy = GameObject.Find("NailTarget");
 
         // ódê∏ÇÃTransformèÓïÒ
         fairyTransform = Fairy.transform;

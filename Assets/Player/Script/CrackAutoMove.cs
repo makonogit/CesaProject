@@ -45,19 +45,6 @@ public class CrackAutoMove : MonoBehaviour
 
     public MoveState movestate;
 
-    //ひびの向き
-    enum Direction
-    {
-        UP,
-        Down,
-        Right,
-        Left
-    }
-
-    [SerializeField]
-    Direction EdgeDirection;
-
-    bool Hit = false;
     Collider2D HitCollider;
 
     // Start is called before the first frame update
@@ -174,69 +161,6 @@ public class CrackAutoMove : MonoBehaviour
             Edge = collision.gameObject.GetComponent<EdgeCollider2D>();
             Point = Edge.points;
             PointNum = Edge.pointCount;
-
-            //----------------------------------------------------
-            //ひびの向きを取得
-            {
-
-                if (Edge.pointCount > 2)
-                {
-                    //上向き
-                    if (Edge.points[0].y < Edge.points[1].y &&
-                       Edge.points[1].y < Edge.points[2].y)
-                    {
-                        EdgeDirection = Direction.UP;
-                    }
-
-                    //下向き
-                    if (Edge.points[0].y > Edge.points[1].y &&
-                       Edge.points[1].y > Edge.points[2].y)
-                    {
-                        EdgeDirection = Direction.Down;
-                    }
-
-                    //右向き
-                    if (Edge.points[0].x < Edge.points[1].x &&
-                        Edge.points[1].x < Edge.points[2].x)
-                    {
-                        EdgeDirection = Direction.Right;
-                    }
-
-                    //左向き
-                    if (Edge.points[0].x > Edge.points[1].x &&
-                        Edge.points[1].x > Edge.points[2].x)
-                    {
-                        EdgeDirection = Direction.Left;
-                    }
-                }
-                else
-                {
-                    //上向き
-                    if (Edge.points[0].y < Edge.points[1].y)
-                    {
-                        EdgeDirection = Direction.UP;
-                    }
-
-                    //下向き
-                    if (Edge.points[0].y > Edge.points[1].y)
-                    {
-                        EdgeDirection = Direction.Down;
-                    }
-
-                    //右向き
-                    if (Edge.points[0].x < Edge.points[1].x)
-                    {
-                        EdgeDirection = Direction.Right;
-                    }
-
-                    //左向き
-                    if (Edge.points[0].x > Edge.points[1].x)
-                    {
-                        EdgeDirection = Direction.Left;
-                    }
-                }
-
-            }
 
             //---------------------------------------------
             //現在地から1番近いPoint座標を求める

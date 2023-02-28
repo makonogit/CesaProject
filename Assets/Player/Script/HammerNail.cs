@@ -26,13 +26,14 @@ public class HammerNail : MonoBehaviour
     private CrackOrder Order;                   // ひび生成用スクリプト
 
     [SerializeField, Header("釘が生成可能な距離")]
-    private float NailsCreateDistance = 2.5f;   //釘が生成可能な距離
-    public float NailsDistance;                 //前回の釘との距離
+    private float NailAddArea;                   //釘を拡大する範囲
+    private float NailsDistance;                 //前回の釘との距離
     [SerializeField, Header("釘が生成可能か")]
     private bool NailsCreateFlg = true;         //釘が生成可能か
     //public bool MousePointaHit = false;         //マウスポインタが壁に当たっているか
 
     bool CreateCrack = false;                   //ひびが生成されたか
+    [Header("釘の座標")]
     public List<Vector2> NailsPoint;            //釘の座標を取得
 
     // private GameObject MousePointa;             //マウスポインタ用オブジェクト
@@ -41,7 +42,7 @@ public class HammerNail : MonoBehaviour
     private GameObject NailTarget;      //釘照準オブジェクト
     private Transform NailTargetTrans;  //釘照準オブジェクトのTransForm
 
-    private FairyMove NailTargetMove;         //釘の移動
+    private NailTargetMove NailTargetMove;         //釘の移動
 
     //―追加担当者：中川直登―//
     [Header("ひびを作るobj")]
@@ -72,9 +73,9 @@ public class HammerNail : MonoBehaviour
 
         //--------------------------------------------
         //釘照準オブジェクトの取得
-        NailTarget = GameObject.Find("Fairy1");
+        NailTarget = GameObject.Find("NailTarget");
         NailTargetTrans = NailTarget.transform;
-        NailTargetMove = NailTarget.GetComponent<FairyMove>();
+        NailTargetMove = NailTarget.GetComponent<NailTargetMove>();
 
         NailsDistance = NailTargetMove.Radius;
 
@@ -139,7 +140,7 @@ public class HammerNail : MonoBehaviour
 
                 Instantiate(NailPrehubObj, NailsTrans.position, Quaternion.identity);
 
-                NailTargetMove.Radius += 1.0f;
+                NailTargetMove.Radius += NailAddArea;
                 HammerNails++;
                 HaveNails.NailsNum--;
             }

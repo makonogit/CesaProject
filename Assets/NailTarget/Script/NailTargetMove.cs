@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FairyMove : MonoBehaviour
+public class NailTargetMove : MonoBehaviour
 {
     //----------------------------------------------------------------------------------------------------------
     // - •Ï”éŒ¾ -
