@@ -3416,7 +3416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 28137785612753857, guid: f2b0c95af9ca52b499de701cc87fe149, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.82
+      value: 17.84
       objectReference: {fileID: 0}
     - target: {fileID: 28137785612753857, guid: f2b0c95af9ca52b499de701cc87fe149, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3452,6 +3452,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 28137785612753857, guid: f2b0c95af9ca52b499de701cc87fe149, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 28137785612753858, guid: f2b0c95af9ca52b499de701cc87fe149, type: 3}
+      propertyPath: Stop
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 28137785612753870, guid: f2b0c95af9ca52b499de701cc87fe149, type: 3}
@@ -3941,6 +3945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  touch: 0
 --- !u!1 &7774938870206207607
 GameObject:
   m_ObjectHideFlags: 0
@@ -4051,6 +4056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  touch: 0
 --- !u!4 &7774938870460180373
 Transform:
   m_ObjectHideFlags: 0
@@ -4124,6 +4130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  touch: 0
 --- !u!4 &7774938870946054150
 Transform:
   m_ObjectHideFlags: 0
@@ -4301,6 +4308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  touch: 0
 --- !u!4 &7774938871126117613
 Transform:
   m_ObjectHideFlags: 0
@@ -4426,6 +4434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  touch: 0
 --- !u!4 &7774938871276499235
 Transform:
   m_ObjectHideFlags: 0
@@ -4551,6 +4560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  touch: 0
 --- !u!4 &7774938871326881077
 Transform:
   m_ObjectHideFlags: 0
@@ -4695,6 +4705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  touch: 0
 --- !u!4 &7774938871366073991
 Transform:
   m_ObjectHideFlags: 0
@@ -4835,6 +4846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  touch: 0
 --- !u!212 &7774938871550673091
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4926,6 +4938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  touch: 0
 --- !u!4 &7774938871550673102
 Transform:
   m_ObjectHideFlags: 0
@@ -5051,6 +5064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  touch: 0
 --- !u!4 &7774938872043713773
 Transform:
   m_ObjectHideFlags: 0
@@ -5310,6 +5324,8 @@ MonoBehaviour:
   NailsCreateFlg: 1
   NailsPoint: []
   _crackCreaterObj: {fileID: 7869875550553585627, guid: 5e387acae0f89364487b0d1bae8712f2, type: 3}
+  MomentHitNails: 0
+  ColLimitTime: 0
 --- !u!114 &8059579095247675315
 MonoBehaviour:
   m_ObjectHideFlags: 0
