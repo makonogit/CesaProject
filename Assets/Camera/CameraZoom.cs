@@ -31,6 +31,10 @@ public class CameraZoom : MonoBehaviour
     private GameObject Camera; // ゲームオブジェクトMainCamera
     Camera Cam; // カメラスクリプトを取得
 
+    private GameObject goal; // ゴールオブジェクト
+    private Transform goalTransform;   // ゴールの座標
+    private Transform cameraTransform; // カメラの座標
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // プレイヤーとの当たり判定のみ考慮
@@ -59,6 +63,12 @@ public class CameraZoom : MonoBehaviour
         // カメラスクリプトを取得
         Cam = Camera.GetComponent<Camera>();
 
+        // Goal探す
+        goal = GameObject.Find("Goal");
+
+        // Goalの座標取得
+        goalTransform = goal.GetComponent<Transform>();
+        cameraTransform = Camera.GetComponent<Transform>();
         //Debug.Log(Camera);
     }
 
@@ -78,6 +88,9 @@ public class CameraZoom : MonoBehaviour
             {
                 NowCameraSize = ZoomCameraSize;
             }
+
+            // カメラの位置はエリアの中心に固定
+            cameraTransform = goalTransform;
         }
         else
         {

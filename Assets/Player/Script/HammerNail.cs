@@ -66,7 +66,7 @@ public class HammerNail : MonoBehaviour
     public bool MomentHitNails = false;
 
     public float ColLimitTime; // 使用済み釘が生成された瞬間からの時間
-    private float DestroyNailColTime = 1.0f; // 使用済みの釘のコライダーが消える時間 
+    private float DestroyNailColTime = 0.2f; // 使用済みの釘のコライダーが消える時間 
 
     GameObject obj; // 作ったゲームオブジェクトをキャストするため
 
