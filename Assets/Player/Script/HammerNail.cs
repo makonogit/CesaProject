@@ -147,12 +147,22 @@ public class HammerNail : MonoBehaviour
 
         }
 
+        //-------------------------------------------------
+        //•Ç‚É‘Å‚Á‚½“B‚ª2ŒÂˆÈã‚Å“B“Š±ƒ‚[ƒh‰ğœ‚Å‚Ğ‚Ñ¶¬
+        if(HammerNails > 1 && Gamepad.current.bButton.wasPressedThisFrame)
+        {
+            HammerNails = 0;
+            CreateCrack = true;
+        }
+
         //------------------------------------
         //‚Ğ‚Ñ¶¬
         if (CreateCrack)
         {
+            Debug.Log("!");
             NailTargetMove.Radius = NailsDistance;
             CallCrackCreater();//\’Ç‰Á’S“–ÒF’†ì’¼“o\//
+            CreateCrack = false;
         }
     }
 

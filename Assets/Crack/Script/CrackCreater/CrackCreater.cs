@@ -188,6 +188,8 @@ public class CrackCreater : MonoBehaviour
         }
         // 頂点を設定する
         Edge2D.SetPoints(_edgePoints);
+
+        _nowState = CrackCreaterState.CREATING;
     }
 
     //-------------------------------------------------------
@@ -250,8 +252,8 @@ public class CrackCreater : MonoBehaviour
         // 全て表示したら
         if (_createCount == _cracks.Count)
         {
-            _nowState = CrackCreaterState.ADD_CREATE;
-            //_nowState = CrackCreaterState.CRAETED;
+            //_nowState = CrackCreaterState.ADD_CREATE;
+            _nowState = CrackCreaterState.CRAETED;
         }
     }
 
