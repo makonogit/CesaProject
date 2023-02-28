@@ -25,6 +25,7 @@ public class PlayerJump : MonoBehaviour
     private float axel = 9.8f; // 重力加速度
     private float JumpTime = 0.0f; // ジャンプが始まってから落ち始めるまでの経過時間
     public float FallTime = 0.0f; // 落ち始めてからの時間
+    public int RayNum; // 当たっているレイの本数
 
     // 外部取得
     private GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
@@ -79,6 +80,8 @@ public class PlayerJump : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // 接地判定を得る
         isGround = ground.IsGround();
+        // 地面と触れているレイの数を取得
+        RayNum = ground.GetRayNum();
         // 天井の衝突判定を得る
         isOverhead = overhead.IsOverHead();
 
@@ -159,13 +162,16 @@ public class PlayerJump : MonoBehaviour
         // 地面についてないかつ、ジャンプ入力もない(PlayerInputManagerスクリプトの変数Resetがtrueか未入力)時
         if(isGround == false && Jump == false && crackmove.movestate == CrackAutoMove.MoveState.Walk)
         {
-            //----------------------------------------------------------------------------------------------------------
-            // 自由落下、落下状態の時間が経てばたつほど落下速度上昇
-            ySpeed = -Gravity - (axel * FallTime);
+            if (RayNum == 0)
+            {
+                //----------------------------------------------------------------------------------------------------------
+                // 自由落下、落下状態の時間が経てばたつほど落下速度上昇
+                ySpeed = -Gravity - (axel * FallTime);
 
-            //----------------------------------------------------------------------------------------------------------
-            // 落下状態での経過時間を加算
-            FallTime += Time.deltaTime;
+                //----------------------------------------------------------------------------------------------------------
+                // 落下状態での経過時間を加算
+                FallTime += Time.deltaTime;
+            }
         }
         else
         {

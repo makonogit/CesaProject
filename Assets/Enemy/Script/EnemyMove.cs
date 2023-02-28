@@ -11,6 +11,8 @@ public class EnemyMove : MonoBehaviour
     //---------------------------------------------------------
     // - 変数宣言 -
 
+    private string NailTag = "UsedNail";
+
     public float MoveDistance = 1; // 移動範囲
     public float MoveSpeed = 0.05f; // 移動速度
     private Vector3 StartPosition; // 敵の開始位置
@@ -19,6 +21,8 @@ public class EnemyMove : MonoBehaviour
 
     // 外部取得
     private Transform thisTranform; // このオブジェクトの座標を持つ変数
+    private GameObject player; // プレイヤーのゲームオブジェクト探す用
+    private HammerNail hammer; // HammerNailを取得
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +34,11 @@ public class EnemyMove : MonoBehaviour
         //---------------------------------------------------------
         // 敵の開始位置を取得
         StartPosition = thisTranform.position;
+
+        // プレイヤーオブジェクト探す
+        player = GameObject.Find("player");
+        // Hammerスクリプト取得
+        hammer = player.GetComponent<HammerNail>();
     }
 
     // Update is called once per frame
@@ -44,6 +53,24 @@ public class EnemyMove : MonoBehaviour
             //-------------------------------------------------------------------------------------------
             //時間経過
             StartTime += Time.deltaTime;
+        }
+        else
+        {
+            thisTranform.position = new Vector3(thisTranform.position.x, StartPosition.y, StartPosition.z);
+        }
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == NailTag)
+        {
+            Debug.Log("tag");
+
+            if(hammer.MomentHitNails == true)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }

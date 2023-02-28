@@ -15,6 +15,7 @@ public class GroundCheck : MonoBehaviour
     public bool isGround = false; // 最終的に接地しているかしていないかの情報を持つ
     private float AdjustY = 0.03f; // 画像の空白部分を無視するための調整用変数
     private float AdjustX = 0.41f; // 画像の空白部分を無視するための調整用変数
+    public int touch; // 地面と触れているレイの本数
 
     // 外部取得
     private Transform thistransform; // レイによる当たり判定をとるオブジェクトの原点座標
@@ -68,7 +69,7 @@ public class GroundCheck : MonoBehaviour
         Debug.DrawRay(origin_middle, distance, Color.red);
         Debug.DrawRay(origin_right, distance, Color.red);
 
-        int touch = 0;
+        touch = 0;
 
         // 当たっているかつ、タグがGroundならカウントを増やす
         if (hit_l && hit_l.collider.gameObject.tag == groundTag)
@@ -102,5 +103,10 @@ public class GroundCheck : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // 判定を返す
         return isGround;
+    }
+
+    public int GetRayNum()
+    {
+        return touch;
     }
 }

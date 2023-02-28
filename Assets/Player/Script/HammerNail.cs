@@ -50,6 +50,15 @@ public class HammerNail : MonoBehaviour
     CrackCreater _creater;
     //――――――――――――//
 
+    //―追加担当者：二宮怜―//
+    [Header("ひびが撃たれた瞬間のみtrueになる")]
+    public bool MomentHitNails = false;
+
+    public float ColLimitTime; // 使用済み釘が生成された瞬間からの時間
+    private float DestroyNailColTime = 1.0f; // 使用済みの釘のコライダーが消える時間 
+
+    GameObject obj; // 作ったゲームオブジェクトをキャストするため
+
 
     // Start is called before the first frame update
     void Start()
@@ -137,14 +146,44 @@ public class HammerNail : MonoBehaviour
 
                 //ポイント座標を追加
                 NailsPoint.Add(NailsTrans.position);
-
-                Instantiate(NailPrehubObj, NailsTrans.position, Quaternion.identity);
+                obj = Instantiate(NailPrehubObj, NailsTrans.position, Quaternion.identity) as GameObject;
+                obj.AddComponent<PolygonCollider2D>();
 
                 NailTargetMove.Radius += NailAddArea;
                 HammerNails++;
                 HaveNails.NailsNum--;
-            }
 
+                //---------------------------------------------------------------------------
+                //―追加担当者：二宮怜―//
+                // 撃たれた瞬間の状態を保持して敵の移動を止める
+                MomentHitNails = true;
+                ColLimitTime = 0.0f;
+
+                Debug.Log("?????????????????????????");
+
+            }
+            //―追加担当者：二宮怜―//
+            if(MomentHitNails)
+            {
+                //---------------------------------------------------------------------------
+                // 打ち付けられた瞬間以外のフレームに釘の当たり判定は必要ない
+
+                // 最新のオブジェクトにコライダーがついていたら入る
+                if (ColLimitTime > DestroyNailColTime)
+                {
+                    if (obj.GetComponent<PolygonCollider2D>())
+                    {
+                        // コライダー消す
+                        Destroy(obj.GetComponent<PolygonCollider2D>());
+                        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        // 釘を打つ瞬間以外基本false
+                       
+                    }
+                    MomentHitNails = false;
+                }
+                ColLimitTime += Time.deltaTime;
+
+            }
         }
 
         //-------------------------------------------------
