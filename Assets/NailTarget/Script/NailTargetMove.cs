@@ -24,6 +24,10 @@ public class NailTargetMove : MonoBehaviour
     [Header("プレイヤーとの差Y")]
     public float AdjustY = 1.0f; // アクティブ時のプレイヤーとの座標差Y
 
+    private Vector3 offset; // 照準を動かしてない時のプレイヤーと照準のベクトル用変数
+    bool Move = true; // 照準が動いているか動いていないか判別
+    bool touchGround = false; // 照準がGroundタグのオブジェクトと触れているか
+
     // 外部取得
     private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
@@ -65,8 +69,9 @@ public class NailTargetMove : MonoBehaviour
             //    playerTransform.position.x + AdjustX,
             //    playerTransform.position.y + AdjustY,
             //    playerTransform.position.z);
+
             // 照準表示
-            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            //this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -79,14 +84,58 @@ public class NailTargetMove : MonoBehaviour
         // 移動量をPlayerInputManagerからとってくる
         movement = ScriptPIManager.GetRmove();
 
-        if (Distance <= Radius)
+        // 右スティックの入力が無ければ
+        if(movement.x == 0.0f && movement.y == 0.0f)
         {
-            //----------------------------------------------------------------------------------------------------------
-            // プレイヤーの座標を基準に妖精の位置を計算
-            thisTransform.Translate(movement.x * Speed * Time.deltaTime, movement.y * Speed * Time.deltaTime, 0.0f);
+            // 前のフレームまで照準が動いていたなら
+            if(Move == true)
+            {
+                // プレイヤーと照準のベクトルを保存
+                offset = vector_FairyPlayer;
+                //Debug.Log(offset);
+
+                // このif文に入らないためにfalse
+                Move = false;
+            }
+
+            // 親子関係のときのような動きを再現
+            thisTransform.position = new Vector3(
+                playerTransform.position.x - offset.x,
+                playerTransform.position.y - offset.y,
+                0.0f);
         }
         else
         {
+            if(Move == false)
+            {
+                Move = true;
+            }
+        }
+
+        // プレイヤーと照準の距離が一定範囲以下なら
+        if (Distance <= Radius)
+        {
+            //----------------------------------------------------------------------------------------------------------
+            // 照準の現在の位置に移動量を加算
+            thisTransform.Translate(
+            movement.x * Speed * Time.deltaTime,
+            movement.y * Speed * Time.deltaTime,
+            0.0f);
+
+            if (touchGround == true)
+            {
+                // 釘を打てない色:赤
+                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+            }
+            else
+            {
+                // 釘を打てる色:シアン
+                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.0f, 1.0f, 1.0f, 1.0f);
+            }
+        }
+        else
+        {
+            // 照準が離れすぎないための処理
             thisTransform.Translate(
                 vector_FairyPlayer.normalized.x * Speed * Time.deltaTime,
                 vector_FairyPlayer.normalized.y * Speed * Time.deltaTime,
@@ -117,5 +166,23 @@ public class NailTargetMove : MonoBehaviour
         }
 
         //Debug.Log(OldActive);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == GroundTag)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+            touchGround = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == GroundTag)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.0f, 1.0f, 1.0f, 1.0f);
+            touchGround = false;
+        }
     }
 }
