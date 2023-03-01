@@ -79,7 +79,7 @@ public class NailTargetMove : MonoBehaviour
 
             //----------------------------------------------------------------------------------------------------------
             // ˆÚ“®—Ê‚ðPlayerInputManager‚©‚ç‚Æ‚Á‚Ä‚­‚é
-            movement = ScriptPIManager.GetMovement();
+            movement = ScriptPIManager.GetRmove();
 
             if (Distance <= Radius)
             {

@@ -62,8 +62,9 @@ public class FallWall : MonoBehaviour
             //í∑Ç≥Ç©ÇÁëœãvílÉQÅ[ÉWÇèkè¨Ç≥ÇπÇÈ
             WallEndress -= Cracklength;
             thisrect.sizeDelta = new Vector2(thisrect.sizeDelta.x - (UIsizeraito * Cracklength), thisrect.sizeDelta.y);
-            thisrect.position = new Vector3(thisrect.position.x - (UIsizeraito * Cracklength), thisrect.position.y);
+            thisrect.position = new Vector3(thisrect.position.x - (UIsizeraito * Cracklength) / 2, thisrect.position.y);
             Cracklength = 0;
+
         }
 
     }
@@ -89,7 +90,6 @@ public class FallWall : MonoBehaviour
 
          }
          Creater = null;
-        
         
     }
 

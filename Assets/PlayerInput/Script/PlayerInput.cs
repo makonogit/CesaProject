@@ -97,7 +97,28 @@ public class PlayerInput : MonoBehaviour
         // 入力量を取得
         R_Push = context.ReadValue<Vector2>();
 
-       // Debug.Log(R_move);
+        //入力があれば
+        if(R_Push.x < 0 || R_Push.x > 0 || R_Push.y < 0 || R_Push.y > 0)
+        {
+            // プレイヤーが移動モードなら
+            if (ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.MOVE)
+            {
+                // 照準モードに切り替える
+                ScriptPIManager.SetPlayerMode(PlayerInputManager.PLAYERMODE.AIM);
+            }
+           
+        }
+        else
+        {
+             // プレイヤーが照準モードなら
+            if (ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.AIM)
+            {
+                // 移動モードに切り替える
+                ScriptPIManager.SetPlayerMode(PlayerInputManager.PLAYERMODE.MOVE);
+            }
+        }
+
+        // Debug.Log(R_move);
         
         ScriptPIManager.SetCrackPower(R_Push);
     }
@@ -108,18 +129,18 @@ public class PlayerInput : MonoBehaviour
         // 押された時だけセット
         if(context.phase == InputActionPhase.Started)
         {
-            // プレイヤーが移動モードなら
-            if(ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.MOVE)
-            {
-                // 照準モードに切り替える
-                ScriptPIManager.SetPlayerMode(PlayerInputManager.PLAYERMODE.AIM);
-            }
-            // プレイヤーが照準モードなら
-            else if (ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.AIM)
-            {
-                // 移動モードに切り替える
-                ScriptPIManager.SetPlayerMode(PlayerInputManager.PLAYERMODE.MOVE);
-            }
+            //// プレイヤーが移動モードなら
+            //if(ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.MOVE)
+            //{
+            //    // 照準モードに切り替える
+            //    ScriptPIManager.SetPlayerMode(PlayerInputManager.PLAYERMODE.AIM);
+            //}
+            //// プレイヤーが照準モードなら
+            //else if (ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.AIM)
+            //{
+            //    // 移動モードに切り替える
+            //    ScriptPIManager.SetPlayerMode(PlayerInputManager.PLAYERMODE.MOVE);
+            //}
 
             Debug.Log(ScriptPIManager.GetPlayerMode());
         }

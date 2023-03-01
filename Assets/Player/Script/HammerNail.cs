@@ -198,33 +198,35 @@ public class HammerNail : MonoBehaviour
                 Debug.Log("?????????????????????????");
 
             }
-            //―追加担当者：二宮怜―//
-            if(MomentHitNails)
+           
+        }
+
+        //―追加担当者：二宮怜―//
+        if (MomentHitNails)
+        {
+            //---------------------------------------------------------------------------
+            // 打ち付けられた瞬間以外のフレームに釘の当たり判定は必要ない
+
+            // 最新のオブジェクトにコライダーがついていたら入る
+            if (ColLimitTime > DestroyNailColTime)
             {
-                //---------------------------------------------------------------------------
-                // 打ち付けられた瞬間以外のフレームに釘の当たり判定は必要ない
-
-                // 最新のオブジェクトにコライダーがついていたら入る
-                if (ColLimitTime > DestroyNailColTime)
+                if (obj.GetComponent<PolygonCollider2D>())
                 {
-                    if (obj.GetComponent<PolygonCollider2D>())
-                    {
-                        // コライダー消す
-                        Destroy(obj.GetComponent<PolygonCollider2D>());
-                        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        // 釘を打つ瞬間以外基本false
-                       
-                    }
-                    MomentHitNails = false;
-                }
-                ColLimitTime += Time.deltaTime;
+                    // コライダー消す
+                    Destroy(obj.GetComponent<PolygonCollider2D>());
+                    Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    // 釘を打つ瞬間以外基本false
 
+                }
+                MomentHitNails = false;
             }
+            ColLimitTime += Time.deltaTime;
+
         }
 
         //-------------------------------------------------
         //壁に打った釘が2個以上で釘投擲モード解除でひび生成
-        if(HammerNails > 1 && Gamepad.current.bButton.wasPressedThisFrame)
+        if (HammerNails > 1 && Gamepad.current.bButton.wasPressedThisFrame)
         {
             HammerNails = 0;
             CreateCrack = true;
