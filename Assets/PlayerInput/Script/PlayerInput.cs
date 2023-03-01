@@ -91,6 +91,8 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    //------------------------------------------------------
+    //右スティックの入力量を取得する　担当：菅眞心
     public void OnCreateCrack(InputAction.CallbackContext context)
     {
         //---------------------------------------------------------------
@@ -123,6 +125,9 @@ public class PlayerInput : MonoBehaviour
         ScriptPIManager.SetCrackPower(R_Push);
     }
 
+
+    //------------------------------------------------------
+    //Bボタン入力判定(今は中身なし)　担当：菅眞心
     public void OnCrackMove(InputAction.CallbackContext context)
     {
         //---------------------------------------------------------------
@@ -174,6 +179,9 @@ public class PlayerInput : MonoBehaviour
         //}
     }
 
+
+    //------------------------------------------------------
+    //右スティックの入力量を取得する(ボタン化)　担当：菅眞心
     public void OnRightMove(InputAction.CallbackContext context)
     {
         //---------------------------------------------------------------
@@ -184,6 +192,8 @@ public class PlayerInput : MonoBehaviour
     }
 
 
+    //------------------------------------------------------
+    //マウス座標取得　担当：菅眞心
     public void OnMousePos(InputAction.CallbackContext context)
     {
         //---------------------------------------------------------------
@@ -191,6 +201,51 @@ public class PlayerInput : MonoBehaviour
         MousePos = context.ReadValue<Vector2>();
 
         ScriptPIManager.SetMousePos(MousePos);
+
+    }
+
+    //------------------------------------------------------
+    //釘打ち処理　担当：菅眞心
+    public void OnHammerNail(InputAction.CallbackContext context)
+    {
+
+        //--------------------------------------------
+        //これやと押されてる間ずっとTrueかも...
+        if (context.phase == InputActionPhase.Started)
+        {
+            ScriptPIManager.SetNail(true);
+        }
+
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            if (ScriptPIManager.GetNail() == true)
+            {
+                ScriptPIManager.SetNail(false);
+            }
+        }
+
+    }
+
+
+    //------------------------------------------------------
+    //ハンマー処理（同時押し）担当：菅眞心
+    public void OnHammer(InputAction.CallbackContext context)
+    {
+
+        //--------------------------------------------
+        //これやと押されてる間ずっとTrueかも...
+        if (context.phase == InputActionPhase.Started)
+        {
+            ScriptPIManager.SetHammer(true);
+        }
+
+        if(context.phase == InputActionPhase.Canceled)
+        {
+            if(ScriptPIManager.GetHammer() == true)
+            {
+                ScriptPIManager.SetHammer(false);
+            }
+        }
 
     }
 

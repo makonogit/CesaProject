@@ -33,6 +33,13 @@ public class PlayerInputManager : MonoBehaviour
     //マウス座標
     private Vector2 MousePos;
 
+    //釘打ち込み判定
+    bool Nail_Push = false;
+
+    //ハンマーの同時押し判定
+    bool Hammer_Push = false;
+
+
     // 移動モードと照準モードを持つ
     public enum PLAYERMODE
     {
@@ -181,5 +188,43 @@ public class PlayerInputManager : MonoBehaviour
     public void SetPlayerMode(PLAYERMODE _mode)
     {
         Mode = _mode;
+    }
+
+    //----------------------------------------------------------------------------------------------------------
+    // 釘打ち込み判定
+    //----------------------------------------------------------------------------------------------------------
+
+    //戻り値：bool(釘打ち込みがされたか)
+    //引数　：なし
+    public bool GetNail()
+    {
+        return Nail_Push;
+    }
+
+
+    //戻り値：無し
+    //引数　：bool(釘打ち込みがされたか)
+    public void SetNail(bool _NailFlg)
+    {
+        Nail_Push = _NailFlg;
+    }
+
+    //----------------------------------------------------------------------------------------------------------
+    // ハンマーの同時押し処理
+    //----------------------------------------------------------------------------------------------------------
+
+    //戻り値：bool(ハンマーの同時がされたか)
+    //引数　：なし
+    public bool GetHammer()
+    {
+        return Hammer_Push;
+    }
+
+
+    //戻り値：無し
+    //引数　：bool(ハンマーの同時がされたか)
+    public void SetHammer(bool _HammerFlg)
+    {
+        Hammer_Push = _HammerFlg;
     }
 }

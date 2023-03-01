@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Hamer",
+                    "type": "Button",
+                    "id": "82442564-f0dd-41a9-bd36-3240735b0b19",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -325,14 +334,58 @@
                 },
                 {
                     "name": "",
-                    "id": "a690864f-3d8a-488d-a84f-b43c47dce5ae",
-                    "path": "<Gamepad>/leftStickPress",
+                    "id": "251a267c-6c50-48cd-b426-bd9beaed162f",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "HammerNail",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e729a97-76ee-4364-be15-f56cbc053abc",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HammerNail",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "ea3b92a0-0865-4b3f-a38d-4410a786a4cb",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hamer",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "93a5b178-fea2-4d2f-8a7b-4b2ae8f9a991",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Hamer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "74498759-41d2-4c60-a2d3-60f13a974308",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Hamer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
