@@ -98,7 +98,7 @@ public class PlayerInput : MonoBehaviour
         R_Push = context.ReadValue<Vector2>();
 
         //入力があれば
-        if(R_Push.x < 0 || R_Push.x > 0 || R_Push.y < 0 || R_Push.y > 0)
+        if (R_Push.x < 0 || R_Push.x > 0 || R_Push.y < 0 || R_Push.y > 0)
         {
             // プレイヤーが移動モードなら
             if (ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.MOVE)
@@ -106,11 +106,11 @@ public class PlayerInput : MonoBehaviour
                 // 照準モードに切り替える
                 ScriptPIManager.SetPlayerMode(PlayerInputManager.PLAYERMODE.AIM);
             }
-           
+
         }
         else
         {
-             // プレイヤーが照準モードなら
+            // プレイヤーが照準モードなら
             if (ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.AIM)
             {
                 // 移動モードに切り替える
@@ -119,7 +119,7 @@ public class PlayerInput : MonoBehaviour
         }
 
         // Debug.Log(R_move);
-        
+
         ScriptPIManager.SetCrackPower(R_Push);
     }
 

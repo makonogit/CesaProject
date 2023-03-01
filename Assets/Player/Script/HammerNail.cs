@@ -158,7 +158,7 @@ public class HammerNail : MonoBehaviour
 
             //----------------------------------------------------------------
             //距離が生成可能な距離よりも離れているかで生成可能フラグを指定
-            if (NailsDistance < NailTargetMove.Radius && ScriptPIManager.GetPlayerMode() == global::PlayerInputManager.PLAYERMODE.AIM)
+            if (NailsDistance < NailTargetMove.Radius /*&& ScriptPIManager.GetPlayerMode() == global::PlayerInputManager.PLAYERMODE.AIM*/)
             {
                 NailsCreateFlg = true;
             }

@@ -57,48 +57,49 @@ public class NailTargetMove : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // 照準モードの時表示、移動
 
+        // 最初のフレームのみ入る
+        if (OldActive == false)
+        {
+            //// 出現位置固定
+            //thisTransform.position = new Vector3(
+            //    playerTransform.position.x + AdjustX,
+            //    playerTransform.position.y + AdjustY,
+            //    playerTransform.position.z);
+            // 照準表示
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        }
+
+        //----------------------------------------------------------------------------------------------------------
+        Vector3 vector_FairyPlayer = playerTransform.position - thisTransform.position;
+
+        // 妖精からプレイヤーの距離
+        Distance = vector_FairyPlayer.magnitude;
+
+        //----------------------------------------------------------------------------------------------------------
+        // 移動量をPlayerInputManagerからとってくる
+        movement = ScriptPIManager.GetRmove();
+
+        if (Distance <= Radius)
+        {
+            //----------------------------------------------------------------------------------------------------------
+            // プレイヤーの座標を基準に妖精の位置を計算
+            thisTransform.Translate(movement.x * Speed * Time.deltaTime, movement.y * Speed * Time.deltaTime, 0.0f);
+        }
+        else
+        {
+            thisTransform.Translate(
+                vector_FairyPlayer.normalized.x * Speed * Time.deltaTime,
+                vector_FairyPlayer.normalized.y * Speed * Time.deltaTime,
+                0.0f);
+        }
+
+        if (OldActive == false)
+        {
+            //OldActive = true;
+        }
         if (ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.AIM)
         {
-            // 最初のフレームのみ入る
-            if(OldActive == false)
-            {
-                // 出現位置固定
-                thisTransform.position = new Vector3(
-                    playerTransform.position.x + AdjustX,
-                    playerTransform.position.y + AdjustY,
-                    playerTransform.position.z);
-                // 照準表示
-                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            }
-
-            //----------------------------------------------------------------------------------------------------------
-            Vector3 vector_FairyPlayer = playerTransform.position - thisTransform.position;
-
-            // 妖精からプレイヤーの距離
-            Distance = vector_FairyPlayer.magnitude;
-
-            //----------------------------------------------------------------------------------------------------------
-            // 移動量をPlayerInputManagerからとってくる
-            movement = ScriptPIManager.GetRmove();
-
-            if (Distance <= Radius)
-            {
-                //----------------------------------------------------------------------------------------------------------
-                // プレイヤーの座標を基準に妖精の位置を計算
-                thisTransform.Translate(movement.x * Speed * Time.deltaTime, movement.y * Speed * Time.deltaTime, 0.0f);
-            }
-            else
-            {
-                thisTransform.Translate(
-                    vector_FairyPlayer.normalized.x * Speed * Time.deltaTime,
-                    vector_FairyPlayer.normalized.y * Speed * Time.deltaTime,
-                    0.0f);
-            }
-
-            if(OldActive == false)
-            {
-                OldActive = true;
-            }
+           
         }
         else
         {
@@ -106,7 +107,7 @@ public class NailTargetMove : MonoBehaviour
             if (OldActive == true)
             {
                 // 非表示
-                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+               // this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
             }
 
             if (OldActive == true)
