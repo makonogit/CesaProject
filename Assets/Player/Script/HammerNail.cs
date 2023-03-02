@@ -61,6 +61,19 @@ public class HammerNail : MonoBehaviour
     private float ColExtendSpeed;               //コライダーの拡大スピード
 
 
+
+    //---------------------------------------
+    //打ち込み状態
+
+    public enum HammerState
+    {
+        NONE,   //何もしていない
+        NAILSET,//構える
+        HAMMER, //打つ
+    }
+
+    public HammerState _HammerState;
+
     //―追加担当者：中川直登―//
     [Header("ひびを作るobj")]
     public GameObject _crackCreaterObj;
@@ -128,6 +141,10 @@ public class HammerNail : MonoBehaviour
         //CrackCreaterを取得  //―追加担当者：中川直登―//
         _creater = _crackCreaterObj.GetComponent<CrackCreater>();
 
+        //---------------------------------------------
+        //打ち込み状態あを何もしていないにする
+        _HammerState = HammerState.NONE;
+
 
     }
 
@@ -140,6 +157,28 @@ public class HammerNail : MonoBehaviour
         ////マウスポインタの座標を常に更新
         //Vector3 MousePos = (Vector2)Camera.main.ScreenToWorldPoint(ScriptPIManager.GetMousePos());
         //MousePointa.transform.position = MousePos;
+
+        //-----------------------------------------------------------
+        //状態遷移
+        //押し込みされたら構える状態にする
+        if (ScriptPIManager.GetNail() == true && _HammerState == HammerState.NONE)
+        {
+            _HammerState = HammerState.NAILSET;
+        }
+        if (ScriptPIManager.GetNail() == false)
+        {
+            //離された瞬間打ち込み状態にする
+            if (_HammerState == HammerState.NAILSET)
+            {
+                _HammerState = HammerState.HAMMER;
+            }
+            else
+            {
+                _HammerState = HammerState.NONE;
+            }
+           
+        }
+
 
         //----------------------------------------
         //釘を持っていたら釘を画面に打つ
@@ -158,7 +197,7 @@ public class HammerNail : MonoBehaviour
 
             //----------------------------------------------------------------
             //距離が生成可能な距離よりも離れているかで生成可能フラグを指定
-            if (NailsDistance < NailTargetMove.Radius /*&& ScriptPIManager.GetPlayerMode() == global::PlayerInputManager.PLAYERMODE.AIM*/)
+            if (NailsDistance < NailTargetMove.Radius)
             {
                 NailsCreateFlg = true;
             }
@@ -171,9 +210,11 @@ public class HammerNail : MonoBehaviour
             //釘生成可能かどうかでマウスポインタの色を変更
             // MousePointaRender.color = NailsCreateFlg == true ? Color.white : Color.red;
 
+
+           
             //---------------------------------------------------------------------------
-            //左スティック押し込み検知+ひび生成中じゃない+釘を打てる範囲なら釘を生成
-            if (Gamepad.current.leftStickButton.wasPressedThisFrame && !CreateCrack && NailsCreateFlg)
+            //打ち込み状態なら生成
+            if (_HammerState == HammerState.HAMMER)
             {
 
                 NailsTrans.position = NailTargetTrans.position;

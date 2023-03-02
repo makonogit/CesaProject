@@ -2955,7 +2955,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5217619244172124460, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
   m_PrefabInstance: {fileID: 5217619242500731766}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5217619242500731767}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee69ba06cd0039246b8f38c4058a458d, type: 3}
@@ -3898,7 +3898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5217619244172124463, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
       propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5217619244172124463, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
       propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -3927,7 +3927,7 @@ PrefabInstance:
     - target: {fileID: 5217619244172124463, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
       propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5217619242500731767}
+      objectReference: {fileID: 1684050522}
     - target: {fileID: 5217619244172124463, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
       propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3993,6 +3993,10 @@ PrefabInstance:
       value: OnMousePos
       objectReference: {fileID: 0}
     - target: {fileID: 5217619244172124463, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
+      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHammerNail
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217619244172124463, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
       propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnHammer
       objectReference: {fileID: 0}
@@ -4018,6 +4022,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5217619244172124463, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
       propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerInput, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217619244172124463, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
+      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PlayerInput, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5217619244172124463, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
@@ -4049,16 +4057,15 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5217619244172124463, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
+      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217619244172124463, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
       propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
---- !u!1 &5217619242500731767 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5217619244172124462, guid: 440d5f27aeba1f540ab565a30cf27fc8, type: 3}
-  m_PrefabInstance: {fileID: 5217619242500731766}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6471767409860213232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5629,6 +5636,7 @@ MonoBehaviour:
   NailsPoint: []
   MaxColSize: 4
   ColExtendSpeed: 20
+  _HammerState: 0
   _crackCreaterObj: {fileID: 7869875550553585627, guid: 5e387acae0f89364487b0d1bae8712f2, type: 3}
   MomentHitNails: 0
   ColLimitTime: 0
