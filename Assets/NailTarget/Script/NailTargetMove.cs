@@ -193,7 +193,7 @@ public class NailTargetMove : MonoBehaviour
 
             }
 
-            Debug.Log(col.a);
+            //Debug.Log(col.a);
         }
         // NAILSET ˆÈŠO‚È‚ç
         else
@@ -204,12 +204,9 @@ public class NailTargetMove : MonoBehaviour
                 GetComponent<SpriteRenderer>().color = new Color(col.r, col.g, col.b, 0.0f);
 
             }
-            Debug.Log(col.a);
+            //Debug.Log(col.a);
 
         }
-
-
-        Debug.Log(hammerNail._HammerState);
 
         //Debug.Log(OldActive);
     }

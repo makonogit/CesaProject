@@ -40,9 +40,6 @@ public class HammerNail : MonoBehaviour
     [Header("釘の座標")]
     public List<Vector2> NailsPoint;            //釘の座標を取得
 
-    // private GameObject MousePointa;             //マウスポインタ用オブジェクト
-    // private SpriteRenderer MousePointaRender;   //マウスポインタのスプライトレンダー
-
     private GameObject NailTarget;      //釘照準オブジェクト
     private Transform NailTargetTrans;  //釘照準オブジェクトのTransForm
 
@@ -60,7 +57,8 @@ public class HammerNail : MonoBehaviour
     [SerializeField, Header("コライダーの拡大スピード")]
     private float ColExtendSpeed;               //コライダーの拡大スピード
 
-
+    //---------------------------------------------------------------
+    private CircleCollider2D NailAreaCol;      //ひびがつながる範囲
 
     //---------------------------------------
     //打ち込み状態
@@ -109,11 +107,6 @@ public class HammerNail : MonoBehaviour
         Order = CrackPrefab.GetComponent<CrackOrder>();
 
         //--------------------------------------------
-        //マウスポインタ用オブジェクトを取得
-        //MousePointa = GameObject.Find("Fairy");
-        //MousePointaRender = MousePointa.GetComponent<SpriteRenderer>();
-
-        //--------------------------------------------
         //釘照準オブジェクトの取得
         NailTarget = GameObject.Find("NailTarget");
         NailTargetTrans = NailTarget.transform;
@@ -154,10 +147,7 @@ public class HammerNail : MonoBehaviour
 
         //子オブジェクトと座標を同期
         ChilCrackArea.transform.position = transform.position;
-        ////マウスポインタの座標を常に更新
-        //Vector3 MousePos = (Vector2)Camera.main.ScreenToWorldPoint(ScriptPIManager.GetMousePos());
-        //MousePointa.transform.position = MousePos;
-
+      
         //-----------------------------------------------------------
         //状態遷移
         //押し込みされたら構える状態にする
@@ -186,46 +176,46 @@ public class HammerNail : MonoBehaviour
         {
             //---------------------------------------------------------------------------
             //前回打った釘との距離を求める(生成されていなかったらプレイヤーとの距離)
-            if (HammerNails > 0)
-            {
-                NailsDistance = Vector3.Distance(NailTargetTrans.position, NailsPoint[HammerNails - 1]);
-            }
-            else
-            {
-                NailsDistance = Vector3.Distance(NailTargetTrans.position, this.transform.position);
-            }
+            //if (HammerNails > 0)
+            //{
+            //    NailsDistance = Vector3.Distance(NailTargetTrans.position, NailsPoint[HammerNails - 1]);
+            //}
+            //else
+            //{
+            //    NailsDistance = Vector3.Distance(NailTargetTrans.position, this.transform.position);
+            //}
 
             //----------------------------------------------------------------
             //距離が生成可能な距離よりも離れているかで生成可能フラグを指定
-            if (NailsDistance < NailTargetMove.Radius)
+            //if (NailsDistance < NailTargetMove.Radius)
+            //{
+            //    NailsCreateFlg = true;
+            //}
+            //else
+            //{
+            //    NailsCreateFlg = false;
+            //}
+
+
+            //---------------------------------------------------------------------------
+            //構えていたら釘の範囲を可視化
+            if (_HammerState == HammerState.NAILSET)
             {
-                NailsCreateFlg = true;
-            }
-            else
-            {
-                NailsCreateFlg = false;
+
             }
 
-            //----------------------------------------------------------------
-            //釘生成可能かどうかでマウスポインタの色を変更
-            // MousePointaRender.color = NailsCreateFlg == true ? Color.white : Color.red;
-
-
-           
             //---------------------------------------------------------------------------
             //打ち込み状態なら生成
             if (_HammerState == HammerState.HAMMER)
             {
 
                 NailsTrans.position = NailTargetTrans.position;
-                // ワールド座標に変換Zのカメラ座標がおかしくなるのでVector2型にキャスト変換して対処
-                //NailsTrans.position = (Vector2)Camera.main.ScreenToWorldPoint(NailsTrans.position);
-
+                
                 //ポイント座標を追加
                 NailsPoint.Add(NailsTrans.position);
                 obj = Instantiate(NailPrehubObj, NailsTrans.position, Quaternion.identity) as GameObject;
-                obj.AddComponent<PolygonCollider2D>();
-
+                //obj.AddComponent<PolygonCollider2D>();
+                
                 NailTargetMove.Radius += NailAddArea;
                 HammerNails++;
                 HaveNails.NailsNum--;
@@ -235,38 +225,37 @@ public class HammerNail : MonoBehaviour
                 // 撃たれた瞬間の状態を保持して敵の移動を止める
                 MomentHitNails = true;
                 ColLimitTime = 0.0f;
-
-                Debug.Log("?????????????????????????");
+                //---------------------------------------------------------------------------
 
             }
            
         }
 
         //―追加担当者：二宮怜―//
-        if (MomentHitNails)
-        {
-            //---------------------------------------------------------------------------
-            // 打ち付けられた瞬間以外のフレームに釘の当たり判定は必要ない
+        //if (MomentHitNails)
+        //{
+        //    //---------------------------------------------------------------------------
+        //    // 打ち付けられた瞬間以外のフレームに釘の当たり判定は必要ない
 
-            // 最新のオブジェクトにコライダーがついていたら入る
-            if (ColLimitTime > DestroyNailColTime)
-            {
-                if (obj.GetComponent<PolygonCollider2D>())
-                {
-                    // コライダー消す
-                    Destroy(obj.GetComponent<PolygonCollider2D>());
-                    Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    // 釘を打つ瞬間以外基本false
+        //    // 最新のオブジェクトにコライダーがついていたら入る
+        //    if (ColLimitTime > DestroyNailColTime)
+        //    {
+        //        if (obj.GetComponent<PolygonCollider2D>())
+        //        {
+        //            // コライダー消す
+        //            Destroy(obj.GetComponent<PolygonCollider2D>());
 
-                }
-                MomentHitNails = false;
-            }
-            ColLimitTime += Time.deltaTime;
+        //        }
 
-        }
+        //        // 釘を打つ瞬間以外基本false
+        //        MomentHitNails = false;
+        //    }
+        //    ColLimitTime += Time.deltaTime;
+
+        //}
 
         //-------------------------------------------------
-        //壁に打った釘が2個以上で釘投擲モード解除でひび生成
+        //壁に打った釘が2個以上でBボタン押すとひび生成
         if (HammerNails > 1 && Gamepad.current.bButton.wasPressedThisFrame)
         {
             HammerNails = 0;
