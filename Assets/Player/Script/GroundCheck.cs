@@ -40,7 +40,8 @@ public class GroundCheck : MonoBehaviour
             thistransform.position.y - thistransform.localScale.y / 2.0f + AdjustY);
 
         // x:Œ´“_ y;bottom
-        Vector2 origin_middle = new Vector2(thistransform.position.x, thistransform.position.y - thistransform.localScale.y / 2.0f + AdjustY - 0.1f);
+        Vector2 origin_middle = new Vector2(thistransform.position.x, 
+            thistransform.position.y - thistransform.localScale.y / 2.0f + AdjustY);
 
         // x:right y:bottom
         Vector2 origin_right = new Vector2(thistransform.position.x + thistransform.localScale.x / 2.0f - AdjustX, 

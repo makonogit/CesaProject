@@ -17,7 +17,8 @@ public class NailTargetMove : MonoBehaviour
     public float Speed = 5.0f; // プレイヤーとの距離
     private Vector2 movement; // 入力量を取得する変数
     public float Radius = 3.0f; // プレイヤーと離れられる距離
-    private float Distance; // プレイヤーと妖精の距離を持つ変数
+    [Header("プレイヤーとの距離")]
+    public float Distance; // プレイヤーと妖精の距離を持つ変数
     private bool OldActive = false; // 前フレームのアクティブ状態
     [Header("プレイヤーとの差X")]
     public float AdjustX = 2.0f; // アクティブ時のプレイヤーとの座標差X
@@ -34,6 +35,7 @@ public class NailTargetMove : MonoBehaviour
     private Transform thisTransform; // 自身のTransformを取得する変数
     private GameObject player; // 自身のTransformを取得する変数
     private Transform playerTransform;
+    private HammerNail hammerNail; // 釘打つスクリプト取得する変数
 
     // Start is called before the first frame update
     void Start()
@@ -45,14 +47,23 @@ public class NailTargetMove : MonoBehaviour
         ScriptPIManager = PlayerInputMana.GetComponent<PlayerInputManager>();
 
         //----------------------------------------------------------------------------------------------------------
-        // 自身(妖精)の持つTransformを取得する
+        // 自身(照準)の持つTransformを取得する
         thisTransform = this.GetComponent<Transform>();
+
+        // 初期は透明
+        Color col = GetComponent<SpriteRenderer>().color;
+
+        col.a = 0.0f;
 
         //----------------------------------------------------------------------------------------------------------
         // プレイヤー探す
         player = GameObject.Find("player");
 
-        playerTransform = player.GetComponent<Transform>(); 
+        playerTransform = player.GetComponent<Transform>();
+
+        //----------------------------------------------------------------------------------------------------------
+        // HammerNail取得
+        hammerNail = player.GetComponent<HammerNail>();
     }
 
     // Update is called once per frame
@@ -164,6 +175,41 @@ public class NailTargetMove : MonoBehaviour
                 OldActive = false;
             }
         }
+
+        // 照準のカラー情報取得
+        Color col = GetComponent<SpriteRenderer>().color;
+
+        //---------------------------------------------------------------------
+        // HammerNailのHammerStateの状態によってalpha値変える
+        // NAILSETなら
+        if(hammerNail._HammerState == global::HammerNail.HammerState.NAILSET)
+        {
+
+            
+            if (col.a == 0.0f)
+            {
+                GetComponent<SpriteRenderer>().color = new Color(col.r, col.g, col.b,1.0f);
+
+
+            }
+
+            Debug.Log(col.a);
+        }
+        // NAILSET 以外なら
+        else
+        {
+            //Debug.Log("???????????????????????");
+            if (col.a == 1.0f)
+            {
+                GetComponent<SpriteRenderer>().color = new Color(col.r, col.g, col.b, 0.0f);
+
+            }
+            Debug.Log(col.a);
+
+        }
+
+
+        Debug.Log(hammerNail._HammerState);
 
         //Debug.Log(OldActive);
     }
