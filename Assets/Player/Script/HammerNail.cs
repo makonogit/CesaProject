@@ -48,6 +48,10 @@ public class HammerNail : MonoBehaviour
     private GameObject FallGage;        //壁の崩壊度UI
     private FallWall fallwall;          //壁の崩壊度スクリプト
 
+    // 二宮追加
+    private GameObject Target;
+    private NailTargetMove TargetMove;
+
     //----------------------------
     //ひびの拡大用コライダー関係
     private GameObject ChilCrackArea;           //ひび拡大用子オブジェクト 
@@ -138,7 +142,8 @@ public class HammerNail : MonoBehaviour
         //打ち込み状態あを何もしていないにする
         _HammerState = HammerState.NONE;
 
-
+        Target = GameObject.Find("NailTarget");
+        TargetMove = Target.GetComponent<NailTargetMove>();
     }
 
     // Update is called once per frame
@@ -272,6 +277,9 @@ public class HammerNail : MonoBehaviour
 
             fallwall.CreateCrackFlg = CreateCrack;  //ひびの生成情報を崩壊スクリプトに渡す
             fallwall.NowCrackObj = NewCrackObj;
+
+            TargetMove.CreateCrack = CreateCrack;
+
             CreateCrack = false;
             CrackVibration = true;
             CircleCol.enabled = true;

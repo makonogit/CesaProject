@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 //担当者：二宮怜
-//内容　：妖精の移動（コントローラー）、プレイヤーを中心とした半径rの円周上を移動
+//内容　：照準の移動（コントローラーRスティック）、プレイヤーを中心とした半径rの円周上を移動
 //---------------------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
@@ -13,21 +13,21 @@ public class NailTargetMove : MonoBehaviour
 
     private string GroundTag = "Ground";
 
-    [Header("プレイヤーとの距離")]
+    [Header("照準の移動速度")]
     public float Speed = 5.0f; // プレイヤーとの距離
     private Vector2 movement; // 入力量を取得する変数
     public float Radius = 3.0f; // プレイヤーと離れられる距離
     [Header("プレイヤーとの距離")]
     public float Distance; // プレイヤーと妖精の距離を持つ変数
-    private bool OldActive = false; // 前フレームのアクティブ状態
-    [Header("プレイヤーとの差X")]
-    public float AdjustX = 2.0f; // アクティブ時のプレイヤーとの座標差X
-    [Header("プレイヤーとの差Y")]
-    public float AdjustY = 1.0f; // アクティブ時のプレイヤーとの座標差Y
+    [Header("照準が現れるときのプレイヤーとの差の基準")]
+    public float InitPosDistance = 2.0f; // 照準が現れるときのプレイヤーとの差の基準
 
-    private Vector3 offset; // 照準を動かしてない時のプレイヤーと照準のベクトル用変数
+    private Vector3 offset_TargetStop; // 照準を動かしてない時のプレイヤーと照準のベクトル用変数
     bool Move = true; // 照準が動いているか動いていないか判別
     bool touchGround = false; // 照準がGroundタグのオブジェクトと触れているか
+
+    [System.NonSerialized]
+    public bool CreateCrack = false;
 
     // 外部取得
     private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数
@@ -69,27 +69,14 @@ public class NailTargetMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //----------------------------------------------------------------------------------------------------------
-        // 照準モードの時表示、移動
-
-        // 最初のフレームのみ入る
-        if (OldActive == false)
-        {
-            //// 出現位置固定
-            //thisTransform.position = new Vector3(
-            //    playerTransform.position.x + AdjustX,
-            //    playerTransform.position.y + AdjustY,
-            //    playerTransform.position.z);
-
-            // 照準表示
-            //this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
-        }
+        //---------------------------------------------------------------------------------------------------------
+        // 照準の表示、移動
 
         //----------------------------------------------------------------------------------------------------------
-        Vector3 vector_FairyPlayer = playerTransform.position - thisTransform.position;
+        Vector3 vector_PlayerFairy = thisTransform.position - playerTransform.position;
 
-        // 妖精からプレイヤーの距離
-        Distance = vector_FairyPlayer.magnitude;
+        // 照準からプレイヤーの距離
+        Distance = vector_PlayerFairy.magnitude;
 
         //----------------------------------------------------------------------------------------------------------
         // 移動量をPlayerInputManagerからとってくる
@@ -99,11 +86,10 @@ public class NailTargetMove : MonoBehaviour
         if(movement.x == 0.0f && movement.y == 0.0f)
         {
             // 前のフレームまで照準が動いていたなら
-            if(Move == true)
+            if (Move == true)
             {
                 // プレイヤーと照準のベクトルを保存
-                offset = vector_FairyPlayer;
-                //Debug.Log(offset);
+                offset_TargetStop = vector_PlayerFairy;
 
                 // このif文に入らないためにfalse
                 Move = false;
@@ -111,8 +97,8 @@ public class NailTargetMove : MonoBehaviour
 
             // 親子関係のときのような動きを再現
             thisTransform.position = new Vector3(
-                playerTransform.position.x - offset.x,
-                playerTransform.position.y - offset.y,
+                playerTransform.position.x + offset_TargetStop.x,
+                playerTransform.position.y + offset_TargetStop.y,
                 0.0f);
         }
         else
@@ -123,57 +109,56 @@ public class NailTargetMove : MonoBehaviour
             }
         }
 
-        // プレイヤーと照準の距離が一定範囲以下なら
-        if (Distance <= Radius)
+        // 表示していない時に照準の位置を方向を維持したまま近づける
+        // 表示しない状態なら
+        if (CreateCrack == true)
         {
-            //----------------------------------------------------------------------------------------------------------
-            // 照準の現在の位置に移動量を加算
-            thisTransform.Translate(
-            movement.x * Speed * Time.deltaTime,
-            movement.y * Speed * Time.deltaTime,
-            0.0f);
+            // 照準をベクトルを維持したまま指定した距離の位置に移動させる
+            thisTransform.position = new Vector3(
+                playerTransform.position.x + offset_TargetStop.normalized.x * InitPosDistance,
+                playerTransform.position.y + offset_TargetStop.normalized.y * InitPosDistance,
+                0.0f);
 
-            if (touchGround == true)
+            // 座標が更新されたのでオフセットも更新
+            offset_TargetStop = thisTransform.position - playerTransform.position;
+
+            // 次ひびが生成されるまでfalse
+            CreateCrack = false;
+        }
+        
+        if (hammerNail._HammerState == global::HammerNail.HammerState.NAILSET)
+        {
+            // プレイヤーと照準の距離が一定範囲以下なら
+            if (Distance <= Radius)
             {
-                // 釘を打てない色:赤
-                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+                //----------------------------------------------------------------------------------------------------------
+                // 照準の現在の位置に移動量を加算
+                thisTransform.Translate(
+                movement.x * Speed * Time.deltaTime,
+                movement.y * Speed * Time.deltaTime,
+                0.0f);
+
+                if (touchGround == true)
+                {
+                    // 釘を打てない色:赤
+                    this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+                }
+                else
+                {
+                    // 釘を打てる色:シアン
+                    this.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.0f, 1.0f, 1.0f, 1.0f);
+                }
             }
             else
             {
-                // 釘を打てる色:シアン
-                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.0f, 1.0f, 1.0f, 1.0f);
-            }
-        }
-        else
-        {
-            // 照準が離れすぎないための処理
-            thisTransform.Translate(
-                vector_FairyPlayer.normalized.x * Speed * Time.deltaTime,
-                vector_FairyPlayer.normalized.y * Speed * Time.deltaTime,
-                0.0f);
-        }
-
-        if (OldActive == false)
-        {
-            //OldActive = true;
-        }
-        if (ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.AIM)
-        {
-           
-        }
-        else
-        {
-            // モードが変わって最初のフレームの時に入る
-            if (OldActive == true)
-            {
-                // 非表示
-               // this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                // 照準が離れすぎないための処理
+                thisTransform.Translate(
+                    -vector_PlayerFairy.normalized.x * Speed * Time.deltaTime,
+                    -vector_PlayerFairy.normalized.y * Speed * Time.deltaTime,
+                    0.0f);
             }
 
-            if (OldActive == true)
-            {
-                OldActive = false;
-            }
+            Debug.Log(thisTransform.position);
         }
 
         // 照準のカラー情報取得
@@ -184,31 +169,20 @@ public class NailTargetMove : MonoBehaviour
         // NAILSETなら
         if(hammerNail._HammerState == global::HammerNail.HammerState.NAILSET)
         {
-
-            
             if (col.a == 0.0f)
             {
                 GetComponent<SpriteRenderer>().color = new Color(col.r, col.g, col.b,1.0f);
-
-
             }
-
-            //Debug.Log(col.a);
         }
         // NAILSET 以外なら
         else
         {
-            //Debug.Log("???????????????????????");
             if (col.a == 1.0f)
             {
                 GetComponent<SpriteRenderer>().color = new Color(col.r, col.g, col.b, 0.0f);
 
             }
-            //Debug.Log(col.a);
-
         }
-
-        //Debug.Log(OldActive);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
