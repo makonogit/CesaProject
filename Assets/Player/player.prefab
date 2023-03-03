@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6636130089559709832}
   - component: {fileID: 177245301056531068}
   - component: {fileID: 9156518258014670235}
+  - component: {fileID: 2971194306975641323}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -145,6 +146,7 @@ MonoBehaviour:
   Speed: 5
   moveDistance: 3
   delayTime: 0.8
+  socialDistance: 0.3
   BlockLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -166,6 +168,7 @@ MonoBehaviour:
   isGround: 0
   isJump: 0
   FallTime: 0
+  RayNum: 0
 --- !u!114 &6636130089559709855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,7 +214,6 @@ MonoBehaviour:
   HitTime: 0
   Damage: 10
   gameOver: {fileID: 0}
-  alpha: {fileID: 0}
 --- !u!114 &177245301056531068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  touch: 0
 --- !u!114 &9156518258014670235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,4 +246,18 @@ MonoBehaviour:
   MinPointNum: 0
   MoveFlg: 0
   movestate: 0
-  EdgeDirection: 0
+--- !u!114 &2971194306975641323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6636130089559709863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18012833e1cfaed49830e4c4fbc1d5d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _length: 1
+  _crackCreaterObj: {fileID: 7869875550553585627, guid: 5e387acae0f89364487b0d1bae8712f2, type: 3}
+  _pos: []

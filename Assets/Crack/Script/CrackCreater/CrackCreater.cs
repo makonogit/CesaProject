@@ -60,7 +60,8 @@ public class CrackCreater : MonoBehaviour
     private List<int> _nailPointCount;// 辺リスト中の釘の番号
     [SerializeField]
     private List<GameObject> _cracks;// ひびのオブジェクトリスト
-    
+
+    private Wall_HP_System_Script _WHPSS;
     
     //-----------------------------------------------------------------
     //―スタート処理―
@@ -87,6 +88,15 @@ public class CrackCreater : MonoBehaviour
         }
         // 状態を共有する
         State = _nowState;
+
+        // WHPSS　-追加
+        GameObject _whpg =GameObject.Find("Wall_Hp_Gauge");
+        _WHPSS = _whpg.GetComponent<Wall_HP_System_Script>();
+        if (_WHPSS == null) 
+        {
+            Debug.LogError("null");
+        }
+
     }
 
 
@@ -251,6 +261,8 @@ public class CrackCreater : MonoBehaviour
         {
             // 表示
             _cracks[_createCount].SetActive(true);
+            // WHPSSのHPを減らす-追加
+            _WHPSS.SubHp(_cracks[_createCount].transform.localScale.x);
             // 次へ
             _createCount++;
             // リセット
@@ -423,6 +435,7 @@ public class CrackCreater : MonoBehaviour
             {
                 _cracks[_addCrackNow.x].SetActive(true);// 表示
                 _addCrackCount --;// カウントを減らす
+                _WHPSS.SubHp(_cracks[_addCrackNow.x].transform.localScale.x);// WHPSSのHPを減らす-追加
                 _addCrackNow = new Vector2Int(_addCrackNow.x -1 , _addCrackNow.y);// カウントを減らす
             }
             // 後ろ表示
@@ -430,6 +443,7 @@ public class CrackCreater : MonoBehaviour
             {
                 _cracks[_addCrackNow.y].SetActive(true);// 表示
                 _addCrackCount--;// カウントを減らす
+                _WHPSS.SubHp(_cracks[_addCrackNow.y].transform.localScale.x);// WHPSSのHPを減らす-追加
                 _addCrackNow = new Vector2Int(_addCrackNow.x , _addCrackNow.y + 1);// カウントを減らす
             }
             // リセット
