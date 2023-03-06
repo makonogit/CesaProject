@@ -28,6 +28,7 @@ public class NailStateManager : MonoBehaviour
         //子オブジェクト(エリア)のスプライトを取得
         NailAreaSprite = transform.GetChild(0).gameObject.GetComponentInChildren<SpriteRenderer>();
 
+
     }
 
     // Update is called once per frame
@@ -41,7 +42,7 @@ public class NailStateManager : MonoBehaviour
         }
         if (nailState == NailState.AREAVISUAL)
         {
-            NailAreaSprite.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);   //可視化状態なら赤
+            NailAreaSprite.color = new Color(1.0f, 0.0f, 0.0f, 0.3f);   //可視化状態なら赤
         }
     }
 

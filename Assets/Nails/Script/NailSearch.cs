@@ -12,11 +12,20 @@ public class NailSearch : MonoBehaviour
     NailStateManager manager;   //釘の状態を取得するスクリプト
     HammerNail hammer;          //打ち込み状態を取得するスクリプト
 
+    GameObject CreateCrackArea;             //ひび生成範囲オブジェクト
+    GetCrackPoint _getCrackPoint;           //ひびのポイント設定用スクリプト
+
     // Start is called before the first frame update
     void Start()
     {
         //親オブジェクトのHammerNailを取得
         hammer = GetComponentInParent<HammerNail>();
+
+        //------------------------------------------
+        //ひびの生成用ポイント情報取得
+        CreateCrackArea = GameObject.Find("CrackCreateArea");
+        //_getCrackPoint = CreateCrackArea.GetComponent<GetCrackPoint>();
+
     }
 
     // Update is called once per frame
