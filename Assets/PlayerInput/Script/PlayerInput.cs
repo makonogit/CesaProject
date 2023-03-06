@@ -19,6 +19,9 @@ public class PlayerInput : MonoBehaviour
     public Vector2 R_Push;     // 右スティックの入力量を取得する変数(Press)
     public Vector2 R_move;     // 右スティックの入力量を取得する変数
 
+    // カーソル用
+    public Vector2 CL_move; // カーソル用左スティック入力量を取得する変数
+
     // マウスの座標
     [SerializeField]
     private Vector2 MousePos;  //マウス座標を保持する変数
@@ -26,6 +29,9 @@ public class PlayerInput : MonoBehaviour
     // 外部取得
     private GameObject PlayerInputMane; // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
+
+    private GameObject pause;
+    private PauseGame pausegame;
 
     //----------------------------------------------------------------------------------------------------------
     // - 初期化処理 -
@@ -38,6 +44,9 @@ public class PlayerInput : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // ゲームオブジェクトPlayerInputManagerが持つPlayerInputManagerスクリプトを取得
         ScriptPIManager = PlayerInputMane.GetComponent<PlayerInputManager>();
+
+        pause = GameObject.Find("PausePanel");
+        pausegame = pause.GetComponent<PauseGame>();
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -49,44 +58,88 @@ public class PlayerInput : MonoBehaviour
     //if (context.phase == InputActionPhase.Performed) 設定した入力が続いている状態
     //if (context.phase == InputActionPhase.Canceled) 設定した入力がおわった瞬間の状態
 
+    public void OnCursorMove(InputAction.CallbackContext context)
+    {
+        // ポーズ状態の時の入力
+        if (pausegame.IsPause == true)
+        {
+            if (context.phase == InputActionPhase.Started)
+            {
+                CL_move = context.ReadValue<Vector2>();
+
+                // 入力が一度なくなったら次の入力をとる
+                if (ScriptPIManager.GetCursorMoveFlg() == false)
+                {
+                    ScriptPIManager.SetCursorMove(CL_move);
+
+                    // y入力が0になるまで次の入力をとらない
+                    ScriptPIManager.SetCursorMoveFlg(true);
+                }
+            }
+
+            if (context.phase == InputActionPhase.Canceled)
+            {
+                ScriptPIManager.SetCursorMoveFlg(false);
+            }
+        }
+    }
+
     //----------------------------------------------------------------
     //戻り値：無し
     //引数　：入力の様々なパラメーターを持つ変数
     public void OnMove(InputAction.CallbackContext context)
     {
-        //---------------------------------------------------------------
-        // 入力量を取得
-        L_move = context.ReadValue<Vector2>();
+        // ポーズ状態じゃない時の入力
+        if (pausegame.IsPause == false)
+        {
+            //---------------------------------------------------------------
+            // 入力量を取得
+            L_move = context.ReadValue<Vector2>();
 
-        //---------------------------------------------------------------
-        //PlayerInputManagerに入力量をセット
-        ScriptPIManager.SetMovement(L_move);
+            //---------------------------------------------------------------
+            //PlayerInputManagerに入力量をセット
+            ScriptPIManager.SetMovement(L_move);
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Started)
+        // ポーズ状態じゃない時のAボタン入力
+        if (pausegame.IsPause == false)
         {
-            //---------------------------------------------------------------
-            //長押し時の二回目以降のジャンプを封じる
-            ScriptPIManager.SetJumpTrigger(true);
-
-            //---------------------------------------------------------------
-            //ジャンプが入力されている状態にセットする
-            ScriptPIManager.SetJump(true);
-        }
-
-        //---------------------------------------------------------------
-        //ジャンプ入力が終了した瞬間
-        if(context.phase == InputActionPhase.Canceled)
-        {
-            //---------------------------------------------------------------
-            //PlayerInputManagerのメンバ変数IsJumpがtrueなら
-            if (ScriptPIManager.GetJump() == true)
+            if (context.phase == InputActionPhase.Started)
             {
                 //---------------------------------------------------------------
-                //ジャンプが入力されていない状態にセットする
-                ScriptPIManager.SetJump(false);
+                //長押し時の二回目以降のジャンプを封じる
+                ScriptPIManager.SetJumpTrigger(true);
+
+                //---------------------------------------------------------------
+                //ジャンプが入力されている状態にセットする
+                ScriptPIManager.SetJump(true);
+            }
+
+            //---------------------------------------------------------------
+            //ジャンプ入力が終了した瞬間
+            if (context.phase == InputActionPhase.Canceled)
+            {
+                //---------------------------------------------------------------
+                //PlayerInputManagerのメンバ変数IsJumpがtrueなら
+                if (ScriptPIManager.GetJump() == true)
+                {
+                    //---------------------------------------------------------------
+                    //ジャンプが入力されていない状態にセットする
+                    ScriptPIManager.SetJump(false);
+                }
+            }
+        }
+        // ポーズ状態の時
+        else
+        {
+            // おされた最初のフレーム
+            if (context.phase == InputActionPhase.Started)
+            {
+                // 決定ボタンの入力があった
+                ScriptPIManager.SetPressA(true);
             }
         }
     }
@@ -132,7 +185,7 @@ public class PlayerInput : MonoBehaviour
     {
         //---------------------------------------------------------------
         // 押された時だけセット
-        if(context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started)
         {
             //// プレイヤーが移動モードなら
             //if(ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.MOVE)
@@ -148,35 +201,44 @@ public class PlayerInput : MonoBehaviour
             //}
 
             Debug.Log(ScriptPIManager.GetPlayerMode());
+
+            if (pausegame.IsPause == true)
+            {
+                // ポーズ状態じゃない時のBボタン入力
+                if (ScriptPIManager.GetPressB() == false)
+                {
+                    // キャンセルボタン入力セット
+                    ScriptPIManager.SetPressB(true);
+                }
+            }
+
+            //↓↓↓ver.ひびにはいる時の処理
+            //if (context.phase == InputActionPhase.Started)
+            //{
+
+            //    if (ScriptPIManager.GetCrackMove() == false)
+            //    {
+            //        ScriptPIManager.SetCrackMove(true);
+            //    }
+            //}
+
+            //if(context.phase == InputActionPhase.Performed)
+            //{
+
+            //    if (ScriptPIManager.GetCrackMove() == false)
+            //    {
+            //        ScriptPIManager.SetCrackMove(true);
+            //    }
+            //}
+
+            //if(context.phase == InputActionPhase.Canceled)
+            //{
+            //    if (ScriptPIManager.GetCrackMove() == true)
+            //    {
+            //        ScriptPIManager.SetCrackMove(false);
+            //    }
+            //}
         }
-
-
-        //↓↓↓ver.ひびにはいる時の処理
-        //if (context.phase == InputActionPhase.Started)
-        //{
-
-        //    if (ScriptPIManager.GetCrackMove() == false)
-        //    {
-        //        ScriptPIManager.SetCrackMove(true);
-        //    }
-        //}
-
-        //if(context.phase == InputActionPhase.Performed)
-        //{
-
-        //    if (ScriptPIManager.GetCrackMove() == false)
-        //    {
-        //        ScriptPIManager.SetCrackMove(true);
-        //    }
-        //}
-
-        //if(context.phase == InputActionPhase.Canceled)
-        //{
-        //    if (ScriptPIManager.GetCrackMove() == true)
-        //    {
-        //        ScriptPIManager.SetCrackMove(false);
-        //    }
-        //}
     }
 
 
@@ -247,6 +309,15 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        // ポーズボタンが押された最初のフレームでtrue
+        if(context.phase == InputActionPhase.Started)
+        {
+            ScriptPIManager.SetPause(true);
+        }
     }
 
 }

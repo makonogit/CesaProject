@@ -39,6 +39,20 @@ public class PlayerInputManager : MonoBehaviour
     //ハンマーの同時押し判定
     bool Hammer_Push = false;
 
+    //-----------------------------------------------------
+    // ポーズ中の入力取得用変数
+    // ポーズボタンが押されたか
+    private bool Pause = false;
+
+    // 決定ボタンが押されたか
+    private bool PressA = false;
+
+    // キャンセルボタンが押されたか
+    private bool PressB = false;
+
+    // 移動完了したか
+    private bool CursorMoveFlg = false;
+    private Vector2 CursorMove; // ポーズ時の入力量
 
     // 移動モードと照準モードを持つ
     public enum PLAYERMODE
@@ -227,4 +241,59 @@ public class PlayerInputManager : MonoBehaviour
     {
         Hammer_Push = _HammerFlg;
     }
+
+    public bool GetPause()
+    {
+        return Pause;
+    }
+
+    //-----------------------------------------------------
+    // ポーズ系gettersetter
+    public void SetPause(bool _pause)
+    {
+        Pause = _pause;
+    }
+
+    public bool GetPressA()
+    {
+        return PressA;
+    }
+
+    public void SetPressA(bool _pressA)
+    {
+        PressA = _pressA;
+    }
+
+    public bool GetPressB()
+    {
+        return PressB;
+    }
+
+    public void SetPressB(bool _pressB)
+    {
+        Pause = _pressB;
+    }
+
+    public bool GetCursorMoveFlg()
+    {
+        return CursorMoveFlg;
+    }
+
+    public void SetCursorMoveFlg(bool _cursorMoveFlg)
+    {
+        CursorMoveFlg = _cursorMoveFlg;
+    }
+
+    public Vector2 GetCursorMove()
+    {
+        return CursorMove;
+    }
+
+    public void SetCursorMove(Vector2 Value)
+    {
+        CursorMove = Value;
+    }
+
+    //-----------------------------------------------------
+
 }
