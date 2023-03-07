@@ -11,6 +11,8 @@ public class GiveScene : MonoBehaviour
     private SelectMove _player;
     [SerializeField]
     private Object _scene;
+    [SerializeField]
+    private int _number;
 
     //private void Start()
     //{
@@ -33,8 +35,10 @@ public class GiveScene : MonoBehaviour
             _player = collision.gameObject.GetComponent<SelectMove>();
             if (_player.State != SelectMove.SelectPlayerState.AREA_CHANGE)
             {
-                //_player.State = SelectMove.SelectPlayerState.STOP;
+                _player.State = SelectMove.SelectPlayerState.STOP;
                 _player.SelectScene(GetScene);
+                _player.StageNumber = _number;
+                Debug.Log("hit");
             }
         }
     }
@@ -44,6 +48,7 @@ public class GiveScene : MonoBehaviour
         {
             _player = collision.gameObject.GetComponent<SelectMove>();
             _player.SelectScene(null);
+            _player.StageNumber = 0;
         }
     }
 }

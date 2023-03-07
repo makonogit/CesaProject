@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1403917251832381509}
   m_Layer: 0
   m_Name: Stage-4
-  m_TagString: Untagged
+  m_TagString: Stages
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 214640964282956884}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.16666667, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0.16768715, y: 0.10799101, z: 0}
   m_LocalScale: {x: 0.05555556, y: 0.09876543, z: 0.88888896}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -101,7 +101,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0.00000047683716, y: 0}
   serializedVersion: 2
-  m_Radius: 0.125
+  m_Radius: 0.0625
 --- !u!114 &1403917251832381509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,7 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c1c1b877cf6e549acb2cf8de1474bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scene: {fileID: 0}
+  _scene: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
+  _number: 4
 --- !u!1 &966152766914851289
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +214,7 @@ GameObject:
   - component: {fileID: 600357537433082372}
   m_Layer: 0
   m_Name: Stage-1
-  m_TagString: Untagged
+  m_TagString: Stages
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -226,7 +227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3083205975329074735}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.33333334, y: -0.1, z: 0}
+  m_LocalPosition: {x: -0.33407956, y: -0.10282872, z: 0}
   m_LocalScale: {x: 0.05555556, y: 0.09876543, z: 0.88888896}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -300,7 +301,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -0.0000009536743, y: 0}
   serializedVersion: 2
-  m_Radius: 0.125
+  m_Radius: 0.0625
 --- !u!114 &600357537433082372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,7 +314,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c1c1b877cf6e549acb2cf8de1474bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scene: {fileID: 0}
+  _scene: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
+  _number: 1
 --- !u!1 &4647474486359437159
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +445,7 @@ GameObject:
   - component: {fileID: 4838196796877059586}
   m_Layer: 0
   m_Name: Stage-3
-  m_TagString: Untagged
+  m_TagString: Stages
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -456,7 +458,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5453160202497818240}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1, z: 0}
+  m_LocalPosition: {x: -0.00053234905, y: -0.10214919, z: 0}
   m_LocalScale: {x: 0.05555556, y: 0.09876543, z: 0.88888896}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -530,7 +532,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.125
+  m_Radius: 0.0625
 --- !u!114 &4838196796877059586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,7 +545,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c1c1b877cf6e549acb2cf8de1474bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scene: {fileID: 0}
+  _scene: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
+  _number: 3
 --- !u!1 &5480469615630530576
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,7 +644,7 @@ EdgeCollider2D:
   - {x: -0.20960589, y: -0.03318893}
   - {x: -0.25014806, y: 0.053274333}
   - {x: -0.2071104, y: 0.04758791}
-  - {x: -0.16726424, y: 0.10281248}
+  - {x: -0.16636823, y: 0.10360892}
   - {x: -0.14362329, y: 0.075488344}
   - {x: -0.1591381, y: 0.007735785}
   - {x: -0.10590496, y: 0.106819436}
@@ -688,7 +691,11 @@ MonoBehaviour:
   - {fileID: 214640964282956884}
   - {fileID: 8186678387371762874}
   _stageClear: 0000000000
+  _clearCount: 0
   _cracks: []
+  _stagePointNum: 040000000b00000014000000180000001d000000
+  _creatTime: 0.125
+  _crystal: {fileID: 966152766914851289}
 --- !u!1 &6307291903371989685
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,7 +823,7 @@ GameObject:
   - component: {fileID: 6414180130661658568}
   m_Layer: 0
   m_Name: Stage-2
-  m_TagString: Untagged
+  m_TagString: Stages
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -829,7 +836,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6381835994098530898}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.16666667, y: 0.1, z: 0}
+  m_LocalPosition: {x: -0.16636825, y: 0.10360892, z: 0}
   m_LocalScale: {x: 0.05555556, y: 0.09876543, z: 0.88888896}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -903,7 +910,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -0.00000047683716, y: 0}
   serializedVersion: 2
-  m_Radius: 0.125
+  m_Radius: 0.0625
 --- !u!114 &6414180130661658568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -916,7 +923,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c1c1b877cf6e549acb2cf8de1474bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scene: {fileID: 0}
+  _scene: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
+  _number: 2
 --- !u!1 &6773096293362149534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,7 +1054,7 @@ GameObject:
   - component: {fileID: 509909808882601091}
   m_Layer: 0
   m_Name: Stage-5
-  m_TagString: Untagged
+  m_TagString: Stages
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1059,7 +1067,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8186678387371762874}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.33333334, y: -0.1, z: 0}
+  m_LocalPosition: {x: 0.33327323, y: -0.10271807, z: 0}
   m_LocalScale: {x: 0.05555556, y: 0.09876543, z: 0.88888896}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1133,7 +1141,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0.0000009536743, y: 0}
   serializedVersion: 2
-  m_Radius: 0.125
+  m_Radius: 0.0625
 --- !u!114 &509909808882601091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1146,4 +1154,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c1c1b877cf6e549acb2cf8de1474bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scene: {fileID: 0}
+  _scene: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
+  _number: 5

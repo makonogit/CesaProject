@@ -13,8 +13,9 @@ public class StagesManager : MonoBehaviour
     private GameObject _crackObj;
     [SerializeField]
     private List<GameObject> _stages;
-    [SerializeField]
-    private List<bool>  _stageClear;
+    
+    public List<bool>  _stageClear;
+    public int _clearCount = 0;
 
     private EdgeCollider2D _edgeCollider2D;
 
@@ -22,12 +23,21 @@ public class StagesManager : MonoBehaviour
     private List<GameObject> _cracks;
 
     [SerializeField]
-    private GameObject _playerObj;
+    private List<int> _stagePointNum;
+
+    private int _crackActiveNum = 0;
+    [SerializeField]
+    private float _creatTime = 0.5f;
+    private float _nowTime = 0.0f;
+    [SerializeField]
+    private GameObject _crystal;
+
+    public bool _Start = false;
     //-----------------------------------------------------------------
     //―初期化処理―
     void Awake()// インスタンス直後(Startより先に呼ばれる)
     {
-        
+
         
     }
     //-----------------------------------------------------------------
@@ -38,14 +48,17 @@ public class StagesManager : MonoBehaviour
         for (; 0 < _stageClear.Count;) _stageClear.RemoveAt(0);
         // セット
         for (int i = 0; i < _stages.Count; i++) _stageClear.Add(false);
-        
 
-       
+        _edgeCollider2D = GetComponent<EdgeCollider2D>();
+        for (int i = 0; i < _stagePointNum.Count; i++) 
+        {
+            _stages[i].transform.position = new Vector3(_edgeCollider2D.points[_stagePointNum[i]].x * transform.localScale.x, _edgeCollider2D.points[_stagePointNum[i]].y * transform.localScale.y, 0) + transform.position;
+        }
     }
     // Use this for initialization
     void Start()
     {
-        _edgeCollider2D = GetComponent<EdgeCollider2D>();
+        
         for (; 0 < _cracks.Count;) _cracks.RemoveAt(0);
         for (int i = 0; i < _edgeCollider2D.edgeCount; i++)
         {
@@ -60,15 +73,43 @@ public class StagesManager : MonoBehaviour
             float _angle = Mathf.Atan2(_vec.y, _vec.x) * Mathf.Rad2Deg ;
             _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle);
             _cracks[i].transform.localScale = new Vector3(_vec.magnitude ,_crackObj.transform.localScale.y, _crackObj.transform.localScale.z);
+            _cracks[i].SetActive(false);
         }
-        SelectMove _player;
-        _player = _playerObj.GetComponent<SelectMove>();
-        _player._ec2d.Add(this._edgeCollider2D);
+        _nowTime = 0.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        _nowTime += Time.deltaTime;
+        if (_nowTime >= _creatTime && _crystal.activeSelf && _Start) 
+        {
+            if (_clearCount < _stagePointNum.Count && _crackActiveNum < _stagePointNum[_clearCount])
+            {
+                _cracks[_crackActiveNum].SetActive(true);
+                _crackActiveNum++;
+            }
+            if(_stagePointNum.Count <= _clearCount && _crackActiveNum < _edgeCollider2D.edgeCount) 
+            {
+                _cracks[_crackActiveNum].SetActive(true);
+                _crackActiveNum++;
+            }
+            if(_areaClear == true && !(_crackActiveNum < 0)) 
+            {
+                _crystal.SetActive(false);
+
+                for (int i = 0; i < _cracks.Count; i++)
+                {
+                    _cracks[i].SetActive(false);
+                }
+            }
+            _nowTime = 0.0f;
+        }
+        if (_crackActiveNum == _edgeCollider2D.edgeCount ) 
+        {
+            _areaClear = true;
+        }
+
 
     }
 

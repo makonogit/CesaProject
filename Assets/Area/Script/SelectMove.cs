@@ -27,14 +27,25 @@ public class SelectMove : MonoBehaviour
     [SerializeField]
     private Transform _camPos;
     
-    public List<EdgeCollider2D> _ec2d;
 
-    int _nowArea = 0;
-    int _nextArea = 0;
-    int _nextPoint = 0;
-    int _oldPoint = 0;
+    //int _selectArea._nowArea = 0;
+    //int _selectArea._nextArea = 0;
+    public int _nextPoint = 0;
+    public int _oldPoint = 0;
+    int _stageNum;
+
+    [SerializeField]
+    private List<GameObject> _areas;
+    [SerializeField]
+    private List<StagesManager> _stageManagers;
+    [SerializeField]
+    private List<EdgeCollider2D> _ec2d;
 
     private string _selectScene;
+
+    [SerializeField]
+    private GameObject _mainCam;
+    private SelectArea _selectArea;
 
     // Use this for initialization
     void Start()
@@ -43,14 +54,23 @@ public class SelectMove : MonoBehaviour
         // のコンポーネント取得
         _rb = GetComponent<Rigidbody2D>();
         if (_rb == null) Debug.LogError("Rigidbody2Dコンポーネントを取得できませんでした。");
+        for(int i =0;i< _areas.Count; i++) 
+        {
+            _stageManagers.Add(_areas[i].GetComponent<StagesManager>());
+            _ec2d.Add(_areas[i].GetComponent<EdgeCollider2D>());
+        }
+        
 
+        State = SelectPlayerState.STOP;
 
-        State = SelectPlayerState.FREE_MOVE;
+        _selectArea = _mainCam.GetComponent<SelectArea>();
+        _stageManagers[_selectArea._nextArea]._Start = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if(State == SelectPlayerState.FREE_MOVE) 
         {
             _rb.velocity = _move * _speed * Time.deltaTime;
@@ -59,31 +79,40 @@ public class SelectMove : MonoBehaviour
         {
             _rb.velocity = new Vector2(0,0);
 
-            Vector2 _vec = new Vector2(0,0);
-            if (_oldPoint != _ec2d[_nowArea].edgeCount - 1 && _move.x > 0) 
+            if (_stageManagers[_selectArea._nowArea]._Start) 
             {
-                _vec = (_ec2d[_nowArea].points[_oldPoint] - _ec2d[_nowArea].points[_oldPoint + 1]);
-                _nextPoint = _oldPoint + 1;
+                NextPoint();
             }
-            if(_oldPoint <= 0 && _move.x < 0) 
+
+            if (_stageManagers[_selectArea._nowArea].AreaClear) 
             {
-                _vec = (_ec2d[_nowArea].points[_oldPoint] - _ec2d[_nowArea].points[_oldPoint - 1]);
-                _nextPoint = _oldPoint - 1;
-            }
-            _vec = _vec.normalized - _move;
-            if (_vec.magnitude < 1) 
-            {
-                State = SelectPlayerState.MOVE;
+                State = SelectPlayerState.FREE_MOVE;
             }
 
         }
         if(State == SelectPlayerState.MOVE) 
         {
-            Vector2 _vec2 = new Vector2(transform.position.x , transform.position.y) - _ec2d[_nowArea].points[_nextPoint];
-            if (_vec2.magnitude == 0) 
+            Vector2 _vec2 = new Vector2(transform.position.x, transform.position.y) - TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
+            if (_vec2.magnitude >= 0.125) 
             {
-                _vec2 = _ec2d[_nowArea].points[_oldPoint] - _ec2d[_nowArea].points[_nextPoint];
-                transform.position += new Vector3(_vec2.normalized.x, _vec2.normalized.y, 0);
+                _vec2 = TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
+                _vec2 -= new Vector2(transform.position.x, transform.position.y);
+                
+                transform.position += new Vector3(_vec2.normalized.x /100, _vec2.normalized.y / 100, 0);
+            }
+            else 
+            {
+                int old = _nextPoint;
+                _nextPoint += _nextPoint - _oldPoint;
+                if (_nextPoint < 0 || _ec2d[_selectArea._nowArea].edgeCount <=  _nextPoint) 
+                {
+                    State = SelectPlayerState.STOP;
+                }
+                
+                _oldPoint = old;
+                _oldPoint = Mathf.Clamp(_oldPoint, 0, _ec2d[_selectArea._nowArea].edgeCount - 1);
+                _nextPoint = Mathf.Clamp(_nextPoint, 0, _ec2d[_selectArea._nowArea].edgeCount - 1);
+                
             }
             
 
@@ -92,6 +121,30 @@ public class SelectMove : MonoBehaviour
         {
 
         }
+
+        if(_selectArea._nowArea != _selectArea._nextArea) 
+        {
+            // クリアしていたら
+            if (_stageManagers[_selectArea._nextArea].AreaClear)
+            {
+                State = SelectPlayerState.FREE_MOVE;
+            }
+            else 
+            {
+
+                if (_stageManagers[_selectArea._nowArea].AreaClear && !_stageManagers[_selectArea._nextArea]._Start) 
+                {
+                    _stageManagers[_selectArea._nextArea]._Start = true;
+                }
+                State = SelectPlayerState.STOP;
+            }
+
+            _oldPoint = 0;
+            _nextPoint = 0 ;
+            transform.position = new Vector3(-8.0f, 2.0f);
+            transform.position += new Vector3(1.0f,0.0f) * 18 * _selectArea._nextArea;
+        }
+        //Debug.Log(State);
     }
     public SelectPlayerState State
     {
@@ -113,4 +166,79 @@ public class SelectMove : MonoBehaviour
     {
         _selectScene = value;
     }
+    private void NextPoint() 
+    {
+        Vector2 _chack = transform.position;
+        _chack -= TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
+        Vector2 vector2 = TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
+        vector2 -= TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint], _areas[_selectArea._nowArea].transform);
+        if ( _chack.magnitude < vector2.magnitude / 2) 
+        {
+            transform.position = TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
+            _oldPoint = _nextPoint;
+            _oldPoint = Mathf.Clamp(_oldPoint, 0, _ec2d[_selectArea._nowArea].edgeCount - 1);
+        }
+        
+        bool _flg = false;
+        Vector2 _vec = new Vector2(100, 100);
+        
+        if (_oldPoint != _ec2d[_selectArea._nowArea].edgeCount - 1 && _move.x > 0 &&  _stageNum <= _stageManagers[_selectArea._nowArea]._clearCount)
+        {
+            _vec = TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint + 1], _areas[_selectArea._nowArea].transform);
+            _vec -= TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint], _areas[_selectArea._nowArea].transform);
+            _nextPoint = _oldPoint + 1;
+            _flg = true;
+            
+        }
+        if (_oldPoint != 0 && _move.x < 0)
+        {
+            _vec = TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint - 1], _areas[_selectArea._nowArea].transform);
+            _vec -= TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint], _areas[_selectArea._nowArea].transform);
+            _nextPoint = _oldPoint - 1;
+            _flg = true;
+            
+        }
+        
+        _vec = _vec.normalized - _move;
+        
+        if (_vec.magnitude < 0.25f && _flg ==true)
+        {
+            State = SelectPlayerState.MOVE;
+        }
+    }
+
+    private Vector2 TransPos(Vector2 _Edge, Transform _Trans)
+    {
+        Vector2 _vec = new Vector2(_Edge.x * _Trans.localScale.x, _Edge.y * _Trans.localScale.y) + new Vector2(_Trans.position.x, _Trans.position.y);
+        return _vec;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.transform.tag);
+    }
+    public int StageNumber 
+    {
+        set 
+        {
+            _stageNum = value;
+        }
+    }
+
+    public void SelectedStage(InputAction.CallbackContext _context) 
+    {
+        if (_context.phase == InputActionPhase.Started)
+        {
+            if(_selectScene != null) 
+            {
+                SceneManager.LoadScene(_selectScene);
+            }
+            else 
+            {
+                Debug.Log("しーんがないです");
+            }
+            
+        }
+    }
+
 }
