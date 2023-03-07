@@ -46,7 +46,7 @@ public class InputTrigger : MonoBehaviour
         // キーが押されている時間をカウントして0秒の時のみtrueを返す
 
         // 戻り値用変数
-        bool isReturn;
+        bool isReturn = false;
 
         // 押されている場合の処理
         if (ScriptPIManager.GetJump() == true)
@@ -70,7 +70,7 @@ public class InputTrigger : MonoBehaviour
         {
             // カウントをリセット
             jumpPushTime = 0;
-            isReturng = false;
+            isReturn = false;
         }
 
         return isReturn;
@@ -90,7 +90,7 @@ public class InputTrigger : MonoBehaviour
         // キーが押されている時間をカウントして0秒の時のみtrueを返す
 
         // 戻り値用変数
-        bool isReturn;
+        bool isReturn = false;
 
         // 押されている場合の処理
         if (ScriptPIManager.GetNail() == true)
@@ -113,7 +113,7 @@ public class InputTrigger : MonoBehaviour
         {
             // カウントをリセット
             nailPushTime = 0;
-            isReturng = false;
+            isReturn = false;
         }
 
         return isReturn;
@@ -134,7 +134,7 @@ public class InputTrigger : MonoBehaviour
         // キーが押されている時間をカウントして0秒の時のみtrueを返す
 
         // 戻り値用変数
-        bool isReturn;
+        bool isReturn = false;
 
         // 押されている場合の処理
         if (ScriptPIManager.GetHammer() == true)
@@ -157,7 +157,7 @@ public class InputTrigger : MonoBehaviour
         {
             // カウントをリセット
             hammerPushTime = 0;
-            isReturng = false;
+            isReturn = false;
         }
 
         return isReturn;
