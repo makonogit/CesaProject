@@ -42,6 +42,7 @@ public class HammerNail : MonoBehaviour
 
     private GameObject NailTarget;      //釘照準オブジェクト
     private Transform NailTargetTrans;  //釘照準オブジェクトのTransForm
+    private SpriteRenderer TargetRender;
 
     private NailTargetMove NailTargetMove;      //釘の移動
 
@@ -78,7 +79,7 @@ public class HammerNail : MonoBehaviour
 
     GetCrackPoint getCrackPoint; //ひびのリストを取得
     SetNailList setNailList;     //生成済み状態にするため
-
+    
     //―追加担当者：中川直登―//
     [Header("ひびを作るobj")]
     public GameObject _crackCreaterObj;
@@ -120,7 +121,7 @@ public class HammerNail : MonoBehaviour
         NailTarget = GameObject.Find("NailTarget");
         NailTargetTrans = NailTarget.transform;
         NailTargetMove = NailTarget.GetComponent<NailTargetMove>();
-
+        TargetRender = NailTarget.GetComponent<SpriteRenderer>();
         HammerNailArea = NailTargetMove.Radius;
 
         //----------------------
@@ -216,7 +217,7 @@ public class HammerNail : MonoBehaviour
 
             //---------------------------------------------------------------------------
             //打ち込み状態なら生成
-            if (_HammerState == HammerState.HAMMER)
+            if (_HammerState == HammerState.HAMMER && TargetRender.color == Color.cyan)
             {
 
                 NailsTrans.position = NailTargetTrans.position;
