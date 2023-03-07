@@ -13,7 +13,7 @@ public class EnemyCrackHit : MonoBehaviour
     private string CrackTag = "Crack";
 
     // ŠO•”æ“¾
-    private CrackOrder order = null;
+    private CrackCreater order = null;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //---------------------------------------------------------
@@ -21,10 +21,10 @@ public class EnemyCrackHit : MonoBehaviour
         if (collision.gameObject.tag == CrackTag)
         {
             // “–‚½‚Á‚½‚Ğ‚Ñ‚ÌCrackOrder‚ğæ“¾
-            order = collision.gameObject.GetComponent<CrackOrder>();
+            order = collision.gameObject.GetComponent<CrackCreater>();
 
-            // ¶¬’†‚È‚ç
-            if (order.crackState == CrackOrder.CrackState.NowCreate)
+            //¶¬’†‚È‚ç
+            if (order.State == CrackCreater.CrackCreaterState.CREATING)
             {
                 // “G‚ğÁ‚·
                 Destroy(this.gameObject);

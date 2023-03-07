@@ -125,8 +125,8 @@ public class HammerNail : MonoBehaviour
 
         //----------------------
         //壁崩壊UIの情報取得
-        FallGage = GameObject.Find("Gage");
-        fallwall = FallGage.GetComponent<FallWall>();
+        //FallGage = GameObject.Find("Gage");
+        //fallwall = FallGage.GetComponent<FallWall>();
 
         //--------------------------------------------
         // 子オブジェクトのCicreColliderを取得
@@ -280,8 +280,8 @@ public class HammerNail : MonoBehaviour
 
             CallCrackCreater();//―追加担当者：中川直登―//
 
-            fallwall.CreateCrackFlg = CreateCrack;  //ひびの生成情報を崩壊スクリプトに渡す
-            fallwall.NowCrackObj = NewCrackObj;
+            //fallwall.CreateCrackFlg = CreateCrack;  //ひびの生成情報を崩壊スクリプトに渡す
+            //fallwall.NowCrackObj = NewCrackObj;
 
             TargetMove.CreateCrack = CreateCrack;
 
