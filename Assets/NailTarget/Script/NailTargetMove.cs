@@ -158,7 +158,7 @@ public class NailTargetMove : MonoBehaviour
                     0.0f);
             }
 
-            Debug.Log(thisTransform.position);
+            //Debug.Log(thisTransform.position);
         }
 
         // Æ€‚ÌƒJƒ‰[î•ñæ“¾

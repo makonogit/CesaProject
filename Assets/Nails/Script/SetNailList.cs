@@ -21,14 +21,15 @@ public class SetNailList : MonoBehaviour
     GameObject CrackCreateArea;     //ひびを作成する用のオブジェクト
     SetNailList _nextSet;           //次のPointセット用
 
-    GameObject AreaObj;
     CircleCollider2D thiscol;       //このオブジェクトのコライダー
 
     public int OldNailNum;          //1個前の釘番号
 
-    public bool ChainFlg = false;   //つながったらあたり判定を取る
+    public bool ChainFlg = true;   //つながったらあたり判定を取る
 
     bool AddPointFlg = false;       //ポイント追加フラグ
+
+    public bool Crackend = false;          //この釘を使ってひびが作成されたか
 
     // Start is called before the first frame update
     void Start()
@@ -39,8 +40,7 @@ public class SetNailList : MonoBehaviour
         _getCrackPoint = CrackCreateArea.GetComponent<GetCrackPoint>();
 
         //このオブジェクトのコライダーを取得
-        thiscol = GetComponentInChildren<CircleCollider2D>();
-        AreaObj = transform.FindChild("NailArea").gameObject;
+        thiscol = GetComponent<CircleCollider2D>();
 
         NearDistance = 10000;
 
@@ -48,29 +48,28 @@ public class SetNailList : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    { 
 
         if (ThisPointNum != -1)
         {
             if (_nextSet != null)
             {
-                _nextSet.ChainFlg = true;
+               // _nextSet.ChainFlg = true;
             }
 
-            if (!AreaObj.GetComponent<CircleCollider2D>())
-            {
-                AreaObj.AddComponent<CircleCollider2D>();
-                thiscol = GetComponentInChildren<CircleCollider2D>();
-                thiscol.isTrigger = true;
-            }
+            //if (!GetComponent<CircleCollider2D>())
+            //{
+            //    gameObject.AddComponent<CircleCollider2D>();
+            //    thiscol = GetComponent<CircleCollider2D>();
+            //    thiscol.isTrigger = true;
+            //}
 
-            //thiscol.radius = 0.5f;
+            thiscol.radius = 0.5f;
             //thiscol.enabled = true;
 
         }
         else
-        {
-            HitList.Clear();
+        { 
             if (_nextSet != null)
             {
                 _nextSet.ChainFlg = false;
@@ -79,23 +78,15 @@ public class SetNailList : MonoBehaviour
 
             }
 
-            if (AreaObj.GetComponent<CircleCollider2D>())
-            {
-                Destroy(thiscol);
-            }
-            
-            //thiscol.radius = 0.0f;
-            
+            //if (GetComponent<CircleCollider2D>() && OldNailNum == -1)
+            //{
+            //    Destroy(thiscol);
+            //}
+
+            thiscol.radius = 0.0f;
+
             //thiscol.enabled = false;
 
-        }
-
-        //つながらなくなったら自身をPointListから削除
-        if (ThisPointNum == -1)
-        {
-          //  Debug.Log("！！！！");
-
-           
         }
 
         //当たっている釘があれば
@@ -123,26 +114,32 @@ public class SetNailList : MonoBehaviour
                 //Debug.Log(NearNailNum);
             }
 
-            _nextSet = HitList[NearNailNum].GetComponent<SetNailList>();
+            //同じ釘が存在していなかったらポイントを追加
+            if (!_getCrackPoint.GetPointLest().Contains(HitList[NearNailNum].transform.position))
+            {
+                _getCrackPoint.objectList.Add(HitList[NearNailNum]);
+                _getCrackPoint.SetPoint(HitList[NearNailNum].transform.position);
+            }
+
+
+            _nextSet = HitList[NearNailNum].GetComponentInChildren<SetNailList>();
+
+
             //1番近いPointセットスクリプトを呼んで繋げる    
             //_nextSet.ChainFlg = true;
            
             if (ThisPointNum != -1)
             {
+                //Debug.Log();
                 _nextSet.OldNailNum = ThisPointNum;
                 _nextSet.ThisPointNum = ThisPointNum + 1;
+                _nextSet.ChainFlg = true;
             }
-            
+
             Debug.Log(ThisPointNum);
 
-            //同じ釘が存在していなかったらポイントを追加
-            if (!_getCrackPoint.GetPointLest().Contains(HitList[NearNailNum].transform.position))
-            {
-                _getCrackPoint.SetPoint(HitList[NearNailNum].transform.position);
-            }
-
-
             AddPointFlg = false;
+
         }
 
     }
@@ -151,20 +148,25 @@ public class SetNailList : MonoBehaviour
     {
        // Debug.Log(collision.gameObject + "Enter");
 
-        if (collision.gameObject.tag == "UsedNail")
+        if (collision.gameObject.tag == "NailArea")
         {
             Debug.Log(collision.gameObject + "Enter");
 
             //リストに同じデータがなければ
-            if (ChainFlg && !HitList.Contains(collision.gameObject))
+            if (!HitList.Contains(collision.gameObject.transform.root.gameObject))
             {
                 //-------------------------------------------
                 //範囲内に釘があったらHitListを追加
-                HitList.Add(collision.gameObject);
-
-                AddPointFlg = true;   //PointListの追加を許可
+                HitList.Add(collision.gameObject.transform.root.gameObject);
 
             }
+
+            if (HitList.Contains(collision.gameObject.transform.root.gameObject))
+            {
+                AddPointFlg = true;   //PointListの追加を許可
+                Debug.Log("AddPoint");
+            }
+
 
         }
 

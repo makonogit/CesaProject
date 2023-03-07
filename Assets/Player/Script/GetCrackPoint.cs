@@ -20,8 +20,9 @@ public class GetCrackPoint : MonoBehaviour
 
     Vector2 OldFirstPoint;  //1個前の始点釘
 
-    SetNailList _Setlist;           //釘の情報を取得
-    public List<Vector2> PointList; //ひびの生成用ポイントリスト
+    SetNailList _Setlist;               //釘の情報を取得
+    public List<Vector2> PointList;     //ひびの生成用ポイントリスト
+    public List<GameObject> objectList; //オブジェクトリスト
 
     // Start is called before the first frame update
     void Start()
@@ -32,11 +33,12 @@ public class GetCrackPoint : MonoBehaviour
         _crackAutoMove = GetComponentInParent<CrackAutoMove>();
     
         NearDistance = 10000;
-       
+
         /*
         PointList = new List<Vector2>(2);   //リストをサイズ確保して初期化したいけどなんかできへん
         */
 
+        objectList.Add(gameObject);
         PointList.Add(transform.position);
       //  PointList.Add(transform.position);
 
@@ -45,6 +47,14 @@ public class GetCrackPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ////円形のRayを配置、衝突したコライダーを全て取得
+        //RaycastHit2D[] hit2Ds = Physics2D.CircleCastAll(transform.position, 3.0f, Vector2.zero);
+
+        //Debug.Log(hit2Ds.Length);
+
+        //座標を同期
+        transform.localPosition = Vector3.zero;
+
         PointList[0] = new Vector2(Playertransform.position.x, Playertransform.position.y);  //ひびの始点は常にプレイヤーの座標に設定
       
         //-----------------------------------------
@@ -72,14 +82,16 @@ public class GetCrackPoint : MonoBehaviour
             //前回の始点と違う始点になったらリストを初期化
             if (PointList.Count > 1)
             {
-                if (OldFirstPoint != (Vector2)HitList[NearNailNum].transform.position)
+                if (OldFirstPoint != PointList[1])
                 {
                      Debug.Log("始点の移動");
+                   
                     _Setlist.ChainFlg = false;
                     _Setlist.ThisPointNum = -1;
                     _Setlist.OldNailNum = -1;
                     for (int i = 1; i < PointList.Count; i++)
                     {
+                        objectList.RemoveAt(i);
                         PointList.RemoveAt(i);
                     }
 
@@ -91,13 +103,15 @@ public class GetCrackPoint : MonoBehaviour
             if (!PointList.Contains(HitList[NearNailNum].transform.position) &&  PointList.Count == 1)
             {
                 PointList.Add(HitList[NearNailNum].transform.position);
+                objectList.Add(HitList[NearNailNum].transform.root.gameObject);
             }
 
             //1番近い釘をつなげる
-            _Setlist = HitList[NearNailNum].GetComponent<SetNailList>();
+            _Setlist = HitList[NearNailNum].GetComponentInChildren<SetNailList>();
             _Setlist.ThisPointNum = 1;
             _Setlist.OldNailNum = 0;
             _Setlist.ChainFlg = true;
+            //Debug.Log("Point[1]設定完了");
 
             //距離を初期化(アクセス違反が起こる、他に方法あるんやろうけど思いつかん1:30のまこより)
             NearDistance = 10000;
@@ -111,6 +125,8 @@ public class GetCrackPoint : MonoBehaviour
     //当たった瞬間HitListを更新
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(collision.gameObject.tag);
+        //Debug.Log(collision.gameObject.transform.GetChild(0).gameObject.tag);
         if (collision.gameObject.tag == "UsedNail")
         {
             //当たったコライダーをリスト化
@@ -170,9 +186,6 @@ public class GetCrackPoint : MonoBehaviour
         PointList.RemoveAt(Pointnum);
     }
 
-    public void AcsessPoint(int Pointnum)
-    {
-        
-    }
+
 
 }

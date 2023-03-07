@@ -76,6 +76,9 @@ public class HammerNail : MonoBehaviour
 
     public HammerState _HammerState;
 
+    GetCrackPoint getCrackPoint; //ひびのリストを取得
+    SetNailList setNailList;     //生成済み状態にするため
+
     //―追加担当者：中川直登―//
     [Header("ひびを作るobj")]
     public GameObject _crackCreaterObj;
@@ -109,6 +112,8 @@ public class HammerNail : MonoBehaviour
         //--------------------------------------------
         //　ひび生成用スクリプトを取得
         Order = CrackPrefab.GetComponent<CrackOrder>();
+
+        getCrackPoint = GetComponentInChildren<GetCrackPoint>();
 
         //--------------------------------------------
         //釘照準オブジェクトの取得
@@ -217,7 +222,7 @@ public class HammerNail : MonoBehaviour
                 NailsTrans.position = NailTargetTrans.position;
                 
                 //ポイント座標を追加
-                NailsPoint.Add(NailsTrans.position);
+                //NailsPoint.Add(NailsTrans.position);
                 obj = Instantiate(NailPrehubObj, NailsTrans.position, Quaternion.identity) as GameObject;
                 //obj.AddComponent<PolygonCollider2D>();
                 
@@ -280,6 +285,17 @@ public class HammerNail : MonoBehaviour
 
             TargetMove.CreateCrack = CreateCrack;
 
+            for (int i = 1; i < getCrackPoint.objectList.Count; i++)
+            {
+                setNailList = getCrackPoint.objectList[i].GetComponentInChildren<SetNailList>();
+                setNailList.Crackend = true;
+            }
+
+            getCrackPoint.objectList.Clear();
+            getCrackPoint.objectList.Add(gameObject);
+            getCrackPoint.GetPointLest().Clear();
+            getCrackPoint.SetPoint(transform.position);
+
             CreateCrack = false;
             CrackVibration = true;
             CircleCol.enabled = true;
@@ -314,7 +330,7 @@ public class HammerNail : MonoBehaviour
     private void CallCrackCreater()
     {
         // ネイル座標リストを渡す
-        _creater.SetPointList(NailsPoint);
+        _creater.SetPointList(getCrackPoint.GetPointLest());
         // CrackCreaterを作る
         NewCrackObj = Instantiate(_crackCreaterObj);
         // ネイル座標リストを初期化
