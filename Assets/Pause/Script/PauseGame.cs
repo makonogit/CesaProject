@@ -30,6 +30,7 @@ public class PauseGame : MonoBehaviour
     private RectTransform cursorTransform; // カーソルの座標
     private GameObject Target; // カーソルの位置の基準となるobj
     private RectTransform targetTransform; // Targetの座標取得
+    private RectTransform InitTransform; // カーソルが最初にいる位置を保存しておく変数
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +52,9 @@ public class PauseGame : MonoBehaviour
 
         // 現時点でのTargetの座標取得
         targetTransform = Target.GetComponent<RectTransform>();
+
+        // カーソル初期位置保存
+        InitTransform = targetTransform;
     }
 
     // Update is called once per frame
@@ -139,7 +143,8 @@ public class PauseGame : MonoBehaviour
 
                     //セレクトへ
                     case 2:
-                        // ステージセレクトに戻る
+                        // ステージセレクトに行く
+                        SceneManager.LoadScene("SelectScene");
                         break;
                 }
                 ScriptPIManager.SetPressA(false);
@@ -147,8 +152,12 @@ public class PauseGame : MonoBehaviour
         }
         else
         {
-            // カーソル位置初期化
-            CursorY = 0;
+            if (CursorY != 0)
+            {
+                // カーソル位置初期化
+                cursorTransform.position = InitTransform.position;
+                CursorY = 0;
+            }
         }
     }
 
