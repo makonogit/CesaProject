@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------
 // 担当者：中川直登
-// 内容  ：MeshRendererにレイヤーを設定する
+// 内容  ：SelectSceneのプレイヤーの移動処理
 //----------------------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +10,9 @@ using UnityEngine.SceneManagement;
 public class SelectMove : MonoBehaviour
 {
 
+    //-----------------------------------------------------------------
+    //―公開変数―(公)
+
     public enum SelectPlayerState 
     {
         MOVE,
@@ -17,6 +20,12 @@ public class SelectMove : MonoBehaviour
         FREE_MOVE,
         AREA_CHANGE,
     }
+    
+    public int _nextPoint = 0;
+    public int _oldPoint = 0;
+
+    //-----------------------------------------------------------------
+    //―秘匿変数―(私)
 
     private Rigidbody2D _rb;
     private Vector2 _move;
@@ -26,13 +35,8 @@ public class SelectMove : MonoBehaviour
     private SelectPlayerState _state;
     [SerializeField]
     private Transform _camPos;
-    
 
-    //int _selectArea._nowArea = 0;
-    //int _selectArea._nextArea = 0;
-    public int _nextPoint = 0;
-    public int _oldPoint = 0;
-    int _stageNum;
+    private int _stageNum;
 
     [SerializeField]
     private List<GameObject> _areas;
@@ -47,27 +51,38 @@ public class SelectMove : MonoBehaviour
     private GameObject _mainCam;
     private SelectArea _selectArea;
 
-    // Use this for initialization
+    //-----------------------------------------------------------------
+    //―スタート処理―
     void Start()
     {
         //--------------------------------------
-        // のコンポーネント取得
+        // Rigidbody2Dのコンポーネント取得
         _rb = GetComponent<Rigidbody2D>();
-        if (_rb == null) Debug.LogError("Rigidbody2Dコンポーネントを取得できませんでした。");
-        for(int i =0;i< _areas.Count; i++) 
+        if (_rb == null) Debug.LogError("Rigidbody2Dのコンポーネントを取得できませんでした。");
+        //--------------------------------------
+        // 各エリアのコライダーとステージマネージャーのコンポーネント取得
+        for (int i =0;i< _areas.Count; i++) 
         {
             _stageManagers.Add(_areas[i].GetComponent<StagesManager>());
+            if (_stageManagers[i] == null) Debug.LogError(_areas[i].name +"StagesManagerのコンポーネントを取得できませんでした。");
             _ec2d.Add(_areas[i].GetComponent<EdgeCollider2D>());
+            if (_ec2d[i] == null) Debug.LogError(_areas[i].name + "EdgeCollider2Dのコンポーネントを取得できませんでした。");
         }
-        
-
+        //--------------------------------------
+        // 状態の設定
         State = SelectPlayerState.STOP;
 
+        //--------------------------------------
+        // SelectAreaのコンポーネント取得
+        if (_mainCam == null) Debug.LogError("_mainCamのオブジェクトが設定されていません");
         _selectArea = _mainCam.GetComponent<SelectArea>();
+        if (_selectArea == null) Debug.LogError("SelectAreaのコンポーネントを取得できませんでした。");
         _stageManagers[_selectArea._nextArea]._Start = true;
     }
 
-    // Update is called once per frame
+
+    //-----------------------------------------------------------------
+    //―更新処理―
     void Update()
     {
 
@@ -146,6 +161,8 @@ public class SelectMove : MonoBehaviour
         }
         //Debug.Log(State);
     }
+    //-----------------------------------------------------------------
+    //★★公開関数★★(公)
     public SelectPlayerState State
     {
         get
@@ -166,57 +183,7 @@ public class SelectMove : MonoBehaviour
     {
         _selectScene = value;
     }
-    private void NextPoint() 
-    {
-        Vector2 _chack = transform.position;
-        _chack -= TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
-        Vector2 vector2 = TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
-        vector2 -= TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint], _areas[_selectArea._nowArea].transform);
-        if ( _chack.magnitude < vector2.magnitude / 2) 
-        {
-            transform.position = TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
-            _oldPoint = _nextPoint;
-            _oldPoint = Mathf.Clamp(_oldPoint, 0, _ec2d[_selectArea._nowArea].edgeCount - 1);
-        }
-        
-        bool _flg = false;
-        Vector2 _vec = new Vector2(100, 100);
-        
-        if (_oldPoint != _ec2d[_selectArea._nowArea].edgeCount - 1 && _move.x > 0 &&  _stageNum <= _stageManagers[_selectArea._nowArea]._clearCount)
-        {
-            _vec = TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint + 1], _areas[_selectArea._nowArea].transform);
-            _vec -= TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint], _areas[_selectArea._nowArea].transform);
-            _nextPoint = _oldPoint + 1;
-            _flg = true;
-            
-        }
-        if (_oldPoint != 0 && _move.x < 0)
-        {
-            _vec = TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint - 1], _areas[_selectArea._nowArea].transform);
-            _vec -= TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint], _areas[_selectArea._nowArea].transform);
-            _nextPoint = _oldPoint - 1;
-            _flg = true;
-            
-        }
-        
-        _vec = _vec.normalized - _move;
-        
-        if (_vec.magnitude < 0.25f && _flg ==true)
-        {
-            State = SelectPlayerState.MOVE;
-        }
-    }
-
-    private Vector2 TransPos(Vector2 _Edge, Transform _Trans)
-    {
-        Vector2 _vec = new Vector2(_Edge.x * _Trans.localScale.x, _Edge.y * _Trans.localScale.y) + new Vector2(_Trans.position.x, _Trans.position.y);
-        return _vec;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log(collision.transform.tag);
-    }
+    
     public int StageNumber 
     {
         set 
@@ -239,6 +206,54 @@ public class SelectMove : MonoBehaviour
             }
             
         }
+    }
+    //-----------------------------------------------------------------
+    //☆☆秘匿関数☆☆(私)
+    private void NextPoint()
+    {
+        Vector2 _chack = transform.position;
+        _chack -= TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
+        Vector2 vector2 = TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
+        vector2 -= TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint], _areas[_selectArea._nowArea].transform);
+        if (_chack.magnitude < vector2.magnitude / 2)
+        {
+            transform.position = TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
+            _oldPoint = _nextPoint;
+            _oldPoint = Mathf.Clamp(_oldPoint, 0, _ec2d[_selectArea._nowArea].edgeCount - 1);
+        }
+
+        bool _flg = false;
+        Vector2 _vec = new Vector2(100, 100);
+
+        if (_oldPoint != _ec2d[_selectArea._nowArea].edgeCount - 1 && _move.x > 0 && _stageNum <= _stageManagers[_selectArea._nowArea]._clearCount)
+        {
+            _vec = TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint + 1], _areas[_selectArea._nowArea].transform);
+            _vec -= TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint], _areas[_selectArea._nowArea].transform);
+            _nextPoint = _oldPoint + 1;
+            _flg = true;
+
+        }
+        if (_oldPoint != 0 && _move.x < 0)
+        {
+            _vec = TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint - 1], _areas[_selectArea._nowArea].transform);
+            _vec -= TransPos(_ec2d[_selectArea._nowArea].points[_oldPoint], _areas[_selectArea._nowArea].transform);
+            _nextPoint = _oldPoint - 1;
+            _flg = true;
+
+        }
+
+        _vec = _vec.normalized - _move;
+
+        if (_vec.magnitude < 0.25f && _flg == true)
+        {
+            State = SelectPlayerState.MOVE;
+        }
+    }
+
+    private Vector2 TransPos(Vector2 _Edge, Transform _Trans)
+    {
+        Vector2 _vec = new Vector2(_Edge.x * _Trans.localScale.x, _Edge.y * _Trans.localScale.y) + new Vector2(_Trans.position.x, _Trans.position.y);
+        return _vec;
     }
 
 }
