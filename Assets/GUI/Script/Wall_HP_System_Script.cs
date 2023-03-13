@@ -15,7 +15,7 @@ public class Wall_HP_System_Script : MonoBehaviour
     //-----------------------------------------------------------------
     //―変数―(私)Inaccessible variables
     private RectTransform RTrans;// サイズ調整するため。
-    private float _nowHP;// 0～1.0f
+    public float _nowHP;// 0～1.0f
     private float _maxSize;
 
     [Header("ダメージフィルター")]
@@ -66,6 +66,13 @@ public class Wall_HP_System_Script : MonoBehaviour
         HpLimit();
         // ゲージの更新
         RTrans.sizeDelta = new Vector2(_maxSize * _nowHP, RTrans.rect.height);
+    }
+
+    //二宮追加
+    //ーゲッター(公)
+    public float GetHp()
+    {
+        return _nowHP;
     }
 
     //-----------------------------------------------------------------
