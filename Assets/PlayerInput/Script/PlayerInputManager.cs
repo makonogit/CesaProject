@@ -34,10 +34,11 @@ public class PlayerInputManager : MonoBehaviour
     private Vector2 MousePos;
 
     //釘打ち込み判定
-    bool Nail_Push = false;
+    public bool Nail_Push_Left = false;
+    public bool Nail_Push_Right = false;
 
     //ハンマーの同時押し判定
-    bool Hammer_Push = false;
+    public bool Hammer_Push = false;
 
     //-----------------------------------------------------
     // ポーズ中の入力取得用変数
@@ -205,22 +206,36 @@ public class PlayerInputManager : MonoBehaviour
     }
 
     //----------------------------------------------------------------------------------------------------------
-    // 釘打ち込み判定
+    // 釘打ち込み判定(左右で分けている)
     //----------------------------------------------------------------------------------------------------------
 
     //戻り値：bool(釘打ち込みがされたか)
     //引数　：なし
-    public bool GetNail()
+    public bool GetNail_Left()
     {
-        return Nail_Push;
+        return Nail_Push_Left;
     }
-
 
     //戻り値：無し
     //引数　：bool(釘打ち込みがされたか)
-    public void SetNail(bool _NailFlg)
+    public void SetNail_Left(bool _NailFlg)
     {
-        Nail_Push = _NailFlg;
+        Nail_Push_Left = _NailFlg;
+    }
+
+
+    //戻り値：bool(釘打ち込みがされたか)
+    //引数　：なし
+    public bool GetNail_Right()
+    {
+        return Nail_Push_Right;
+    }
+
+    //戻り値：無し
+    //引数　：bool(釘打ち込みがされたか)
+    public void SetNail_Right(bool _NailFlg)
+    {
+        Nail_Push_Right = _NailFlg;
     }
 
     //----------------------------------------------------------------------------------------------------------

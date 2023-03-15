@@ -268,25 +268,42 @@ public class PlayerInput : MonoBehaviour
 
     //------------------------------------------------------
     //ìBë≈ÇøèàóùÅ@íSìñÅFêõ·¡êS
-    public void OnHammerNail(InputAction.CallbackContext context)
+    public void OnHammerNailLeft(InputAction.CallbackContext context)
     {
 
-        //--------------------------------------------
-        //Ç±ÇÍÇ‚Ç∆âüÇ≥ÇÍÇƒÇÈä‘Ç∏Ç¡Ç∆TrueÇ©Ç‡...
         if (context.phase == InputActionPhase.Started)
         {
-            ScriptPIManager.SetNail(true);
+            ScriptPIManager.SetNail_Left(true);
         }
 
         if (context.phase == InputActionPhase.Canceled)
         {
-            if (ScriptPIManager.GetNail() == true)
+            if (ScriptPIManager.GetNail_Left() == true)
             {
-                ScriptPIManager.SetNail(false);
+                ScriptPIManager.SetNail_Left(false);
             }
         }
 
     }
+
+    public void OnHammerNailRight(InputAction.CallbackContext context)
+    {
+
+        if (context.phase == InputActionPhase.Started)
+        {
+            ScriptPIManager.SetNail_Right(true);
+        }
+
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            if (ScriptPIManager.GetNail_Right() == true)
+            {
+                ScriptPIManager.SetNail_Right(false);
+            }
+        }
+
+    }
+
 
 
     //------------------------------------------------------

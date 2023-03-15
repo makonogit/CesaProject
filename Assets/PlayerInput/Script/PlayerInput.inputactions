@@ -60,7 +60,16 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "HammerNail",
+                    "name": "HammerNailLeft",
+                    "type": "Button",
+                    "id": "fb14de80-5801-4aee-a3d5-f3737b1bafc8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HammerNailRight",
                     "type": "Button",
                     "id": "1a323474-1905-4a91-8954-0366d35c7910",
                     "expectedControlType": "Button",
@@ -357,18 +366,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "HammerNail",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4e729a97-76ee-4364-be15-f56cbc053abc",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "HammerNail",
+                    "action": "HammerNailRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -424,6 +422,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "CursorMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e729a97-76ee-4364-be15-f56cbc053abc",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HammerNailLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
