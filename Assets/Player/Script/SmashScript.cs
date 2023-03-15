@@ -19,6 +19,7 @@ public class SmashScript : MonoBehaviour
     private Transform _thisTrans;
     private HammerNail _hammerNail;
 
+    private InputTrigger _inputTrigger;
     private bool _push;
 
     private Vector2 _moveVector;
@@ -67,6 +68,9 @@ public class SmashScript : MonoBehaviour
         // エラー文
         if (_playerInputManager == null) Debug.LogError("PlayerInputManagerのコンポーネントを取得できませんでした。");
 
+        _inputTrigger = _inputManager.GetComponent<InputTrigger>();
+        if (_inputTrigger == null) Debug.LogError("InputTriggerのコンポーネントを取得できませんでした。");
+
         //--------------------------------------
         //CrackCreaterを取得  
         _creater = _crackCreaterObj.GetComponent<CrackCreater>();
@@ -87,8 +91,14 @@ public class SmashScript : MonoBehaviour
         // ハンマーが離された時
         if (isTrigger()) 
         {
+            //Smashed();
+        }
+        // ハンマーが押された瞬間
+        if (_inputTrigger.GetHammerTrigger() == true) 
+        {
             Smashed();
         }
+
         _push = _playerInputManager.GetHammer();
     }
 
