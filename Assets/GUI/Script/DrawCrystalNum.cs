@@ -1,23 +1,23 @@
 //---------------------------------------
 //担当者：二宮
-//内容　：釘所持数をUIとして表示
+//内容　：クリスタル獲得数を表示、リアルタイム更新
 //---------------------------------------
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DrawNailNum : MonoBehaviour
+public class DrawCrystalNum : MonoBehaviour
 {
     //---------------------------------------------------------
     // - 変数宣言 -
 
-    private Text TextNailNum; // ゲーム画面に描画する
-    public int oldNailsNum; // 前フレームの釘の数を保存する
+    private Text TextCrystalNum; // ゲーム画面に描画する
+    public int oldCrystalNum; // 前フレームのクリスタルの数を保存する
 
     // 外部取得
     private GameObject player; // プレイヤーを見つけて保持する
-    private HaveNails nails; // HaveNailsを保持
+    private HaveCrystal crystal; // HaveCrystalを保持
 
     // Start is called before the first frame update
     void Start()
@@ -26,24 +26,24 @@ public class DrawNailNum : MonoBehaviour
         // プレイヤー見つける
         player = GameObject.Find("player");
 
-        // HaveNailsを取得
-        nails = player.GetComponent<HaveNails>();
+        // HaveCrystalを取得
+        crystal = player.GetComponent<HaveCrystal>();
 
-        TextNailNum = GetComponent<Text>();
+        TextCrystalNum = GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
         // 前フレームの釘の数から変動があれば
-        if(oldNailsNum != nails.NailsNum)
+        if (oldCrystalNum != crystal.CrystalNum)
         {
             //---------------------------------------------------------
             // プレイヤーが所持する釘の数を再描画
-            TextNailNum.text = string.Format("×{0:00}", nails.NailsNum);
+            TextCrystalNum.text = string.Format("×{0:00}", crystal.CrystalNum);
         }
 
         // 古い釘更新
-        oldNailsNum = nails.NailsNum;
+        oldCrystalNum = crystal.CrystalNum;
     }
 }
