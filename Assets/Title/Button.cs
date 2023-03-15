@@ -11,21 +11,53 @@ public class Button : MonoBehaviour
     public  float interval = 0.5f;
 
     // 時間を経過する関数
-    private float time;
+    public float time = 0.0f;
+
+    //点滅させるオブジェクト
+    private GameObject ButtonPushUI;
+
+    //点滅させるオブジェクトのSpriteRender
+    private SpriteRenderer renderer;
+
+    //透明度
+    private float Alpha = 1.0f;
+
+    //点滅フラグ
+    public bool Flash = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        nextTime = Time.time;
+        //点滅させるオブジェクトの情報を取得
+        ButtonPushUI = GameObject.Find("Button");
+        renderer = ButtonPushUI.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Time.time>nextTime)
+        //時間計測
+        time += Time.deltaTime;
+        renderer.color = new Color(1.0f, 1.0f, 1.0f, Alpha);
+
+        //0.5秒経過毎に点滅フラグを変更
+        if(Alpha >= 1.0f)
         {
-            nextTime += interval;
+            Flash = false;
+        }
+        if (Alpha <= 0.0f)
+        {
+            Flash = true;
         }
 
+
+        if (Flash)
+        {
+            Alpha += 1.0f * Time.deltaTime;
+        }
+        else
+        {
+            Alpha -= 1.0f * Time.deltaTime;
+        }
     }
 }

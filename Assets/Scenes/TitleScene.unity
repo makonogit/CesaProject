@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 1993431031}
   - component: {fileID: 1993431033}
   m_Layer: 0
-  m_Name: "\u521D\u671F\u30DC\u30BF\u30F3"
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -382,8 +382,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96dac484d2dfaa4388712f2b384a388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 0}
-  cycle: 10
+  interval: 0.5
+  time: 0
+  Flash: 0
 --- !u!1 &2143595396
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +396,7 @@ GameObject:
   - component: {fileID: 2143595398}
   - component: {fileID: 2143595397}
   m_Layer: 0
-  m_Name: "\u521D\u671F\u80CC\u666F"
+  m_Name: BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
