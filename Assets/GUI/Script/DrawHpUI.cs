@@ -75,7 +75,7 @@ public class DrawHpUI : MonoBehaviour
             if (SS == GameOver.SPRITESTATUS.HIGH)
             {
                 img = objs[gameover.HP - 1].GetComponent<Image>();
-                Debug.Log(img);
+                //Debug.Log(img);
             }
             else
             {

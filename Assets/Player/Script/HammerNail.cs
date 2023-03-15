@@ -167,8 +167,8 @@ public class HammerNail : MonoBehaviour
         //-----------------------------------------------------------
         //èÛë‘ëJà⁄
         //ï–ï˚ÇæÇØâüÇµçûÇ›Ç≥ÇÍÇΩÇÁç\Ç¶ÇÈèÛë‘Ç…Ç∑ÇÈ
-        if (((!ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right()) ||
-            (ScriptPIManager.GetNail_Left() && !ScriptPIManager.GetNail_Right())) &&
+        if (((!ScriptPITrigger.GetNailTrigger_Left() && ScriptPITrigger.GetNailTrigger_Right()) ||
+            (ScriptPITrigger.GetNailTrigger_Left() && !ScriptPITrigger.GetNailTrigger_Right())) &&
             _HammerState == HammerState.NONE)
         {
             _HammerState = HammerState.NAILSET;
@@ -284,8 +284,10 @@ public class HammerNail : MonoBehaviour
 
         //-------------------------------------------------
         //ï«Ç…ë≈Ç¡ÇΩìBÇ™2å¬à»è„Ç≈BÉ{É^ÉìâüÇ∑Ç∆Ç–Ç—ê∂ê¨
-        if (HammerNails > 1 && ScriptPITrigger.GetHammerTrigger())
+        if (HammerNails > 1 && getCrackPoint.GetPointLest().Count >= 2 &&
+            (ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right()))
         {
+            Debug.Log("Ç–Ç—ê∂ê¨");
             HammerNails = 0;
             CreateCrack = true;
         }

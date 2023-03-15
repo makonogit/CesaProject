@@ -109,9 +109,6 @@ public class SetNailList : MonoBehaviour
                         NearNailNum = i;
                     }
                 }
-
-                Debug.Log(NearDistance);
-                //Debug.Log(NearNailNum);
             }
 
             //同じ釘が存在していなかったらポイントを追加
@@ -150,7 +147,7 @@ public class SetNailList : MonoBehaviour
 
         if (collision.gameObject.tag == "NailArea")
         {
-            Debug.Log(collision.gameObject + "Enter");
+            //Debug.Log(collision.gameObject + "Enter");
 
             //リストに同じデータがなければ
             if (!HitList.Contains(collision.gameObject.transform.root.gameObject))
@@ -164,7 +161,7 @@ public class SetNailList : MonoBehaviour
             if (HitList.Contains(collision.gameObject.transform.root.gameObject))
             {
                 AddPointFlg = true;   //PointListの追加を許可
-                Debug.Log("AddPoint");
+                //Debug.Log("AddPoint");
             }
 
 

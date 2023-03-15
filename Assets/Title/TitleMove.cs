@@ -20,7 +20,7 @@ public class TitleMove : MonoBehaviour
         if (Input.GetKeyDown("joystick button 0"))
         {
             
-            SceneManager.LoadScene("MainScene");
+            SceneManager.LoadScene("SelectScene");
         }
 
     }
