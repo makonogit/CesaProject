@@ -32,6 +32,9 @@ public class SelectMove : MonoBehaviour
     [Header("移動スピード")]
     [SerializeField]
     private float _speed;
+    [Header("ひびの移動スピード")]
+    [SerializeField]
+    private float _crackSpeed =5;
     private SelectPlayerState _state;
     [SerializeField]
     private Transform _camPos;
@@ -112,8 +115,8 @@ public class SelectMove : MonoBehaviour
             {
                 _vec2 = TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
                 _vec2 -= new Vector2(transform.position.x, transform.position.y);
-                
-                transform.position += new Vector3(_vec2.normalized.x /100, _vec2.normalized.y / 100, 0);
+
+                transform.position += new Vector3(_vec2.normalized.x, _vec2.normalized.y, 0) * _crackSpeed * Time.deltaTime;
             }
             else 
             {
