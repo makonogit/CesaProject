@@ -16,6 +16,7 @@ public class GetCrackPoint : MonoBehaviour
     Transform Playertransform;      //プレイヤーの座標
     CrackAutoMove _crackAutoMove;   //ひびの移動中か
   
+
     Vector2 OldFirstPoint;  //1個前の始点釘
 
     SetNailList _Setlist;               //釘の情報を取得
@@ -148,6 +149,13 @@ public class GetCrackPoint : MonoBehaviour
                     HitList.RemoveAt(i);
                 }
             }
+
+            for (int i = 1; i < PointList.Count; i++)
+            {
+                objectList.RemoveAt(i);
+                PointList.RemoveAt(i);
+            }
+
         }
     }
 

@@ -294,7 +294,6 @@ public class HammerNail : MonoBehaviour
         //ひび生成
         if (CreateCrack)
         {
-            NailTargetMove.Radius = HammerNailArea;  //釘生成範囲を初期化
 
             CallCrackCreater();//―追加担当者：中川直登―//
 
@@ -309,6 +308,8 @@ public class HammerNail : MonoBehaviour
                 setNailList.Crackend = true;
             }
 
+            //-------------------------------------------------
+            //ひびの生成が終了したらポイントリストを初期化する
             getCrackPoint.objectList.Clear();
             getCrackPoint.objectList.Add(gameObject);
             getCrackPoint.GetPointLest().Clear();

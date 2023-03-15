@@ -37,6 +37,11 @@ public class SmashScript : MonoBehaviour
     [SerializeField]
     private List<Vector2> _pos;
 
+    //-------------------------------------------------
+    //ひびのリストを取得 -追加担当：菅眞心-
+    GetCrackPoint getCrackPoint;
+
+
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -76,6 +81,13 @@ public class SmashScript : MonoBehaviour
         _creater = _crackCreaterObj.GetComponent<CrackCreater>();
         // エラー文
         if (_creater == null) Debug.LogError("CrackCreaterのコンポーネントを取得できませんでした。");
+
+
+        //-------------------------------------------------
+        //ひびのリストを取得-担当：菅眞心-
+        getCrackPoint = GetComponentInChildren<GetCrackPoint>();
+
+
     }
 
     //-----------------------------------------------------------------
@@ -96,7 +108,11 @@ public class SmashScript : MonoBehaviour
         // ハンマーが押された瞬間
         if (_inputTrigger.GetHammerTrigger() == true) 
         {
-            Smashed();
+            //近くに作れるひびがなければ
+            if (getCrackPoint.GetPointLest().Count < 2)
+            {
+                Smashed();
+            }
         }
 
         _push = _playerInputManager.GetHammer();
