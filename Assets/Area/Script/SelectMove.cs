@@ -205,7 +205,7 @@ public class SelectMove : MonoBehaviour
             }
             else 
             {
-                Debug.Log("しーんがないです");
+                //Debug.Log("しーんがないです");
             }
             
         }

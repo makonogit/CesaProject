@@ -56,6 +56,8 @@ public class StagesManager : MonoBehaviour
     //―スタート処理―
     void Start()
     {
+        _edgeCollider2D = GetComponent<EdgeCollider2D>();
+        if (_edgeCollider2D == null) Debug.LogError("EdgeCollider2Dのコンポーネントを取得できませんでした。");
         // 初期化
         _nowTime = 0.0f;
         //--------------------------------------

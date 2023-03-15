@@ -116,6 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scene: {fileID: 102900000, guid: 61a73d5fd505d75429cf280723a494ce, type: 3}
   _number: 4
+  _stageSceneName: MainScene
 --- !u!1 &966152766914851289
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scene: {fileID: 102900000, guid: 61a73d5fd505d75429cf280723a494ce, type: 3}
   _number: 1
+  _stageSceneName: MainScene
 --- !u!1 &4647474486359437159
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scene: {fileID: 102900000, guid: 61a73d5fd505d75429cf280723a494ce, type: 3}
   _number: 3
+  _stageSceneName: MainScene
 --- !u!1 &5480469615630530576
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,7 +710,6 @@ GameObject:
   - component: {fileID: 8241569010975375251}
   - component: {fileID: 8564435259650673820}
   - component: {fileID: 712053336015862385}
-  - component: {fileID: 460533363205195155}
   m_Layer: 0
   m_Name: name
   m_TagString: Untagged
@@ -795,20 +797,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
---- !u!114 &460533363205195155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6307291903371989685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 807615f2847be544296f37638f51ed7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layerName: Default
-  orderInLayer: 100
 --- !u!1 &6381835994098530898
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +913,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scene: {fileID: 102900000, guid: 61a73d5fd505d75429cf280723a494ce, type: 3}
   _number: 2
+  _stageSceneName: MainScene
 --- !u!1 &6773096293362149534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,3 +1145,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scene: {fileID: 102900000, guid: 61a73d5fd505d75429cf280723a494ce, type: 3}
   _number: 5
+  _stageSceneName: MainScene
