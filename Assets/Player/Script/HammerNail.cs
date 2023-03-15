@@ -79,7 +79,7 @@ public class HammerNail : MonoBehaviour
 
     GetCrackPoint getCrackPoint; //ひびのリストを取得
     SetNailList setNailList;     //生成済み状態にするため
-    
+
     //―追加担当者：中川直登―//
     [Header("ひびを作るobj")]
     public GameObject _crackCreaterObj;
@@ -145,7 +145,7 @@ public class HammerNail : MonoBehaviour
         _creater = _crackCreaterObj.GetComponent<CrackCreater>();
 
         //---------------------------------------------
-        //打ち込み状態あを何もしていないにする
+        //打ち込み状態を何もしていないにする
         _HammerState = HammerState.NONE;
 
         Target = GameObject.Find("NailTarget");
@@ -158,15 +158,28 @@ public class HammerNail : MonoBehaviour
 
         //子オブジェクトと座標を同期
         ChilCrackArea.transform.position = transform.position;
-      
+
         //-----------------------------------------------------------
         //状態遷移
-        //押し込みされたら構える状態にする
-        if (ScriptPIManager.GetNail() == true && _HammerState == HammerState.NONE)
+        //片方だけ押し込みされたら構える状態にする
+        if (((!ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right()) ||
+            (ScriptPIManager.GetNail_Left() && !ScriptPIManager.GetNail_Right())) &&
+            _HammerState == HammerState.NONE)
         {
             _HammerState = HammerState.NAILSET;
+
         }
-        if (ScriptPIManager.GetNail() == false)
+        //----------------------------------------------------------
+        //構え中に両方押し込まれたら釘を打てない状態にする
+        if (ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right() &&
+           _HammerState == HammerState.NAILSET)
+        {
+            _HammerState = HammerState.NONE;
+        }
+
+        //----------------------------------------------------------
+        //両方離されたら打ち込み状態にする
+        if (!ScriptPIManager.GetNail_Left() && !ScriptPIManager.GetNail_Right())
         {
             //離された瞬間打ち込み状態にする
             if (_HammerState == HammerState.NAILSET)
@@ -177,9 +190,8 @@ public class HammerNail : MonoBehaviour
             {
                 _HammerState = HammerState.NONE;
             }
-           
-        }
 
+        }
 
         //----------------------------------------
         //釘を持っていたら釘を画面に打つ

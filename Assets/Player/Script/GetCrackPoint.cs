@@ -16,8 +16,6 @@ public class GetCrackPoint : MonoBehaviour
     Transform Playertransform;      //プレイヤーの座標
     CrackAutoMove _crackAutoMove;   //ひびの移動中か
   
-    bool Removeflg = false;
-
     Vector2 OldFirstPoint;  //1個前の始点釘
 
     SetNailList _Setlist;               //釘の情報を取得
@@ -125,7 +123,7 @@ public class GetCrackPoint : MonoBehaviour
     //当たった瞬間HitListを更新
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.tag);
+        //Debug.Log(collision.gameObject.tag);
         //Debug.Log(collision.gameObject.transform.GetChild(0).gameObject.tag);
         if (collision.gameObject.tag == "UsedNail")
         {

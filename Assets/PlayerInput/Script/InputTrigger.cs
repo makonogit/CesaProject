@@ -17,7 +17,8 @@ public class InputTrigger : MonoBehaviour
 
     // キーの入力がされている時間を持つ変数
     int jumpPushTime   = 0; // ジャンプ
-    int nailPushTime   = 0; // 釘の打ち込み
+    int nailPushTimeLeft   = 0;   // 釘の打ち込み(左)
+    int nailPushTimeRight  = 0;   // 釘の打ち込み(右)
     int hammerPushTime = 0; // ハンマー
 
     //================================================================
@@ -79,12 +80,12 @@ public class InputTrigger : MonoBehaviour
     }
 
     //================================================================
-    // - 釘打ち込み入力のトリガー処理 -
+    // - 釘打ち込み入力のトリガー処理(左右) -
     //
     // 引数　：無し
     // 戻り値：キーが押されている時間をカウントして0秒の時のみtrueを返す
 
-    public bool GetNailTrigger()
+    public bool GetNailTrigger_Left()
     {
         //------------------------------------------------------------
         // キーが押されている時間をカウントして0秒の時のみtrueを返す
@@ -93,10 +94,10 @@ public class InputTrigger : MonoBehaviour
         bool isReturn = false;
 
         // 押されている場合の処理
-        if (ScriptPIManager.GetNail() == true)
+        if (ScriptPIManager.GetNail_Left() == true)
         {
             // 0秒の時のみtrueを返す
-            if (nailPushTime == 0)
+            if (nailPushTimeLeft == 0)
             {
                 isReturn = true;
             }
@@ -106,13 +107,50 @@ public class InputTrigger : MonoBehaviour
             }
 
             // カウントを進める
-            nailPushTime++;
+            nailPushTimeLeft++;
         }
         // 押されていない場合の処理
         else
         {
             // カウントをリセット
-            nailPushTime = 0;
+            nailPushTimeLeft = 0;
+            isReturn = false;
+        }
+
+        return isReturn;
+
+        //------------------------------------------------------------
+    }
+
+    public bool GetNailTrigger_Right()
+    {
+        //------------------------------------------------------------
+        // キーが押されている時間をカウントして0秒の時のみtrueを返す
+
+        // 戻り値用変数
+        bool isReturn = false;
+
+        // 押されている場合の処理
+        if (ScriptPIManager.GetNail_Right() == true)
+        {
+            // 0秒の時のみtrueを返す
+            if (nailPushTimeRight == 0)
+            {
+                isReturn = true;
+            }
+            else
+            {
+                isReturn = false;
+            }
+
+            // カウントを進める
+            nailPushTimeRight++;
+        }
+        // 押されていない場合の処理
+        else
+        {
+            // カウントをリセット
+            nailPushTimeRight = 0;
             isReturn = false;
         }
 
