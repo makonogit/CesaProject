@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 677854714}
-  - component: {fileID: 677854713}
   m_Layer: 0
   m_Name: TitleMove
   m_TagString: Untagged
@@ -140,18 +139,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &677854713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677854712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28e95cacaa042d644b9097771bf004fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &677854714
 Transform:
   m_ObjectHideFlags: 0
@@ -395,6 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2143595398}
   - component: {fileID: 2143595397}
+  - component: {fileID: 2143595399}
   m_Layer: 0
   m_Name: BackGround
   m_TagString: Untagged
@@ -469,3 +457,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2143595399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143595396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e95cacaa042d644b9097771bf004fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FallNum: 4
+  TitleBackSprite:
+  - {fileID: 21300000, guid: 39ad58f8b24ebea42867b126ebf81fda, type: 3}
+  - {fileID: 21300000, guid: 6a625f87b2250cf42acd5f6cb33f53d8, type: 3}
+  - {fileID: 21300000, guid: 802bde21adca4bb4d94ffb6b306bbd51, type: 3}
