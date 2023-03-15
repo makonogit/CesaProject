@@ -83,6 +83,17 @@ public class GameOver : MonoBehaviour
             spriteStatus = SPRITESTATUS.LOW;
         }
 
+        // HP‚ª0‚É‚È‚Á‚Ä‚È‚¢Žž
+        if (HP != 0)
+        {
+            // Žæ“¾‚µ‚Ä‚«‚½wallHP‚ª0‚È‚ç
+            if (nowWallHp == 0.0f)
+            {
+                // 0‚É‚·‚é
+                HP = 0;
+            }
+        }
+
         //---------------------------------------------------------
         //HP‚ª0ˆÈ‰º‚É‚È‚Á‚½‚ç
         if (HP <= 0)
