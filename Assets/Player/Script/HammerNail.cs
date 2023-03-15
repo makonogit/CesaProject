@@ -20,8 +20,11 @@ public class HammerNail : MonoBehaviour
     Transform NailsTrans;                 // 釘のTransForm
 
     // 外部取得
+    // 入力関係
     private GameObject PlayerInputManager;      // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
+    private InputTrigger ScriptPITrigger;       // InputTriggerを取得すりゅ変数
+
     public GameObject CrackPrefab;              // ひび生成用プレハブオブジェクト
     private CrackOrder Order;                   // ひび生成用スクリプト
 
@@ -140,6 +143,8 @@ public class HammerNail : MonoBehaviour
         //InputManagrを取得
         PlayerInputManager = GameObject.Find("PlayerInputManager");
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
+        ScriptPITrigger = PlayerInputManager.GetComponent<InputTrigger>();
+
         //--------------------------------------------
         //CrackCreaterを取得  //―追加担当者：中川直登―//
         _creater = _crackCreaterObj.GetComponent<CrackCreater>();
@@ -279,7 +284,7 @@ public class HammerNail : MonoBehaviour
 
         //-------------------------------------------------
         //壁に打った釘が2個以上でBボタン押すとひび生成
-        if (HammerNails > 1 && Gamepad.current.bButton.wasPressedThisFrame)
+        if (HammerNails > 1 && ScriptPITrigger.GetHammerTrigger())
         {
             HammerNails = 0;
             CreateCrack = true;
