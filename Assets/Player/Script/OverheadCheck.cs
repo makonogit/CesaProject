@@ -49,8 +49,8 @@ public class OverheadCheck : MonoBehaviour
 
         //----------------------------------------------------------------------------------------------------------
         // レイ飛ばして何かとぶつかったら生成やめる
-        RaycastHit2D hit_l = Physics2D.Raycast(origin_left, direction, length, -1); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
-        RaycastHit2D hit_r = Physics2D.Raycast(origin_right, direction, length, -1); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+        RaycastHit2D hit_l = Physics2D.Raycast(origin_left, direction, length, 5); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+        RaycastHit2D hit_r = Physics2D.Raycast(origin_right, direction, length, 5); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
 
         //----------------------------------------------------------------------------------------------------------
         // レイを描画
@@ -63,8 +63,6 @@ public class OverheadCheck : MonoBehaviour
             (hit_r && hit_r.collider.gameObject.tag == groundTag))
         {
             isOverhead = true;
-            // 当たっているタグ名を表示
-            //Debug.Log(hit.collider.gameObject.tag);
         }
         else
         {
