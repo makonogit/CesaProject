@@ -99,6 +99,28 @@ public class PlayerInput : MonoBehaviour
             //---------------------------------------------------------------
             //PlayerInputManagerに入力量をセット
             ScriptPIManager.SetMovement(L_move);
+
+            // 向きセット
+            // 左向きの時に
+            if(ScriptPIManager.Direction == PlayerInputManager.DIRECTION.LEFT)
+            {
+                // 右入力があったら
+                if(L_move.x > 0.0f)
+                {
+                    // 右向きにセット
+                    ScriptPIManager.Direction = PlayerInputManager.DIRECTION.RIGHT;
+                }
+            }
+            // 右向きの時に
+            else
+            {
+                // 左入力があったら
+                if (L_move.x < 0.0f)
+                {
+                    // 左向きにセット
+                    ScriptPIManager.Direction = PlayerInputManager.DIRECTION.LEFT;
+                }
+            }
         }
     }
 

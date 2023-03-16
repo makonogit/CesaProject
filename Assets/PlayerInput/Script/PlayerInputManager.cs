@@ -64,15 +64,36 @@ public class PlayerInputManager : MonoBehaviour
 
     private PLAYERMODE Mode = PLAYERMODE.MOVE; // プレイヤーの現在のモードを持つ変数
 
+    // プレイヤーの向き
+    public enum DIRECTION
+    {
+        LEFT,
+        RIGHT
+    }
+
+    // オートプロパティ
+    // このスクリプト内外問わず、取得代入可
+    public DIRECTION Direction
+    {
+        get;
+        set;
+    }
+
+    private void Start()
+    {
+        // 初期値設定
+        Direction = DIRECTION.RIGHT;
+    }
+
     //----------------------------------------------------------------------------------------------------------
     // - ゲッター ・ セッター -
 
     //----------------------------------------------------------------------------------------------------------
     // 移動
     //--------------------------------------------
-        //戻り値：Vector2型（デバイス入力による入力量）
-        //引数　：無し
-        public Vector2 GetMovement()
+    //戻り値：Vector2型（デバイス入力による入力量）
+    //引数　：無し
+    public Vector2 GetMovement()
         {
             return movement;
         }

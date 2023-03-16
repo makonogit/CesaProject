@@ -17,7 +17,11 @@ public class GroundCheck : MonoBehaviour
     private float AdjustX = 0.41f; // 画像の空白部分を無視するための調整用変数
     public int touch; // 地面と触れているレイの本数
 
+    PlayerInputManager.DIRECTION oldDire; // 前フレームの向きを入れておくための変数
+
     // 外部取得
+    private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数
+    private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
     private Transform thistransform; // レイによる当たり判定をとるオブジェクトの原点座標
 
     private void Start()
@@ -25,6 +29,27 @@ public class GroundCheck : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // 座標情報取得
         thistransform = GetComponent<Transform>();
+
+        //----------------------------------------------------------------------------------------------------------
+        // PlayerInputManagerを探す
+        PlayerInputMana = GameObject.Find("PlayerInputManager");
+
+        //----------------------------------------------------------------------------------------------------------
+        // ゲームオブジェクトPlayerInputManagerが持つPlayerInputManagerスクリプトを取得
+        ScriptPIManager = PlayerInputMana.GetComponent<PlayerInputManager>();
+
+        oldDire = ScriptPIManager.Direction;
+    }
+
+    private void Update()
+    {
+        if (oldDire != ScriptPIManager.Direction)
+        {
+            AdjustX = -AdjustX;
+        }
+
+        // 前フレームの向きとして保存
+        oldDire = ScriptPIManager.Direction;
     }
 
     //----------------------------------------------------------------------------------------------------------

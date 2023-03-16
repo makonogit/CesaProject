@@ -13,7 +13,6 @@ public class PauseGame : MonoBehaviour
     // - 変数宣言 -
 
     public bool IsPause = false; // ポーズ状態かどうか
-    private bool IgnoredFlg = false; // trueの時ifの条件無視する
     public int CursorY = 0; // Y方向の移動をするカーソルの番号
     const int CursorMax = 2; // カーソルの一番下
 
