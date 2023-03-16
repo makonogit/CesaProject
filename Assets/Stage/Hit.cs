@@ -85,5 +85,13 @@ public class Hit : MonoBehaviour
             _isHitGoal = true;
         }
     }
-
+    //―追加担当者：中川直登―
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Goal"))
+        {
+            _isHitGoal = false;
+        }
+    }
+    //――――――――――――
 }
