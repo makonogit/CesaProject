@@ -19,7 +19,7 @@ public class InputTrigger : MonoBehaviour
     int jumpPushTime   = 0; // ジャンプ
     int nailPushTimeLeft   = 0;   // 釘の打ち込み(左)
     int nailPushTimeRight  = 0;   // 釘の打ち込み(右)
-    int hammerPushTime = 0; // ハンマー
+    float hammerPushTime = 0; // ハンマー
 
     //================================================================
     // - 初期化処理 -
@@ -188,7 +188,7 @@ public class InputTrigger : MonoBehaviour
             }
 
             // カウントを進める
-            hammerPushTime++;
+            hammerPushTime+=Time.deltaTime;
         }
         // 押されていない場合の処理
         else
