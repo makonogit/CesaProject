@@ -58,7 +58,7 @@ public class HitEnemy : MonoBehaviour
             {
                 //---------------------------------------------------------
                 // HP -Damage
-                gameOver.DecreaseHP(Damage);
+                //gameOver.DecreaseHP(Damage);
 
                 //---------------------------------------------------------
                 // アルファ値変更
