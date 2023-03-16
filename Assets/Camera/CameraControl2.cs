@@ -14,6 +14,7 @@ public class CameraControl2 : MonoBehaviour
     [SerializeField,Header("追従ターゲットの座標")]
     private Transform TargetTrans;
 
+    private CrackAutoMove _AutoMove;        //ひびの移動スクリプト
 
     private GameObject CameraArea;          //カメラの追従エリア
     private PolygonCollider2D AreaCollider; //追従エリアのコライダー
@@ -33,6 +34,9 @@ public class CameraControl2 : MonoBehaviour
         Target = GameObject.Find("player");
         TargetTrans = Target.GetComponent<Transform>();
 
+        // ひびの移動スクリプトを取得
+        _AutoMove = Target.GetComponent<CrackAutoMove>();
+
         // カメラの追従エリアの情報を取得
         CameraArea = GameObject.Find("CameraArea");
         AreaCollider = CameraArea.GetComponent<PolygonCollider2D>();
@@ -46,13 +50,12 @@ public class CameraControl2 : MonoBehaviour
         MainCam = GetComponent<Camera>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
         // ズームエリアにいたら追従ターゲットを変更する
         if (zoom.InArea)
         {
-            if(Target.name == "player")
+            if (Target.name == "player")
             {
                 // ターゲットを変更
                 Target = GameObject.Find("GoalArea");
@@ -72,10 +75,18 @@ public class CameraControl2 : MonoBehaviour
         }
 
         // 現在の座標を取得
-        Vector3 NowPos = TargetTrans.position;
+        Vector3 NowPos = new Vector3(TargetTrans.position.x, TargetTrans.position.y,transform.position.z);
 
-        // カメラの座標をターゲットを基に更新
-        transform.position = new Vector3(NowPos.x, NowPos.y, transform.position.z);
+        // ひびの移動中はカメラの追従を緩やかにする
+        if (_AutoMove.movestate == CrackAutoMove.MoveState.CrackMove)
+        {
+            transform.position = Vector3.Lerp(transform.position, NowPos, 2.0f * Time.deltaTime);
+        }
+        else
+        {
+            // カメラの座標をターゲットを基に更新
+            transform.position = new Vector3(NowPos.x, NowPos.y, transform.position.z);
+        }
 
         //----------------------------------------------------------------------
         // エリアの情報からコライダーをリサイズ
@@ -94,8 +105,15 @@ public class CameraControl2 : MonoBehaviour
         NowPos.x = Mathf.Clamp(NowPos.x, Min_x, Max_x);
         NowPos.y = Mathf.Clamp(NowPos.y, Min_y, Max_y);
 
-        //　カメラの座標を更新
-        transform.position = new Vector3(NowPos.x, NowPos.y, transform.position.z);
-
+        if (_AutoMove.movestate == CrackAutoMove.MoveState.CrackMove)
+        {
+            transform.position = Vector3.Lerp(transform.position, NowPos, 2.0f * Time.deltaTime);
+        }
+        else
+        {
+            //　カメラの座標を更新
+            transform.position = new Vector3(NowPos.x, NowPos.y, transform.position.z);
+        }
+           
     }
 }
