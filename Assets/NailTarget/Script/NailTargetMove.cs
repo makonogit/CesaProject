@@ -67,7 +67,7 @@ public class NailTargetMove : MonoBehaviour
 
         //-----------------------------------------------------------------------------------------------------------
         // Æ€‚ÌˆÊ’u‚ğ‰Šú‰»
-        thisTransform.position = new Vector3(playerTransform.position.x + 1.0f,playerTransform.position.y,0.0f);
+        thisTransform.position = new Vector3(playerTransform.position.x + 0.3f,playerTransform.position.y + 0.3f,0.0f);
 
     }
 

@@ -67,7 +67,7 @@ public class PlayerMove : MonoBehaviour
         //-----------------------------------------------------------------
         // アニメーション関係
         // movementのxの値が0じゃない時→移動入力があったらplayer_runに遷移
-        anim.SetBool("run", movement.x != 0);
+        anim.SetBool("walk", movement.x != 0);
 
         if (oldDire != ScriptPIManager.Direction)
         {

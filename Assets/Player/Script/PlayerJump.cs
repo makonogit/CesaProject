@@ -34,6 +34,9 @@ public class PlayerJump : MonoBehaviour
     private GroundCheck ground; // 接地判定用のスクリプトを取得する変数
     private OverheadCheck overhead; // 接地判定用のスクリプトを取得する変数
     private Rigidbody2D thisRigidbody2d; // rigidbody2dを取得する変数
+
+    // アニメーション関係
+    private Animator anim;
     
     //-------------菅----------------
     private CrackAutoMove crackmove;        
@@ -69,8 +72,11 @@ public class PlayerJump : MonoBehaviour
        // createcrack = GetComponent<Crack>();
         crackmove = GetComponent<CrackAutoMove>();
 
-      //  LineObj = GameObject.Find("Line");
-      //  Line = LineObj.GetComponent<PredictionLine>();
+        //  LineObj = GameObject.Find("Line");
+        //  Line = LineObj.GetComponent<PredictionLine>();
+
+        // Animator取得
+        anim = GetComponent<Animator>();
 
     }
 
@@ -195,22 +201,16 @@ public class PlayerJump : MonoBehaviour
             JumpTime = 0.0f;
         }
 
-        //------------------------------------------------------
-        //ジャンプ中はひび生成不可にする
-        if (isJump && !isGround)
-        {
-          //  Line.enabled = false;
-          //  createcrack.enabled = false;
-        }
-        else
-        {
-          //  Line.enabled = true;
-           // createcrack.enabled = true;
-        }
-
-
         //----------------------------------------------------------------------------------------------------------
         // プレイヤーの座標に加算?
         thisRigidbody2d.velocity = new Vector2(xSpeed, ySpeed);
+
+        //---------------------------------------------------------------
+        // アニメーション関係
+        // ジャンプ中ならジャンプアニメーション遷移用変数をtrue
+        anim.SetBool("jump", isJump);
+
+        // 落下中なら落下アニメーション遷移変数をセット
+        anim.SetBool("drop", FallTime > 0.0f);
     }
 }
