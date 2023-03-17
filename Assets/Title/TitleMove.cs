@@ -5,19 +5,33 @@ using UnityEngine.SceneManagement;
 
 public class TitleMove : MonoBehaviour
 {
+
     public int FallNum; // タイトル画面が崩壊するまでの数
 
     string TitleBackName;   //　背景のオブジェクト名
 
+    //-----------
+    // 外部取得
+    //-----------
+    private GameObject BreakObj;     //ScreenBreakを所持しているオブジェクト
+    private ScreenBreak _ScreenBreak; //ScreenBreakを取得する変数
+
     SpriteRenderer MainSpriteRenderer;
 
     public List<Sprite> TitleBackSprite;
+
+    private float BreakTime;        //画面が崩壊するまでの時間
 
     // Start is called before the first frame update
     void Start()
     {
         //タイトルのSptiteRenderereを取得
         MainSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        // ScreenBreakを取得
+        BreakObj = GameObject.Find("ScreenBreak");
+        _ScreenBreak = BreakObj.GetComponent<ScreenBreak>();
+
+        BreakTime = 0.0f;
 
     }
 
@@ -41,10 +55,21 @@ public class TitleMove : MonoBehaviour
             // 崩壊までのカウントダウンが0になったらシーン移動
             if (FallNum == 0)
             {
-                SceneManager.LoadScene("SelectScene");
+                _ScreenBreak.enabled = true;
             }
 
         }
 
+        if (_ScreenBreak.enabled)
+        {
+            BreakTime += Time.deltaTime;
+            //3秒経過したらscene移動
+            if (BreakTime > 3.0f)
+            {
+                SceneManager.LoadScene("SelectScene");
+            }
+        }
     }
+
 }
+        
