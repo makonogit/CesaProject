@@ -150,6 +150,10 @@ public class GetCrackPoint : MonoBehaviour
                 }
             }
 
+            _Setlist.ChainFlg = false;
+            _Setlist.ThisPointNum = -1;
+            _Setlist.OldNailNum = -1;
+
             for (int i = 1; i < PointList.Count; i++)
             {
                 objectList.RemoveAt(i);
