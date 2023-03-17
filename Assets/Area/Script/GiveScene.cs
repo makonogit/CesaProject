@@ -16,20 +16,11 @@ public class GiveScene : MonoBehaviour
     //―秘匿変数―(私)
 
     private SelectMove _player;// プレイヤーのセレクトムーブ
-    //[SerializeField]
-    public Object _scene;// ステージのシーンを入れる
+    [SerializeField]
+    private string _scene;// ステージのシーンを入れる
     [SerializeField]
     private int _number;// ステージの番号
-    [SerializeField]
-    private string _stageSceneName;// ステージの番号
 
-
-    private void Start()
-    {
-        // プレイヤーのSelectMoveを取得する。
-        _player = GameObject.Find("Player(SelectScene)").GetComponent<SelectMove>();
-        if (_player == null) Debug.LogError("SelectMoveのコンポーネントを取得できませんでした。");
-    }
     //-----------------------------------------------------------------
     //★★公開関数★★(公)
 
@@ -38,7 +29,7 @@ public class GiveScene : MonoBehaviour
     {
         get
         {
-            return _scene.name;
+            return _scene;
         }
     }
     //―当たった時の関数―(公)
@@ -47,13 +38,14 @@ public class GiveScene : MonoBehaviour
         // もしプレイヤーに当たったなら
         if (collision.tag == "Player")
         {
-            
-            
+            // プレイヤーのSelectMoveを取得する。
+            _player = collision.gameObject.GetComponent<SelectMove>();
+            if (_player == null) Debug.LogError("SelectMoveのコンポーネントを取得できませんでした。");
             // 状態がエリア移動じゃなければ
             if (_player.State != SelectMove.SelectPlayerState.AREA_CHANGE)
             {
                 _player.State = SelectMove.SelectPlayerState.STOP;
-                _player.SelectScene(_stageSceneName);
+                _player.SelectScene(GetScene);
                 _player.StageNumber = _number;
                 //Debug.Log("hit");
             }
