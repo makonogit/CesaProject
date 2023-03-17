@@ -6,8 +6,10 @@ public class CrackAutoMove : MonoBehaviour
 {
     //--------------------------------
     //変数宣言
-    [Header("ひび移動速度")]
+    [Header("ひび移動開始速度")]
     public float CrackMoveSpeed;
+    [SerializeField,Header("現在のひび移動速度")]
+    private float NowCrackspeed;   //現在のひび移動速度
 
     EdgeCollider2D Edge;           //当たったEdgeCollider
     public Vector2[] Point;        //当たったedgecolliderのPoint座標
@@ -57,6 +59,7 @@ public class CrackAutoMove : MonoBehaviour
         Move = this.gameObject.GetComponent<PlayerMove>();
         GroundCheck = this.gameObject.GetComponent<GroundCheck>();
 
+        NowCrackspeed = CrackMoveSpeed;
         movestate = MoveState.Walk;
         Distance = 0.0f;
     }
@@ -77,7 +80,8 @@ public class CrackAutoMove : MonoBehaviour
                 {
                     //----------------------------------
                     //目的地(Point座標)まで移動
-                    transform.position = Vector3.MoveTowards(transform.position, Edge.points[NowPointNum], CrackMoveSpeed * Time.deltaTime);
+                    NowCrackspeed += CrackMoveSpeed * Time.deltaTime;
+                    transform.position = Vector3.MoveTowards(transform.position, Edge.points[NowPointNum], NowCrackspeed * Time.deltaTime);
 
                     //-------------------------------------------------------------
                     //目的地との距離を求める
@@ -90,6 +94,7 @@ public class CrackAutoMove : MonoBehaviour
                         //終点まで移動したら終了
                         if (NowPointNum == PointNum - 1)
                         {
+                            NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
                             movestate = MoveState.CrackMoveEnd;
                         }
@@ -105,6 +110,8 @@ public class CrackAutoMove : MonoBehaviour
 
                 if (MinPointNum == PointNum - 1)
                 {
+                   
+                    NowCrackspeed += CrackMoveSpeed * Time.deltaTime;
                     //----------------------------------
                     //目的地(Point座標)まで移動
                     transform.position = Vector3.MoveTowards(transform.position, Edge.points[NowPointNum], CrackMoveSpeed * Time.deltaTime);
@@ -120,6 +127,7 @@ public class CrackAutoMove : MonoBehaviour
                         //終点まで移動したら終了
                         if (NowPointNum == 0)
                         {
+                            NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
                             movestate = MoveState.CrackMoveEnd;
                         }
