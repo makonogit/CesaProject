@@ -675,6 +675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
   TargetTrans: {fileID: 0}
+  CameraMoveSpeed: 10
 --- !u!1001 &567373463
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -985,8 +986,8 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 30.2, y: 5.6}
-      - {x: -27.7, y: 5.6}
+    - - {x: 30.2, y: 0.55}
+      - {x: -27.7, y: 0.55}
       - {x: -27.7, y: -11.5}
       - {x: 30.2, y: -11.5}
 --- !u!4 &1249075791
@@ -1017,7 +1018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AreaNum: 3
-  AreaSize: 10
+  AreaSize: 18.5
 --- !u!1 &1297021487
 GameObject:
   m_ObjectHideFlags: 0

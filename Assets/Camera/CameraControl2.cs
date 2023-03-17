@@ -14,17 +14,25 @@ public class CameraControl2 : MonoBehaviour
     [SerializeField,Header("追従ターゲットの座標")]
     private Transform TargetTrans;
 
-    private CrackAutoMove _AutoMove;        //ひびの移動スクリプト
+    private CrackAutoMove _AutoMove;        // ひびの移動スクリプト
 
-    private GameObject CameraArea;          //カメラの追従エリア
-    private PolygonCollider2D AreaCollider; //追従エリアのコライダー
+    private GameObject CameraArea;          // カメラの追従エリア
+    private PolygonCollider2D AreaCollider; // 追従エリアのコライダー
 
-    private AreaManager _AreaManager;       //エリア管理オブジェクト
+    private Vector2[] NextAreaPos;          // 次のエリアの座標
 
-    private GameObject ZoomArea;            //カメラのズームエリア
-    private CameraZoom zoom;                //カメラズーム用スクリプト
+    private AreaManager _AreaManager;       // エリア管理オブジェクト
+    private int NowAreaNum;                 // 現在のエリア番号
+    private bool AreaMove = false;          // エリアの移動イベント
 
-    private Camera MainCam;                 //メインカメラ
+    [Header("カメラの移動スピード")]
+    public float CameraMoveSpeed;
+    float NowMax_x;                         // 現在のカメラの右端
+
+    private GameObject ZoomArea;            // カメラのズームエリア
+    private CameraZoom zoom;                // カメラズーム用スクリプト
+
+    private Camera MainCam;                 // メインカメラ
 
 
     // Start is called before the first frame update
@@ -48,6 +56,20 @@ public class CameraControl2 : MonoBehaviour
 
         // カメラの情報を取得
         MainCam = GetComponent<Camera>();
+
+        // サイズを確保しておく
+        NextAreaPos = new Vector2[4];
+
+        // エリアマネージャーからエリアのサイズを計算
+        Vector2[] points = AreaCollider.points;
+        points[0].x = points[1].x + _AreaManager.AreaSize;
+        points[3].x = points[1].x + _AreaManager.AreaSize;
+        AreaCollider.SetPath(0, points);
+
+        NowMax_x = points[0].x; // 現在のカメラ右端を設定
+
+        NowAreaNum = 1;         // 最初のエリアを指定
+
     }
 
     private void LateUpdate()
@@ -90,9 +112,10 @@ public class CameraControl2 : MonoBehaviour
 
         //----------------------------------------------------------------------
         // エリアの情報からコライダーをリサイズ
-        //AreaCollider.points[0].Set(AreaCollider.points[1].x + _AreaManager.AreaSize, AreaCollider.points[0].y);
-        //AreaCollider.points[3].Set(AreaCollider.points[1].x + _AreaManager.AreaSize, AreaCollider.points[3].y);
-        //Debug.Log(_AreaManager.AreaSize);
+        //Vector2[] points = AreaCollider.points;
+        //points[0].x = points[1].x + _AreaManager.AreaSize;
+        //points[3].x = points[1].x + _AreaManager.AreaSize;
+        //AreaCollider.SetPath(0, points);
 
         //----------------------------------------------------------------------
         // コライダーの情報から画面端の座標を取得(Xだけなんかずれあるから1.77f)
@@ -104,6 +127,44 @@ public class CameraControl2 : MonoBehaviour
         // ステージのPorigonColliderを基に移動制限
         NowPos.x = Mathf.Clamp(NowPos.x, Min_x, Max_x);
         NowPos.y = Mathf.Clamp(NowPos.y, Min_y, Max_y);
+
+        //----------------------------------------------
+        //プレイヤーがエリア外に出たら次のエリアを指定
+        if (TargetTrans.position.x > AreaCollider.points[0].x + AreaCollider.offset.x
+            && NowAreaNum < _AreaManager.AreaNum)
+        {
+            if (!AreaMove)
+            {
+                NextAreaPos[0].x = AreaCollider.points[0].x + _AreaManager.AreaSize;
+                NextAreaPos[3].x = AreaCollider.points[0].x + _AreaManager.AreaSize;
+                NowAreaNum++;
+                AreaMove = true;
+            }
+        }
+        else
+        {
+           // AreaMove = false;
+        }
+
+        if (AreaMove)
+        {
+            Vector2[] points = AreaCollider.points;
+
+            //次のエリアに到達するまで右端座標を更新
+            if(NowMax_x <= NextAreaPos[0].x)
+            {
+                NowMax_x += CameraMoveSpeed * Time.deltaTime;
+                points[0].x = NowMax_x;
+                points[3].x = NowMax_x;
+                AreaCollider.SetPath(0, points);
+            }
+            else
+            {
+                //到達したら移動を終了
+                AreaMove = false;
+            }
+        }
+
 
         if (_AutoMove.movestate == CrackAutoMove.MoveState.CrackMove)
         {
