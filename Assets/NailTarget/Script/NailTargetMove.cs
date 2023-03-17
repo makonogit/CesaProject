@@ -64,6 +64,11 @@ public class NailTargetMove : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // HammerNailæ“¾
         hammerNail = player.GetComponent<HammerNail>();
+
+        //-----------------------------------------------------------------------------------------------------------
+        // Æ€‚ÌˆÊ’u‚ğ‰Šú‰»
+        thisTransform.position = new Vector3(playerTransform.position.x + 1.0f,playerTransform.position.y,0.0f);
+
     }
 
     // Update is called once per frame
