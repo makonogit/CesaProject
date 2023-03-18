@@ -23,7 +23,7 @@ public class PlayerJump : MonoBehaviour
     [SerializeField]
     private bool isJump = false; // ジャンプ中かどうか
     private float axel = 9.8f; // 重力加速度
-    private float JumpTime = 0.0f; // ジャンプが始まってから落ち始めるまでの経過時間
+    public float JumpTime = 0.0f; // ジャンプが始まってから落ち始めるまでの経過時間
     public float FallTime = 0.0f; // 落ち始めてからの時間
     public int RayNum; // 当たっているレイの本数
 
@@ -34,6 +34,7 @@ public class PlayerJump : MonoBehaviour
     private GroundCheck ground; // 接地判定用のスクリプトを取得する変数
     private OverheadCheck overhead; // 接地判定用のスクリプトを取得する変数
     private Rigidbody2D thisRigidbody2d; // rigidbody2dを取得する変数
+    private InputTrigger trigger;
 
     // アニメーション関係
     private Animator anim;
@@ -54,6 +55,8 @@ public class PlayerJump : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // ゲームオブジェクトPlayerInputManagerが持つPlayerInputManagerスクリプトを取得
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
+
+        trigger = PlayerInputManager.GetComponent<InputTrigger>();
 
         //----------------------------------------------------------------------------------------------------------
         // 自身(player)の持つTransformを取得する
@@ -115,7 +118,7 @@ public class PlayerJump : MonoBehaviour
         {
             //----------------------------------------------------------------------------------------------------------
             // ジャンプ入力されていれば
-            if (Jump == true)
+            if (Jump)
             {
                 //----------------------------------------------------------------------------------------------------------
                 // ジャンプによって上昇する量を変数にセット
@@ -166,7 +169,7 @@ public class PlayerJump : MonoBehaviour
         // 自由落下（加速度加味）
 
         // 地面についてないかつ、ジャンプ入力もない(PlayerInputManagerスクリプトの変数Resetがtrueか未入力)時
-        if(isGround == false && Jump == false && crackmove.movestate == CrackAutoMove.MoveState.Walk)
+        if((isGround == false && isJump == false && crackmove.movestate == CrackAutoMove.MoveState.Walk))
         {
             if (RayNum == 0)
             {
@@ -188,7 +191,7 @@ public class PlayerJump : MonoBehaviour
 
         //----------------------------------------------------------------------------------------------------------
         // ジャンプ入力があるかつ上昇中の時
-        if (Jump == true)
+        if (isJump == true)
         {
             //----------------------------------------------------------------------------------------------------------
             // 経過時間を加算
