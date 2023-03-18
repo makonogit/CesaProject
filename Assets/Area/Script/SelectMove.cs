@@ -34,7 +34,13 @@ public class SelectMove : MonoBehaviour
     private float _speed;
     [Header("ひびの移動スピード")]
     [SerializeField]
+    private float _max = 5;
+    [SerializeField]
+    private float _min = 0.01f;
+    [SerializeField]
+    private float _add = 0.01f;
     private float _crackSpeed =5;
+    [SerializeField]
     private SelectPlayerState _state;
     [SerializeField]
     private Transform _camPos;
@@ -54,10 +60,21 @@ public class SelectMove : MonoBehaviour
     private GameObject _mainCam;
     private SelectArea _selectArea;
 
+    [SerializeField]
+    private GameObject _praticle;
+    private SpriteRenderer _sprite;
+    [SerializeField]
+    private float _fadeTime;
+    private float _fadeNowTime;
+
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
     {
+        //--------------------------------------
+        // SpriteRendererのコンポーネント取得
+        _sprite = GetComponent<SpriteRenderer>();
+        if (_sprite == null) Debug.LogError("SpriteRendererのコンポーネントを取得できませんでした。");
         //--------------------------------------
         // Rigidbody2Dのコンポーネント取得
         _rb = GetComponent<Rigidbody2D>();
@@ -74,7 +91,7 @@ public class SelectMove : MonoBehaviour
         //--------------------------------------
         // 状態の設定
         State = SelectPlayerState.STOP;
-
+        _fadeNowTime = 0;
         //--------------------------------------
         // SelectAreaのコンポーネント取得
         if (_mainCam == null) Debug.LogError("_mainCamのオブジェクトが設定されていません");
@@ -88,13 +105,20 @@ public class SelectMove : MonoBehaviour
     //―更新処理―
     void Update()
     {
-
-        if(State == SelectPlayerState.FREE_MOVE) 
+        _fadeNowTime-= Time.deltaTime;
+        if (State == SelectPlayerState.FREE_MOVE) 
         {
+            _sprite.enabled = true;
+            _praticle.SetActive(false);
             _rb.velocity = _move * _speed * Time.deltaTime;
         }
         if(State == SelectPlayerState.STOP)
         {
+            
+            if (_fadeNowTime <= 0) 
+            {
+                _praticle.SetActive(false);
+            }
             _rb.velocity = new Vector2(0,0);
 
             if (_stageManagers[_selectArea._nowArea]._Start) 
@@ -105,11 +129,13 @@ public class SelectMove : MonoBehaviour
             if (_stageManagers[_selectArea._nowArea].AreaClear) 
             {
                 State = SelectPlayerState.FREE_MOVE;
+                
             }
 
         }
         if(State == SelectPlayerState.MOVE) 
         {
+            _praticle.SetActive(true);
             Vector2 _vec2 = new Vector2(transform.position.x, transform.position.y) - TransPos(_ec2d[_selectArea._nowArea].points[_nextPoint], _areas[_selectArea._nowArea].transform);
             if (_vec2.magnitude >= 0.125) 
             {
@@ -117,6 +143,8 @@ public class SelectMove : MonoBehaviour
                 _vec2 -= new Vector2(transform.position.x, transform.position.y);
 
                 transform.position += new Vector3(_vec2.normalized.x, _vec2.normalized.y, 0) * _crackSpeed * Time.deltaTime;
+                _crackSpeed +=_add * Time.deltaTime;
+                _crackSpeed = Mathf.Clamp(_crackSpeed, _min, _max);
             }
             else 
             {
@@ -146,6 +174,7 @@ public class SelectMove : MonoBehaviour
             if (_stageManagers[_selectArea._nextArea].AreaClear)
             {
                 State = SelectPlayerState.FREE_MOVE;
+                _sprite.enabled = true;
             }
             else 
             {
@@ -175,6 +204,16 @@ public class SelectMove : MonoBehaviour
         set
         {
             _state = value;
+            _sprite.enabled = true;
+            if (value == SelectPlayerState.STOP) 
+            {
+                _fadeNowTime = _fadeTime;
+            }
+            if (value == SelectPlayerState.MOVE) 
+            {
+                _sprite.enabled = false;
+            }
+
         }
     }
     public void OnMove(InputAction.CallbackContext _context)
@@ -250,6 +289,7 @@ public class SelectMove : MonoBehaviour
         if (_vec.magnitude < 0.25f && _flg == true)
         {
             State = SelectPlayerState.MOVE;
+            _crackSpeed = _min;
         }
     }
 
