@@ -30,34 +30,48 @@ public class CrackAutoMove : MonoBehaviour
     private GameObject PlayerInputManager;       // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager;  // PlayerInputManager
   
-    PlayerJump Jump;                    //ジャンプスクリプト
-    PlayerMove Move;                    //移動スクリプト
-    GroundCheck GroundCheck;            //接地判定
-    Rigidbody2D thisrigidbody;          //このオブジェクトのrigitbody
+    PlayerJump Jump;                    // ジャンプスクリプト
+    PlayerMove Move;                    // 移動スクリプト
+    GroundCheck GroundCheck;            // 接地判定
+    Rigidbody2D thisrigidbody;          // このオブジェクトのrigitbody
+    SpriteRenderer thisRenderer;        // このオブジェクトのspriterenderer
 
     //移動状態
     public enum MoveState
     {
-        Walk,           //歩いている
-        CrackHold,      //ひびの中に入っている
-        CrackMove,      //ひびの中を移動中
-        CrackMoveEnd,   //ひびの中の移動終了
-        CrackDown       //ひびの中から移動
+        Walk,           // 歩いている
+        CrackHold,      // ひびの中に入っている
+        CrackMove,      // ひびの中を移動中
+        CrackMoveEnd,   // ひびの中の移動終了
+        CrackDown       // ひびの中から移動
     }
 
     public MoveState movestate;
 
     Collider2D HitCollider;
 
+    //--------------------------------
+    // パーティクルシステム
+    GameObject ParticleSystemObj;         
+   
     // Start is called before the first frame update
     void Start()
     {
-        thisrigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+        //----------------------------------------------------
+        //このオブジェクトの情報を取得
+        thisrigidbody = GetComponent<Rigidbody2D>();
+        thisRenderer = GetComponent<SpriteRenderer>();
+
         PlayerInputManager = GameObject.Find("PlayerInputManager");
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
+        
         Jump = this.gameObject.GetComponent<PlayerJump>();
         Move = this.gameObject.GetComponent<PlayerMove>();
         GroundCheck = this.gameObject.GetComponent<GroundCheck>();
+
+        // パーティクルシステムを取得
+        ParticleSystemObj = GameObject.Find("Particle");
+        ParticleSystemObj.active = false;
 
         NowCrackspeed = CrackMoveSpeed;
         movestate = MoveState.Walk;
@@ -71,6 +85,11 @@ public class CrackAutoMove : MonoBehaviour
         switch (movestate)
         {
             case MoveState.CrackHold:
+
+                // パーティクルシステムを起動、自身は非表示
+                ParticleSystemObj.active = true;
+                thisRenderer.enabled = false;
+
                 //ひびに入っていたら移動開始(ここは秒数待っても良さそう)
                 movestate = MoveState.CrackMove;
                 break;
@@ -145,11 +164,16 @@ public class CrackAutoMove : MonoBehaviour
 
                 break;
             case MoveState.CrackMoveEnd:
-                //移動終了していたらMove,Jumpを再開
+                // 移動終了していたらMove,Jumpを再開
                 thisrigidbody.constraints = RigidbodyConstraints2D.None;
                 thisrigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
                 Jump.enabled = true;
                 Move.enabled = true;
+
+                // パーティクルシステムを非表示、自身を表示
+                ParticleSystemObj.active = false;
+                thisRenderer.enabled = true;
+
                 break;
 
         }
