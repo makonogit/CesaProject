@@ -22,6 +22,8 @@ public class SelectArea : MonoBehaviour
 
     [SerializeField]
     public Object _returnScene;// シーンチェンジ用のオブジェ
+    [SerializeField]
+    private string _returnName;
 
     [SerializeField]
     private List<Transform> _positions;// 各エリアの位置
@@ -103,7 +105,7 @@ public class SelectArea : MonoBehaviour
         // 押された瞬間
         if (_context.phase == InputActionPhase.Started)
         {
-            scene.LoadScene(_returnScene.name);
+            scene.LoadScene(_returnName);
         }
     }
 
