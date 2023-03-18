@@ -22,6 +22,13 @@ public class TitleMove : MonoBehaviour
 
     private float BreakTime;        //画面が崩壊するまでの時間
 
+
+    //----------------------------------------
+    //追加：菅
+    GameObject CrystalObj;      //クリスタルの背景オブジェクト
+    SpriteRenderer CrystalRenderer;     //クリスタルのRender
+    float CrystalAlpha;                 //クリスタルの透明度
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +40,11 @@ public class TitleMove : MonoBehaviour
 
         BreakTime = 0.0f;
 
+        //--------------------------------------------
+        //クリスタルの状態を取得
+        CrystalObj = GameObject.Find("Crystal");
+        CrystalRenderer = CrystalObj.GetComponent<SpriteRenderer>();
+        CrystalAlpha = CrystalRenderer.color.a;
     }
 
     // Update is called once per frame
@@ -47,7 +59,9 @@ public class TitleMove : MonoBehaviour
             //スプライトを変更
             if (FallNum > 0)
             {
-                MainSpriteRenderer.sprite = TitleBackSprite[FallNum - 1];
+                CrystalAlpha += (1.0f / 255.0f) * 20;
+                CrystalRenderer.color = new Color(1.0f, 1.0f, 1.0f, CrystalAlpha);
+               // MainSpriteRenderer.sprite = TitleBackSprite[FallNum - 1];
             }
             //-------------------------------------------------
 
