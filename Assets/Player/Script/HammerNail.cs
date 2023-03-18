@@ -17,7 +17,7 @@ public class HammerNail : MonoBehaviour
     [Header("釘のプレハブオブジェクト")]
     public GameObject NailPrehubObj;      //釘のプレハブ
 
-    Transform NailsTrans;                 // 釘のTransForm
+    public Transform NailsTrans;                 // 釘のTransForm
 
     // 外部取得
     // 入力関係
@@ -241,7 +241,7 @@ public class HammerNail : MonoBehaviour
                 
                 //ポイント座標を追加
                 //NailsPoint.Add(NailsTrans.position);
-                obj = Instantiate(NailPrehubObj, NailsTrans.position, Quaternion.identity) as GameObject;
+                obj = Instantiate(NailPrehubObj, transform.position, Quaternion.identity) as GameObject;
                 //obj.AddComponent<PolygonCollider2D>();
                 
                 NailTargetMove.Radius += NailAddArea;

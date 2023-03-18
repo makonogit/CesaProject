@@ -21,6 +21,8 @@ public class SetNailList : MonoBehaviour
     GameObject CrackCreateArea;     //ひびを作成する用のオブジェクト
     SetNailList _nextSet;           //次のPointセット用
 
+    NailStateManager nailStateManager;  //釘の状態を取得
+
     CircleCollider2D thiscol;       //このオブジェクトのコライダー
 
     public int OldNailNum;          //1個前の釘番号
@@ -40,7 +42,7 @@ public class SetNailList : MonoBehaviour
         _getCrackPoint = CrackCreateArea.GetComponent<GetCrackPoint>();
 
         //このオブジェクトのコライダーを取得
-        thiscol = GetComponent<CircleCollider2D>();
+       // thiscol = GetComponent<CircleCollider2D>();
 
         NearDistance = 10000;
 
@@ -54,18 +56,15 @@ public class SetNailList : MonoBehaviour
         {
             if (_nextSet != null)
             {
-               // _nextSet.ChainFlg = true;
+                // _nextSet.ChainFlg = true;
             }
 
-            //if (!GetComponent<CircleCollider2D>())
-            //{
-            //    gameObject.AddComponent<CircleCollider2D>();
-            //    thiscol = GetComponent<CircleCollider2D>();
-            //    thiscol.isTrigger = true;
-            //}
-
-            thiscol.radius = 0.5f;
-            //thiscol.enabled = true;
+            if (GetComponent<CircleCollider2D>())
+            {
+                thiscol = GetComponent<CircleCollider2D>();
+                thiscol.radius = 0.5f;
+            }
+       
 
         }
         else
@@ -78,15 +77,12 @@ public class SetNailList : MonoBehaviour
 
             }
 
-            //if (GetComponent<CircleCollider2D>() && OldNailNum == -1)
-            //{
-            //    Destroy(thiscol);
-            //}
-
-            thiscol.radius = 0.0f;
-
-            //thiscol.enabled = false;
-
+            if (GetComponent<CircleCollider2D>())
+            {
+                thiscol = GetComponent<CircleCollider2D>();
+                thiscol.radius = 0.0f;
+            }
+          
         }
 
         //当たっている釘があれば
@@ -95,6 +91,7 @@ public class SetNailList : MonoBehaviour
 
             for (int i = 0; i < HitList.Count; i++)
             {
+
                 //------------------------------------------------------
                 //リストに存在してない釘の中から1番近い釘を取得
                 //距離を求める

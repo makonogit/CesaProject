@@ -15,7 +15,8 @@ public class GetCrackPoint : MonoBehaviour
 
     Transform Playertransform;      //プレイヤーの座標
     CrackAutoMove _crackAutoMove;   //ひびの移動中か
-  
+
+    NailStateManager nailStateManager;  //釘の状態を取得
 
     Vector2 OldFirstPoint;  //1個前の始点釘
 
@@ -39,17 +40,13 @@ public class GetCrackPoint : MonoBehaviour
 
         objectList.Add(gameObject);
         PointList.Add(transform.position);
-      //  PointList.Add(transform.position);
+        //  PointList.Add(transform.position);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        ////円形のRayを配置、衝突したコライダーを全て取得
-        //RaycastHit2D[] hit2Ds = Physics2D.CircleCastAll(transform.position, 3.0f, Vector2.zero);
-
-        //Debug.Log(hit2Ds.Length);
 
         //座標を同期
         transform.localPosition = Vector3.zero;
@@ -65,17 +62,18 @@ public class GetCrackPoint : MonoBehaviour
             //----------------------------------
             //1番近い釘を取得
             for (int i = 0;i<HitList.Count; i++)
-            {
-                //距離を求める
-                float Distance = Vector3.Magnitude(transform.position - HitList[i].transform.position);
+            { 
+                 //距離を求める
+                 float Distance = Vector3.Magnitude(transform.position - HitList[i].transform.position);
+
 
                 //1番近い距離より近かったら情報更新
-                if(NearDistance > Distance)
+                if (NearDistance > Distance)
                 {
                     NearDistance = Distance;
                     NearNailNum = i;
                 }
-
+              
             }
 
             //前回の始点と違う始点になったらリストを初期化
@@ -128,6 +126,7 @@ public class GetCrackPoint : MonoBehaviour
         //Debug.Log(collision.gameObject.transform.GetChild(0).gameObject.tag);
         if (collision.gameObject.tag == "UsedNail")
         {
+
             //当たったコライダーをリスト化
             HitList.Add(collision.gameObject);
 
@@ -150,10 +149,12 @@ public class GetCrackPoint : MonoBehaviour
                 }
             }
 
-            _Setlist.ChainFlg = false;
-            _Setlist.ThisPointNum = -1;
-            _Setlist.OldNailNum = -1;
-
+            if (_Setlist != null)
+            {
+                _Setlist.ChainFlg = false;
+                _Setlist.ThisPointNum = -1;
+                _Setlist.OldNailNum = -1;
+            }
             for (int i = 1; i < PointList.Count; i++)
             {
                 objectList.RemoveAt(i);
