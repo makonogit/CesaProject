@@ -71,8 +71,10 @@ public class CrackAutoMove : MonoBehaviour
 
         // パーティクルシステムを取得
         ParticleSystemObj = GameObject.Find("Particle");
-        ParticleSystemObj.active = false;
-
+        if (ParticleSystemObj != null)
+        {
+            ParticleSystemObj.active = false;
+        }
         NowCrackspeed = CrackMoveSpeed;
         movestate = MoveState.Walk;
         Distance = 0.0f;
@@ -87,7 +89,10 @@ public class CrackAutoMove : MonoBehaviour
             case MoveState.CrackHold:
 
                 // パーティクルシステムを起動、自身は非表示
-                ParticleSystemObj.active = true;
+                if (ParticleSystemObj != null)
+                {
+                    ParticleSystemObj.active = true;
+                }
                 thisRenderer.enabled = false;
 
                 //ひびに入っていたら移動開始(ここは秒数待っても良さそう)
@@ -171,7 +176,11 @@ public class CrackAutoMove : MonoBehaviour
                 Move.enabled = true;
 
                 // パーティクルシステムを非表示、自身を表示
-                ParticleSystemObj.active = false;
+                if (ParticleSystemObj != null) { 
+                
+                    ParticleSystemObj.active = false;
+                }
+
                 thisRenderer.enabled = true;
 
                 break;
