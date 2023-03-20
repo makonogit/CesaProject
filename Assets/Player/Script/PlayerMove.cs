@@ -13,10 +13,22 @@ public class PlayerMove : MonoBehaviour
     // - 変数宣言 -
 
     // 移動用
-    public float Speed = 5f; // 移動速度用変数
+    public float BaseSpeed = 5f; // 移動速度用変数
     Vector2 movement; // 入力量を取得する変数
 
+    [Header("歩くときは走るときのどれくらいのスピードか")]
+    public float magnification = 1.5f; // 歩くときのスピードの倍率
+
     PlayerInputManager.DIRECTION oldDire; // 前フレームの向きを入れておくための変数
+
+    enum MOVESTATUS
+    {
+        NONE,
+        WALK,
+        RUN
+    }
+
+    private MOVESTATUS MoveSta = MOVESTATUS.NONE;
 
     // 外部取得
     private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数
@@ -59,6 +71,32 @@ public class PlayerMove : MonoBehaviour
         // 移動量をPlayerInputManagerからとってくる
         movement = ScriptPIManager.GetMovement();
 
+        if((movement.x > 0.0f && movement.x < 0.5f) || (movement.x < 0.0f && movement.x > -0.5f))
+        {
+            MoveSta = MOVESTATUS.WALK;
+        }
+        else if((movement.x >= 0.5f && movement.x <= 1.0f) || (movement.x <= -0.5f && movement.x >= -1.0f))
+        {
+            MoveSta = MOVESTATUS.RUN;
+        }
+        else if(movement.x == 0)
+        {
+            MoveSta = MOVESTATUS.NONE;
+        }
+
+        float Speed = 0.0f;
+        switch (MoveSta)
+        {
+            case MOVESTATUS.WALK:
+                Speed = BaseSpeed * magnification;
+                
+                break;
+
+            case MOVESTATUS.RUN:
+                Speed = BaseSpeed;
+                break;
+        }
+
         //----------------------------------------------------------------------------------------------------------
         // プレイヤーのTransformに移動量を適応する
         // スティックで上入力すると少し浮く問題があるため、Y,Zには直接値を入れて修正
@@ -67,8 +105,8 @@ public class PlayerMove : MonoBehaviour
         //-----------------------------------------------------------------
         // アニメーション関係
         // movementのxの値によってwalkかrunになる
-        anim.SetBool("walk", (movement.x > 0.0f && movement.x < 0.5f) || (movement.x < 0.0f && movement.x > -0.5f)); // スティック入力の左右半分までなら歩く
-        anim.SetBool("run", (movement.x >= 0.5f && movement.x <= 1.0f) || (movement.x <= -0.5f && movement.x >= -1.0f)); // スティック入力の左右半分以上なら走る
+        anim.SetBool("walk", MoveSta == MOVESTATUS.WALK); // スティック入力の左右半分までなら歩く
+        anim.SetBool("run", MoveSta == MOVESTATUS.RUN); // スティック入力の左右半分以上なら走る
 
         if (oldDire != ScriptPIManager.Direction)
         {
