@@ -296,68 +296,81 @@ public class CrackCreater : MonoBehaviour
     {
         // 方向決定(仮想釘の設定)
         Vector2 _vNailVec = _edgePoints[0] - _edgePoints[1];
-        _vNailVec = _edgePoints[0] + (_vNailVec.normalized * 1.5f);
-        _edgePoints.Insert(0, _vNailVec);
-        _nailPointCount[0]++;
-        // 二つの釘から垂直な角度を求める
-        Vector2 _vec = _edgePoints[1] - _edgePoints[0];
-        float _angle = Mathf.Atan2(_vec.y, _vec.x);
-        _angle += (90 * Mathf.Deg2Rad);
-        // 方向ベクトル
-        Vector2 _verticalVec = new Vector2(Mathf.Cos(_angle), Mathf.Sin(_angle));
-
-        // 分割数を決定する
-        int _division = Random.Range(_divisionNum.x, _divisionNum.y);
-        //--------------------------------------
-        // 分割する頂点分繰り返す
-        for (int j = 1; j < _division; j++)
+        // 方向と距離でレイであたり判定
+        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[0], _vNailVec.normalized, 1.5f, 3);
+        if (hit) Debug.Log("前" + hit.collider.gameObject.name);
+        if (hit) 
         {
-            //奇数なら－偶数なら＋
-            float _odd = (j % 2 != 0 ? -1.0f : 1.0f);
-            // 割合を求める
-            float _percent = (float)j / ((float)_division);
-            // 間の座標を求める
-            Vector2 _pos = _edgePoints[0] * (1.0f - _percent);
-            _pos += _edgePoints[j] * _percent;
-            if (j != 1 && j != _division - 1)// 最初と最後以外
-            {
-                _pos += _verticalVec * _odd * Random.Range(_rangeNum.x, _rangeNum.y);
-            }
-            // 間を追加
-            _edgePoints.Insert(j, _pos);
-            // _edgePoinsの位置を計算する
+            Debug.Log("前"+ hit.collider.tag);
+            _vNailVec = hit.point;
+        }
+        else 
+        {
+            _vNailVec = _edgePoints[0] + (_vNailVec.normalized * 1.5f);
+            // 設定
+            _edgePoints.Insert(0, _vNailVec);
             _nailPointCount[0]++;
-        }
-        // 前に増えた分を足す
-        for (int i = 1; i < _nailPointCount.Count; i++)
-        {
-            _nailPointCount[i] += _nailPointCount[0];
-        }
-        //--------------------------------------
-        // 2つ頂点の間にポイントを置く// 0～_division - 1
-        for (int i = 0; i < _division; i++)
-        {
-            // 中間座標を求める
-            Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1]) / 2;
-            Vector3 _point = new Vector3(_center.x, _center.y, 0);
-
-            // リストに追加
-            // 呼び出し
-            _cracks.Insert(i,Instantiate(_crackObject, _point, Quaternion.identity, transform));
-            // 非表示
-            _cracks[i].SetActive(false);
-
             // 二つの釘から垂直な角度を求める
-            Vector2 _vector = _edgePoints[i] - _edgePoints[i + 1];
-            float _angle2 = Mathf.Atan2(_vector.y, _vector.x) * Mathf.Rad2Deg;
-            // 角度設定
-            _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle2);
-            // サイズ設定
-            _cracks[i].transform.localScale = new Vector3(_vector.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
-            _addCrackCount ++;
+            Vector2 _vec = _edgePoints[1] - _edgePoints[0];
+            float _angle = Mathf.Atan2(_vec.y, _vec.x);
+            _angle += (90 * Mathf.Deg2Rad);
+            // 方向ベクトル
+            Vector2 _verticalVec = new Vector2(Mathf.Cos(_angle), Mathf.Sin(_angle));
+
+            // 分割数を決定する
+            int _division = Random.Range(_divisionNum.x, _divisionNum.y);
+            //--------------------------------------
+            // 分割する頂点分繰り返す
+            for (int j = 1; j < _division; j++)
+            {
+                //奇数なら－偶数なら＋
+                float _odd = (j % 2 != 0 ? -1.0f : 1.0f);
+                // 割合を求める
+                float _percent = (float)j / ((float)_division);
+                // 間の座標を求める
+                Vector2 _pos = _edgePoints[0] * (1.0f - _percent);
+                _pos += _edgePoints[j] * _percent;
+                if (j != 1 && j != _division - 1)// 最初と最後以外
+                {
+                    _pos += _verticalVec * _odd * Random.Range(_rangeNum.x, _rangeNum.y);
+                }
+                // 間を追加
+                _edgePoints.Insert(j, _pos);
+                // _edgePoinsの位置を計算する
+                _nailPointCount[0]++;
+            }
+            // 前に増えた分を足す
+            for (int i = 1; i < _nailPointCount.Count; i++)
+            {
+                _nailPointCount[i] += _nailPointCount[0];
+            }
+            //--------------------------------------
+            // 2つ頂点の間にポイントを置く// 0～_division - 1
+            for (int i = 0; i < _division; i++)
+            {
+                // 中間座標を求める
+                Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1]) / 2;
+                Vector3 _point = new Vector3(_center.x, _center.y, 0);
+
+                // リストに追加
+                // 呼び出し
+                _cracks.Insert(i, Instantiate(_crackObject, _point, Quaternion.identity, transform));
+                // 非表示
+                _cracks[i].SetActive(false);
+
+                // 二つの釘から垂直な角度を求める
+                Vector2 _vector = _edgePoints[i] - _edgePoints[i + 1];
+                float _angle2 = Mathf.Atan2(_vector.y, _vector.x) * Mathf.Rad2Deg;
+                // 角度設定
+                _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle2);
+                // サイズ設定
+                _cracks[i].transform.localScale = new Vector3(_vector.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
+                _addCrackCount++;
+            }
+            // 非表示の場所を記録
+            _addCrackNow = new Vector2Int(_division - 1, 0);
         }
-        // 非表示の場所を記録
-        _addCrackNow = new Vector2Int(_division - 1, 0);
+       
     }
     //-------------------------------------------------------
     //―ひびの後方追加関数―(私)
@@ -366,60 +379,75 @@ public class CrackCreater : MonoBehaviour
         int Last = _edgePoints.Count - 1;
         // 方向決定(仮想釘の設定)
         Vector2 _vNailVec = _edgePoints[Last] - _edgePoints[_edgePoints.Count - 2];
-        _vNailVec = _edgePoints[_edgePoints.Count - 1] + (_vNailVec.normalized * 1.5f);
-        _edgePoints.Add(_vNailVec);
-        // 二つの釘から垂直な角度を求める
-        Vector2 _vec = _edgePoints[1] - _edgePoints[0];
-        float _angle = Mathf.Atan2(_vec.y, _vec.x);
-        _angle += (90 * Mathf.Deg2Rad);
-        // 方向ベクトル
-        Vector2 _verticalVec = new Vector2(Mathf.Cos(_angle), Mathf.Sin(_angle));
-
-        // 分割数を決定する
-        int _division = Random.Range(_divisionNum.x, _divisionNum.y);
-        //--------------------------------------
-        // 分割する頂点分繰り返す
-        for (int j = 1; j < _division; j++)
+        // 方向と距離でレイであたり判定
+        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last], _vNailVec.normalized , 1.5f, 3);
+        if (hit) Debug.Log("後" + hit.collider.gameObject.tag);
+        if (hit)
         {
-            //奇数なら－偶数なら＋
-            float _odd = (j % 2 != 0 ? -1.0f : 1.0f);
-            // 割合を求める
-            float _percent = (float)j / ((float)_division);
-            // 間の座標を求める
-            Vector2 _pos = _edgePoints[Last] * (1.0f - _percent);
-            _pos += _edgePoints[_edgePoints.Count - 1] * _percent;
-            if (j != 1 && j != _division - 1)// 最初と最後以外
-            {
-                _pos += _verticalVec * _odd * Random.Range(_rangeNum.x, _rangeNum.y);
-            }
-            // 間を追加
-            _edgePoints.Insert(_edgePoints.Count - 1,_pos);
+            Debug.Log("後" + hit.transform.name);
+            _vNailVec = hit.point;
         }
-        //--------------------------------------
-        // 2つ頂点の間にポイントを置く// Last～Cont - 1
-        for (int i = Last; i < _edgePoints.Count - 1; i++)
+        else
         {
-            // 中間座標を求める
-            Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1]) / 2;
-            Vector3 _point = new Vector3(_center.x, _center.y, 0);
+            _vNailVec = _edgePoints[_edgePoints.Count - 1] + (_vNailVec.normalized * 1.5f);
 
-            // リストに追加
-            // 呼び出し
-            _cracks.Add(Instantiate(_crackObject, _point, Quaternion.identity, transform));
-            // 非表示
-            _cracks[i].SetActive(false);
-
+            // 設定
+            _edgePoints.Add(_vNailVec);
             // 二つの釘から垂直な角度を求める
-            Vector2 _vector = _edgePoints[i] - _edgePoints[i + 1];
-            float _angle2 = Mathf.Atan2(_vector.y, _vector.x) * Mathf.Rad2Deg;
-            // 角度設定
-            _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle2);
-            // サイズ設定
-            _cracks[i].transform.localScale = new Vector3(_vector.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
-            _addCrackCount ++;
+            Vector2 _vec = _edgePoints[1] - _edgePoints[0];
+            float _angle = Mathf.Atan2(_vec.y, _vec.x);
+            _angle += (90 * Mathf.Deg2Rad);
+            // 方向ベクトル
+            Vector2 _verticalVec = new Vector2(Mathf.Cos(_angle), Mathf.Sin(_angle));
+
+            // 分割数を決定する
+            int _division = Random.Range(_divisionNum.x, _divisionNum.y);
+            //--------------------------------------
+            // 分割する頂点分繰り返す
+            for (int j = 1; j < _division; j++)
+            {
+                //奇数なら－偶数なら＋
+                float _odd = (j % 2 != 0 ? -1.0f : 1.0f);
+                // 割合を求める
+                float _percent = (float)j / ((float)_division);
+                // 間の座標を求める
+                Vector2 _pos = _edgePoints[Last] * (1.0f - _percent);
+                _pos += _edgePoints[_edgePoints.Count - 1] * _percent;
+                if (j != 1 && j != _division - 1)// 最初と最後以外
+                {
+                    _pos += _verticalVec * _odd * Random.Range(_rangeNum.x, _rangeNum.y);
+                }
+                // 間を追加
+                _edgePoints.Insert(_edgePoints.Count - 1, _pos);
+            }
+            //--------------------------------------
+            // 2つ頂点の間にポイントを置く// Last～Cont - 1
+            for (int i = Last; i < _edgePoints.Count - 1; i++)
+            {
+                // 中間座標を求める
+                Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1]) / 2;
+                Vector3 _point = new Vector3(_center.x, _center.y, 0);
+
+                // リストに追加
+                // 呼び出し
+                _cracks.Add(Instantiate(_crackObject, _point, Quaternion.identity, transform));
+                // 非表示
+                _cracks[i].SetActive(false);
+
+                // 二つの釘から垂直な角度を求める
+                Vector2 _vector = _edgePoints[i] - _edgePoints[i + 1];
+                float _angle2 = Mathf.Atan2(_vector.y, _vector.x) * Mathf.Rad2Deg;
+                // 角度設定
+                _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle2);
+                // サイズ設定
+                _cracks[i].transform.localScale = new Vector3(_vector.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
+                _addCrackCount++;
+            }
+            // 非表示の場所を記録
+            _addCrackNow = new Vector2Int(_addCrackNow.x, Last);
         }
-        // 非表示の場所を記録
-        _addCrackNow = new Vector2Int(_addCrackNow.x , Last);
+        
+
     }
     //-------------------------------------------------------
     //―ひびの追加作成関数―(私)
