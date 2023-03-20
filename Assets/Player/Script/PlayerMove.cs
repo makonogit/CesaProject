@@ -66,8 +66,9 @@ public class PlayerMove : MonoBehaviour
 
         //-----------------------------------------------------------------
         // アニメーション関係
-        // movementのxの値が0じゃない時→移動入力があったらplayer_runに遷移
-        anim.SetBool("walk", movement.x != 0);
+        // movementのxの値によってwalkかrunになる
+        anim.SetBool("walk", (movement.x > 0.0f && movement.x < 0.5f) || (movement.x < 0.0f && movement.x > -0.5f)); // スティック入力の左右半分までなら歩く
+        anim.SetBool("run", (movement.x >= 0.5f && movement.x <= 1.0f) || (movement.x <= -0.5f && movement.x >= -1.0f)); // スティック入力の左右半分以上なら走る
 
         if (oldDire != ScriptPIManager.Direction)
         {
