@@ -12,6 +12,8 @@ public class OverheadCheck : MonoBehaviour
     // - 変数宣言 -
 
     private string groundTag = "Ground"; // Groundタグ名を文字列型で持っている変数
+    private string iceTag = "Ice";
+
     public bool isOverhead = false; // 最終的に天井と衝突しているかしていないかの情報を持つ
     private float AdjustY = -0.15f; // 画像の空白部分を無視するための調整用変数
     private float AdjustX = 0.41f; // 画像の空白部分を無視するための調整用変数
@@ -82,10 +84,13 @@ public class OverheadCheck : MonoBehaviour
         Debug.DrawRay(origin_left, distance, Color.blue);
         Debug.DrawRay(origin_right, distance, Color.blue);
 
+        // if文見やすくするため変数定義
+        bool leftJudge = (hit_l && ((hit_l.collider.gameObject.tag == groundTag) || (hit_l.collider.gameObject.tag == iceTag)));
+        bool rightJudge = (hit_r && ((hit_r.collider.gameObject.tag == groundTag) || (hit_r.collider.gameObject.tag == iceTag)));
+
         //----------------------------------------------------------------------------------------------------------
         // 当たっているかつ、タグがGroundならisGroundをtrueにする
-        if ((hit_l && hit_l.collider.gameObject.tag == groundTag) ||
-            (hit_r && hit_r.collider.gameObject.tag == groundTag))
+        if (leftJudge || rightJudge)
         {
             isOverhead = true;
         }

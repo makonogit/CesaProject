@@ -12,6 +12,8 @@ public class GroundCheck : MonoBehaviour
     // - 変数宣言 -
 
     private string groundTag = "Ground"; // Groundタグ名を文字列型で持っている変数
+    private string iceTag = "Ice";
+
     public bool isGround = false; // 最終的に接地しているかしていないかの情報を持つ
     private float AdjustY = 0.03f; // 画像の空白部分を無視するための調整用変数
     private float AdjustX = 0.41f; // 画像の空白部分を無視するための調整用変数
@@ -100,15 +102,15 @@ public class GroundCheck : MonoBehaviour
         touch = 0;
 
         // 当たっているかつ、タグがGroundならカウントを増やす
-        if (hit_l && hit_l.collider.gameObject.tag == groundTag)
+        if (hit_l && ((hit_l.collider.gameObject.tag == groundTag) || (hit_l.collider.gameObject.tag == iceTag)))
         {
             touch++;
         }
-        if (hit_m && hit_m.collider.gameObject.tag == groundTag)
+        if (hit_m && ((hit_m.collider.gameObject.tag == groundTag) || (hit_m.collider.gameObject.tag == iceTag)))
         {
             touch++;
         }
-        if (hit_r && hit_r.collider.gameObject.tag == groundTag)
+        if (hit_r && ((hit_r.collider.gameObject.tag == groundTag) || (hit_r.collider.gameObject.tag == iceTag)))
         {
             touch++;
         }
