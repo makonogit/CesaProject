@@ -13125,15 +13125,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 177245301056531068, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: AdjustX
-      value: 0.41
+      value: 0.44
       objectReference: {fileID: 0}
     - target: {fileID: 177245301056531068, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: AdjustY
-      value: -0.03
+      value: -0.82
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_RootOrder
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.16
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13143,10 +13155,26 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -2
       objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709828, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: m_Size.x
+      value: 6.0465817
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709828, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: m_Size.y
+      value: 10.90174
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709828, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: m_Offset.x
+      value: 1.0490705
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709828, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.11097436
+      objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709829, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 893675880, guid: 88448622696ca364b8fea3f5f7544163, type: 3}
+      objectReference: {fileID: -852673946, guid: 76c29905e9678794fbcf9e523a302677, type: 3}
     - target: {fileID: 6636130089559709829, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -13325,6 +13353,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOverhead: 0
+  AdjustY: 0.75
+  AdjustX: 0.29
+  AdjustCenter: 0.15
 --- !u!114 &8059579095247675279
 MonoBehaviour:
   m_ObjectHideFlags: 0

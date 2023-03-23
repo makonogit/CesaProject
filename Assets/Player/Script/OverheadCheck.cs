@@ -15,8 +15,9 @@ public class OverheadCheck : MonoBehaviour
     private string iceTag = "Ice";
 
     public bool isOverhead = false; // 最終的に天井と衝突しているかしていないかの情報を持つ
-    private float AdjustY = -0.15f; // 画像の空白部分を無視するための調整用変数
-    private float AdjustX = 0.41f; // 画像の空白部分を無視するための調整用変数
+    public float AdjustY = -0.15f; // 画像の空白部分を無視するための調整用変数
+    public float AdjustX = 0.41f; // 画像の空白部分を無視するための調整用変数
+    public float AdjustCenter = 0.15f; // 中央ぞろえ用変数
 
     PlayerInputManager.DIRECTION oldDire; // 前フレームの向きを入れておくための変数
 
@@ -47,6 +48,7 @@ public class OverheadCheck : MonoBehaviour
         if (oldDire != ScriptPIManager.Direction)
         {
             AdjustX = -AdjustX;
+            AdjustCenter = -AdjustCenter;
         }
 
         // 前フレームの向きとして保存
@@ -62,10 +64,10 @@ public class OverheadCheck : MonoBehaviour
         // レイキャストに必要な引数の準備
 
         // x:left y:top
-        Vector2 origin_left = new Vector2(thistransform.position.x - thistransform.localScale.x / 2.0f + AdjustX,
+        Vector2 origin_left = new Vector2(thistransform.position.x - thistransform.localScale.x / 2.0f + AdjustX + AdjustCenter,
             thistransform.position.y + thistransform.localScale.y / 2.0f + AdjustY);
         // x:right y:top
-        Vector2 origin_right = new Vector2(thistransform.position.x + thistransform.localScale.x / 2.0f - AdjustX,
+        Vector2 origin_right = new Vector2(thistransform.position.x + thistransform.localScale.x / 2.0f - AdjustX + AdjustCenter,
             thistransform.position.y + thistransform.localScale.y / 2.0f + AdjustY);
         // 向き
         Vector2 direction = new Vector2(0, 1);

@@ -21,11 +21,15 @@ public class PlayerMove : MonoBehaviour
 
     PlayerInputManager.DIRECTION oldDire; // 前フレームの向きを入れておくための変数
 
+    public float ideal_IdleTime = 2.0f; //  立ち止まってからアイドル状態になるまでの時間
+    private float IdleTime = 0.0f; // 立ち止まってからの経過時間
+
     enum MOVESTATUS
     {
         NONE,
         WALK,
-        RUN
+        RUN,
+        FRIEZE, // アイドル準備段階 
     }
 
     private MOVESTATUS MoveSta = MOVESTATUS.NONE;
@@ -71,7 +75,21 @@ public class PlayerMove : MonoBehaviour
         // 移動量をPlayerInputManagerからとってくる
         movement = ScriptPIManager.GetMovement();
 
-        if((movement.x > 0.0f && movement.x < 0.5f) || (movement.x < 0.0f && movement.x > -0.5f))
+        // 何の動きもなければ
+        if(movement.x == 0.0f)
+        {
+            MoveSta = MOVESTATUS.FRIEZE;
+            IdleTime += Time.deltaTime;
+        }
+
+        if(movement.x != 0.0f || !(anim.GetBool("frieze")))
+        {
+            IdleTime = 0.0f;        
+        }
+
+        Debug.Log(IdleTime);
+
+        if ((movement.x > 0.0f && movement.x < 0.5f) || (movement.x < 0.0f && movement.x > -0.5f))
         {
             MoveSta = MOVESTATUS.WALK;
         }
@@ -81,7 +99,11 @@ public class PlayerMove : MonoBehaviour
         }
         else if(movement.x == 0)
         {
-            MoveSta = MOVESTATUS.NONE;
+            // 立ち止まってからの経過時間が指定の時間以上ならアイドル状態になる
+            if (IdleTime >= ideal_IdleTime)
+            {
+                MoveSta = MOVESTATUS.NONE;
+            }
         }
 
         float Speed = 0.0f;
@@ -104,9 +126,10 @@ public class PlayerMove : MonoBehaviour
 
         //-----------------------------------------------------------------
         // アニメーション関係
-        // movementのxの値によってwalkかrunになる
+        // movementのxの値によってかわる
         anim.SetBool("walk", MoveSta == MOVESTATUS.WALK); // スティック入力の左右半分までなら歩く
         anim.SetBool("run", MoveSta == MOVESTATUS.RUN); // スティック入力の左右半分以上なら走る
+        anim.SetBool("frieze", MoveSta == MOVESTATUS.FRIEZE); // スティック入力が無ければ準備状態
 
         if (oldDire != ScriptPIManager.Direction)
         {

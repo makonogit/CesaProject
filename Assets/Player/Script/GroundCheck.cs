@@ -15,8 +15,9 @@ public class GroundCheck : MonoBehaviour
     private string iceTag = "Ice";
 
     public bool isGround = false; // 最終的に接地しているかしていないかの情報を持つ
-    private float AdjustY = 0.03f; // 画像の空白部分を無視するための調整用変数
-    private float AdjustX = 0.41f; // 画像の空白部分を無視するための調整用変数
+    public float AdjustY = 0.03f; // 画像の空白部分を無視するための調整用変数
+    public float AdjustX = 0.41f; // 画像の空白部分を無視するための調整用変数
+    public float AdjustCenter = 0.15f; // 中央ぞろえ用変数
     public int touch; // 地面と触れているレイの本数
 
     PlayerInputManager.DIRECTION oldDire; // 前フレームの向きを入れておくための変数
@@ -48,6 +49,7 @@ public class GroundCheck : MonoBehaviour
         if (oldDire != ScriptPIManager.Direction)
         {
             AdjustX = -AdjustX;
+            AdjustCenter = -AdjustCenter;
         }
 
         // 前フレームの向きとして保存
@@ -63,15 +65,15 @@ public class GroundCheck : MonoBehaviour
         // レイキャストに必要な引数の準備
 
         // x:left y:bottom
-        Vector2 origin_left = new Vector2(thistransform.position.x - thistransform.localScale.x / 2.0f + AdjustX, 
+        Vector2 origin_left = new Vector2(thistransform.position.x - thistransform.localScale.x / 2.0f + AdjustX + AdjustCenter, 
             thistransform.position.y - thistransform.localScale.y / 2.0f + AdjustY);
 
         // x:原点 y;bottom
-        Vector2 origin_middle = new Vector2(thistransform.position.x, 
+        Vector2 origin_middle = new Vector2(thistransform.position.x + AdjustCenter, 
             thistransform.position.y - thistransform.localScale.y / 2.0f + AdjustY);
 
         // x:right y:bottom
-        Vector2 origin_right = new Vector2(thistransform.position.x + thistransform.localScale.x / 2.0f - AdjustX, 
+        Vector2 origin_right = new Vector2(thistransform.position.x + thistransform.localScale.x / 2.0f - AdjustX + AdjustCenter, 
             thistransform.position.y - thistransform.localScale.y / 2.0f + AdjustY);
         // 向き
         Vector2 direction = new Vector2(0, -1);
