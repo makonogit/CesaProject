@@ -172,9 +172,23 @@ public class CrackCreater : MonoBehaviour
         {
             // 釘の座標を追加
             _edgePoints.Add(_nailPoints[i]);
+            
             // 最後の座標でなければ
             if (i != _nailPoints.Count - 1)
             {
+                // 方向決定
+                Vector2 _vNailVec = _nailPoints[i] - _nailPoints[i + 1];
+                // 方向と距離でレイであたり判定
+                RaycastHit2D hit = Physics2D.Raycast(_nailPoints[i], _vNailVec.normalized * -1 , _vNailVec.magnitude, 3);
+                //Debug.DrawRay(_nailPoints[i], _vNailVec * -1, Color.red, 1000, false);
+                //if (hit) Debug.Log("当たりました" +hit.collider.gameObject.name);
+                
+                // ステージに当たったら終了する
+                if (hit && hit.collider.tag == "Ground") 
+                {
+                    break;
+                }
+
                 // 分割処理
                 DivisionPositionSetting(i);
             }
@@ -298,10 +312,10 @@ public class CrackCreater : MonoBehaviour
         Vector2 _vNailVec = _edgePoints[0] - _edgePoints[1];
         // 方向と距離でレイであたり判定
         RaycastHit2D hit = Physics2D.Raycast(_edgePoints[0], _vNailVec.normalized, 1.5f, 3);
-        if (hit) Debug.Log("前" + hit.collider.gameObject.name);
+        //if (hit) Debug.Log("前" + hit.collider.gameObject.name);
         if (hit) 
         {
-            Debug.Log("前"+ hit.collider.tag);
+            //Debug.Log("前"+ hit.collider.tag);
             _vNailVec = hit.point;
         }
         else 
@@ -381,10 +395,10 @@ public class CrackCreater : MonoBehaviour
         Vector2 _vNailVec = _edgePoints[Last] - _edgePoints[_edgePoints.Count - 2];
         // 方向と距離でレイであたり判定
         RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last], _vNailVec.normalized , 1.5f, 3);
-        if (hit) Debug.Log("後" + hit.collider.gameObject.tag);
+        //if (hit) Debug.Log("後" + hit.collider.gameObject.tag);
         if (hit)
         {
-            Debug.Log("後" + hit.transform.name);
+            //Debug.Log("後" + hit.transform.name);
             _vNailVec = hit.point;
         }
         else
