@@ -21,6 +21,8 @@ public class SetNailList : MonoBehaviour
     GameObject CrackCreateArea;     //ひびを作成する用のオブジェクト
     SetNailList _nextSet;           //次のPointセット用
 
+    SetNailList Hitnail;            //当たった釘の状態を取得する用
+
     NailStateManager nailStateManager;  //釘の状態を取得
 
     CircleCollider2D thiscol;       //このオブジェクトのコライダー
@@ -91,7 +93,7 @@ public class SetNailList : MonoBehaviour
 
             for (int i = 0; i < HitList.Count; i++)
             {
-
+                
                 //------------------------------------------------------
                 //リストに存在してない釘の中から1番近い釘を取得
                 //距離を求める
@@ -146,8 +148,10 @@ public class SetNailList : MonoBehaviour
         {
             //Debug.Log(collision.gameObject + "Enter");
 
-            //リストに同じデータがなければ
-            if (!HitList.Contains(collision.gameObject.transform.root.gameObject))
+            Hitnail = collision.gameObject.GetComponent<SetNailList>();
+
+            //未使用でリストに同じデータがなければ
+            if (!Hitnail.Crackend && !HitList.Contains(collision.gameObject.transform.root.gameObject))
             {
                 //-------------------------------------------
                 //範囲内に釘があったらHitListを追加

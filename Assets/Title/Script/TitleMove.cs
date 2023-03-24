@@ -69,6 +69,7 @@ public class TitleMove : MonoBehaviour
             // 崩壊までのカウントダウンが0になったらシーン移動
             if (FallNum == 0)
             {
+                CrystalRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                 _ScreenBreak.enabled = true;
             }
 

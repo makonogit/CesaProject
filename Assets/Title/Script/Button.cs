@@ -1,3 +1,8 @@
+//----------------------------------
+//担当：菅眞心
+//内容：ボタンの点滅処理
+//----------------------------------
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
