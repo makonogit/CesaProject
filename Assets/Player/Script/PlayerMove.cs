@@ -87,8 +87,6 @@ public class PlayerMove : MonoBehaviour
             IdleTime = 0.0f;        
         }
 
-        Debug.Log(IdleTime);
-
         if ((movement.x > 0.0f && movement.x < 0.5f) || (movement.x < 0.0f && movement.x > -0.5f))
         {
             MoveSta = MOVESTATUS.WALK;

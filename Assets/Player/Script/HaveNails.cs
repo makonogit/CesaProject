@@ -11,9 +11,22 @@ public class HaveNails : MonoBehaviour
     //---------------------------------------------------------
     // - 変数宣言 -
     private string NailTag = "Nail"; //タグ名
+    private string ToolBoxTag = "ToolBox"; // タグ名
+
+    public int GetNailNum = 10; // そのオブジェクトから獲得できる釘の数
+
+    // 工具箱関連
+    private GameObject toolbox;
+    private ToolBoxManager toolboxManager;
 
     [Header("釘所持数")]
     public int NailsNum = 0; // 持っている釘の数
+
+    private void Start()
+    {
+        toolbox = GameObject.Find("ToolBox");
+        toolboxManager = toolbox.GetComponent<ToolBoxManager>();
+    }
 
     private void Update()
     {
@@ -38,5 +51,18 @@ public class HaveNails : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
+        // タグが工具箱なら
+        if(collision.tag == ToolBoxTag)
+        {
+            // まだ釘を渡していない工具箱なら
+            if (!toolboxManager.isPassedNails)
+            {
+                // オブジェクトごとに獲得数は指定する（初期値は10）
+                NailsNum += GetNailNum;
+
+                // 使用済みにする
+                toolboxManager.isPassedNails = true;
+            }
+        }
     }
 }
