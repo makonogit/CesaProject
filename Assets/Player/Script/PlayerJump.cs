@@ -45,9 +45,19 @@ public class PlayerJump : MonoBehaviour
     private GameObject LineObj;
     private PredictionLine Line;    //ジャンプ中の予測線も無効化
 
+    // SEの効果音-------担当：尾花--------
+    [Header("効果音")]
+    private AudioSource audioSource;  // 取得したAudioSourceコンポーネント
+    [SerializeField] AudioClip sound1; // 音声ファイル
+
+
     // Start is called before the first frame update
     void Start()
     {
+        //---------------------------------------------------------------------------------------------------------
+        // AudioSourceコンポーネントを取得----追加担当：尾花-------
+        audioSource = GetComponent<AudioSource>();
+
         //----------------------------------------------------------------------------------------------------------
         // PlayerInputManagerを探す
         PlayerInputManager = GameObject.Find("PlayerInputManager");
@@ -86,6 +96,7 @@ public class PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //----------------------------------------------------------------------------------------------------------
         // 接地判定を得る
         isGround = ground.IsGround();
@@ -107,6 +118,7 @@ public class PlayerJump : MonoBehaviour
         // 一度目のジャンプ以降入力をやめるまでジャンプできないようにする
         if (ScriptPIManager.GetJumpTrigger() == true && isOverhead == false)
         {
+            
             //----------------------------------------------------------------------------------------------------------
             // ジャンプボタンが押されているか取得
             Jump = ScriptPIManager.GetJump();
@@ -145,6 +157,13 @@ public class PlayerJump : MonoBehaviour
         // ジャンプ中にジャンプ入力がある
         else if (isJump)
         {
+            //---------------------------------------------------------------------------------
+            // 音声ファイルを再生する-----担当：尾花-------
+            if (!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(sound1);
+            }
+
             //----------------------------------------------------------------------------------------------------------
             // ジャンプボタンが押されている。かつ,現在の高さがジャンプした位置から自分の決めた位置より下ならジャンプ継続
             if (Jump == true && JumpPos + JumpHeight > transform.position.y)
