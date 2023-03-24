@@ -151,15 +151,15 @@ public class SetNailList : MonoBehaviour
             Hitnail = collision.gameObject.GetComponent<SetNailList>();
 
             //未使用でリストに同じデータがなければ
-            if (!Hitnail.Crackend && !HitList.Contains(collision.gameObject.transform.root.gameObject))
+            if (!Hitnail.Crackend && !HitList.Contains(collision.gameObject.transform.parent.gameObject))
             {
                 //-------------------------------------------
                 //範囲内に釘があったらHitListを追加
-                HitList.Add(collision.gameObject.transform.root.gameObject);
+                HitList.Add(collision.gameObject.transform.parent.gameObject);
 
             }
 
-            if (HitList.Contains(collision.gameObject.transform.root.gameObject))
+            if (HitList.Contains(collision.gameObject.transform.parent.gameObject))
             {
                 AddPointFlg = true;   //PointListの追加を許可
                 //Debug.Log("AddPoint");
