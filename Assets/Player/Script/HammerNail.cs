@@ -34,6 +34,9 @@ public class HammerNail : MonoBehaviour
     private float NailsDistance;                 //前回の釘との距離
     [SerializeField, Header("釘が生成可能か")]
     private bool NailsCreateFlg = true;           //釘が生成可能か
+
+    private GameObject UsedNailManager;           //壁に打った釘の管理用親オブジェ
+
     //public bool MousePointaHit = false;         //マウスポインタが壁に当たっているか
 
     [Header("ひびが生成されたか")]
@@ -155,6 +158,11 @@ public class HammerNail : MonoBehaviour
 
         Target = GameObject.Find("NailTarget");
         TargetMove = Target.GetComponent<NailTargetMove>();
+
+        //-----------------------------------------------
+        // 使用済み釘管理オブジェクトを取得
+        UsedNailManager = GameObject.Find("UsedNailManager");
+
     }
 
     // Update is called once per frame
@@ -242,6 +250,9 @@ public class HammerNail : MonoBehaviour
                 //ポイント座標を追加
                 //NailsPoint.Add(NailsTrans.position);
                 obj = Instantiate(NailPrehubObj, transform.position, Quaternion.identity) as GameObject;
+                
+                // UsedNailManagerの子オブジェクトとして生成
+                obj.transform.parent = UsedNailManager.transform;
                 //obj.AddComponent<PolygonCollider2D>();
                 
                 NailTargetMove.Radius += NailAddArea;
