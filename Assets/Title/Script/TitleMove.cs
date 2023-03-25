@@ -35,6 +35,12 @@ public class TitleMove : MonoBehaviour
     GameObject SE;          // SE用オブジェクト   
     AudioSource Sesource;   // SE
 
+    //―追加担当者：中川直登―//
+    [SerializeField, Header("パーティクル")]
+    private ParticleSystem _particle;
+    //――――――――――――//
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,7 +85,10 @@ public class TitleMove : MonoBehaviour
             {
                 CrystalAlpha += (1.0f / 255.0f) * 20;
                 CrystalRenderer.color = new Color(1.0f, 1.0f, 1.0f, CrystalAlpha);
-               // MainSpriteRenderer.sprite = TitleBackSprite[FallNum - 1];
+                //―追加担当者：中川直登―//
+                Instantiate(_particle);
+                //――――――――――――//
+                // MainSpriteRenderer.sprite = TitleBackSprite[FallNum - 1];
             }
             //-------------------------------------------------
 

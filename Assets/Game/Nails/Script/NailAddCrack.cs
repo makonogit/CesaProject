@@ -39,6 +39,9 @@ public class NailAddCrack : MonoBehaviour
     private NailStateManager.NailState _state;
     private NailStateManager.NailState _oldState;
     private BoxCollider2D _boxCollider2D;
+
+    private int _carckNum = 0;
+
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -47,7 +50,7 @@ public class NailAddCrack : MonoBehaviour
         _onPlayer = false;
         _nowTime = 0.0f;
         _addCrackNow = new Vector2Int(0, 0);
-
+        _carckNum = 0;
         //--------------------------------------
         //NailStateManagerを取得  
         _stateManager = GetComponentInParent<NailStateManager>();
@@ -196,6 +199,9 @@ public class NailAddCrack : MonoBehaviour
                 _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle2);
                 // サイズ設定
                 _cracks[i].transform.localScale = new Vector3(_vector.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
+                _carckNum++;
+                _cracks[i].name = "crack" + _carckNum;
+                _cracks[i].transform.SetParent(this.transform);
                 _addCrackCount++;
             }
             // 非表示の場所を記録
@@ -270,6 +276,10 @@ public class NailAddCrack : MonoBehaviour
                 _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle2);
                 // サイズ設定
                 _cracks[i].transform.localScale = new Vector3(_vector.magnitude , _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
+
+                _carckNum++;
+                _cracks[i].name = "crack" + _carckNum;
+                _cracks[i].transform.SetParent(this.transform);
                 _addCrackCount++;
             }
             // 非表示の場所を記録

@@ -39,6 +39,15 @@ public class GameOver : MonoBehaviour
 
     private SPRITESTATUS spriteStatus = SPRITESTATUS.HIGH;
 
+    //―追加担当者：中川直登―//
+    [SerializeField, Header("パーティクル")]
+    private ParticleSystem _particle;
+    private ParticleSystem _createdParticle;
+    [SerializeField]
+    private float _particleTime = 5;
+    private float _particleNowTime;
+    //――――――――――――//
+
     private void Start()
     {
         wallSystem = GameObject.Find("Wall_Hp_Gauge");
@@ -98,9 +107,27 @@ public class GameOver : MonoBehaviour
         //HPが0以下になったら
         if (HP <= 0)
         {
-            //---------------------------------------------------------
-            // "GameOver"シーンに遷移
-            SceneManager.LoadScene("GameOver");
+            //―追加担当者：中川直登―//
+            // パーティクルが生成されていないなら
+            if (_createdParticle == null) 
+            {
+                GameObject cam = GameObject.Find("Main Camera");
+                Vector3 pos = cam.transform.position;
+                pos = new Vector3(pos.x, pos.y, 0);
+                _createdParticle = Instantiate(_particle, pos, Quaternion.Euler(-90, 0, 0), cam.transform);
+                _createdParticle.Play();
+                _particleNowTime = 0;
+            }
+           
+            // 一定時間経過したら
+            if (_createdParticle.isStopped)
+            {
+                //---------------------------------------------------------
+                // "GameOver"シーンに遷移
+                SceneManager.LoadScene("GameOver");
+            }
+            //――――――――――――//
+           
         }
     }
 
