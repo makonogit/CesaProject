@@ -58,6 +58,12 @@ public class HammerNail : MonoBehaviour
     private NailTargetMove TargetMove;
     private PlayerStatas status;
 
+    // SEの効果音-------担当：尾花--------
+    [Header("効果音")]
+    private AudioSource audioSource;  // 取得したAudioSourceコンポーネント
+    [SerializeField] AudioClip sound1; // 音声ファイル
+
+
     //----------------------------
     //ひびの拡大用コライダー関係
     private GameObject ChilCrackArea;           //ひび拡大用子オブジェクト 
@@ -162,6 +168,10 @@ public class HammerNail : MonoBehaviour
         // 使用済み釘管理オブジェクトを取得
         UsedNailManager = GameObject.Find("UsedNailManager");
 
+        //------------------------------------------------
+        // AudioSourceを取得----追加担当：尾花-------
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
@@ -231,6 +241,7 @@ public class HammerNail : MonoBehaviour
             //    NailsCreateFlg = false;
             //}
 
+            
 
             //---------------------------------------------------------------------------
             //構えていたら釘の範囲を可視化
@@ -243,6 +254,12 @@ public class HammerNail : MonoBehaviour
             //打ち込み状態なら生成
             if (_HammerState == HammerState.HAMMER && TargetRender.color == Color.cyan)
             {
+                //---------------------------------------------------------------------------------
+                // 音声ファイルを再生する-----担当：尾花-------
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.PlayOneShot(sound1);
+                }
 
                 NailsTrans.position = NailTargetTrans.position;
                 
