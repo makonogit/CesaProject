@@ -36,6 +36,10 @@ public class PlayerJump : MonoBehaviour
     private Rigidbody2D thisRigidbody2d; // rigidbody2dを取得する変数
     private InputTrigger trigger;
 
+    // サウンド関係
+    private GameObject se;
+    private SEManager seMana;
+
     // アニメーション関係
     private Animator anim;
     
@@ -91,6 +95,10 @@ public class PlayerJump : MonoBehaviour
         // Animator取得
         anim = GetComponent<Animator>();
 
+        // サウンド関係
+        se = GameObject.Find("SE");
+        // Seコンポーネント取得
+        seMana = se.GetComponent<SEManager>();
     }
 
     // Update is called once per frame
@@ -203,6 +211,11 @@ public class PlayerJump : MonoBehaviour
         }
         else
         {
+            // 地面に着地する瞬間に再生
+            if(FallTime != 0.0f)
+            {
+                seMana.PlaySE_Drop();
+            }
             //----------------------------------------------------------------------------------------------------------
             // 落下状態での経過時間を初期化
             FallTime = 0.0f;

@@ -41,6 +41,10 @@ public class SmashScript : MonoBehaviour
     //ひびのリストを取得 -追加担当：菅眞心-
     GetCrackPoint getCrackPoint;
 
+    //-------------------------------------------------
+    // ひび作成のse関連
+    private GameObject se;
+    private SEManager seMana;
 
     //-----------------------------------------------------------------
     //―スタート処理―
@@ -87,7 +91,8 @@ public class SmashScript : MonoBehaviour
         //ひびのリストを取得-担当：菅眞心-
         getCrackPoint = GetComponentInChildren<GetCrackPoint>();
 
-
+        se = GameObject.Find("SE");
+        seMana = se.GetComponent<SEManager>();
     }
 
     //-----------------------------------------------------------------
@@ -112,6 +117,7 @@ public class SmashScript : MonoBehaviour
             if (getCrackPoint.GetPointLest().Count < 2)
             {
                 Smashed();
+                seMana.PlaySE_Crack1();
             }
         }
 

@@ -24,7 +24,7 @@ public class PlayerMove : MonoBehaviour
     public float ideal_IdleTime = 2.0f; //  立ち止まってからアイドル状態になるまでの時間
     private float IdleTime = 0.0f; // 立ち止まってからの経過時間
 
-    enum MOVESTATUS
+    public enum MOVESTATUS
     {
         NONE,
         WALK,
@@ -32,7 +32,7 @@ public class PlayerMove : MonoBehaviour
         FRIEZE, // アイドル準備段階 
     }
 
-    private MOVESTATUS MoveSta = MOVESTATUS.NONE;
+    public MOVESTATUS MoveSta = MOVESTATUS.NONE;
 
     // 外部取得
     private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数
@@ -42,6 +42,9 @@ public class PlayerMove : MonoBehaviour
     public LayerMask BlockLayer;
 
     private Animator anim; // アニメーターを取得するための変数
+
+    private GameObject se;
+    private SEManager seMana;
 
     //----------------------------------------------------------------------------------------------------------
     // - 初期化処理 -
@@ -63,6 +66,10 @@ public class PlayerMove : MonoBehaviour
 
         // アニメーター取得
         anim = GetComponent<Animator>();
+
+        se = GameObject.Find("SE");
+        // Seコンポーネント取得
+        seMana = se.GetComponent<SEManager>();
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -80,6 +87,9 @@ public class PlayerMove : MonoBehaviour
         {
             MoveSta = MOVESTATUS.FRIEZE;
             IdleTime += Time.deltaTime;
+
+            // 最後のse再生変数セット
+            seMana.SetMoveFinish();
         }
 
         if(movement.x != 0.0f || !(anim.GetBool("frieze")))
@@ -90,10 +100,16 @@ public class PlayerMove : MonoBehaviour
         if ((movement.x > 0.0f && movement.x < 0.5f) || (movement.x < 0.0f && movement.x > -0.5f))
         {
             MoveSta = MOVESTATUS.WALK;
+
+            // se再生開始
+            seMana.SetMoveStart();
         }
         else if((movement.x >= 0.5f && movement.x <= 1.0f) || (movement.x <= -0.5f && movement.x >= -1.0f))
         {
             MoveSta = MOVESTATUS.RUN;
+                
+            // se再生開始
+            seMana.SetMoveStart();
         }
         else if(movement.x == 0)
         {
