@@ -12,6 +12,7 @@ public class OverheadCheck : MonoBehaviour
     // - 変数宣言 -
 
     private string groundTag = "Ground"; // Groundタグ名を文字列型で持っている変数
+    private string UsedNailtag = "UsedNail";
     private string iceTag = "Ice";
 
     public bool isOverhead = false; // 最終的に天井と衝突しているかしていないかの情報を持つ
@@ -87,8 +88,8 @@ public class OverheadCheck : MonoBehaviour
         Debug.DrawRay(origin_right, distance, Color.blue);
 
         // if文見やすくするため変数定義
-        bool leftJudge = (hit_l && ((hit_l.collider.gameObject.tag == groundTag) || (hit_l.collider.gameObject.tag == iceTag)));
-        bool rightJudge = (hit_r && ((hit_r.collider.gameObject.tag == groundTag) || (hit_r.collider.gameObject.tag == iceTag)));
+        bool leftJudge = (hit_l && ((hit_l.collider.gameObject.tag == groundTag) || (hit_l.collider.gameObject.tag == iceTag) || (hit_l.collider.gameObject.tag == UsedNailtag)));
+        bool rightJudge = (hit_r && ((hit_r.collider.gameObject.tag == groundTag) || (hit_r.collider.gameObject.tag == iceTag) || (hit_r.collider.gameObject.tag == UsedNailtag)));
 
         //----------------------------------------------------------------------------------------------------------
         // 当たっているかつ、タグがGroundならisGroundをtrueにする
