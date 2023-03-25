@@ -28,7 +28,13 @@ public class TitleMove : MonoBehaviour
     GameObject CrystalObj;      //クリスタルの背景オブジェクト
     SpriteRenderer CrystalRenderer;     //クリスタルのRender
     float CrystalAlpha;                 //クリスタルの透明度
-    
+
+    GameObject BGM;          // BGM用オブジェクト   
+    AudioSource Bgmsource;   // BGM
+
+    GameObject SE;          // SE用オブジェクト   
+    AudioSource Sesource;   // SE
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +51,17 @@ public class TitleMove : MonoBehaviour
         CrystalObj = GameObject.Find("Crystal");
         CrystalRenderer = CrystalObj.GetComponent<SpriteRenderer>();
         CrystalAlpha = CrystalRenderer.color.a;
+
+        //--------------------------------------------
+        //　SEの情報を取得
+        SE = GameObject.Find("SE");
+        Sesource = SE.GetComponent<AudioSource>();
+
+        //--------------------------------------------
+        //　BGMの情報を取得
+        BGM = GameObject.Find("BGM");
+        Bgmsource = BGM.GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
@@ -53,6 +70,7 @@ public class TitleMove : MonoBehaviour
         //  キー入力
         if (Input.GetKeyDown("joystick button 0"))
         {
+            Sesource.Play();
             FallNum--;
 
             //-------------------------------------------------
@@ -78,6 +96,11 @@ public class TitleMove : MonoBehaviour
         if (_ScreenBreak.enabled)
         {
             BreakTime += Time.deltaTime;
+
+            // BGMをフェードアウトさせる
+            //Bgmsource.volume -= 0.5f * Time.deltaTime;
+            Bgmsource.volume = 0;
+            
             //3秒経過したらscene移動
             if (BreakTime > 3.0f)
             {
