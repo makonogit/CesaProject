@@ -10,8 +10,6 @@ using UnityEngine.InputSystem;
 
 public class HammerNail : MonoBehaviour
 {
-    private HaveNails HaveNails;          //釘の所持数を取得
-
     private int HammerNails;              //釘を壁に打った数
 
     [Header("釘のプレハブオブジェクト")]
@@ -58,6 +56,7 @@ public class HammerNail : MonoBehaviour
     // 二宮追加
     private GameObject Target;
     private NailTargetMove TargetMove;
+    private PlayerStatas status;
 
     //----------------------------
     //ひびの拡大用コライダー関係
@@ -112,7 +111,7 @@ public class HammerNail : MonoBehaviour
 
         //--------------------------------------------
         // 釘の管理スクリプトを取得
-        HaveNails = GetComponent<HaveNails>();
+        status = GetComponent<PlayerStatas>();
 
         NailsTrans = NailPrehubObj.transform;
 
@@ -208,7 +207,7 @@ public class HammerNail : MonoBehaviour
 
         //----------------------------------------
         //釘を持っていたら釘を画面に打つ
-        if (HaveNails.NailsNum > 0)
+        if (status.GetNail() > 0)
         {
             //---------------------------------------------------------------------------
             //前回打った釘との距離を求める(生成されていなかったらプレイヤーとの距離)
@@ -257,7 +256,7 @@ public class HammerNail : MonoBehaviour
                 
                 NailTargetMove.Radius += NailAddArea;
                 HammerNails++;
-                HaveNails.NailsNum--;
+                status.SetNail(status.GetNail() - 1);
 
                 //---------------------------------------------------------------------------
                 //―追加担当者：二宮怜―//

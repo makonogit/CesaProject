@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1063371085873975381}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -34.43186, y: -1.2649753, z: 0}
+  m_LocalPosition: {x: -31.680788, y: -1.7625576, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 8486677138343271987}
   - component: {fileID: 7756425844893190704}
   - component: {fileID: 2500087327761118988}
+  - component: {fileID: 8452895681933248316}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Ground
@@ -155,7 +156,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7372956878717808566}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -181,7 +182,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7372956878717808566}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e525bad4d5a183b458265e75b5c056ee, type: 3}
   m_Name: 
@@ -192,6 +193,36 @@ MonoBehaviour:
   _rangeNum: {x: 0.0625, y: 0.5}
   _edgePoints: []
   _cracks: []
+--- !u!60 &8452895681933248316
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7372956878717808566}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.0062179565, y: 0.5835037}
+      - {x: -0.20740509, y: 0.58218384}
+      - {x: -0.49962527, y: -0.28925344}
+      - {x: 0.50467545, y: -0.284068}
+      - {x: 0.19711459, y: 0.5840657}
 --- !u!1 &8404587271593043532
 GameObject:
   m_ObjectHideFlags: 0

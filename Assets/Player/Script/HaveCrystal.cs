@@ -13,12 +13,17 @@ public class HaveCrystal : MonoBehaviour
     private string CrystalTag = "Crystal"; //タグ名
 
     [Header("クリスタル所持数")]
-    public int CrystalNum = 0; // 持っている釘の数
+    private int CrystalNum = 0; // 持っている釘の数
+
+    // 外部取得
+    private GameObject player;
+    private PlayerStatas status;
 
     // Update is called once per frame
     void Update()
     {
-        
+        player = GameObject.Find("player");
+        status = player.GetComponent<PlayerStatas>();
     }
 
     //落ちているクリスタルに触れるとクリスタル所持数が増える
@@ -27,10 +32,11 @@ public class HaveCrystal : MonoBehaviour
         //---------------------------------------------------------
         // 触れたのがアイテムとしてのクリスタルならクリスタル所持数増える
 
-        // タグが釘なら
+        // タグがクリスタルなら
         if (collision.tag == CrystalTag)
         {
-            CrystalNum++;
+            // クリスタル所持数を増やす
+            status.SetCrystal(status.GetCrystal() + 1);
             // アイテムとしてのクリスタルは消す
             Destroy(collision.gameObject);
         }

@@ -17,7 +17,9 @@ public class DrawCrystalNum : MonoBehaviour
 
     // 外部取得
     private GameObject player; // プレイヤーを見つけて保持する
-    private HaveCrystal crystal; // HaveCrystalを保持
+    //private HaveCrystal crystal; // HaveCrystalを保持
+
+    private PlayerStatas status;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +29,8 @@ public class DrawCrystalNum : MonoBehaviour
         player = GameObject.Find("player");
 
         // HaveCrystalを取得
-        crystal = player.GetComponent<HaveCrystal>();
+        //crystal = player.GetComponent<HaveCrystal>();
+        status = player.GetComponent<PlayerStatas>();
 
         TextCrystalNum = GetComponent<Text>();
     }
@@ -35,15 +38,15 @@ public class DrawCrystalNum : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 前フレームの釘の数から変動があれば
-        if (oldCrystalNum != crystal.CrystalNum)
+        // 前フレームのクリスタルの数から変動があれば
+        if (oldCrystalNum != status.GetCrystal())
         {
             //---------------------------------------------------------
-            // プレイヤーが所持する釘の数を再描画
-            TextCrystalNum.text = string.Format("×{0:00}", crystal.CrystalNum);
+            // プレイヤーが所持するクリスタルの数を再描画
+            TextCrystalNum.text = string.Format("×{0:00}", status.GetCrystal());
         }
 
-        // 古い釘更新
-        oldCrystalNum = crystal.CrystalNum;
+        // 古いクリスタル更新
+        oldCrystalNum = status.GetCrystal();
     }
 }

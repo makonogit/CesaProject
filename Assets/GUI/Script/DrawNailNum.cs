@@ -17,7 +17,8 @@ public class DrawNailNum : MonoBehaviour
 
     // 外部取得
     private GameObject player; // プレイヤーを見つけて保持する
-    private HaveNails nails; // HaveNailsを保持
+    //private HaveNails nails; // HaveNailsを保持
+    private PlayerStatas status;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +28,8 @@ public class DrawNailNum : MonoBehaviour
         player = GameObject.Find("player");
 
         // HaveNailsを取得
-        nails = player.GetComponent<HaveNails>();
+        //nails = player.GetComponent<HaveNails>();
+        status = player.GetComponent<PlayerStatas>();
 
         TextNailNum = GetComponent<Text>();
     }
@@ -36,14 +38,14 @@ public class DrawNailNum : MonoBehaviour
     void Update()
     {
         // 前フレームの釘の数から変動があれば
-        if(oldNailsNum != nails.NailsNum)
+        if(oldNailsNum != status.GetNail())
         {
             //---------------------------------------------------------
             // プレイヤーが所持する釘の数を再描画
-            TextNailNum.text = string.Format("×{0:00}", nails.NailsNum);
+            TextNailNum.text = string.Format("×{0:00}", status.GetNail());
         }
 
         // 古い釘更新
-        oldNailsNum = nails.NailsNum;
+        oldNailsNum = status.GetNail();
     }
 }
