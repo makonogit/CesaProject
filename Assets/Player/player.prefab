@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6636130089559709829}
   - component: {fileID: 6636130089559709828}
   - component: {fileID: 6636130089559709831}
+  - component: {fileID: 5030471092398682588}
   - component: {fileID: 6636130089559709830}
   - component: {fileID: 6636130089559709833}
   - component: {fileID: 6636130089559709855}
@@ -131,6 +132,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &5030471092398682588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6636130089559709863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9298083f3b353bb4dafd4e8d032d2e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HaveNail: 0
+  HaveCrystal: 0
 --- !u!114 &6636130089559709830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,10 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec213741d94183b4aaeb352073a6f901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
-  moveDistance: 3
-  delayTime: 0.8
-  socialDistance: 0.3
+  BaseSpeed: 5
+  magnification: 1.5
+  ideal_IdleTime: 2
   BlockLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -167,8 +181,10 @@ MonoBehaviour:
   Gravity: 6
   isGround: 0
   isJump: 0
+  JumpTime: 0
   FallTime: 0
   RayNum: 0
+  sound1: {fileID: 0}
 --- !u!114 &6636130089559709855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e6b729712f6e84685d94128fe050f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isHitGoal: 0
 --- !u!114 &6636130089559709832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +244,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  AdjustY: 0.03
+  AdjustX: 0.41
+  AdjustCenter: 0.15
   touch: 0
 --- !u!114 &9156518258014670235
 MonoBehaviour:
@@ -241,6 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CrackMoveSpeed: 5
+  NowCrackspeed: 0
   Point: []
   NowPointNum: 0
   MinPointNum: 0
