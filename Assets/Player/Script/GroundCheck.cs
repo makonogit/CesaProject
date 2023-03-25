@@ -12,6 +12,7 @@ public class GroundCheck : MonoBehaviour
     // - 変数宣言 -
 
     private string groundTag = "Ground"; // Groundタグ名を文字列型で持っている変数
+    private string UsedNailTag = "UsedNail";    //　UsedNailの文字型変数
     private string iceTag = "Ice";
 
     public bool isGround = false; // 最終的に接地しているかしていないかの情報を持つ
@@ -104,15 +105,15 @@ public class GroundCheck : MonoBehaviour
         touch = 0;
 
         // 当たっているかつ、タグがGroundならカウントを増やす
-        if (hit_l && ((hit_l.collider.gameObject.tag == groundTag) || (hit_l.collider.gameObject.tag == iceTag)))
+        if (hit_l && ((hit_l.collider.gameObject.tag == groundTag) || (hit_l.collider.gameObject.tag == iceTag) || (hit_l.collider.gameObject.tag == UsedNailTag)))
         {
             touch++;
         }
-        if (hit_m && ((hit_m.collider.gameObject.tag == groundTag) || (hit_m.collider.gameObject.tag == iceTag)))
+        if (hit_m && ((hit_m.collider.gameObject.tag == groundTag) || (hit_m.collider.gameObject.tag == iceTag) || (hit_m.collider.gameObject.tag == UsedNailTag)))
         {
             touch++;
         }
-        if (hit_r && ((hit_r.collider.gameObject.tag == groundTag) || (hit_r.collider.gameObject.tag == iceTag)))
+        if (hit_r && ((hit_r.collider.gameObject.tag == groundTag) || (hit_r.collider.gameObject.tag == iceTag) || (hit_r.collider.gameObject.tag == UsedNailTag)))
         {
             touch++;
         }

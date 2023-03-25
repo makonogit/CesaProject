@@ -35,6 +35,7 @@ public class CrackAutoMove : MonoBehaviour
     GroundCheck GroundCheck;            // 接地判定
     Rigidbody2D thisrigidbody;          // このオブジェクトのrigitbody
     SpriteRenderer thisRenderer;        // このオブジェクトのspriterenderer
+    CapsuleCollider2D thiscol;          // このオブジェクトのあたり判定
 
     //移動状態
     public enum MoveState
@@ -61,6 +62,7 @@ public class CrackAutoMove : MonoBehaviour
         //このオブジェクトの情報を取得
         thisrigidbody = GetComponent<Rigidbody2D>();
         thisRenderer = GetComponent<SpriteRenderer>();
+        thiscol = GetComponent<CapsuleCollider2D>();
 
         PlayerInputManager = GameObject.Find("PlayerInputManager");
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
@@ -99,6 +101,10 @@ public class CrackAutoMove : MonoBehaviour
                 movestate = MoveState.CrackMove;
                 break;
             case MoveState.CrackMove:
+
+                // 移動中は自分のあたり判定を無効化
+                thiscol.enabled = false;
+                
                 //始点・終点まで移動したら移動終了
                 if (MinPointNum == 0)
                 {
@@ -169,11 +175,18 @@ public class CrackAutoMove : MonoBehaviour
 
                 break;
             case MoveState.CrackMoveEnd:
+
+                //釘の上に移動させる
+                this.transform.position = new Vector3(Edge.points[Edge.pointCount - 1].x, Edge.points[Edge.pointCount - 1].y + 0.85f, 0.0f);
+
                 // 移動終了していたらMove,Jumpを再開
                 thisrigidbody.constraints = RigidbodyConstraints2D.None;
                 thisrigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
                 Jump.enabled = true;
                 Move.enabled = true;
+
+                // 自分のあたり判定を有効にする
+                thiscol.enabled = true;
 
                 // パーティクルシステムを非表示、自身を表示
                 if (ParticleSystemObj != null) { 
