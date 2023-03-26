@@ -307,7 +307,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void SetPressB(bool _pressB)
     {
-        Pause = _pressB;
+        PressB = _pressB;
     }
 
     public bool GetCursorMoveFlg()

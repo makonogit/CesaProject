@@ -209,28 +209,13 @@ public class PlayerInput : MonoBehaviour
         // 押された時だけセット
         if (context.phase == InputActionPhase.Started)
         {
-            //// プレイヤーが移動モードなら
-            //if(ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.MOVE)
-            //{
-            //    // 照準モードに切り替える
-            //    ScriptPIManager.SetPlayerMode(PlayerInputManager.PLAYERMODE.AIM);
-            //}
-            //// プレイヤーが照準モードなら
-            //else if (ScriptPIManager.GetPlayerMode() == PlayerInputManager.PLAYERMODE.AIM)
-            //{
-            //    // 移動モードに切り替える
-            //    ScriptPIManager.SetPlayerMode(PlayerInputManager.PLAYERMODE.MOVE);
-            //}
-
-            Debug.Log(ScriptPIManager.GetPlayerMode());
-
             if (pausegame.IsPause == true)
             {
-                // ポーズ状態じゃない時のBボタン入力
                 if (ScriptPIManager.GetPressB() == false)
                 {
                     // キャンセルボタン入力セット
                     ScriptPIManager.SetPressB(true);
+                    Debug.Log("??????????");
                 }
             }
 
