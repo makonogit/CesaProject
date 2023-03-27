@@ -68,9 +68,9 @@ public class ScreenBreak : MonoBehaviour
 
             // ‘å‚«‚³‚ğ•ÏX
             Vector3 scale;
-            scale.x = 0.2f * rndSizeX;
-            scale.y = 0.2f * rndSizeY;
-            scale.z = 0.2f;
+            scale.x = 1.0f * rndSizeX;
+            scale.y = 1.0f * rndSizeY;
+            scale.z = 1.0f;
 
             // ‰ñ“]‚ğ•ÏX
             Vector3 rot;
