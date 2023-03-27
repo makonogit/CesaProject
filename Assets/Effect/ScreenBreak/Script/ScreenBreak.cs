@@ -13,9 +13,9 @@ public class ScreenBreak : MonoBehaviour
 
     // 破片関連
     [Header("破片のオブジェクト")]
-    public GameObject debris;// 破片用オブジェクト
+    public GameObject[] debris = new GameObject[3];// 破片用オブジェクト
     [Header("破片の生成数")]
-    public int amount = 50;  // 破片の生成数
+    public int amount = 50;                        // 破片の生成数
 
     // 音関連
     [Header("効果音")]
@@ -47,7 +47,8 @@ public class ScreenBreak : MonoBehaviour
 
         for (int i = 0; i < amount; i++)
         {
-            // ランダムに座標、大きさ、回転率を取得する
+            // ランダムに形、座標、大きさ、回転率を決定する
+            int rndDebris = Random.Range(0, 3);
             int rndX = Random.Range(1, 20);
             int rndY = Random.Range(1, 20);
             int rndSizeX = Random.Range(1, 10);
@@ -55,7 +56,7 @@ public class ScreenBreak : MonoBehaviour
             int rndRot = Random.Range(1, 360);
 
             // 破片を生成
-            GameObject obj = Instantiate(debris, transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(debris[rndDebris], transform.position, Quaternion.identity);
 
             Transform objTransform = obj.transform;
 

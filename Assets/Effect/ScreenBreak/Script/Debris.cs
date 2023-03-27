@@ -47,19 +47,29 @@ public class Debris : MonoBehaviour
         // 真ん中より右なら右に移動する
         if(pos.x > 2.0f)
         {
-            pos.x += 0.01f;
+            pos.x += 0.03f;
         }
         // 真ん中より左なら左に移動する
         if (pos.x < -2.0f)
         {
-            pos.x -= 0.01f;
+            pos.x -= 0.03f;
+        }
+        // 真ん中より右なら右に移動する
+        if (pos.y > 0.0f)
+        {
+            pos.y += 0.03f;
+        }
+        // 真ん中より左なら左に移動する
+        if (pos.y < -0.0f)
+        {
+            pos.y -= 0.03f;
         }
         // 最初は少し上に移動させる
-        if (startPos.y > pos.y - 2.0f)
-        {
-            pos.y += 0.01f;
-        }
-       
+        //if (startPos.y > pos.y - 2.0f)
+        //{
+        // pos.y += 0.01f;
+        //}
+
         // 回転率の指定
         Vector3 rot;
         rot.x = 1.0f;
@@ -71,7 +81,7 @@ public class Debris : MonoBehaviour
         objTransform.position = pos;
 
         // 画面外ならこのオブジェクトを消去する
-        if (pos.y < -8.0f)
+        if ((pos.y < -8.0f)|| (pos.y > 8.0f))
         {
             Destroy(this.gameObject);
         }
