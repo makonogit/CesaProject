@@ -54,21 +54,11 @@ public class Debris : MonoBehaviour
         {
             pos.x -= 0.03f;
         }
-        // 真ん中より右なら右に移動する
-        if (pos.y > 0.0f)
-        {
-            pos.y += 0.03f;
-        }
-        // 真ん中より左なら左に移動する
-        if (pos.y < -0.0f)
-        {
-            pos.y -= 0.03f;
-        }
         // 最初は少し上に移動させる
-        //if (startPos.y > pos.y - 2.0f)
-        //{
-        // pos.y += 0.01f;
-        //}
+        if (startPos.y > pos.y - 2.0f)
+        {
+         pos.y += 0.01f;
+        }
 
         // 回転率の指定
         Vector3 rot;
