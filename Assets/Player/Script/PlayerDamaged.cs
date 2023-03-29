@@ -42,7 +42,7 @@ public class PlayerDamaged : MonoBehaviour
 
         //---------------------------------------------------------
         // DownAlphaスクリプトを格納
-        alpha = Health.GetComponent<DownAlpha>();
+        //alpha = Health.GetComponent<DownAlpha>();
     }
 
     // Update is called once per frame
