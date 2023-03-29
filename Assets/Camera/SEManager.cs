@@ -84,7 +84,7 @@ public class SEManager : MonoBehaviour
     private void PlaySE_Move()
     {
         // É{ÉäÉÖÅ[ÉÄí≤êÆ
-        audioSource.volume = 0.5f;
+        audioSource.volume = 0.3f;
 
         if (MoveFinish == false)
         {
@@ -148,7 +148,7 @@ public class SEManager : MonoBehaviour
                 se_move[2] = se_town_walk3;
                 se_move[3] = se_town_walk4;
 
-                MoveDelayTime = 0.4f;
+                MoveDelayTime = 0.6f;
                 break;
 
             case PlayerMove.MOVESTATUS.RUN:
