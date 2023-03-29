@@ -22,6 +22,8 @@ public class BraekCrystal : MonoBehaviour
     private Transform playerTransform;
     private Transform thisTransform;
 
+    private PlayerStatas playerStatus;
+
     private GameObject PlayerInputMana;
     private PlayerInputManager ScriptPIManager;
 
@@ -37,6 +39,7 @@ public class BraekCrystal : MonoBehaviour
         // コンポーネント取得
         playerTransform = player.GetComponent<Transform>();
         thisTransform = GetComponent<Transform>();
+        playerStatus = player.GetComponent<PlayerStatas>();
 
         // PlayerInputManager探す
         PlayerInputMana = GameObject.Find("PlayerInputManager");
@@ -63,19 +66,10 @@ public class BraekCrystal : MonoBehaviour
             {
                 stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
                 Destroy(this.gameObject);
+                // クリスタル破壊数増加
+                playerStatus.AddBreakCrystal();
             }
         }
-
-
-        //--------------------------------------------------
-        // 釘かひびが衝突したら自身を破壊
-        //if(collision.gameObject.tag == "UsedNail" || collision.gameObject.tag == "Crack")
-        //{
-        //    //----------------------------------------------
-        //    //　ステージのクリスタル数を1つ消去
-        //    stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
-        //    Destroy(this.gameObject);
-        //}
     }
 
 }

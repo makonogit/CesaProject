@@ -14,6 +14,18 @@ public class PlayerStatas : MonoBehaviour
     [SerializeField, Header("クリスタル所持数")]
     private int HaveCrystal;
 
+    // 二宮追加
+    private int BreakCrystalNum = 0; // 壊したクリスタルの数
+
+    public void AddBreakCrystal()
+    {
+        BreakCrystalNum++;
+    }
+
+    public int GetBreakCrystalNum()
+    {
+        return BreakCrystalNum;
+    }
 
     //------------------------------
     // 釘の所持数をセットする関数
