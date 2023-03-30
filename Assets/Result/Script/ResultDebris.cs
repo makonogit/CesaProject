@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------------
 // 担当：藤原昂祐
-// 内容：クリア演出用の破片
+// 内容：リザルトの破片
 //------------------------------------------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClearDebris : MonoBehaviour
+public class ResultDebris : MonoBehaviour
 {
     //--------------------------------------------------------------------------
     // - 変数宣言 -

@@ -1,12 +1,13 @@
 //------------------------------------------------------------------------------
 // 担当：藤原昂祐
-// 内容：クリア演出
+// 内容：リザルト
 //------------------------------------------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ClearEffect : MonoBehaviour
+public class Result : MonoBehaviour
 {
     //--------------------------------------------------------------------------
     // - 変数宣言 -
@@ -17,6 +18,9 @@ public class ClearEffect : MonoBehaviour
     [Header("フェードアウトする速度")]
     public float fadeSpeed = 0.001f;// フェードアウトする速度
     float alpha = 0.0f;             // パネルの透明度
+
+    // 画面遷移関連
+    int fadeDelay;// 画面遷移するまでの待機時間
 
     // 破片関連
     [Header("破片のオブジェクト")]
@@ -48,7 +52,8 @@ public class ClearEffect : MonoBehaviour
         // AudioSourceコンポーネントを取得
         audioSource = GetComponent<AudioSource>();
 
-        SetFadeFlg(true);
+        // この関数で演出をON、OFFする
+        //SetFadeFlg(true);
     }
 
     //============================================================
@@ -87,10 +92,10 @@ public class ClearEffect : MonoBehaviour
                     // 破片のクリア後の座標を決定
                     if (clear[i] == 1)
                     {
-                        ClearDebris clearDebris = debrisRist[i].GetComponent<ClearDebris>();
-                        clearDebris.clearPos.x = -7.0f + 0.8f * (i % 19);
-                        clearDebris.clearPos.y = 4.0f - 0.8f * (i / 19);
-                        clearDebris.clearPos.z = 2.0f;
+                        ResultDebris resultDebris = debrisRist[i].GetComponent<ResultDebris>();
+                        resultDebris.clearPos.x = -7.0f + 0.8f * (i % 19);
+                        resultDebris.clearPos.y = 4.0f - 0.8f * (i / 19);
+                        resultDebris.clearPos.z = 2.0f;
                     }
 
                     Transform objTransform = debrisRist[i].transform;
@@ -140,6 +145,30 @@ public class ClearEffect : MonoBehaviour
             // alphaの値を敵用する
             SpriteRenderer renderer = GetComponent<SpriteRenderer>();
             renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, alpha);
+        }
+
+        //--------------------------------------------------------
+        // 演出後フェードアウトしてセレクト画面に遷移する
+
+        fadeDelay++;
+
+        if(fadeDelay > 3000)
+        {
+            if(alpha < 1.0f)
+            {
+                //--------------------------------------------------------
+                // 画面が見えなくなるまでフェードアウトする
+
+                // 透明度を加算
+                alpha += fadeSpeed;
+                // alphaの値を敵用する
+                SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+                renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, alpha);
+            }
+            else
+            {
+                SceneManager.LoadScene("SelectScene");
+            }
         }
     }
 
