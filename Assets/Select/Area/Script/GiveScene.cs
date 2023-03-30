@@ -14,12 +14,25 @@ public class GiveScene : MonoBehaviour
 
     //-----------------------------------------------------------------
     //―秘匿変数―(私)
-
-    private SelectMove _player;// プレイヤーのセレクトムーブ
-    [SerializeField]
+    [SerializeField,Header("プレイヤーObj")]
+    private GameObject _player;
+    private SelectMove _selectMove;// プレイヤーのセレクトムーブ
+    private SelectedScene _selected;
+    [SerializeField, Header("ステージシーン名")]
     private string _scene;// ステージのシーンを入れる
-    [SerializeField]
+    [SerializeField, Header("ステージ番号")]
     private int _number;// ステージの番号
+
+
+    private void Start()
+    {
+        _player = GameObject.Find("Player(SelectScene)");
+        if(_player == null) Debug.LogError("not found");
+        //_selectMove = _player.GetComponent<SelectMove>();
+        //if (_selectMove == null) Debug.LogError("SelectMoveのコンポーネントを取得できませんでした。旧SelectScene用です。");
+        _selected = _player.GetComponent<SelectedScene>();
+        if (_selected == null) Debug.LogError("SelectedSceneのコンポーネントを取得できませんでした。newSeelctScene用です。");
+    }
 
     //-----------------------------------------------------------------
     //★★公開関数★★(公)
@@ -38,15 +51,17 @@ public class GiveScene : MonoBehaviour
         // もしプレイヤーに当たったなら
         if (collision.tag == "Player")
         {
-            // プレイヤーのSelectMoveを取得する。
-            _player = collision.gameObject.GetComponent<SelectMove>();
-            if (_player == null) Debug.LogError("SelectMoveのコンポーネントを取得できませんでした。");
-            // 状態がエリア移動じゃなければ
-            if (_player.State != SelectMove.SelectPlayerState.AREA_CHANGE)
+            
+           if(_selected != null) 
             {
-                _player.State = SelectMove.SelectPlayerState.STOP;
-                _player.SelectScene(GetScene);
-                _player.StageNumber = _number;
+                _selected.SelectScene(GetScene);
+            }
+            // 状態がエリア移動じゃなければ
+            if (_selectMove != null && _selectMove.State != SelectMove.SelectPlayerState.AREA_CHANGE)
+            {
+                _selectMove.State = SelectMove.SelectPlayerState.STOP;
+                _selectMove.SelectScene(GetScene);
+                _selectMove.StageNumber = _number;
                 //Debug.Log("hit");
             }
         }
@@ -57,11 +72,17 @@ public class GiveScene : MonoBehaviour
         // もしプレイヤーが出たら
         if (collision.tag == "Player")
         {
+
+            if (_selected != null)
+            {
+                _selected.SelectScene(null);
+            }
             // プレイヤーのSelectMoveを取得する。
-            _player = collision.gameObject.GetComponent<SelectMove>();
-            if (_player == null) Debug.LogError("SelectMoveのコンポーネントを取得できませんでした。");
-            _player.SelectScene(null);
-            _player.StageNumber = 0;
+            if (_selectMove != null) 
+            {
+                _selectMove.SelectScene(null);
+                _selectMove.StageNumber = 0;
+            }
         }
     }
 
