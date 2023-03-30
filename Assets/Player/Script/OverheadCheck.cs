@@ -22,6 +22,9 @@ public class OverheadCheck : MonoBehaviour
 
     PlayerInputManager.DIRECTION oldDire; // 前フレームの向きを入れておくための変数
 
+    private LayerMask layerMask = 1 << 10;
+
+
     // 外部取得
     private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変
@@ -79,8 +82,8 @@ public class OverheadCheck : MonoBehaviour
 
         //----------------------------------------------------------------------------------------------------------
         // レイ飛ばして何かとぶつかったら生成やめる
-        RaycastHit2D hit_l = Physics2D.Raycast(origin_left, direction, length, 5); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
-        RaycastHit2D hit_r = Physics2D.Raycast(origin_right, direction, length, 5); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+        RaycastHit2D hit_l = Physics2D.Raycast(origin_left, direction, length, layerMask); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+        RaycastHit2D hit_r = Physics2D.Raycast(origin_right, direction, length, layerMask); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
 
         //----------------------------------------------------------------------------------------------------------
         // レイを描画
@@ -88,8 +91,8 @@ public class OverheadCheck : MonoBehaviour
         Debug.DrawRay(origin_right, distance, Color.blue);
 
         // if文見やすくするため変数定義
-        bool leftJudge = (hit_l && ((hit_l.collider.gameObject.tag == groundTag) || (hit_l.collider.gameObject.tag == iceTag) || (hit_l.collider.gameObject.tag == UsedNailtag)));
-        bool rightJudge = (hit_r && ((hit_r.collider.gameObject.tag == groundTag) || (hit_r.collider.gameObject.tag == iceTag) || (hit_r.collider.gameObject.tag == UsedNailtag)));
+        bool leftJudge = (hit_l/* && ((hit_l.collider.gameObject.tag == groundTag) || (hit_l.collider.gameObject.tag == iceTag) || (hit_l.collider.gameObject.tag == UsedNailtag))*/);
+        bool rightJudge = (hit_r/* && ((hit_r.collider.gameObject.tag == groundTag) || (hit_r.collider.gameObject.tag == iceTag) || (hit_r.collider.gameObject.tag == UsedNailtag))*/);
 
         //----------------------------------------------------------------------------------------------------------
         // 当たっているかつ、タグがGroundならisGroundをtrueにする
