@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 81368240}
   - component: {fileID: 81368241}
   - component: {fileID: 81368242}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: CrackGrowArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1014,7 +1014,7 @@ MonoBehaviour:
   _noisePosition:
     x:
       amplitude: 0.5
-      speed: 3
+      speed: 5
     y:
       amplitude: 0.5
       speed: 3
@@ -6553,6 +6553,10 @@ PrefabInstance:
     - target: {fileID: 1001545641349855172, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1338641263626873088, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1338641263626873092, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
       propertyPath: m_Size.x
@@ -12394,9 +12398,29 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2194322210620929399, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 2194322210620929399, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2194322210620929400, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2194322210620929400, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2194322210620929401, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
+      propertyPath: m_IsTrigger
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2194322211254589277, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2483160076854475445, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
       propertyPath: m_Name
@@ -14059,6 +14083,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9156518258014670235, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6636130089559709846, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
     - {fileID: 6636130089559709855, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
@@ -14117,7 +14145,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8059579095247675266}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 388c2031ac2131f449ba7e074393ca5c, type: 3}
   m_Name: 
@@ -14136,25 +14164,6 @@ MonoBehaviour:
   _crackCreaterObj: {fileID: 7869875550553585627, guid: 5e387acae0f89364487b0d1bae8712f2, type: 3}
   MomentHitNails: 0
   ColLimitTime: 0
---- !u!114 &8059579095247675315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8059579095247675266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 860a6ab73f0c5904d8f98b6b243f62de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CrackMoveSpeed: 0.2
-  NowCrackspeed: 0
-  Point: []
-  NowPointNum: 0
-  MinPointNum: 0
-  MoveFlg: 0
-  movestate: 0
 --- !u!4 &8059579095247675326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
@@ -14199,7 +14208,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8059579095247675266}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}

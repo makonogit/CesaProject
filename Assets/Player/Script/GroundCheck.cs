@@ -12,7 +12,6 @@ public class GroundCheck : MonoBehaviour
     // - 変数宣言 -
 
     private string groundTag = "Ground"; // Groundタグ名を文字列型で持っている変数
-    private string UsedNailTag = "UsedNail";    //　UsedNailの文字型変数
     private string iceTag = "Ice";
 
     public bool isGround = false; // 最終的に接地しているかしていないかの情報を持つ
@@ -22,6 +21,8 @@ public class GroundCheck : MonoBehaviour
     public int touch; // 地面と触れているレイの本数
 
     PlayerInputManager.DIRECTION oldDire; // 前フレームの向きを入れておくための変数
+
+    private LayerMask layerMask = 1 << 10;
 
     // 外部取得
     private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数
@@ -86,13 +87,13 @@ public class GroundCheck : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // レイ飛ばして何かとぶつかったら生成やめる
         // 左下
-        RaycastHit2D hit_l = Physics2D.Raycast(origin_left, direction, length,5); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+        RaycastHit2D hit_l = Physics2D.Raycast(origin_left, direction, length,layerMask); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
 
         // 中央
-        RaycastHit2D hit_m = Physics2D.Raycast(origin_middle, direction, length,5); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+        RaycastHit2D hit_m = Physics2D.Raycast(origin_middle, direction, length, layerMask); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
 
         // 右下
-        RaycastHit2D hit_r = Physics2D.Raycast(origin_right, direction, length,5); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+        RaycastHit2D hit_r = Physics2D.Raycast(origin_right, direction, length, layerMask); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
 
         //------追加処理 担当：菅眞心 RayにLayerMaskを設定
 
@@ -105,15 +106,15 @@ public class GroundCheck : MonoBehaviour
         touch = 0;
 
         // 当たっているかつ、タグがGroundならカウントを増やす
-        if (hit_l && ((hit_l.collider.gameObject.tag == groundTag) || (hit_l.collider.gameObject.tag == iceTag) || (hit_l.collider.gameObject.tag == UsedNailTag)))
+        if (hit_l/* && ((hit_l.collider.gameObject.tag == groundTag) || (hit_l.collider.gameObject.tag == iceTag))*/)
         {
             touch++;
         }
-        if (hit_m && ((hit_m.collider.gameObject.tag == groundTag) || (hit_m.collider.gameObject.tag == iceTag) || (hit_m.collider.gameObject.tag == UsedNailTag)))
+        if (hit_m/* && ((hit_m.collider.gameObject.tag == groundTag) || (hit_m.collider.gameObject.tag == iceTag))*/)
         {
             touch++;
         }
-        if (hit_r && ((hit_r.collider.gameObject.tag == groundTag) || (hit_r.collider.gameObject.tag == iceTag) || (hit_r.collider.gameObject.tag == UsedNailTag)))
+        if (hit_r/* && ((hit_r.collider.gameObject.tag == groundTag) || (hit_r.collider.gameObject.tag == iceTag))*/)
         {
             touch++;
         }
