@@ -167,6 +167,7 @@ public class Hammer : MonoBehaviour
 
                 OldFirstPoint = CrackPointList[0];  // ¶¬‚ÌÀ•W‚ğ•Û‘¶
 
+                Move.enabled = true;
                 hammerstate = HammerState.NONE;
 
                 break;
@@ -177,11 +178,7 @@ public class Hammer : MonoBehaviour
 
         //----------------------------------------
         //@¶¬I—¹‚µ‚½‚çˆÚ“®‰ğœ
-        if (NowCrack != null &&
-            NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
-        {
-            Move.enabled = true;
-        }
+      
     }
 
     //-----------------------------------------------------------------
