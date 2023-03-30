@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 5030471092398682588}
   - component: {fileID: 6636130089559709830}
   - component: {fileID: 6636130089559709833}
-  - component: {fileID: 6636130089559709855}
   - component: {fileID: 6636130089559709841}
   - component: {fileID: 6636130089559709832}
   - component: {fileID: 177245301056531068}
@@ -161,6 +160,7 @@ MonoBehaviour:
   BaseSpeed: 5
   magnification: 1.5
   ideal_IdleTime: 2
+  MoveSta: 0
   BlockLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -185,23 +185,6 @@ MonoBehaviour:
   FallTime: 0
   RayNum: 0
   sound1: {fileID: 0}
---- !u!114 &6636130089559709855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6636130089559709863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7394ed1e0939a2846a21923677e46c3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CrackPower: 0
-  AddCrackPower: 0
-  MaxCrackNum: 0
-  PlayerInputManager: {fileID: 0}
-  PrehubObject: {fileID: 7886424780566056376, guid: 527b814f633e2594dae56d7ec13355cf, type: 3}
 --- !u!114 &6636130089559709841
 MonoBehaviour:
   m_ObjectHideFlags: 0
