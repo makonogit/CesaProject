@@ -78,7 +78,6 @@ public class TitleMove : MonoBehaviour
         {
             Sesource.Play();
             FallNum--;
-
             //-------------------------------------------------
             //スプライトを変更
             if (FallNum > 0)
@@ -113,7 +112,7 @@ public class TitleMove : MonoBehaviour
             //3秒経過したらscene移動
             if (BreakTime > 3.0f)
             {
-                SceneManager.LoadScene("SelectScene");
+                SceneManager.LoadScene("newSelectScene");//―変更担当者：中川直登―//SelectSceneからnewSelectSceneに変更
             }
         }
     }

@@ -10,8 +10,12 @@ using UnityEngine.SceneManagement;
 public class SelectedScene : MonoBehaviour
 {
     [SerializeField,Header("確認用です。")]
-    private string _selectScene;
+    private string _selectScene = null;
 
+    private void Start()
+    {
+        _selectScene = null;
+    }
     public void SelectScene(string value)
     {
         _selectScene = value;
@@ -21,6 +25,7 @@ public class SelectedScene : MonoBehaviour
     {
         if (_context.phase == InputActionPhase.Started)
         {
+            //Debug.Log(_selectScene);
             if (_selectScene != null)
             {
                 SceneManager.LoadScene(_selectScene);
