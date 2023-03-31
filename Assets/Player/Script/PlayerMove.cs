@@ -15,6 +15,7 @@ public class PlayerMove : MonoBehaviour
     // 移動用
     public float BaseSpeed = 5f; // 移動速度用変数
     Vector2 movement; // 入力量を取得する変数
+    bool Moveflg = true;    //移動フラグ　追加担当：菅
 
     [Header("歩くときは走るときのどれくらいのスピードか")]
     public float magnification = 1.5f; // 歩くときのスピードの倍率
@@ -79,8 +80,16 @@ public class PlayerMove : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // 普通の移動
         //----------------------------------------------------------------------------------------------------------
-        // 移動量をPlayerInputManagerからとってくる
-        movement = ScriptPIManager.GetMovement();
+
+        if (Moveflg)
+        {
+            // 移動量をPlayerInputManagerからとってくる
+            movement = ScriptPIManager.GetMovement();
+        }
+        else
+        {
+            movement = Vector2.zero;
+        }
 
         // 何の動きもなければ
         if(movement.x == 0.0f)
@@ -153,5 +162,15 @@ public class PlayerMove : MonoBehaviour
 
         // 前フレームの向きとして保存
         oldDire = ScriptPIManager.Direction;
+    }
+
+    //-------------------------------------
+    //　移動設定関数
+    //　引数：true 移動　false 移動しない
+    //　戻り値：なし
+    //　追加担当：菅
+    public void SetMovement(bool moveflg)
+    {
+        Moveflg = moveflg;
     }
 }

@@ -21,18 +21,17 @@ public class Hammer : MonoBehaviour
     private PlayerMove Move;    　              // 移動スクリプト
     private GameObject CrackManager;            // 全てのひびの親オブジェクト
     private CrackCreater NowCrack;              // 現在のひびのCreater
+    
 
-    public bool AddCrackFlg = false;           // ひびが伸びるフラグ
+    public bool AddCrackFlg = false;            // ひびが伸びるフラグ
     private bool LongCrack = false;             // 伸びているひびなのか
     private float angle;                        // ひびを入れる角度
     private Vector2 OldFirstPoint;              // 前回の始点座標
-
+   
     [Header("ひびの長さ")]
     public float CrackLength;            
 
     public List<Vector2> CrackPointList;       //ひびのリスト
-
-    
 
     //状態管理
     public enum HammerState
@@ -97,7 +96,7 @@ public class Hammer : MonoBehaviour
                 CrackPointList[0] = transform.position;
 
                 //トリガーを押したら方向決定状態
-                if (InputManager.GetNail_Right())
+                if (InputManager.GetNail_Right() && !InputManager.GetNail_Left())
                 {
                     //---------------------------------------------
                     // 前回の位置と移動していなかったらポイント追加
@@ -105,17 +104,20 @@ public class Hammer : MonoBehaviour
                     {
                         AddCrackFlg = true;
                     }
-
+                    
                     hammerstate = HammerState.DIRECTION;
                 }
                 break;
             case HammerState.DIRECTION:
 
-                //　移動できないようにする
-                if (Move.enabled)
+                //　左を押されたら状態を戻す
+                if (InputManager.GetNail_Left())
                 {
-                    Move.enabled = false;
+                    hammerstate = HammerState.NONE;
                 }
+
+                //　移動できないようにする
+                Move.SetMovement(false);
 
                 //デバッグ用
                 AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
@@ -135,10 +137,21 @@ public class Hammer : MonoBehaviour
                     }
 
                     //　角度を45度ずつで管理
-                    angle = ((int)(angle / 45.0f)) * 45.0f;
+                    angle = (((int)angle / 45)) * 45.0f;
 
-                    // 角度と距離からPoint座標を求める
-                    CrackPointList[1] = new Vector2(CrackPointList[0].x + (CrackLength * Mathf.Cos(angle)), CrackPointList[0].y + (CrackLength * Mathf.Sin(angle)));
+                    //----------------------------------------
+                    //　スティックの入力があれば座標計算
+                    if (LeftStick != Vector2.zero)
+                    {
+                        // 角度と距離からPoint座標を求める
+                        CrackPointList[1] = new Vector2(CrackPointList[0].x + (CrackLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (CrackLength * Mathf.Sin(angle * (Mathf.PI / 180))));
+                    }
+                    else
+                    {
+                        // なければ前回の座標
+                        CrackPointList[1] = CrackPointList[1];
+
+                    }
                 }
 
                 //トリガーを離したらひび生成状態
@@ -154,20 +167,19 @@ public class Hammer : MonoBehaviour
                 //　前回の位置から移動していなかったらポイントを追加
                 if (AddCrackFlg)
                 {
-                    //Debug.Log(NowCrack);
                     NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
                     NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATE);
                     AddCrackFlg = false;
 
                 }
-                else
+                else if(CrackPointList[1] != Vector2.zero)
                 {
                     CallCrackCreater();  //ひび生成
                 }
 
                 OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
-
-                Move.enabled = true;
+              
+                Move.SetMovement(true);
                 hammerstate = HammerState.NONE;
 
                 break;
@@ -194,7 +206,7 @@ public class Hammer : MonoBehaviour
         NewCrackObj.transform.parent = CrackManager.transform;
 
         // ネイル座標リストを初期化
-        for (int i = 0; CrackPointList.Count < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
             CrackPointList[i] = Vector2.zero;
         }

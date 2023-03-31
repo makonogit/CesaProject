@@ -177,7 +177,7 @@ public class CrackAutoMove : MonoBehaviour
             case MoveState.CrackMoveEnd:
 
                 //釘の上に移動させる
-                this.transform.position = new Vector3(Edge.points[Edge.pointCount - 1].x, Edge.points[Edge.pointCount - 1].y + 0.85f, 0.0f);
+                //this.transform.position = new Vector3(Edge.points[Edge.pointCount - 1].x, Edge.points[Edge.pointCount - 1].y + 0.9f, 0.0f);
 
                 // 移動終了していたらMove,Jumpを再開
                 thisrigidbody.constraints = RigidbodyConstraints2D.None;
@@ -203,7 +203,7 @@ public class CrackAutoMove : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
      
         //--------------------------------
@@ -244,14 +244,18 @@ public class CrackAutoMove : MonoBehaviour
             //1番近い座標が始点or終点ならひびに入る
             if (MinPointNum == 0 || MinPointNum == Edge.pointCount - 1)
             {
-                NowPointNum = MinPointNum;
+                // Aボタンで入る
+                if (ScriptPIManager.GetJumpTrigger())
+                {
+                    NowPointNum = MinPointNum;
 
-                movestate = MoveState.CrackHold;
-                //collision.ClosestPoint(this.transform.position);
-                thisrigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+                    movestate = MoveState.CrackHold;
+                    //collision.ClosestPoint(this.transform.position);
+                    thisrigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
 
-                Jump.enabled = false;
-                Move.enabled = false;
+                    Jump.enabled = false;
+                    Move.enabled = false;
+                }
             }
 
         }
