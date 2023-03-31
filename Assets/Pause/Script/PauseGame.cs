@@ -17,9 +17,9 @@ public class PauseGame : MonoBehaviour
     public int CursorY = 0; // Y方向の移動をするカーソルの番号
     const int CursorMax = 3; // カーソルの一番下
 
-    private float ManualSizeX = 3.8f;
-    private float ManualSizeY = 10.2f;
-    private bool manual = false;
+    //private float ManualSizeX = 3.8f;
+    //private float ManualSizeY = 10.2f;
+    public bool manual = false;
 
     // メニューの数が増えるたびに追加
     private string[] PauseObj = {
@@ -39,8 +39,12 @@ public class PauseGame : MonoBehaviour
     private RectTransform InitTransform; // カーソルが最初にいる位置を保存しておく変数
 
     private GameObject Manual;
-    private RectTransform manualTransform;
+    //private RectTransform manualTransform;
     private Image manualImage;
+
+    // se関係
+    private GameObject se;
+    private SEManager_Pause seMana;
 
     // Start is called before the first frame update
     void Start()
@@ -70,10 +74,15 @@ public class PauseGame : MonoBehaviour
         InitTransform = targetTransform;
 
         Manual = GameObject.Find("Manual");
-        manualTransform = Manual.GetComponent<RectTransform>();
+        //manualTransform = Manual.GetComponent<RectTransform>();
         //manualTransform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
         manualImage = Manual.GetComponent<Image>();
         manualImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+
+        // サウンド関係
+        se = GameObject.Find("SE");
+        // Seコンポーネント取得
+        seMana = se.GetComponent<SEManager_Pause>();
 
     }
 
@@ -87,6 +96,8 @@ public class PauseGame : MonoBehaviour
             TimeOperate();
 
             ScriptPIManager.SetPause(false);
+
+            seMana.PlaySE_OK();
         }
 
         //Debug.Log(manual);
@@ -134,6 +145,8 @@ public class PauseGame : MonoBehaviour
                     cursorTransform.position = targetTransform.position;
 
                     ScriptPIManager.SetCursorMove(Vector2.zero);
+
+                    seMana.PlaySE_Select();
                 }
             }
 
@@ -148,6 +161,9 @@ public class PauseGame : MonoBehaviour
                     manual = false;
 
                     ScriptPIManager.SetPressB(false);
+                    ScriptPIManager.SetPressA(false);
+
+                    seMana.PlaySE_Cansel();
                 }
             }
             else
@@ -159,6 +175,9 @@ public class PauseGame : MonoBehaviour
                     TimeOperate();
 
                     ScriptPIManager.SetPressB(false);
+
+                    seMana.PlaySE_Cansel();
+
                 }
             }
 
@@ -167,6 +186,8 @@ public class PauseGame : MonoBehaviour
                 // 決定ボタンが押された
                 if (ScriptPIManager.GetPressA() == true)
                 {
+                    seMana.PlaySE_OK();
+
                     // カーソルの位置によって処理変わる
                     switch (CursorY)
                     {
@@ -194,8 +215,10 @@ public class PauseGame : MonoBehaviour
 
                         //セレクトへ
                         case 3:
+                            TimeOperate();
+
                             // ステージセレクトに行く
-                            SceneManager.LoadScene("SelectScene");
+                            SceneManager.LoadScene("newSelectScene");
                             break;
                     }
                     ScriptPIManager.SetPressA(false);

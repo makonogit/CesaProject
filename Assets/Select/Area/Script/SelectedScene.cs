@@ -12,9 +12,16 @@ public class SelectedScene : MonoBehaviour
     [SerializeField,Header("確認用です。")]
     private string _selectScene = null;
 
+    // 二宮追加
+    private GameObject se;
+    private AudioSource Audio;
+
     private void Start()
     {
         _selectScene = null;
+
+        se = GameObject.Find("SE");
+        Audio = se.GetComponent<AudioSource>();
     }
     public void SelectScene(string value)
     {
@@ -28,6 +35,8 @@ public class SelectedScene : MonoBehaviour
             //Debug.Log(_selectScene);
             if (_selectScene != null)
             {
+                Audio.Play();
+
                 SceneManager.LoadScene(_selectScene);
             }
             else

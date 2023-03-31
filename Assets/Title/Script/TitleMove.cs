@@ -35,6 +35,13 @@ public class TitleMove : MonoBehaviour
     GameObject SE;          // SE用オブジェクト   
     AudioSource Sesource;   // SE
 
+    // 二宮追加
+    public AudioClip se_start1; // 一回目
+    public AudioClip se_start2; // 二回目
+    public AudioClip se_startcrush; // 割れる
+
+    private AudioClip[] se_crush = new AudioClip[4];
+
     //―追加担当者：中川直登―//
     [SerializeField, Header("パーティクル")]
     private ParticleSystem _particle;
@@ -68,6 +75,10 @@ public class TitleMove : MonoBehaviour
         BGM = GameObject.Find("BGM");
         Bgmsource = BGM.GetComponent<AudioSource>();
 
+        se_crush[3] = se_start1;
+        se_crush[2] = se_start2;
+        se_crush[1] = se_start1;
+        se_crush[0] = se_startcrush;
     }
 
     // Update is called once per frame
@@ -76,7 +87,9 @@ public class TitleMove : MonoBehaviour
         //  キー入力
         if (Input.GetKeyDown("joystick button 0"))
         {
-            Sesource.Play();
+            //Sesource.Play();
+            Sesource.PlayOneShot(se_crush[FallNum - 1]);
+
             FallNum--;
             //-------------------------------------------------
             //スプライトを変更

@@ -40,7 +40,7 @@ public class ScreenBreak : MonoBehaviour
     {
         //--------------------------------------------------------
         // ‰¹ºƒtƒ@ƒCƒ‹‚ğÄ¶‚·‚é
-        audioSource.PlayOneShot(sound1);
+        //audioSource.PlayOneShot(sound1);
 
         //--------------------------------------------------------
         // ”j•Ğ‚ğ¶¬‚·‚é

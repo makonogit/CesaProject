@@ -45,7 +45,7 @@ public class PlayerMove : MonoBehaviour
     private Animator anim; // アニメーターを取得するための変数
 
     private GameObject se;
-    private SEManager seMana;
+    private SEManager_Player seMana;
 
     //----------------------------------------------------------------------------------------------------------
     // - 初期化処理 -
@@ -70,7 +70,7 @@ public class PlayerMove : MonoBehaviour
 
         se = GameObject.Find("SE");
         // Seコンポーネント取得
-        seMana = se.GetComponent<SEManager>();
+        seMana = se.GetComponent<SEManager_Player>();
     }
 
     //----------------------------------------------------------------------------------------------------------

@@ -35,7 +35,7 @@ public class PlayerMove_in_newSelectScene : MonoBehaviour
     private float idleStartTime = 1.0f; // アイドルモーション開始時間
 
     private GameObject se;
-    private SEManager seMana;
+    private SEManager_Select seMana;
     private Animator anim; // アニメーターを取得するための変数
 
     // Use this for initialization
@@ -60,9 +60,7 @@ public class PlayerMove_in_newSelectScene : MonoBehaviour
 
         se = GameObject.Find("SE");
         // Seコンポーネント取得
-        seMana = se.GetComponent<SEManager>();
-
-        seMana.Select = true;
+        seMana = se.GetComponent<SEManager_Select>();
     }
 
     // Update is called once per frame

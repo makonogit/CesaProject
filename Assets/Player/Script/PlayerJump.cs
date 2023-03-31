@@ -38,7 +38,10 @@ public class PlayerJump : MonoBehaviour
 
     // サウンド関係
     private GameObject se;
-    private SEManager seMana;
+    private SEManager_Player seMana;
+
+    // ジャンプse制御
+    private bool playJumpSe = false;
 
     // アニメーション関係
     private Animator anim;
@@ -98,7 +101,7 @@ public class PlayerJump : MonoBehaviour
         // サウンド関係
         se = GameObject.Find("SE");
         // Seコンポーネント取得
-        seMana = se.GetComponent<SEManager>();
+        seMana = se.GetComponent<SEManager_Player>();
     }
 
     // Update is called once per frame
@@ -151,6 +154,14 @@ public class PlayerJump : MonoBehaviour
                 //----------------------------------------------------------------------------------------------------------
                 // 状態をジャンプ中に設定
                 isJump = true;
+
+                if (playJumpSe == false)
+                {
+                    // ジャンプse再生
+                    seMana.PlaySE_Jump();
+
+                    playJumpSe = true;
+                }
             }
             //----------------------------------------------------------------------------------------------------------
             // ジャンプ入力されていなければ
@@ -167,10 +178,11 @@ public class PlayerJump : MonoBehaviour
         {
             //---------------------------------------------------------------------------------
             // 音声ファイルを再生する-----担当：尾花-------
-            if (!audioSource.isPlaying)
-            {
-                audioSource.PlayOneShot(sound1);
-            }
+            //if (!audioSource.isPlaying)
+            //{
+            //    audioSource.PlayOneShot(sound1);
+            //}
+            playJumpSe = false;
 
             //----------------------------------------------------------------------------------------------------------
             // ジャンプボタンが押されている。かつ,現在の高さがジャンプした位置から自分の決めた位置より下ならジャンプ継続

@@ -11,9 +11,9 @@ public class OverheadCheck : MonoBehaviour
     //----------------------------------------------------------------------------------------------------------
     // - 変数宣言 -
 
-    private string groundTag = "Ground"; // Groundタグ名を文字列型で持っている変数
-    private string UsedNailtag = "UsedNail";
-    private string iceTag = "Ice";
+    //private string groundTag = "Ground"; // Groundタグ名を文字列型で持っている変数
+    //private string UsedNailtag = "UsedNail";
+    //private string iceTag = "Ice";
 
     public bool isOverhead = false; // 最終的に天井と衝突しているかしていないかの情報を持つ
     public float AdjustY = -0.15f; // 画像の空白部分を無視するための調整用変数

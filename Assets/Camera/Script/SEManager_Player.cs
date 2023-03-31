@@ -1,18 +1,19 @@
 //---------------------------------------------------------
 //担当者：二宮怜
-//内容　：SEを管理する
+//内容　：プレイヤー関係のSEを管理する
 //---------------------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SEManager : MonoBehaviour
+public class SEManager_Player : MonoBehaviour
 {
     //---------------------------------------------------------------------
     // - 変数宣言 -
 
     public AudioClip se_crack1; // ひびつくる（長）
     public AudioClip se_drop; // 着地
+    public AudioClip se_jimp; // ジャンプ
 
     // 走る
     public AudioClip se_town_run1;
@@ -36,7 +37,6 @@ public class SEManager : MonoBehaviour
     private int MoveProcess = 0; // 移動用SEの添え字
     private float MoveDelayTime = 0.3f; //SEを鳴らす間隔
     private float SoundTime = 0.0f; // 音が鳴ってからの経過時間
-    public bool Select = false; // マスターキー、セレクト画面時true
 
     private AudioSource audioSource; // オブジェクトがもつAudioSourceを取得する変数
 
@@ -53,14 +53,10 @@ public class SEManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         player = GameObject.Find("player");
-        if (!Select)
-        {
-            move = player.GetComponent<PlayerMove>();
-            GC = player.GetComponent<GroundCheck>();
+        move = player.GetComponent<PlayerMove>();
+        GC = player.GetComponent<GroundCheck>();
 
-            oldPlayerMoveStatus = move.MoveSta;
-
-        }
+        oldPlayerMoveStatus = move.MoveSta;
 
         // 初期設定
         se_move[0] = se_town_walk1;
@@ -72,37 +68,18 @@ public class SEManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!Select)
+        if (move.MoveSta != oldPlayerMoveStatus)
         {
-            if (move.MoveSta != oldPlayerMoveStatus)
-            {
-                // 対応する状態のaudioclipをセットする関数
-                ClipSet();
-            }
-
-            // 移動があるかつ地面についていれば
-            if (MoveStart && GC.IsGround())
-            {
-                PlaySE_Move();
-            }
-            oldPlayerMoveStatus = move.MoveSta;
+            // 対応する状態のaudioclipをセットする関数
+            ClipSet();
         }
-        // セレクト時
-        else
+
+        // 移動があるかつ地面についていれば
+        if (MoveStart && GC.IsGround())
         {
-            //ClipSet();
-
-            //Debug.Log(MoveStart);
-
-            if (MoveStart)
-            {
-                PlaySE_Move();
-            }
-            else
-            {
-                SoundTime = 0.0f;
-            }
+            PlaySE_Move();
         }
+        oldPlayerMoveStatus = move.MoveSta;
     }
     private void PlaySE_Move()
     {
@@ -210,5 +187,13 @@ public class SEManager : MonoBehaviour
         audioSource.volume = 0.5f;
 
         audioSource.PlayOneShot(se_drop);
+    }
+
+    public void PlaySE_Jump()
+    {
+        // ボリューム調整
+        audioSource.volume = 0.5f;
+
+        audioSource.PlayOneShot(se_jimp);
     }
 }

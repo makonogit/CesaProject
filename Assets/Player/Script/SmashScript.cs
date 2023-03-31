@@ -44,7 +44,7 @@ public class SmashScript : MonoBehaviour
     //-------------------------------------------------
     // ひび作成のse関連
     private GameObject se;
-    private SEManager seMana;
+    private SEManager_Player seMana;
 
     //-----------------------------------------------------------------
     //―スタート処理―
@@ -92,7 +92,7 @@ public class SmashScript : MonoBehaviour
         getCrackPoint = GetComponentInChildren<GetCrackPoint>();
 
         se = GameObject.Find("SE");
-        seMana = se.GetComponent<SEManager>();
+        seMana = se.GetComponent<SEManager_Player>();
     }
 
     //-----------------------------------------------------------------

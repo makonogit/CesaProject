@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6935934372925696597}
   - component: {fileID: 6935934372925696603}
   - component: {fileID: 6935934372925696596}
+  - component: {fileID: 213079252322780188}
   m_Layer: 0
   m_Name: SE
   m_TagString: Untagged
@@ -143,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   se_crack1: {fileID: 8300000, guid: 46417e252b2195b44aacc4c3671eeeaa, type: 3}
   se_drop: {fileID: 8300000, guid: b5ed5e6be13bf5d4e8a7f2d9e58016f6, type: 3}
+  se_jimp: {fileID: 0}
   se_town_run1: {fileID: 8300000, guid: bdb55cb71fc326247aa3b48bbd1abd64, type: 3}
   se_town_run2: {fileID: 8300000, guid: 643e3e31bd3b2e6469f9bd6fa66bd73e, type: 3}
   se_town_run3: {fileID: 8300000, guid: e5f7e714ed859b34d8f255438b916944, type: 3}
@@ -151,3 +153,19 @@ MonoBehaviour:
   se_town_walk2: {fileID: 8300000, guid: ab814d1a55c1ed64f9530343cfd83c7a, type: 3}
   se_town_walk3: {fileID: 8300000, guid: f04cd28815c91c84db86be031b0f0738, type: 3}
   se_town_walk4: {fileID: 8300000, guid: 5d3bb2fb2c0073b45b8adab698782175, type: 3}
+  Select: 0
+--- !u!114 &213079252322780188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6935934372925696598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 501f7d6c01672e04ca1d03d1af5db3c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  se_select: {fileID: 0}
+  se_cansel: {fileID: 0}
+  se_ok: {fileID: 0}
