@@ -36,6 +36,7 @@ public class SEManager : MonoBehaviour
     private int MoveProcess = 0; // 移動用SEの添え字
     private float MoveDelayTime = 0.3f; //SEを鳴らす間隔
     private float SoundTime = 0.0f; // 音が鳴ってからの経過時間
+    public bool Select = false; // マスターキー、セレクト画面時true
 
     private AudioSource audioSource; // オブジェクトがもつAudioSourceを取得する変数
 
@@ -52,34 +53,56 @@ public class SEManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         player = GameObject.Find("player");
-        move = player.GetComponent<PlayerMove>();
-        GC = player.GetComponent<GroundCheck>();
+        if (!Select)
+        {
+            move = player.GetComponent<PlayerMove>();
+            GC = player.GetComponent<GroundCheck>();
+
+            oldPlayerMoveStatus = move.MoveSta;
+
+        }
 
         // 初期設定
         se_move[0] = se_town_walk1;
         se_move[1] = se_town_walk2;
         se_move[2] = se_town_walk3;
         se_move[3] = se_town_walk4;
-
-        oldPlayerMoveStatus = move.MoveSta;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(move.MoveSta != oldPlayerMoveStatus)
+        if (!Select)
         {
-            // 対応する状態のaudioclipをセットする関数
-            ClipSet();
-        }
+            if (move.MoveSta != oldPlayerMoveStatus)
+            {
+                // 対応する状態のaudioclipをセットする関数
+                ClipSet();
+            }
 
-        // 移動があるかつ地面についていれば
-        if (MoveStart && GC.IsGround())
+            // 移動があるかつ地面についていれば
+            if (MoveStart && GC.IsGround())
+            {
+                PlaySE_Move();
+            }
+            oldPlayerMoveStatus = move.MoveSta;
+        }
+        // セレクト時
+        else
         {
-            PlaySE_Move();
-        }
+            //ClipSet();
 
-        oldPlayerMoveStatus = move.MoveSta;
+            //Debug.Log(MoveStart);
+
+            if (MoveStart)
+            {
+                PlaySE_Move();
+            }
+            else
+            {
+                SoundTime = 0.0f;
+            }
+        }
     }
     private void PlaySE_Move()
     {

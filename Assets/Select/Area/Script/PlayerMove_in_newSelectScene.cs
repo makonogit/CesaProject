@@ -28,6 +28,16 @@ public class PlayerMove_in_newSelectScene : MonoBehaviour
     private int _maxArea = 5;
     private int _maxStage = 5;
 
+    // 二宮追加
+    PlayerInputManager.DIRECTION oldDire; // 前フレームの向きを入れておくための変数
+    PlayerInputManager.DIRECTION Direction; // 現在の向き
+    private float stopTime = 0f; // 停止時間
+    private float idleStartTime = 1.0f; // アイドルモーション開始時間
+
+    private GameObject se;
+    private SEManager seMana;
+    private Animator anim; // アニメーターを取得するための変数
+
     // Use this for initialization
     void Start()
     {
@@ -42,6 +52,17 @@ public class PlayerMove_in_newSelectScene : MonoBehaviour
         //--------------------------------------
         // 初期化
         State = PlayerState_in_newSelectScene.WALK;
+
+        anim = GetComponent<Animator>();
+
+        Direction = PlayerInputManager.DIRECTION.RIGHT;
+        oldDire = PlayerInputManager.DIRECTION.RIGHT;
+
+        se = GameObject.Find("SE");
+        // Seコンポーネント取得
+        seMana = se.GetComponent<SEManager>();
+
+        seMana.Select = true;
     }
 
     // Update is called once per frame
@@ -51,6 +72,61 @@ public class PlayerMove_in_newSelectScene : MonoBehaviour
         {
             float move = _inputValue.x * _moveSpeed * Time.deltaTime;
             _rigid.velocity = new Vector2(move, _rigid.velocity.y);
+
+            // 二宮追加
+
+            // なんらかのスティック入力があれば
+            if (_inputValue.x != 0)
+            {
+                // 右入力があれば右を向かせる
+                if (_inputValue.x > 0)
+                {
+                    if (Direction == PlayerInputManager.DIRECTION.LEFT)
+                    {
+                        Direction = PlayerInputManager.DIRECTION.RIGHT;
+                    }
+                }
+                // 左入力があれば左を向かせる
+                else if (_inputValue.x < 0)
+                {
+                    if (Direction == PlayerInputManager.DIRECTION.RIGHT)
+                    {
+                        Direction = PlayerInputManager.DIRECTION.LEFT;
+                    }
+                }
+
+                // 足音再生開始関数呼び出し
+                seMana.SetMoveStart();
+
+                stopTime = 0f;
+            }
+            // 入力が無ければ
+            else if (_inputValue.x == 0)
+            {
+                if(stopTime == 0.0f)
+                {
+                    // 足音停止関数呼び出し
+                    seMana.SetMoveFinish();
+                }
+
+                stopTime += Time.deltaTime;
+            }
+
+            if (oldDire != Direction)
+            {
+                // プレイヤーの向きを今と逆にする
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+
+            // 前フレームの状態保存
+            oldDire = Direction;
+
+            anim.SetBool("run", move != 0f); // 移動中
+            anim.SetBool("frieze", move == 0f);
+            if(stopTime > idleStartTime)
+            {
+                anim.SetBool("frieze", false);
+            }
         }
     }
     //-----------------------------------------------------------------
