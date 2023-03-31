@@ -58,19 +58,11 @@ public class HitEnemy : MonoBehaviour
             {
                 //---------------------------------------------------------
                 // HP -Damage
-                //gameOver.DecreaseHP(Damage);
-
-                //---------------------------------------------------------
-                // アルファ値変更
-                //alpha.SetAlpha(gameOver.HP, gameOver.maxHp);
+                gameOver.DecreaseHP(Damage);
 
                 //---------------------------------------------------------
                 // 接触時間リセット
                 HitTime = 0.0f;
-
-                Debug.Log(HitTime);
-                Debug.Log("HitTrigger");
-
             }
         }
     }
@@ -95,11 +87,6 @@ public class HitEnemy : MonoBehaviour
                 //---------------------------------------------------------
                 // 接触時間リセット
                 HitTime = 0.0f;
-
-                Debug.Log(HitTime);
-
-                Debug.Log("HitStay");
-
             }
         }
     }

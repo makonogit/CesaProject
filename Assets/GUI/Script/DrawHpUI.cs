@@ -15,17 +15,17 @@ public class DrawHpUI : MonoBehaviour
     private int NowHp; // 現在のHPを代入
 
     // 外部取得
-    private GameObject GUI; // HPを持っているゲームオブジェクト
+    private GameObject player; // HPを持っているゲームオブジェクト
     private GameOver gameover; // HPを持っているスクリプト
     private GameObject parent; // 親となるゲームオブジェクト
     private RectTransform parentTransform; // 親となるゲームオブジェクトの座標
     public GameObject chirdren; // 生成するオブジェクト
-    private Image img; // 画像を変更するための変数
-    [SerializeField] Sprite[] sprites; // 画像名を入れておく
+    //private Image img; // 画像を変更するための変数
+    //[SerializeField] Sprite[] sprites; // 画像名を入れておく
 
     GameObject[] objs;
 
-    private GameOver.SPRITESTATUS oldSpriteStatus; // 状態をとってきてそれに応じてスプライトを変更
+    //private GameOver.SPRITESTATUS oldSpriteStatus; // 状態をとってきてそれに応じてスプライトを変更
 
     // Start is called before the first frame update
     void Start()
@@ -37,9 +37,9 @@ public class DrawHpUI : MonoBehaviour
         parentTransform = parent.GetComponent<RectTransform>();
 
         // GUI探す
-        GUI = GameObject.Find("GUI");
+        player = GameObject.Find("player");
         // スクリプト取得
-        gameover = GUI.GetComponent<GameOver>();
+        gameover = player.GetComponent<GameOver>();
 
         objs = new GameObject[gameover.maxHp];
 
@@ -51,41 +51,41 @@ public class DrawHpUI : MonoBehaviour
         }
 
         // 表示するHp用変数に最大HP入れて初期化
-        NowHp = gameover.maxHp;
+        //NowHp = gameover.maxHp;
 
         //一番右端にあるHPのImageコンポーネントを取得
-        img = objs[gameover.maxHp - 1].GetComponent<Image>();
+        //img = objs[gameover.maxHp - 1].GetComponent<Image>();
 
         // 初期化
-        oldSpriteStatus = GameOver.SPRITESTATUS.HIGH;
+        //oldSpriteStatus = GameOver.SPRITESTATUS.HIGH;
     }
 
     // Update is called once per frame
     void Update()
     {
         // 現在の状態を取得
-        GameOver.SPRITESTATUS SS = gameover.GetSpriteStatus();
+        //GameOver.SPRITESTATUS SS = gameover.GetSpriteStatus();
 
-        //--------------------------------------------------------
-        // 前の状態と現在の状態が違ったらスプライトを変更する
-        if (oldSpriteStatus != SS)
-        {
-            // このifの中に入る = UIの個数が減った
-            // スプライトをいじるHPUIのImageコンポーネントを再取得する
-            if (SS == GameOver.SPRITESTATUS.HIGH)
-            {
-                img = objs[gameover.HP - 1].GetComponent<Image>();
-                //Debug.Log(img);
-            }
-            else
-            {
-                // 配列spritesの 2 or 3 個目のスプライトに変更
-                img.sprite = sprites[(int)SS];
-            }
-        }
+        ////--------------------------------------------------------
+        //// 前の状態と現在の状態が違ったらスプライトを変更する
+        //if (oldSpriteStatus != SS)
+        //{
+        //    // このifの中に入る = UIの個数が減った
+        //    // スプライトをいじるHPUIのImageコンポーネントを再取得する
+        //    if (SS == GameOver.SPRITESTATUS.HIGH)
+        //    {
+        //        img = objs[gameover.HP - 1].GetComponent<Image>();
+        //        //Debug.Log(img);
+        //    }
+        //    else
+        //    {
+        //        // 配列spritesの 2 or 3 個目のスプライトに変更
+        //        img.sprite = sprites[(int)SS];
+        //    }
+        //}
 
-        // 比較変数更新
-        oldSpriteStatus = SS;
+        //// 比較変数更新
+        //oldSpriteStatus = SS;
 
         //---------------------------------------------------------
         // 現在のHP分ハートを表示する

@@ -12430,6 +12430,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stage1-1
       objectReference: {fileID: 0}
+    - target: {fileID: 3025490882854862814, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3064315790439967292, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 51.32
@@ -12828,7 +12832,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stop: 0
   MoveArea: 5
-  judgeDistance: 6
+  senserDistance: 6
+  attackDistance: 1.5
   TrackingSpeed: 3
 --- !u!1 &1978350433 stripped
 GameObject:
@@ -13147,6 +13152,10 @@ PrefabInstance:
       propertyPath: _particle
       value: 
       objectReference: {fileID: 1405926450650129357, guid: 07b29da681002e248a79796c13b4e022, type: 3}
+    - target: {fileID: 5554452218198158044, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5554452218198158044, guid: 2424cfb1ac0dc024494846669377ef83, type: 3}
       propertyPath: _particleTime
       value: 5
@@ -14305,6 +14314,22 @@ MonoBehaviour:
   CrackPointList: []
   hammerstate: 0
   _crackCreaterObj: {fileID: 7869875550553585627, guid: 5e387acae0f89364487b0d1bae8712f2, type: 3}
+--- !u!114 &8059579095247675383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8059579095247675266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47d6aa2a78eb7ce498b06dd076044e6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 5
+  maxHp: 5
+  _particle: {fileID: 1405926450650129357, guid: 07b29da681002e248a79796c13b4e022, type: 3}
+  _particleTime: 5
 --- !u!1001 &8074353046155381516
 PrefabInstance:
   m_ObjectHideFlags: 0

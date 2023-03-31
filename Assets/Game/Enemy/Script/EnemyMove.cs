@@ -31,10 +31,13 @@ public class EnemyMove : MonoBehaviour
     // 敵のプレイヤーサーチ変数
     private float SubX;    // 求めたX座標の差を保持する変数
     private float SubY;    // 求めたY座標の差を保持する変数
-    private float Distace; // 求めた距離を保持する変数
+    private float Distance; // 求めた距離を保持する変数
     [Header("プレイヤーを感知する範囲")]
-    public float judgeDistance = 6.0f; // 判定をとる範囲
+    public float senserDistance = 6.0f; // 判定をとる範囲
 
+    // 敵が攻撃を始める距離
+    [Header("攻撃モーションに入る距離")]
+    public float attackDistance = 2.0f; // 攻撃する距離
     
     [Header("プレイヤーを追いかける速度")]
     public float TrackingSpeed = 3.0f; // 追跡スピード
@@ -80,6 +83,14 @@ public class EnemyMove : MonoBehaviour
     {
         if (Stop == false)
         {
+            // 一定範囲内にプレイヤーが侵入してきたらステータス変化
+            // プレイヤーとの距離をもとめる
+            SubX = thisTransform.position.x - playerTransform.position.x; // x差
+            SubY = thisTransform.position.y - playerTransform.position.y; // y差
+
+            // 三平方の定理
+            Distance = SubX * SubX + SubY * SubY; // プレイヤーとの距離が求まった
+
             switch (EnemyAI)
             {
                 case AIState.INIT_PATROL:
@@ -234,16 +245,8 @@ public class EnemyMove : MonoBehaviour
             EnemyAI = AIState.INIT_PATROL;
         }
 
-        // 一定範囲内にプレイヤーが侵入してきたらステータス変化
-        // プレイヤーとの距離をもとめる
-        SubX = thisTransform.position.x - playerTransform.position.x; // x差
-        SubY = thisTransform.position.y - playerTransform.position.y; // y差
-
-        // 三平方の定理
-        Distace = SubX * SubX + SubY * SubY; // プレイヤーとの距離が求まった
-
         // 一定距離内にプレイヤーがいる
-        if (Distace < judgeDistance)
+        if (Distance < senserDistance)
         {
             // 追跡準備
             EnemyAI = AIState.INIT_TRACKING;
@@ -258,16 +261,8 @@ public class EnemyMove : MonoBehaviour
 
     void Tracking()
     {
-        // 一定範囲内にプレイヤーがいるならプレイヤーを追跡し続ける
-        // プレイヤーとの距離をもとめる
-        SubX = thisTransform.position.x - playerTransform.position.x; // x差
-        SubY = thisTransform.position.y - playerTransform.position.y; // y差
-
-        // 三平方の定理
-        Distace = SubX * SubX + SubY * SubY; // プレイヤーとの距離が求まった
-
         // 一定距離内にプレイヤーがいる
-        if (Distace < judgeDistance)
+        if (Distance < senserDistance)
         {
             // プレイヤーに向かって進む
             // プレイヤーが敵自身より左にいるなら
@@ -281,6 +276,12 @@ public class EnemyMove : MonoBehaviour
                 thisTransform.Translate(-1 * TrackingSpeed * Time.deltaTime, 0.0f, 0.0f);
             }
 
+            // 近づきすぎたら
+            if(Distance < attackDistance)
+            {
+                // 攻撃状態に変化
+                EnemyAI = AIState.ATTACK;
+            }
         }
         // 追跡範囲外にプレイヤーがでたら巡回に戻る
         else
@@ -291,10 +292,15 @@ public class EnemyMove : MonoBehaviour
     void Init_Attack()
     {
 
+
+        EnemyAI = AIState.ATTACK;
     }
     void Attack()
     {
-
+        if(Distance > attackDistance)
+        {
+            EnemyAI = AIState.TRACKING;
+        }
     }
 
     //private void OnTriggerEnter2D(Collider2D collision)
