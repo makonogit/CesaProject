@@ -16,28 +16,40 @@ public class ChangeResultScene : MonoBehaviour
     // 外部取得
     private GameObject player;
     private PlayerStatas playerStatus;
+    private GameObject Resultobj;   // リザルト演出用のオブジェクト
+    private Result result;          // リザルト演出用のスクリプト
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("player");
         playerStatus = player.GetComponent<PlayerStatas>();
+
+        //------------------------------------------------
+        // リザルト演出用のシステム取得
+        //Resultobj = GameObject.Find("Result");
+        //result = Resultobj.GetComponent<Result>();
     }
 
     // Update is called once per frame
     void Update()
     {
         // 3つのクリスタルを壊したらリザルト画面に移動
-        if (playerStatus.GetBreakCrystalNum() >= 3)
+        if (playerStatus.GetBreakCrystalNum() == 3)
         {
-            time += Time.deltaTime;
+            //playerStatus.AddBreakCrystal();
+            //演出開始
+            //result.SetFadeFlg(true);
 
-            // 待ち時間が経過したら
-            if (time > WaitTime)
-            {
-                // リザルト画面へ
-                SceneManager.LoadScene("ResultScene");
-            }
+            // リザルト画面へ
+            SceneManager.LoadScene("newSelectScene");
+
+            //// 待ち時間が経過したら
+            //if (time > WaitTime)
+            //{
+            //    // リザルト画面へ
+            //    SceneManager.LoadScene("newSelectScene");
+            //}
         }
     }
 }

@@ -225,7 +225,7 @@ public class CrackAutoMove : MonoBehaviour
             PointNum = Edge.pointCount;
 
             //　親オブジェクトを取得
-            NowMoveCrack = collision.gameObject;
+            NowMoveCrack = collision.transform.gameObject;
 
             //---------------------------------------------
             //現在地から1番近いPoint座標を求める

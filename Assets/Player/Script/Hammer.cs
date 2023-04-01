@@ -18,6 +18,8 @@ public class Hammer : MonoBehaviour
     private GameObject InputanagerObj;          // InputManagerを持つオブジェクト
     private PlayerInputManager InputManager;    // InputManager
     private GameObject AngleTest;               // 角度を可視化するため
+    private SpriteRenderer TargtRenderer;       // 角度可視化用のレンダー
+    private TestTargetState Targetstate;        // ひびを作れるか判断
     private PlayerMove Move;    　              // 移動スクリプト
     private GameObject CrackManager;            // 全てのひびの親オブジェクト
     private CrackCreater NowCrack;              // 現在のひびのCreater
@@ -86,8 +88,8 @@ public class Hammer : MonoBehaviour
         se = seobj.GetComponent<SEManager_Player>();
 
         AngleTest = GameObject.Find("Target");
-
-
+        TargtRenderer = AngleTest.GetComponent<SpriteRenderer>();
+        Targetstate = AngleTest.GetComponent<TestTargetState>();
     }
 
     // Update is called once per frame
@@ -99,6 +101,9 @@ public class Hammer : MonoBehaviour
         switch (hammerstate)
         {
             case HammerState.NONE:
+
+                // 角度の可視化
+                TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
                 //　ひびの始点を常に自分の座標に指定
                 CrackPointList[0] = transform.position;
@@ -117,6 +122,9 @@ public class Hammer : MonoBehaviour
                 }
                 break;
             case HammerState.DIRECTION:
+
+                // 角度の可視化
+                TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
                 //　左を押されたら状態を戻す
                 if (InputManager.GetNail_Left())
@@ -165,8 +173,12 @@ public class Hammer : MonoBehaviour
                 //トリガーを離したらひび生成状態
                 if (!InputManager.GetNail_Right())
                 {
-                    // SE再生
-                    se.PlaySE_Crack1();
+                    //　照準(仮)が壁にめりこんでなかったら
+                    if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
+                    {
+                        // SE再生
+                        se.PlaySE_Crack1();
+                    }
                     hammerstate = HammerState.HAMMER;
                 }
 
