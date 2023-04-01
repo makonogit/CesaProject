@@ -29,7 +29,11 @@ public class CrackAutoMove : MonoBehaviour
     [Header("InputManager用オブジェクト")]
     private GameObject PlayerInputManager;       // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager;  // PlayerInputManager
-  
+    private InputTrigger InputTrigger;           // InputTrigger
+
+    private GameObject NowMoveCrack;            //　移動中のヒビのオブジェクト
+
+
     PlayerJump Jump;                    // ジャンプスクリプト
     PlayerMove Move;                    // 移動スクリプト
     GroundCheck GroundCheck;            // 接地判定
@@ -66,7 +70,8 @@ public class CrackAutoMove : MonoBehaviour
 
         PlayerInputManager = GameObject.Find("PlayerInputManager");
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
-        
+        InputTrigger = PlayerInputManager.GetComponent<InputTrigger>();
+
         Jump = this.gameObject.GetComponent<PlayerJump>();
         Move = this.gameObject.GetComponent<PlayerMove>();
         GroundCheck = this.gameObject.GetComponent<GroundCheck>();
@@ -183,7 +188,10 @@ public class CrackAutoMove : MonoBehaviour
                 thisrigidbody.constraints = RigidbodyConstraints2D.None;
                 thisrigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
                 Jump.enabled = true;
-                Move.enabled = true;
+                Move.SetMovement(true);
+
+                // ひびを消す
+                Destroy(NowMoveCrack);
 
                 // 自分のあたり判定を有効にする
                 thiscol.enabled = true;
@@ -216,6 +224,9 @@ public class CrackAutoMove : MonoBehaviour
             Point = Edge.points;
             PointNum = Edge.pointCount;
 
+            //　親オブジェクトを取得
+            NowMoveCrack = collision.gameObject;
+
             //---------------------------------------------
             //現在地から1番近いPoint座標を求める
             MinNearPoint = Edge.points[0];
@@ -245,7 +256,7 @@ public class CrackAutoMove : MonoBehaviour
             if (MinPointNum == 0 || MinPointNum == Edge.pointCount - 1)
             {
                 // Aボタンで入る
-                if (ScriptPIManager.GetJumpTrigger())
+                if (InputTrigger.GetJumpTrigger())
                 {
                     NowPointNum = MinPointNum;
 
@@ -254,7 +265,7 @@ public class CrackAutoMove : MonoBehaviour
                     thisrigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
 
                     Jump.enabled = false;
-                    Move.enabled = false;
+                    Move.SetMovement(false);
                 }
             }
 

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8074353045410181230}
   - component: {fileID: 8074353045410181231}
+  - component: {fileID: 485230115815756650}
   m_Layer: 0
   m_Name: PlayerInputManager
   m_TagString: Untagged
@@ -42,5 +43,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 691a1a360d7556c4c9de34a8421b9c78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsJump: 0
+  JumpTrigger: 0
+  CrackMoveflg: 0
+  Nail_Push_Left: 0
+  Nail_Push_Right: 0
+  Hammer_Push: 0
+--- !u!114 &485230115815756650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8074353045410181229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 022a739bb7634d045a1699ad89bdf34f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

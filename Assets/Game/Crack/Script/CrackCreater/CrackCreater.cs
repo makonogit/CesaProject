@@ -20,6 +20,9 @@ public class CrackCreater : MonoBehaviour
         CRAETED,    // 作成完了
         ADD_CREATE, // 追加作成開始
         ADD_CREATING,// 追加作成中
+        //-------追加　菅----------
+        ADD_CREATEFORWARD,      // 前方追加
+        ADD_CREATEBACK,         // 後方追加
     }
     [System.NonSerialized]// 非表示
     public CrackCreaterState State; // 外部閲覧用
@@ -128,6 +131,26 @@ public class CrackCreater : MonoBehaviour
 
         //--------------------------------------
         // 状態が作成開始
+        if (_nowState == CrackCreaterState.ADD_CREATEFORWARD)
+        {
+            AddCreateForward();
+            _createCount = 0;
+            _nowState = CrackCreaterState.ADD_CREATING;
+        }
+
+
+        //--------------------------------------
+        // 状態が作成開始
+        if (_nowState == CrackCreaterState.ADD_CREATEBACK)
+        {
+            AddCreateBack();
+            _createCount = 0;
+            _nowState = CrackCreaterState.ADD_CREATING;
+        }
+
+
+        //--------------------------------------
+        // 状態が作成開始
         if (_nowState == CrackCreaterState.ADD_CREATE)
         {
             AddCreate();
@@ -135,12 +158,16 @@ public class CrackCreater : MonoBehaviour
             _nowState = CrackCreaterState.ADD_CREATING;
         }
 
+
         //--------------------------------------
         // 状態が追加作成中(演出部分)
         if (_nowState == CrackCreaterState.ADD_CREATING)
         {
             AddCreating();
         }
+
+
+
         // 状態を共有する
         State = _nowState;
     }
@@ -310,6 +337,38 @@ public class CrackCreater : MonoBehaviour
         // 頂点を再設定する
         Edge2D.SetPoints(_edgePoints);
     }
+
+    //-------------------------------------------------------------------
+    //　ひびの前方追加関数　追加　菅
+    private void AddCreateForward()
+    {
+        _addCrackCount = 0;
+
+        //--------------------------------------
+        // リストの0以下を追加 
+        AddForward();
+
+        // 頂点を再設定する
+        Edge2D.SetPoints(_edgePoints);
+
+    }
+
+    //-------------------------------------------------------------------
+    //　ひびの後方追加関数　追加　菅
+    private void AddCreateBack()
+    {
+        _addCrackCount = 0;
+
+        //--------------------------------------
+        // リストの後ろを追加　
+        AddBack();
+
+        // 頂点を再設定する
+        Edge2D.SetPoints(_edgePoints);
+
+    }
+
+
     //-------------------------------------------------------
     //―ひびの前方追加関数―(私)
     private void AddForward()
