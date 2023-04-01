@@ -11,6 +11,8 @@ public class SelectedScene : MonoBehaviour
 {
     [SerializeField,Header("確認用です。")]
     private string _selectScene = null;
+    private SceneChange sceneChange;
+    private bool _isChanging;
 
     // 二宮追加
     private GameObject se;
@@ -19,6 +21,9 @@ public class SelectedScene : MonoBehaviour
     private void Start()
     {
         _selectScene = null;
+        sceneChange = GameObject.Find("SceneManager").GetComponent<SceneChange>();
+        if (sceneChange == null) Debug.LogError("SceneChangeのコンポーネントを取得できませんでした。");
+        _isChanging = false;
 
         se = GameObject.Find("SE");
         Audio = se.GetComponent<AudioSource>();
@@ -33,11 +38,12 @@ public class SelectedScene : MonoBehaviour
         if (_context.phase == InputActionPhase.Started)
         {
             //Debug.Log(_selectScene);
-            if (_selectScene != null)
+            if (_selectScene != null && !_isChanging)
             {
                 Audio.Play();
-
-                SceneManager.LoadScene(_selectScene);
+                
+                sceneChange.LoadScene(_selectScene);
+                _isChanging = true;
             }
             else
             {

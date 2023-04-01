@@ -30,6 +30,10 @@ public class SelectArea : MonoBehaviour
 
     private SceneChange scene;// ロードシーン関数を使うため
 
+    [SerializeField]
+    private GameObject _nextUI;
+    [SerializeField]
+    private GameObject _prevtUI;
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -41,7 +45,7 @@ public class SelectArea : MonoBehaviour
         _max = _positions.Count - 1;
         //--------------------------------------
         //SceneChangeの取得
-        scene = GetComponent<SceneChange>();
+        scene = GameObject.Find("SceneManager").GetComponent<SceneChange>();
         if (scene == null) Debug.LogError("SceneChangeのコンポーネントを取得できませんでした。");
     }
 

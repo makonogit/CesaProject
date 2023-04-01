@@ -42,16 +42,62 @@ public class GameOver : MonoBehaviour
     //―追加担当者：中川直登―//
     [SerializeField, Header("パーティクル")]
     private ParticleSystem _particle;
-    private ParticleSystem _createdParticle;
     [SerializeField]
-    private float _particleTime = 5;
-    private float _particleNowTime;
+    private float _creatTime;
+    private ParticleSystem _createdParticle;
+
+    private bool _isGameOver;// フラグ
+    [SerializeField, Header("終わり待ち時間")]
+    private float _waitTime;
+    private float _nowTime;
+
+    private SceneChange _scene;
+    private GameObject cam;
+
+    private PlayerMove _playerMove;
+    private PlayerJump _playerJump;
+    private CrackAutoMove _crackAuto;
+    private SmashScript _smashScript;
+    [SerializeField,Header("ゴールエリアのオブジェ")]
+    private GameObject _goalArea;
+    // GameOverCameraEventと少し干渉するので止めるため
+    private CameraZoom _cameraZoom;
+    private CameraControl2 _cameraControl2;
     //――――――――――――//
 
     private void Start()
     {
         //wallSystem = GameObject.Find("Wall_Hp_Gauge");
         //wallHpSystem = wallSystem.GetComponent<Wall_HP_System_Script>();
+        //―追加担当者：中川直登―//
+        _isGameOver = false;
+        _nowTime = 0.0f;
+        //--------------------------------------
+        //SceneChangeの取得
+        _scene = GameObject.Find("SceneManager").GetComponent<SceneChange>();
+        if (_scene == null) Debug.LogError("SceneChangeのコンポーネントを取得できませんでした。");
+        cam = GameObject.Find("Main Camera");
+        if (cam == null) Debug.LogError("Main Cameraが見つかりませんでした。");
+        
+
+        _playerMove = GetComponent<PlayerMove>();
+        if (_playerMove == null) Debug.LogError("PlayerMoveのコンポーネントを取得できませんでした。");
+        _playerJump = GetComponent<PlayerJump>();
+        if (_playerJump == null) Debug.LogError("PlayerJumpのコンポーネントを取得できませんでした。");
+        _crackAuto = GetComponent<CrackAutoMove>();
+        if (_crackAuto == null) Debug.LogError("CrackAutoMoveのコンポーネントを取得できませんでした。");
+
+        _smashScript = GetComponent<SmashScript>();
+        if (_smashScript == null) Debug.LogError("SmashScripteのコンポーネントを取得できませんでした。");
+
+        _cameraZoom = _goalArea.GetComponent<CameraZoom>();
+        if (_cameraZoom == null) Debug.LogError("CameraZoomのコンポーネントを取得できませんでした。");
+
+        _cameraControl2 = cam.GetComponent<CameraControl2>();
+        if (_cameraControl2 == null) Debug.LogError("CameraControl2のコンポーネントを取得できませんでした。");
+        //――――――――――――//
+
+
     }
 
     // Update is called once per frame
@@ -108,24 +154,28 @@ public class GameOver : MonoBehaviour
         if (HP <= 0)
         {
             //―追加担当者：中川直登―//
+
+            Deactivate();
+            _isGameOver = true;
+
             // パーティクルが生成されていないなら
-            if (_createdParticle == null) 
+            if (_createdParticle == null && _nowTime>_creatTime) 
             {
-                GameObject cam = GameObject.Find("Main Camera");
                 Vector3 pos = cam.transform.position;
                 pos = new Vector3(pos.x, pos.y, 0);
                 _createdParticle = Instantiate(_particle, pos, Quaternion.Euler(-90, 0, 0), cam.transform);
                 _createdParticle.Play();
-                _particleNowTime = 0;
             }
            
             // 一定時間経過したら
-            if (_createdParticle.isStopped)
+            if (_nowTime >_waitTime)
             {
                 //---------------------------------------------------------
                 // "GameOver"シーンに遷移
-                SceneManager.LoadScene("GameOver");
+                //SceneManager.LoadScene("GameOver");
+                _scene.LoadScene("newSelectScene");
             }
+            _nowTime += Time.deltaTime;
             //――――――――――――//
            
         }
@@ -139,7 +189,28 @@ public class GameOver : MonoBehaviour
             HP = 0;
         }
     }
+    
+    //―追加担当者：中川直登―//
+    public bool IsGameOver // 外部閲覧用―外部からの設定変更なし
+    {
+        get
+        {
+            return _isGameOver;
+        }
+    }
 
+    // プレイヤーの行動系スクリプトを非アクティブ化
+    private void Deactivate() 
+    {
+        _playerMove.enabled = false;
+        _playerJump.enabled = false;
+        _crackAuto.enabled = false;
+        _smashScript.enabled = false;
+        _goalArea.SetActive(false);
+        _cameraZoom.enabled = false;
+        _cameraControl2.enabled = false;
+    }
+    //――――――――――――//
     //public SPRITESTATUS GetSpriteStatus()
     //{
     //    return spriteStatus;
