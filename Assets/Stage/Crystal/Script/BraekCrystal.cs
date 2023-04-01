@@ -62,7 +62,8 @@ public class BraekCrystal : MonoBehaviour
         if(Distace < judgeDistance)
         {
             // “¯Žž‰Ÿ‚µ‚³‚ê‚½
-            if(ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right())
+            if(/* ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right() */
+                collision.tag == "Crack")
             {
                 stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
                 Destroy(this.gameObject);
@@ -71,5 +72,6 @@ public class BraekCrystal : MonoBehaviour
             }
         }
     }
+
 
 }
