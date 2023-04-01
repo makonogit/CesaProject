@@ -62,7 +62,9 @@ public class CrackCreater : MonoBehaviour
     private List<GameObject> _cracks;// ひびのオブジェクトリスト
 
     private Wall_HP_System_Script _WHPSS;
-    
+
+    int layerMask;      //Rayのレイヤーマスク
+
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -97,6 +99,10 @@ public class CrackCreater : MonoBehaviour
             Debug.LogError("null");
         }
 
+        //---------------------------------
+        //　layermaskでGroundだけ判定する
+        layerMask = 1 << 10;
+        //layerMask = ~layerMask;
     }
 
 
@@ -179,9 +185,9 @@ public class CrackCreater : MonoBehaviour
                 // 方向決定
                 Vector2 _vNailVec = _nailPoints[i] - _nailPoints[i + 1];
                 // 方向と距離でレイであたり判定
-                RaycastHit2D hit = Physics2D.Raycast(_nailPoints[i], _vNailVec.normalized * -1 , _vNailVec.magnitude, 3);
+                RaycastHit2D hit = Physics2D.Raycast(_nailPoints[i], _vNailVec.normalized * -1 , _vNailVec.magnitude, layerMask);
                 //Debug.DrawRay(_nailPoints[i], _vNailVec * -1, Color.red, 1000, false);
-                //if (hit) Debug.Log("当たりました" +hit.collider.gameObject.name);
+                //Debug.Log("当たりました" +hit.collider.gameObject.name);
                 
                 // ステージに当たったら終了する
                 if (hit && hit.collider.tag == "Ground") 
@@ -311,7 +317,7 @@ public class CrackCreater : MonoBehaviour
         // 方向決定(仮想釘の設定)
         Vector2 _vNailVec = _edgePoints[0] - _edgePoints[1];
         // 方向と距離でレイであたり判定
-        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[0], _vNailVec.normalized, 1.5f, 3);
+        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[0], _vNailVec.normalized, 1.5f, layerMask);
         //if (hit) Debug.Log("前" + hit.collider.gameObject.name);
         if (hit) 
         {
@@ -394,7 +400,7 @@ public class CrackCreater : MonoBehaviour
         // 方向決定(仮想釘の設定)
         Vector2 _vNailVec = _edgePoints[Last] - _edgePoints[_edgePoints.Count - 2];
         // 方向と距離でレイであたり判定
-        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last], _vNailVec.normalized , 1.5f, 3);
+        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last], _vNailVec.normalized , 1.5f, layerMask);
         //if (hit) Debug.Log("後" + hit.collider.gameObject.tag);
         if (hit)
         {

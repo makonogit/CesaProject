@@ -21,7 +21,8 @@ public class Hammer : MonoBehaviour
     private PlayerMove Move;    　              // 移動スクリプト
     private GameObject CrackManager;            // 全てのひびの親オブジェクト
     private CrackCreater NowCrack;              // 現在のひびのCreater
-    
+    private GameObject seobj;                   // SEオブジェクト
+    private SEManager_Player se;                // SE再生用
 
     public bool AddCrackFlg = false;            // ひびが伸びるフラグ
     private bool LongCrack = false;             // 伸びているひびなのか
@@ -32,6 +33,7 @@ public class Hammer : MonoBehaviour
     public float CrackLength;            
 
     public List<Vector2> CrackPointList;       //ひびのリスト
+
 
     //状態管理
     public enum HammerState
@@ -78,7 +80,13 @@ public class Hammer : MonoBehaviour
         // 移動スクリプトを取得する
         Move = GetComponent<PlayerMove>();
 
+        //----------------------------------------------
+        // SE再生用スクリプト取得
+        seobj = GameObject.Find("SE");
+        se = seobj.GetComponent<SEManager_Player>();
+
         AngleTest = GameObject.Find("Target");
+
 
     }
 
@@ -157,6 +165,8 @@ public class Hammer : MonoBehaviour
                 //トリガーを離したらひび生成状態
                 if (!InputManager.GetNail_Right())
                 {
+                    // SE再生
+                    se.PlaySE_Crack1();
                     hammerstate = HammerState.HAMMER;
                 }
 
