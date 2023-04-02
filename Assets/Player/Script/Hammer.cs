@@ -189,6 +189,7 @@ public class Hammer : MonoBehaviour
                     {
                         // SEçƒê∂
                         se.PlaySE_Crack1();
+                        se.PlayHammer();
                         vibration.SetVibration(0.5f);
                     }
                     hammerstate = HammerState.HAMMER;

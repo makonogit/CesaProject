@@ -11,6 +11,7 @@ public class SEManager_Player : MonoBehaviour
     //---------------------------------------------------------------------
     // - 変数宣言 -
 
+    public AudioClip se_Hammer; // ハンマーで叩く
     public AudioClip se_crack1; // ひびつくる（長）
     public AudioClip se_drop; // 着地
     public AudioClip se_jimp; // ジャンプ
@@ -20,7 +21,7 @@ public class SEManager_Player : MonoBehaviour
     public AudioClip se_town_run2;
     public AudioClip se_town_run3;
     public AudioClip se_town_run4;
-    
+
     // 歩く
     public AudioClip se_town_walk1;
     public AudioClip se_town_walk2;
@@ -28,7 +29,7 @@ public class SEManager_Player : MonoBehaviour
     public AudioClip se_town_walk4;
 
     // 状態によってクリップをセットする
-    private  AudioClip[] se_move = new AudioClip[4]; // 1:動き始め 2,3:交互に繰り返す 4:止まるときの足音
+    private AudioClip[] se_move = new AudioClip[4]; // 1:動き始め 2,3:交互に繰り返す 4:止まるときの足音
 
     // 移動SE用変数
     private bool MoveStart = false; // 動き始め
@@ -46,11 +47,13 @@ public class SEManager_Player : MonoBehaviour
     private GameObject player;
     private PlayerMove move;
     private GroundCheck GC;
+    private AudioSource Se2; //同時再生用SE
 
     // Start is called before the first frame update
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        Se2 = GetComponentInChildren<AudioSource>();
 
         player = GameObject.Find("player");
         move = player.GetComponent<PlayerMove>();
@@ -124,7 +127,7 @@ public class SEManager_Player : MonoBehaviour
         {
             MoveProcess = 3;
 
-            if(true/*SoundTime > MoveDelayTime / 2.0f*/)
+            if (true/*SoundTime > MoveDelayTime / 2.0f*/)
             {
                 audioSource.PlayOneShot(se_move[MoveProcess]); // se_move[3]
 
@@ -141,7 +144,7 @@ public class SEManager_Player : MonoBehaviour
 
     private void ClipSet()
     {
-        switch(move.MoveSta){
+        switch (move.MoveSta) {
             case PlayerMove.MOVESTATUS.WALK:
                 se_move[0] = se_town_walk1;
                 se_move[1] = se_town_walk2;
@@ -171,6 +174,14 @@ public class SEManager_Player : MonoBehaviour
     public void SetMoveFinish()
     {
         MoveFinish = true;
+    }
+
+    public void PlayHammer()
+    {
+        // ボリューム調整
+        Se2.volume = 0.5f;
+
+        Se2.PlayOneShot(se_Hammer);
     }
 
     public void PlaySE_Crack1()
