@@ -46,7 +46,7 @@ public class BraekCrystal : MonoBehaviour
         ScriptPIManager = PlayerInputMana.GetComponent<PlayerInputManager>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         //-----------------------------------------------------------
         // プレイヤーが一定範囲内でスマッシュしたらクリスタルが壊れる

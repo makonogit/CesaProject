@@ -104,14 +104,14 @@ public class Hammer : MonoBehaviour
     void Update()
     {
 
+        //　ひびの始点を常に自分の座標に指定
+        CrackPointList[0] = transform.position;
+
         //------------------------------------------------------
         // 状態によって処理
         switch (hammerstate)
         {
             case HammerState.NONE:
-
-                //　ひびの始点を常に自分の座標に指定
-                CrackPointList[0] = transform.position;
 
                 // 角度の可視化
                 TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
@@ -119,11 +119,19 @@ public class Hammer : MonoBehaviour
                 //トリガーを押したら方向決定状態
                 if (InputManager.GetNail_Right() && !InputManager.GetNail_Left())
                 {
+                    // 前回の座標との距離を求める
+                    float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
                     //---------------------------------------------
-                    // 前回の位置と移動していなかったらポイント追加
-                    if (CrackPointList[0] == OldFirstPoint)
+                    // 前回の位置とあまり移動していなかったらポイント追加
+                    if (Distance < 0.5f) 
                     {
                         AddCrackFlg = true;
+
+                    }
+                    else
+                    {
+                        // 角度の可視化
+                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                     }
 
                     //　移動できないようにする
@@ -133,9 +141,6 @@ public class Hammer : MonoBehaviour
 
                 break;
             case HammerState.DIRECTION:
-
-                // 角度の可視化
-                TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
                 //　左を押されたら状態を戻す
                 if (InputManager.GetNail_Left())

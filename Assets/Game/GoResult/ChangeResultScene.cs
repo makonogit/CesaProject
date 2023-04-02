@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class ChangeResultScene : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class ChangeResultScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var gamepad = Gamepad.current;
+
         // 3つのクリスタルを壊したらリザルト画面に移動
         if (playerStatus.GetBreakCrystalNum() == 3)
         {
@@ -41,6 +44,8 @@ public class ChangeResultScene : MonoBehaviour
             //演出開始
             //result.SetFadeFlg(true);
 
+            //　振動停止
+            gamepad.SetMotorSpeeds(0.0f, 0.0f);
             // リザルト画面へ
             SceneManager.LoadScene("newSelectScene");
 
