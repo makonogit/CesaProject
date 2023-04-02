@@ -29,6 +29,7 @@ public class Tutorial : MonoBehaviour
 
     private bool OpenFlg = false;   //表示フラグ
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,10 +55,20 @@ public class Tutorial : MonoBehaviour
         {
             OpenFlg = true;
         }
+        else
+        {
+            //----------------------------------------
+            //　離れたら閉じる
+            OpenFlg = false;
+        }
 
         if (OpenFlg)
         {
             OpenAnim();
+        }
+        else
+        {
+            CloseAnim();
         }
 
     }
@@ -78,4 +89,19 @@ public class Tutorial : MonoBehaviour
         }
     }
 
+    //---------------------------------
+    //　UIを非表示するアニメーション
+    private void CloseAnim()
+    {
+        //---------------------------------------------------
+        // UIを縮小する
+        if (thisTrans.localScale.x > 0.0f)
+        {
+            thisTrans.localScale = new Vector3(thisTrans.localScale.x - (MoveSpeed + 1) * Time.deltaTime, thisTrans.localScale.y, 1.0f);
+        }
+        if (thisTrans.localScale.y > 0.0f)
+        {
+            thisTrans.localScale = new Vector3(thisTrans.localScale.x, thisTrans.localScale.y - MoveSpeed * Time.deltaTime, 1.0f);
+        }
+    }
 }
