@@ -209,7 +209,18 @@ public class Hammer : MonoBehaviour
                 if (AddCrackFlg)
                 {
                     NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
-                    NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
+
+                    if (NowCrack != null)
+                    {
+                        if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+                        {
+                            NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("‚Ð‚Ñ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
+                    }
                     AddCrackFlg = false;
 
                 }
