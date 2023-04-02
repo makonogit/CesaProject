@@ -24,7 +24,7 @@ public class Result : MonoBehaviour
 
     // 破片関連
     [Header("破片のオブジェクト")]
-    public GameObject debris;// 破片用オブジェクト
+    public GameObject[] debris = new GameObject[3];// 破片用オブジェクト
     [Header("破片の生成数")]
     public int amount = 95;  // 破片の生成数
     GameObject[] debrisRist = new GameObject[95];
@@ -79,7 +79,8 @@ public class Result : MonoBehaviour
                 for (int i = 0; i < amount; i++)
                 {
 
-                    // ランダムに座標、大きさ、回転率を取得する
+                    // ランダムに形、座標、大きさ、回転率を取得する
+                    int rndDebris = Random.Range(0, 3);
                     int rndX = Random.Range(0, 21);
                     int rndY = Random.Range(0, 21);
                     int rndSizeX = Random.Range(1, 10);
@@ -87,7 +88,7 @@ public class Result : MonoBehaviour
                     int rndRot = Random.Range(1, 360);
 
                     // 破片を生成
-                    debrisRist[i] = Instantiate(debris, transform.position, Quaternion.identity);
+                    debrisRist[i] = Instantiate(debris[rndDebris], transform.position, Quaternion.identity);
 
                     // 破片のクリア後の座標を決定
                     if (clear[i] == 1)
@@ -152,7 +153,7 @@ public class Result : MonoBehaviour
 
         fadeDelay++;
 
-        if(fadeDelay > 3000)
+        if(fadeDelay > 3500)
         {
             if(alpha < 1.0f)
             {

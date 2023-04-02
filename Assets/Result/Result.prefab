@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -99,7 +99,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeSpeed: 0.002
-  debris: {fileID: 2410599454876727387, guid: f428f070ba751f34dbb55d9e1f9b3912, type: 3}
+  debris:
+  - {fileID: 2410599454876727387, guid: f428f070ba751f34dbb55d9e1f9b3912, type: 3}
+  - {fileID: 2443012711920118117, guid: 7f04fdf4ce89e3b41b10eded6e6505a6, type: 3}
+  - {fileID: 1986601248997242944, guid: 690943aa86b915c41b012cb249637c57, type: 3}
   amount: 95
   sound1: {fileID: 8300000, guid: 81a2d2096e3a10a4781ea6835346c450, type: 3}
 --- !u!82 &-1433938235946749034
