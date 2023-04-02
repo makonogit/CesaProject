@@ -31,9 +31,12 @@ public class SelectArea : MonoBehaviour
     private SceneChange scene;// ロードシーン関数を使うため
 
     [SerializeField]
-    private GameObject _nextUI;
+    private Animator _next;
+    private float _nextUiTime = 0.3f;
+    private float _nowNextUiTime;
     [SerializeField]
-    private GameObject _prevtUI;
+    private Animator _prev;
+    private float _nowPrevUiTime;
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -43,6 +46,8 @@ public class SelectArea : MonoBehaviour
         _nowArea = 0;// ※おそらくデータを読み込む処理に変わる
         _nextArea = 0;// ※おそらくデータを読み込む処理に変わる
         _max = _positions.Count - 1;
+        _nowNextUiTime = _nextUiTime;
+        _nowPrevUiTime = _nextUiTime;
         //--------------------------------------
         //SceneChangeの取得
         scene = GameObject.Find("SceneManager").GetComponent<SceneChange>();
@@ -69,6 +74,8 @@ public class SelectArea : MonoBehaviour
             _nextArea++;
             // 予期しない値にならないよう制限する
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
+            _next.SetBool("isPush", true);
+            _nowNextUiTime = 0;
         }
     }
 
@@ -80,6 +87,8 @@ public class SelectArea : MonoBehaviour
             _nextArea--;
             // 予期しない値にならないよう制限する
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
+            _prev.SetBool("isPush", true);
+            _nowPrevUiTime = 0;
         }
     }
 
@@ -89,7 +98,7 @@ public class SelectArea : MonoBehaviour
         // 押された瞬間
         if(_context.phase == InputActionPhase.Started) 
         {
-            NextArea();
+            NextArea();  
         }
     }
 
@@ -122,6 +131,9 @@ public class SelectArea : MonoBehaviour
         // 現在地と目標地の距離
         Vector3 Distance = new Vector3(10, 10, -10);
 
+        //_next.SetBool("isPush", (_nowNextUiTime <= _nextUiTime));
+        //_prev.SetBool("isPush", (_nowPrevUiTime <= _nextUiTime));
+
         // エリアを移動す時
         if (_nowArea != _nextArea)// 現在と次のエリアが違うとき
         {
@@ -137,11 +149,14 @@ public class SelectArea : MonoBehaviour
         // エリア移動完了
         if (Distance.magnitude <= 0.01f) // 距離が近かったら
         {
+            _next.SetBool("isPush", false);
+            _prev.SetBool("isPush", false);
             // 現在地の更新
             Vector3 _pos = new Vector3(_positions[_nextArea].position.x, _positions[_nextArea].position.y, transform.position.z);
             this.transform.position = _pos;
             // 現在のエリアと次のエリアを同じにする。
             _nowArea = _nextArea;
         }
+        //_nowNextUiTime += Time.deltaTime;        _nowPrevUiTime += Time.deltaTime;
     }
 }
