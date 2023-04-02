@@ -47,6 +47,9 @@ public class PlayerMove : MonoBehaviour
     private GameObject se;
     private SEManager_Player seMana;
 
+    private PlayerStatas playerStatus;
+
+
     //----------------------------------------------------------------------------------------------------------
     // - 初期化処理 -
     void Start()
@@ -71,6 +74,9 @@ public class PlayerMove : MonoBehaviour
         se = GameObject.Find("SE");
         // Seコンポーネント取得
         seMana = se.GetComponent<SEManager_Player>();
+
+        playerStatus = GetComponent<PlayerStatas>();
+
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -81,7 +87,7 @@ public class PlayerMove : MonoBehaviour
         // 普通の移動
         //----------------------------------------------------------------------------------------------------------
 
-        if (Moveflg)
+        if (Moveflg && !playerStatus.GetHitStop()) // 移動フラグがたっているか、ヒットストップ中じゃない
         {
             // 移動量をPlayerInputManagerからとってくる
             movement = ScriptPIManager.GetMovement();

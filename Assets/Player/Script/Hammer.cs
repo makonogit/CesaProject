@@ -58,6 +58,12 @@ public class Hammer : MonoBehaviour
     CrackCreater _creater;
     //――――――――――――//
 
+    // 二宮追加
+    private float stopTime; // ヒットストップしている時間
+    public float HitStopTime = 0.3f; // ヒットストップ終了時間
+
+    private Animator anim;
+    private PlayerStatas playerStatus;
 
     // Start is called before the first frame update
     void Start()
@@ -98,6 +104,10 @@ public class Hammer : MonoBehaviour
         AngleTest = GameObject.Find("Target");
         TargtRenderer = AngleTest.GetComponent<SpriteRenderer>();
         Targetstate = AngleTest.GetComponent<TestTargetState>();
+
+        // アニメーター取得
+        anim = GetComponent<Animator>();
+        playerStatus = GetComponent<PlayerStatas>();
     }
 
     // Update is called once per frame
@@ -196,6 +206,11 @@ public class Hammer : MonoBehaviour
                         se.PlaySE_Crack1();
                         se.PlayHammer();
                         vibration.SetVibration(0.5f);
+
+                        // ヒットストップ初期化
+                        playerStatus.SetHitStop(true);
+                        anim.speed = 0.02f;
+                        stopTime = 0.0f;
                     }
                     hammerstate = HammerState.HAMMER;
                 }
@@ -239,10 +254,23 @@ public class Hammer : MonoBehaviour
                 Debug.Log("HammerStateに設定できない数値が代入されています");
                 break;
         }
+        // 二宮追加
+        // ヒットストップ
+        if(stopTime < HitStopTime)
+        {
+            stopTime += Time.deltaTime;
+        }
+        else
+        {
+            // ヒットストップ終了
+            anim.speed = 1f;
+            playerStatus.SetHitStop(false);
+        }
+
 
         //----------------------------------------
         //　生成終了したら移動解除
-      
+
     }
 
     //-----------------------------------------------------------------

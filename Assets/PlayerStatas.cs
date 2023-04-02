@@ -17,6 +17,8 @@ public class PlayerStatas : MonoBehaviour
     // 二宮追加
     private int BreakCrystalNum = 0; // 壊したクリスタルの数
 
+    [SerializeField] private bool HitStop = false; // ヒットストップ中か
+
     public void AddBreakCrystal()
     {
         BreakCrystalNum++;
@@ -59,7 +61,7 @@ public class PlayerStatas : MonoBehaviour
     }
 
     //-------------------------------------
-    // クリスタルの所持数を関数する関数
+    // クリスタルの所持数を取得する関数
     // 引数：なし
     // 戻り値：クリスタルの所持数
     //-------------------------------------
@@ -68,4 +70,18 @@ public class PlayerStatas : MonoBehaviour
         return HaveCrystal;
     }
 
+    public bool IsHitStop()
+    {
+        return HitStop;
+    }
+
+    public bool GetHitStop()
+    {
+        return HitStop;
+    }
+
+    public void SetHitStop(bool value)
+    {
+        HitStop = value;
+    }
 }
