@@ -69,8 +69,8 @@ public class PlayerMove_in_newSelectScene : MonoBehaviour
         if(State == PlayerState_in_newSelectScene.WALK) 
         {
             float move = _inputValue.x * _moveSpeed * Time.deltaTime;
-            _rigid.velocity = new Vector2(move, _rigid.velocity.y);
-
+            //_rigid.velocity = new Vector2(move, _rigid.velocity.y);
+            transform.Translate(move, 0, 0);
             // 二宮追加
 
             // なんらかのスティック入力があれば
