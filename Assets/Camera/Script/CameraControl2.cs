@@ -51,8 +51,8 @@ public class CameraControl2 : MonoBehaviour
         _AreaManager = CameraArea.GetComponent<AreaManager>();
 
         // カメラズームエリアの情報を取得
-        ZoomArea = GameObject.Find("GoalArea");
-        zoom = ZoomArea.GetComponent<CameraZoom>();
+        //ZoomArea = GameObject.Find("GoalArea");
+        //zoom = ZoomArea.GetComponent<CameraZoom>();
 
         // カメラの情報を取得
         MainCam = GetComponent<Camera>();
