@@ -75,27 +75,28 @@ public class CameraControl2 : MonoBehaviour
     private void LateUpdate()
     {
         // ズームエリアにいたら追従ターゲットを変更する
-        if (zoom.InArea)
-        {
-            if (Target.name == "player")
-            {
-                // ターゲットを変更
-                Target = GameObject.Find("GoalArea");
-                TargetTrans = Target.transform;
-            }
-        }
-        else
-        {
-            // エリア外でターゲットがゴールエリアなら
-            if (Target.name == "GoalArea")
-            {
-                // ターゲットを変更
-                Target = GameObject.Find("player");
-                TargetTrans = Target.transform;
-            }
+        //if (zoom.InArea)
+        //{
+        //    if (Target.name == "player")
+        //    {
+        //        // ターゲットを変更
+        //        Target = GameObject.Find("GoalArea");
+        //        TargetTrans = Target.transform;
+        //    }
+        //}
+        //else
+        //{
+        //    // エリア外でターゲットがゴールエリアなら
+        //    if (Target.name == "GoalArea")
+        //    {
+        //        // ターゲットを変更
+        //        Target = GameObject.Find("player");
+        //        TargetTrans = Target.transform;
+        //    }
 
-        }
+        //}
 
+       
         // 現在の座標を取得
         Vector3 NowPos = new Vector3(TargetTrans.position.x, TargetTrans.position.y,transform.position.z);
 

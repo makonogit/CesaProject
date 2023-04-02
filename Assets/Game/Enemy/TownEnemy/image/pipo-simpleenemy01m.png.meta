@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 92ecd51e3451ff4458d742a87e2c199b
+guid: e3c39d6275f55ab45b76b5084ef70363
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -101,17 +101,53 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pipo-charachip019_0
+      name: pipo-simpleenemy01m_0
       rect:
         serializedVersion: 2
-        x: 1
+        x: 0
         y: 96
-        width: 31
-        height: 30
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,20 +155,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e16d82f410841340923379b4070c2cb
-      internalID: -1267718530
+      spriteID: 6cfd4eb87a4c2e745bef8c9c1a8fa950
+      internalID: -1028684159
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pipo-charachip019_1
+      name: pipo-simpleenemy01m_1
       rect:
         serializedVersion: 2
-        x: 34
-        y: 97
-        width: 29
-        height: 30
+        x: 32
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,20 +176,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c27cc29fcf273e478b201199da60e95
-      internalID: -380094944
+      spriteID: 98298ee2b54b10749912b3189d5b4398
+      internalID: -1380107046
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pipo-charachip019_2
+      name: pipo-simpleenemy01m_2
       rect:
         serializedVersion: 2
-        x: 67
-        y: 98
-        width: 27
-        height: 30
+        x: 64
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +197,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04e302f4b934e2f4e9790fd6b0f10e2e
-      internalID: 1560478854
+      spriteID: 7255a16c853f0fe48b829d7200777c4c
+      internalID: -1808246669
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pipo-charachip019_3
+      name: pipo-simpleenemy01m_3
       rect:
         serializedVersion: 2
-        x: 6
+        x: 0
         y: 64
-        width: 26
-        height: 30
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,20 +218,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 49f8a3509ade09846a809fe7c18bd2e3
-      internalID: -1383196097
+      spriteID: 23cbd5708f4aece44bec5f9776a792d1
+      internalID: -103111679
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pipo-charachip019_4
+      name: pipo-simpleenemy01m_4
       rect:
         serializedVersion: 2
-        x: 38
-        y: 65
-        width: 25
-        height: 30
+        x: 32
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,20 +239,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ce373d8b04cc284aa45886acd5c8ec9
-      internalID: -1364682407
+      spriteID: c924416717e1a444dbcebc7ef4be757f
+      internalID: 1730600123
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pipo-charachip019_5
+      name: pipo-simpleenemy01m_5
       rect:
         serializedVersion: 2
-        x: 70
-        y: 66
-        width: 24
-        height: 30
+        x: 64
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,20 +260,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd3075d52e0d70647bf6c9e54e1edab6
-      internalID: -1631312014
+      spriteID: ea84e31c75e28034582db8dbe093b5e9
+      internalID: 1637087974
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pipo-charachip019_6
+      name: pipo-simpleenemy01m_6
       rect:
         serializedVersion: 2
-        x: 1
+        x: 0
         y: 32
-        width: 26
-        height: 30
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -245,20 +281,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55612b54297f6e548b8ac73140c4e0af
-      internalID: 1319555159
+      spriteID: 566c6ee49a6887a4994ac52fbd2047b8
+      internalID: 682914662
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pipo-charachip019_7
+      name: pipo-simpleenemy01m_7
       rect:
         serializedVersion: 2
-        x: 34
-        y: 33
-        width: 25
-        height: 30
+        x: 32
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -266,20 +302,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb320da15d728db45b128bac2401fd37
-      internalID: 1636754077
+      spriteID: 40a4113e01ee03441a5338fcdcd1e987
+      internalID: 880580796
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pipo-charachip019_8
+      name: pipo-simpleenemy01m_8
       rect:
         serializedVersion: 2
-        x: 67
-        y: 34
-        width: 24
-        height: 30
+        x: 64
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -287,20 +323,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 493588ad4c87bca4cb113d30db1a6fdf
-      internalID: -520579727
+      spriteID: 3239cf86b0bc63748b974eefc920fdbc
+      internalID: -1557647480
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pipo-charachip019_9
+      name: pipo-simpleenemy01m_9
       rect:
         serializedVersion: 2
-        x: 1
+        x: 0
         y: 0
-        width: 31
-        height: 30
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -308,20 +344,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 41a9eeba929284a49af6a0be8e364c49
-      internalID: -932651768
+      spriteID: 1acd2f24f79b9344d9f29027a63e968b
+      internalID: -1975371743
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pipo-charachip019_10
+      name: pipo-simpleenemy01m_10
       rect:
         serializedVersion: 2
-        x: 34
-        y: 1
-        width: 29
-        height: 30
+        x: 32
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -329,20 +365,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac14d7dd222632748967808ae3662c60
-      internalID: 1851680294
+      spriteID: aed8268f96b695943885b5d8120d1eaa
+      internalID: 1491602877
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pipo-charachip019_11
+      name: pipo-simpleenemy01m_11
       rect:
         serializedVersion: 2
-        x: 67
-        y: 2
-        width: 27
-        height: 30
+        x: 64
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -350,8 +386,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9926ba39af3c4524991478e4a9b09686
-      internalID: -574149832
+      spriteID: 0bb94f251b067a64cb01655b38975c18
+      internalID: -1532886082
       vertices: []
       indices: 
       edges: []
@@ -367,18 +403,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      pipo-charachip019_8: -520579727
-      pipo-charachip019_9: -932651768
-      pipo-charachip019_11: -574149832
-      pipo-charachip019_10: 1851680294
-      pipo-charachip019_2: 1560478854
-      pipo-charachip019_5: -1631312014
-      pipo-charachip019_7: 1636754077
-      pipo-charachip019_6: 1319555159
-      pipo-charachip019_0: -1267718530
-      pipo-charachip019_4: -1364682407
-      pipo-charachip019_1: -380094944
-      pipo-charachip019_3: -1383196097
+      pipo-simpleenemy01m_5: 1637087974
+      pipo-simpleenemy01m_9: -1975371743
+      pipo-simpleenemy01m_10: 1491602877
+      pipo-simpleenemy01m_6: 682914662
+      pipo-simpleenemy01m_0: -1028684159
+      pipo-simpleenemy01m_4: 1730600123
+      pipo-simpleenemy01m_8: -1557647480
+      pipo-simpleenemy01m_1: -1380107046
+      pipo-simpleenemy01m_3: -103111679
+      pipo-simpleenemy01m_2: -1808246669
+      pipo-simpleenemy01m_7: 880580796
+      pipo-simpleenemy01m_11: -1532886082
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

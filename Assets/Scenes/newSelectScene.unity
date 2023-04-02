@@ -400,6 +400,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1895598174}
     m_Modifications:
+    - target: {fileID: 2479300806446936546, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2584331376349008279, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_Text
       value: "\u30A8\u30EA\u30A2\u5DE5\u5834"
@@ -408,6 +412,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 90edf50d221004e45b37659a41a974be, type: 3}
+    - target: {fileID: 3255903829540595557, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4127386606429907875, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6997257736749431455, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -468,6 +480,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Area Plant
       objectReference: {fileID: 0}
+    - target: {fileID: 7572909800120163812, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8153891454051819779, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.164
@@ -475,6 +491,10 @@ PrefabInstance:
     - target: {fileID: 8153891454051819779, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.164
+      objectReference: {fileID: 0}
+    - target: {fileID: 8304468203833279534, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbd0563a71e430a46b055865c9129522, type: 3}
@@ -884,6 +904,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1895598174}
     m_Modifications:
+    - target: {fileID: 2479300806446936546, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2584331376349008279, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_Text
       value: "\u30A8\u30EA\u30A2\u6D1E\u7A9F"
@@ -892,6 +916,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 90edf50d221004e45b37659a41a974be, type: 3}
+    - target: {fileID: 3255903829540595557, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4127386606429907875, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4472440899312541329, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.12
@@ -988,6 +1020,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Area Cave
       objectReference: {fileID: 0}
+    - target: {fileID: 7572909800120163812, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8153891454051819779, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.164
@@ -995,6 +1031,10 @@ PrefabInstance:
     - target: {fileID: 8153891454051819779, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.164
+      objectReference: {fileID: 0}
+    - target: {fileID: 8304468203833279534, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbd0563a71e430a46b055865c9129522, type: 3}
@@ -1516,6 +1556,7 @@ GameObject:
   - component: {fileID: 931340710}
   - component: {fileID: 931340711}
   - component: {fileID: 931340712}
+  - component: {fileID: 931340713}
   m_Layer: 0
   m_Name: Player(SelectScene)
   m_TagString: Player
@@ -1676,6 +1717,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 3
   _praticle: {fileID: 1990902307}
+--- !u!114 &931340713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931340704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ddbf704048ff04fb287a3f7ea1b210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StageObj: []
 --- !u!1 &1030953089
 GameObject:
   m_ObjectHideFlags: 0
@@ -2054,6 +2108,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1895598174}
     m_Modifications:
+    - target: {fileID: 2479300806446936546, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2584331376349008279, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_Text
       value: "\u30A8\u30EA\u30A2\u8857"
@@ -2062,6 +2120,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 90edf50d221004e45b37659a41a974be, type: 3}
+    - target: {fileID: 3255903829540595557, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4127386606429907875, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4472440899312541329, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.14
@@ -2158,6 +2224,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Area City
       objectReference: {fileID: 0}
+    - target: {fileID: 7572909800120163812, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8153891454051819779, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.164
@@ -2165,6 +2235,10 @@ PrefabInstance:
     - target: {fileID: 8153891454051819779, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.164
+      objectReference: {fileID: 0}
+    - target: {fileID: 8304468203833279534, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbd0563a71e430a46b055865c9129522, type: 3}
@@ -3267,6 +3341,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1895598174}
     m_Modifications:
+    - target: {fileID: 2479300806446936546, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2584331376349008279, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_Text
       value: "\u30A8\u30EA\u30A2\u7802\u6F20"
@@ -3275,6 +3353,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 90edf50d221004e45b37659a41a974be, type: 3}
+    - target: {fileID: 3255903829540595557, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4127386606429907875, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4472440899312541329, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.05
@@ -3371,6 +3457,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Area Desert
       objectReference: {fileID: 0}
+    - target: {fileID: 7572909800120163812, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8153891454051819779, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.164
@@ -3378,6 +3468,10 @@ PrefabInstance:
     - target: {fileID: 8153891454051819779, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.164
+      objectReference: {fileID: 0}
+    - target: {fileID: 8304468203833279534, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbd0563a71e430a46b055865c9129522, type: 3}
@@ -3388,6 +3482,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1895598174}
     m_Modifications:
+    - target: {fileID: 2479300806446936546, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2584331376349008279, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_Text
       value: "\u30A8\u30EA\u30A2\u6C37"
@@ -3396,6 +3494,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 90edf50d221004e45b37659a41a974be, type: 3}
+    - target: {fileID: 3255903829540595557, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4127386606429907875, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4472440899312541329, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.09
@@ -3492,6 +3598,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Area Ice
       objectReference: {fileID: 0}
+    - target: {fileID: 7572909800120163812, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8153891454051819779, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.164
@@ -3499,6 +3609,10 @@ PrefabInstance:
     - target: {fileID: 8153891454051819779, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.164
+      objectReference: {fileID: 0}
+    - target: {fileID: 8304468203833279534, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: _Areanumber
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbd0563a71e430a46b055865c9129522, type: 3}

@@ -187,11 +187,8 @@ public class CrackAutoMove : MonoBehaviour
                 // 移動終了していたらMove,Jumpを再開
                 thisrigidbody.constraints = RigidbodyConstraints2D.None;
                 thisrigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-                Jump.enabled = true;
+                //Jump.JumpHeight = 5.0f;
                 Move.SetMovement(true);
-
-                // ひびを消す
-                Destroy(NowMoveCrack);
 
                 // 自分のあたり判定を有効にする
                 thiscol.enabled = true;
@@ -224,7 +221,7 @@ public class CrackAutoMove : MonoBehaviour
             Point = Edge.points;
             PointNum = Edge.pointCount;
 
-            //　親オブジェクトを取得
+            //　オブジェクトを取得
             NowMoveCrack = collision.transform.gameObject;
 
             //---------------------------------------------
@@ -264,7 +261,7 @@ public class CrackAutoMove : MonoBehaviour
                     //collision.ClosestPoint(this.transform.position);
                     thisrigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
 
-                    Jump.enabled = false;
+                    //Jump.JumpHeight = 0.0f;
                     Move.SetMovement(false);
                 }
             }
@@ -279,6 +276,9 @@ public class CrackAutoMove : MonoBehaviour
         //移動終了していてひびから出たら歩行状態に遷移
         if (movestate == MoveState.CrackMoveEnd)
         {
+            Move.SetMovement(true);
+            // ひびを消す
+            Destroy(NowMoveCrack);
             movestate = MoveState.Walk;
         }
     }

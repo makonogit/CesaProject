@@ -5,6 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class GiveScene : MonoBehaviour
 {
     //-----------------------------------------------------------------
@@ -20,9 +21,16 @@ public class GiveScene : MonoBehaviour
     private SelectedScene _selected;
     [SerializeField, Header("ステージシーン名")]
     private string _scene;// ステージのシーンを入れる
+
+    [SerializeField, Header("エリア番号")]
+    private int _Areanumber;    // エリアの番号
+
     [SerializeField, Header("ステージ番号")]
     private int _number;// ステージの番号
 
+    private SetStage _Stagemanager;
+    //private SetStage setStage;
+   
 
     private void Start()
     {
@@ -32,6 +40,9 @@ public class GiveScene : MonoBehaviour
         //if (_selectMove == null) Debug.LogError("SelectMoveのコンポーネントを取得できませんでした。旧SelectScene用です。");
         _selected = _player.GetComponent<SelectedScene>();
         if (_selected == null) Debug.LogError("SelectedSceneのコンポーネントを取得できませんでした。newSeelctScene用です。");
+
+        _Stagemanager = new SetStage();
+        //setStage = _Stagemanager.GetComponent<SetStage>();
     }
 
     //-----------------------------------------------------------------
@@ -54,6 +65,8 @@ public class GiveScene : MonoBehaviour
             
            if(_selected != null) 
             {
+                Debug.Log("!!!!");
+                _Stagemanager.SetStageData(_Areanumber, _number);
                 _selected.SelectScene(GetScene);
             }
             // 状態がエリア移動じゃなければ
