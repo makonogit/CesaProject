@@ -94,7 +94,7 @@ public class Result : MonoBehaviour
                     if (clear[i] == 1)
                     {
                         ResultDebris resultDebris = debrisRist[i].GetComponent<ResultDebris>();
-                        resultDebris.clearPos.x = -7.0f + 0.8f * (i % 19);
+                        resultDebris.clearPos.x = transform.position.x + -7.0f + 0.8f * (i % 19);
                         resultDebris.clearPos.y = 4.0f - 0.8f * (i / 19);
                         resultDebris.clearPos.z = 2.0f;
                     }
@@ -103,7 +103,7 @@ public class Result : MonoBehaviour
 
                     // ç¿ïWÇïœçX
                     Vector3 pos = objTransform.position;
-                    pos.x = -8.0f + 0.8f * rndX;
+                    pos.x = transform.position.x + -8.0f + 0.8f * rndX;
                     pos.y = -8.0f + 0.8f * rndY;
                     pos.z = 0.0f;
 
