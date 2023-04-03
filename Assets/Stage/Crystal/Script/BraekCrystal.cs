@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class BraekCrystal : MonoBehaviour
 {
+    GameObject StageObj;
     StageStatas stageStatas;    //ステージのステータス管理
 
     //-----------------------------
@@ -32,7 +33,8 @@ public class BraekCrystal : MonoBehaviour
     {
         //-------------------------------------
         //ステージのステータスを取得
-        stageStatas = transform.root.gameObject.GetComponent<StageStatas>();
+        StageObj = transform.root.gameObject;
+        stageStatas = StageObj.transform.GetChild(0).GetComponent<StageStatas>();
 
         // プレイヤー探す
         player = GameObject.Find("player");
