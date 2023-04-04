@@ -28,7 +28,14 @@ public class TownBossHealth : MonoBehaviour
         // ボスの行動スクリプト取得
         bossMove = Boss.GetComponent<TownBossMove>();
 
-        BossHealth = 2;
+        BossHealth = MaxBossHealth;
+        //BossHealth = 2;
+        //BossHealth = 1;
+    }
+
+    private void Update()
+    {
+        //Debug.Log(BossHealth);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -43,17 +50,21 @@ public class TownBossHealth : MonoBehaviour
             //生成中なら
             if (order.State == CrackCreater.CrackCreaterState.CREATING)
             {
-                // 体力-1
-                BossHealth--;
-
-                // ひび消す
-                Destroy(collision.gameObject);
-
-                // ボスの体力が0以下になったら
-                if(BossHealth <= 0)
+                // 無敵状態じゃなければ
+                if (bossMove.invincibility == false)
                 {
-                    // AIの状態を変化
-                    bossMove.EnemyAI = TownBossMove.AIState.Death; // 撃破状態
+                    // 体力-1
+                    BossHealth--;
+
+                    // ひび消す
+                    Destroy(collision.gameObject);
+
+                    // ボスの体力が0以下になったら
+                    if (BossHealth <= 0)
+                    {
+                        // AIの状態を変化
+                        bossMove.EnemyAI = TownBossMove.AIState.Death; // 撃破状態
+                    }
                 }
             }
         }

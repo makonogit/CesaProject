@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &675678773248121527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2381068508819883239}
+  m_Layer: 7
+  m_Name: ShardParent
+  m_TagString: BossEnemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2381068508819883239
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675678773248121527}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1667249851898859561}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2574551976505347733
 GameObject:
   m_ObjectHideFlags: 0
@@ -77,7 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea5881e4348f0694f81ac965bb85f5c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BossHealth: 0
   MaxBossHealth: 3
 --- !u!1 &3007114840224502459
 GameObject:
@@ -112,6 +142,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8134940055895088475}
+  - {fileID: 2381068508819883239}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -216,4 +247,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f92630064ddcd7a45aac5f5ffff8859b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyAI: 1
+  Shards_Prefab: {fileID: 3224777434751250611, guid: 081941a940eda9b43ba686d4ac2b8802, type: 3}
+  ShardSpeed: 5
+  EnemyAI: 0

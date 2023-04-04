@@ -25,7 +25,7 @@ public class Hammer : MonoBehaviour
     private CrackCreater NowCrack;              // 現在のひびのCreater
     private GameObject seobj;                   // SEオブジェクト
     private SEManager_Player se;                // SE再生用
-    private GameObject camera;                  // カメラ
+    private GameObject Camera;                  // カメラ
     private VibrationCamera vibration;          // カメラ振動スクリプト
 
 
@@ -98,8 +98,8 @@ public class Hammer : MonoBehaviour
 
         //----------------------------------------------
         // カメラ振動スクリプトの取得
-        camera = GameObject.Find("Main Camera");
-        vibration = camera.GetComponent<VibrationCamera>();
+        Camera = GameObject.Find("Main Camera");
+        vibration = Camera.GetComponent<VibrationCamera>();
 
         AngleTest = GameObject.Find("Target");
         TargtRenderer = AngleTest.GetComponent<SpriteRenderer>();

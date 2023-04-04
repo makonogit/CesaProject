@@ -34,33 +34,58 @@ public class TownBossMove : MonoBehaviour
     // レイの位置調整
     float AdjustX;
 
-    // ボスのアクション後の隙時間
-    private float waitTimer;
-
     // 突進用変数
-    private float RammingSpeed = 6.0f; // 突進時の移動速度
-    private float PreRammingTimer = 0f; // 突進準備時間
-    private int SwitchBack; // 切り返し回数
+    private float RammingSpeed = 6.0f;     // 突進時の移動速度
+    private float PreRammingTimer = 0f;    // 突進準備時間
+    private int SwitchBack;                // 切り返し回数
+    private float RammingWaitTimer;        // 突進後の隙時間
+
+    // かけら飛ばし用変数
+    private float CreateShardsNeedTime = 0.5f;   // かけらを作るのにかかる時間
+    private float ShardCreateTimer;            // かけらを生成し始めてからの経過時間
+    private int CreatedNum = 0; // かけらを作った数
+    public GameObject Shards_Prefab; // かけらのプレハブを持っておく変数
+    private GameObject[] shardObj = new GameObject[6]; // 作成したかけらオブジェクトをいれる配列
+    private GameObject shardParent; // かけらの親オブジェクト
+    private Vector3[] ShardVelocity = new Vector3[6]; // 作ったかけらを移動させるための値を入れる配列
+    private bool AllAddVelocity = false; // 作成した全てのかけらにVelocityを加算したか
+    [Header("かけらの移動スピード")]public float ShardSpeed = 5f;
+    private float ShardWaitTime = 3f; // かけらを飛ばした後の次のモーションまでの待ち時間
+    private float ShardThrowTimer = 0f; // かけらをとばしてからの経過時間
+
+    // かけら配置用変数
+    [Header("何度間隔でかけらを配置するか(初期値10)")]public float SpacingDeg = 10f; // 何度間隔で配置するか
+    private float shardDeg = -15f; // 角度（何度から始まるのか)               
+    private float radius = 4f;   // ボスを原点とした円の半径
+
+    //無敵
+    [System.NonSerialized]public bool invincibility = false;
 
     public enum AIState
     {
-        Wait, // 隙
-        RammingInit, // 突進準備
-        Ramming, // 突進
-        RammingWait, // 突進後の隙
-        ThrowShards, // かけら飛ばし
-        Death, // 撃破
+        Lottery,         // 行動抽選
+        RammingInit,     // 突進準備
+        Ramming,         // 突進
+        RammingWait,     // 突進後の隙
+        ThrowShardsInit, // かけら準備
+        ThrowShards,     // かけら飛ばし
+        Death,           // 撃破
     }
 
     // 敵行動状態
-    public AIState EnemyAI = AIState.Ramming;
+    public AIState EnemyAI = AIState.Lottery;
 
     // 外部取得
     private Transform thisTransform; // このオブジェクトの座標を持つ変数
     private GameObject player; // プレイヤーのゲームオブジェクト探す用
     private Transform playerTransform;
-    private GameObject child;
+    private GameObject Colchild;
     private TownBossHealth BossHealth;
+    private GameObject mainCam;
+    private CameraControl2 cameraControl;   //カメラ追従
+    private VibrationCamera vibration;
+
+    private Material mat;
 
     // Start is called before the first frame update
     void Start()
@@ -74,9 +99,18 @@ public class TownBossMove : MonoBehaviour
         playerTransform = player.GetComponent<Transform>();
 
         // 自身の子オブジェクト取得
-        child = transform.Find("HitCollider").gameObject;
+        //child = transform.Find("HitCollider").gameObject;
+        Colchild = transform.GetChild(0).gameObject;
         // ボスの体力スクリプト取得
-        BossHealth = child.GetComponent<TownBossHealth>();
+        BossHealth = Colchild.GetComponent<TownBossHealth>();
+
+        // ShardParent取得
+        shardParent = transform.GetChild(1).gameObject;
+
+        // カメラ探す
+        mainCam = GameObject.Find("Main Camera");
+        vibration = mainCam.GetComponent<VibrationCamera>();
+        cameraControl = mainCam.GetComponent<CameraControl2>();
 
         // レイ位置調整
         halfScale = thisTransform.localScale.x / 2.0f;
@@ -84,6 +118,10 @@ public class TownBossMove : MonoBehaviour
 
         // サイズを保存
         sizeX = thisTransform.localScale.x;
+
+        // 色取得
+        mat = GetComponent<SpriteRenderer>().material;
+
     }
 
     // Update is called once per frame
@@ -105,23 +143,59 @@ public class TownBossMove : MonoBehaviour
 
         switch (EnemyAI)
         {
-            case AIState.Wait:
-                Wait();
+            case AIState.Lottery:
+                Lottery();
                 break;
 
+            // 突進準備
+            case AIState.RammingInit:
+                RammingInit();
+                break;
+
+            // 突進
             case AIState.Ramming:
                 Ramming();
                 break;
 
+            // 突進後の隙
+            case AIState.RammingWait:
+                RammingWait();
+                break;
+
+            // かけら準備
+            case AIState.ThrowShardsInit:
+                ThrowShardsInit();
+                break;
+
+            // かけら飛ばし
             case AIState.ThrowShards:
                 ThrowShards();
+                break;
+
+            // 撃破
+            case AIState.Death:
+                Death();
                 break;
         }
     }
 
-    private void Wait()
+    private void Lottery()
     {
-        // 攻撃後の後隙
+        // 次の行動を抽選
+        var Action = Random.Range(0, 2);
+
+        switch (Action)
+        {
+            // 突進
+            case 0:
+                EnemyAI = AIState.RammingInit;
+                break;
+
+            // かけら飛ばし
+            case 1:
+                EnemyAI = AIState.ThrowShardsInit;
+                break;
+        }
     }
 
     private void RammingInit()
@@ -132,6 +206,20 @@ public class TownBossMove : MonoBehaviour
         // 切り返し回数を求める
         SwitchBack = BossHealth.MaxBossHealth - BossHealth.BossHealth;
 
+        // 突進準備モーション時間分待つ
+        PreRammingTimer += Time.deltaTime;
+
+        // 突進準備アニメーションが終わったら
+        if (PreRammingTimer > 3f)
+        {
+            // 突進開始
+            EnemyAI = AIState.Ramming;
+
+            // 初期化
+            PreRammingTimer = 0f;
+        }
+
+        mat.color = new Color(1f, 0f, 0f);
     }
 
     private void Ramming()
@@ -174,22 +262,175 @@ public class TownBossMove : MonoBehaviour
                 {
                     Direction = EnemyDirection.LEFT;
                 }
+
+                // 切り返し回数減らす
+                SwitchBack--;
             }
             else
             {
-                EnemyAI = AIState.RammingWait;
+                EnemyAI = AIState.RammingWait; 
             }
         }
+
+        mat.color = new Color(0f, 1f, 0f);
+
     }
 
     private void RammingWait()
     {
+        // 隙（ぴよってる）
 
+        float vibTime = 1f;
+        if(RammingWaitTimer == 0)
+        {
+            cameraControl.enabled = false;
+            // 一秒間振動
+            vibration.SetVibration(vibTime);
+        }
+
+        RammingWaitTimer += Time.deltaTime;
+
+        if(RammingWaitTimer > vibTime)
+        {
+            cameraControl.enabled = true;
+        }
+
+        // 指定時間ぴよったら向きを変えてAI変化
+        if (RammingWaitTimer > 3f)
+        {
+            if (Direction == EnemyDirection.LEFT)
+            {
+                Direction = EnemyDirection.RIGHT;
+            }
+            else
+            {
+                Direction = EnemyDirection.LEFT;
+            }
+
+            // 行動抽選
+            EnemyAI = AIState.Lottery;
+
+            // 初期化
+            RammingWaitTimer = 0;
+        }
+
+        // デバッグ用に色の変化で行動を判別
+        mat.color = new Color(0f, 0f, 1f);
+
+    }
+
+    private void ThrowShardsInit()
+    {
+        // かけら準備
+
+        if(ShardCreateTimer == 0)
+        {
+            // 角度degからラジアンを作成
+            var rad = (shardDeg + CreatedNum * SpacingDeg) * Mathf.Deg2Rad;
+
+            // ラジアンを用いてsinとcosを求める
+            var sin = Mathf.Sin(rad);
+            var cos = Mathf.Cos(rad);
+
+            var sign = 0f;
+            // 向いている方向によって符号が変わる
+            if (Direction == EnemyDirection.RIGHT)
+            {
+                sign = 1f;
+            }
+            else
+            {
+                sign = -1f;
+            }
+
+            // ボスを中心とした円周上の点を求める
+            Vector3 CreatePos = new Vector3(thisTransform.position.x + sign * cos * radius, thisTransform.position.y + sin * radius, 0f);
+
+            // そのかけらの回転角度を求める
+            // 第一引数 回転させたい角度
+            // 第二引数 回転させたい軸 right,up,forward
+            Quaternion CreateRotate = Quaternion.AngleAxis((sign * (60f + SpacingDeg * CreatedNum)), Vector3.forward); 
+
+            // 第一引数 作成するオブジェクトの素となるプレハブ
+            // 第二引数 作成する位置
+            // 第三引数 作成するときの角度
+            // 第四引数 作成するオブジェクトの親オブジェクト
+            shardObj[CreatedNum] = Instantiate(Shards_Prefab, CreatePos, CreateRotate, shardParent.transform);
+
+            // 作成したかけらからボスの中心座標までのベクトルを求める
+            var Vector_Shrad_Boss = CreatePos - thisTransform.position;
+            // もとめたベクトルのオブジェクトの作成番号と配列の添え字が一致するようにベクトルを保存
+            ShardVelocity[CreatedNum] = Vector_Shrad_Boss;
+            // 大きさ調整
+            shardObj[CreatedNum].transform.localScale = new Vector3(0.01f, 0.01f, 0f);
+        }
+
+        ShardCreateTimer += Time.deltaTime;
+
+        if(ShardCreateTimer > CreateShardsNeedTime)
+        {
+            // 作成数カウント
+            CreatedNum++;
+
+            // 次のかけら作成のため初期化
+            ShardCreateTimer = 0f;
+        }
+
+        // かけらを作り終えたら
+        if (CreatedNum >= 6)
+        {
+            // かけら飛ばしへ
+            EnemyAI = AIState.ThrowShards;
+
+            // 初期化
+            ShardCreateTimer = 0.0f;
+        }
     }
 
     private void ThrowShards()
     {
         // かけら飛ばし
+
+        // このAIStateになった最初のフレームのみ入る
+        if (AllAddVelocity == false)
+        {
+            // リジッドボディのvelocityに対応した値を加算
+            for (int i = 0; i < CreatedNum; i++)
+            {
+                Rigidbody2D rigid2D = shardObj[i].GetComponent<Rigidbody2D>();
+                rigid2D.velocity = ShardVelocity[i] * ShardSpeed;
+            }
+
+            AllAddVelocity = true;
+        }
+
+        ShardThrowTimer += Time.deltaTime;
+        if(ShardThrowTimer > ShardWaitTime)
+        {
+            // 行動抽選
+            EnemyAI = AIState.Lottery;
+
+            // 初期化
+            for(int i = 0;i < CreatedNum; i++)
+            {
+                // かけらを消去
+                Destroy(shardObj[i].gameObject);
+                shardObj[i] = null;
+
+                ShardVelocity[i] = Vector3.zero;
+            }
+
+            CreatedNum = 0;
+            AllAddVelocity = false;
+            ShardThrowTimer = 0f;
+        }
+
+        mat.color = new Color(1f, 0f, 1f);
+    }
+
+    private void Death()
+    {
+        mat.color = new Color(2f, 2f, 2f);
     }
 
     private void CreateRay()
