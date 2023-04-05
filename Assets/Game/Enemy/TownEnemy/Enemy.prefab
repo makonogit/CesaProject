@@ -174,9 +174,10 @@ GameObject:
   - component: {fileID: 4029746036980748648}
   - component: {fileID: 6229565448108028702}
   - component: {fileID: 578531186476506938}
-  m_Layer: 9
+  - component: {fileID: 9026427102807722933}
+  m_Layer: 11
   m_Name: HitCollider
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -227,3 +228,15 @@ MonoBehaviour:
   NoDamageTime: 1
   HitTime: 0
   Damage: 1
+--- !u!114 &9026427102807722933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8434026558777209360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 575d3def9d1f63f46a9b1c4e41ea5d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

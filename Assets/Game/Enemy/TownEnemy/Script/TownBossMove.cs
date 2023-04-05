@@ -45,13 +45,15 @@ public class TownBossMove : MonoBehaviour
     private float ShardCreateTimer;            // かけらを生成し始めてからの経過時間
     private int CreatedNum = 0; // かけらを作った数
     public GameObject Shards_Prefab; // かけらのプレハブを持っておく変数
-    private GameObject[] shardObj = new GameObject[6]; // 作成したかけらオブジェクトをいれる配列
+    private GameObject[] shardObj = new GameObject[18]; // 作成したかけらオブジェクトをいれる配列
     private GameObject shardParent; // かけらの親オブジェクト
-    private Vector3[] ShardVelocity = new Vector3[6]; // 作ったかけらを移動させるための値を入れる配列
+    private Vector3[] ShardVelocity = new Vector3[18]; // 作ったかけらを移動させるための値を入れる配列
     private bool AllAddVelocity = false; // 作成した全てのかけらにVelocityを加算したか
     [Header("かけらの移動スピード")]public float ShardSpeed = 5f;
     private float ShardWaitTime = 3f; // かけらを飛ばした後の次のモーションまでの待ち時間
     private float ShardThrowTimer = 0f; // かけらをとばしてからの経過時間
+    private int ShardWaveNum = 0; // なんかいのウェーブがあるか
+    private int NowShardWave = 0; // 今何ウェーブ目か
 
     // かけら配置用変数
     [Header("何度間隔でかけらを配置するか(初期値10)")]public float SpacingDeg = 10f; // 何度間隔で配置するか
@@ -202,6 +204,7 @@ public class TownBossMove : MonoBehaviour
     {
         // 突進準備
         // 無敵
+        invincibility = true;
 
         // 切り返し回数を求める
         SwitchBack = BossHealth.MaxBossHealth - BossHealth.BossHealth;
@@ -279,6 +282,8 @@ public class TownBossMove : MonoBehaviour
     private void RammingWait()
     {
         // 隙（ぴよってる）
+        // 無敵解除
+        invincibility = false;
 
         float vibTime = 1f;
         if(RammingWaitTimer == 0)
@@ -322,11 +327,16 @@ public class TownBossMove : MonoBehaviour
     private void ThrowShardsInit()
     {
         // かけら準備
+        // 無敵
+        invincibility = true;
+
+        // ボスのHPによってかけら飛ばしの回数が変わる
+        ShardWaveNum = BossHealth.MaxBossHealth - BossHealth.BossHealth;
 
         if(ShardCreateTimer == 0)
         {
             // 角度degからラジアンを作成
-            var rad = (shardDeg + CreatedNum * SpacingDeg) * Mathf.Deg2Rad;
+            var rad = (shardDeg + (CreatedNum % 6) * SpacingDeg) * Mathf.Deg2Rad;
 
             // ラジアンを用いてsinとcosを求める
             var sin = Mathf.Sin(rad);
@@ -349,7 +359,7 @@ public class TownBossMove : MonoBehaviour
             // そのかけらの回転角度を求める
             // 第一引数 回転させたい角度
             // 第二引数 回転させたい軸 right,up,forward
-            Quaternion CreateRotate = Quaternion.AngleAxis((sign * (60f + SpacingDeg * CreatedNum)), Vector3.forward); 
+            Quaternion CreateRotate = Quaternion.AngleAxis((sign * (60f + SpacingDeg * (CreatedNum % 6))), Vector3.forward); 
 
             // 第一引数 作成するオブジェクトの素となるプレハブ
             // 第二引数 作成する位置
@@ -365,6 +375,7 @@ public class TownBossMove : MonoBehaviour
             shardObj[CreatedNum].transform.localScale = new Vector3(0.01f, 0.01f, 0f);
         }
 
+        // かけらを生成してからの経過時間
         ShardCreateTimer += Time.deltaTime;
 
         if(ShardCreateTimer > CreateShardsNeedTime)
@@ -377,7 +388,7 @@ public class TownBossMove : MonoBehaviour
         }
 
         // かけらを作り終えたら
-        if (CreatedNum >= 6)
+        if (CreatedNum >= 6 + NowShardWave * 6)
         {
             // かけら飛ばしへ
             EnemyAI = AIState.ThrowShards;
@@ -395,34 +406,51 @@ public class TownBossMove : MonoBehaviour
         if (AllAddVelocity == false)
         {
             // リジッドボディのvelocityに対応した値を加算
-            for (int i = 0; i < CreatedNum; i++)
+            for (int i = 0 + 6 * NowShardWave; i < CreatedNum; i++)
             {
                 Rigidbody2D rigid2D = shardObj[i].GetComponent<Rigidbody2D>();
                 rigid2D.velocity = ShardVelocity[i] * ShardSpeed;
             }
 
-            AllAddVelocity = true;
         }
 
-        ShardThrowTimer += Time.deltaTime;
-        if(ShardThrowTimer > ShardWaitTime)
+        // HPが少なくなればなるほどかけらを飛ばす回数が増える
+        if(NowShardWave < ShardWaveNum)
         {
-            // 行動抽選
-            EnemyAI = AIState.Lottery;
+            // 次のウェーブに進める
+            NowShardWave++;
 
-            // 初期化
-            for(int i = 0;i < CreatedNum; i++)
+            // 次のかけら準備
+            EnemyAI = AIState.ThrowShardsInit;
+        }
+        else
+        {
+            AllAddVelocity = true;
+
+            ShardThrowTimer += Time.deltaTime;
+            if (ShardThrowTimer > ShardWaitTime)
             {
-                // かけらを消去
-                Destroy(shardObj[i].gameObject);
-                shardObj[i] = null;
+                // 行動抽選
+                EnemyAI = AIState.Lottery;
 
-                ShardVelocity[i] = Vector3.zero;
+                // 初期化
+                for (int i = 0; i < CreatedNum; i++)
+                {
+                    // かけらを消去
+                    Destroy(shardObj[i].gameObject);
+                    shardObj[i] = null;
+
+                    ShardVelocity[i] = Vector3.zero;
+                }
+
+                CreatedNum = 0;
+                AllAddVelocity = false;
+                ShardThrowTimer = 0f;
+                NowShardWave = 0;
+
+                // 無敵解除
+                invincibility = false;
             }
-
-            CreatedNum = 0;
-            AllAddVelocity = false;
-            ShardThrowTimer = 0f;
         }
 
         mat.color = new Color(1f, 0f, 1f);

@@ -17,6 +17,8 @@ public class EnemyCrackHit : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //---------------------------------------------------------
+        Debug.Log(collision.gameObject.tag);
+
         // ìñÇΩÇ¡ÇΩÇ‡ÇÃÇ™Ç–Ç—Ç»ÇÁ
         if (collision.gameObject.tag == CrackTag)
         {
@@ -27,7 +29,7 @@ public class EnemyCrackHit : MonoBehaviour
             if (order.State == CrackCreater.CrackCreaterState.CREATING)
             {
                 // ìGÇè¡Ç∑
-                Destroy(this.gameObject);
+                Destroy(this.gameObject.transform.parent.gameObject);
             }
         }  
     }
