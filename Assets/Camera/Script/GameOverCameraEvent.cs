@@ -9,6 +9,7 @@ public class GameOverCameraEvent : MonoBehaviour
 {
     private Camera _camera;
     private GameOver _playerGO;
+    private GameObject _player;
     //private float _nowSize;
     private float _endSize;
     //private float _normalSize;// 通常サイズ
@@ -20,6 +21,7 @@ public class GameOverCameraEvent : MonoBehaviour
     [SerializeField, Header("アニメーションカーブ")]
     private AnimationCurve Speed;
     private float n;
+    private float _posZ;
     private bool _started;
     private bool _end;
 
@@ -30,14 +32,15 @@ public class GameOverCameraEvent : MonoBehaviour
         if (_camera == null) Debug.LogError("カメラに追加しましたか？");
 
         string _name = "player";
-        GameObject Player = GameObject.Find(_name);
-        if (Player == null) Debug.LogError(_name+"が見つかりませんでした。");
-        _playerGO = Player.GetComponent<GameOver>();
+        _player = GameObject.Find(_name);
+        if (_player == null) Debug.LogError(_name+"が見つかりませんでした。");
+        _playerGO = _player.GetComponent<GameOver>();
         if (_playerGO == null) Debug.LogError("GameOverのコンポーネントを取得できませんでした。");
 
         _started = false;
         _end = false;
         n = 0.0f;
+        _posZ = transform.position.z;
     }
 
     // Update is called once per frame
@@ -61,6 +64,8 @@ public class GameOverCameraEvent : MonoBehaviour
         while (true) 
         {
             _camera.orthographicSize = Speed.Evaluate(n);
+            _camera.transform.position = _camera.transform.position * (1 - n) + _player.transform.position * n;
+            _camera.transform.position = new Vector3(_camera.transform.position.x, _camera.transform.position.y, _posZ);// z座標を戻す。
             // 秒待つ
             n += _processTime;
             yield return new WaitForSeconds (_processTime);
