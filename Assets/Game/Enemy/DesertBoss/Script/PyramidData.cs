@@ -79,9 +79,15 @@ public class PyramidData : MonoBehaviour
             {
                 Clean = false;
                 renderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                BossMove.BossState = DesertBossMove.DesertBossState.NONE;
                 transform.parent = PyramidList.transform;
                 BossMove.Breaking = false;
+
+                //　終了していなかったら更新
+                if (BossMove.BossState != DesertBossMove.DesertBossState.END)
+                {
+                    BossMove.BossState = DesertBossMove.DesertBossState.NONE;
+                }
+
             }
             else
             {
@@ -118,10 +124,10 @@ public class PyramidData : MonoBehaviour
             }
             else
             {
-                Debug.Log("!!!");
                 GameObject obj = Instantiate(CoreObj,transform.position,Quaternion.identity);
                 GameObject Core = GameObject.Find("Core");
                 obj.transform.parent = Core.transform;
+                BossMove.BossState = DesertBossMove.DesertBossState.END;    // 攻撃終了
             }
 
         }

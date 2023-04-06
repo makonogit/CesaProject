@@ -19,11 +19,16 @@ public class DesertBossMove : MonoBehaviour
     [SerializeField, Header("ピラミッドの数")]
     private int PyramidNum;
 
+    private GameObject[] Pyramid_parent;  // ピラミッド生成親オブジェクト
+
     private int CoreNum;            // コアの番号
 
     [SerializeField, Header("ピラミッドが出てくるまでの時間")]
     private float WaitTime; 
     private float TimeMeasure;      // 時間計測用
+
+    [SerializeField,Header("コアが露出してからピラミッドが降りるまでの時間")]
+    private float EndTime;       
 
     public GameObject PyramidList;  // ピラミッド管理オブジェクト
     
@@ -37,6 +42,7 @@ public class DesertBossMove : MonoBehaviour
         NONE,   // 何もしていない
         ATTACK, // 攻撃
         CLEAN,  // ピラミッドを片付ける
+        END     // 攻撃終了
     }
 
     public DesertBossState BossState;  // ボスの状態管理用変数
@@ -48,7 +54,17 @@ public class DesertBossMove : MonoBehaviour
         //　生成するピラミッドの数分ゲームオブジェクトを追加
         PyramidList = GameObject.Find("PyramidList");
 
-        for(int i = 0; i < PyramidNum; i++)
+        Pyramid_parent = new GameObject[3];
+        //----------------------------------------------------
+        //　ピラミッドの親取得
+        for (int i = 0; i < 3; i++)
+        {
+            Pyramid_parent[i] = GameObject.Find("Pyramid" + (i + 1));
+        }
+
+        //--------------------------------------------
+        //　ピラミッド生成
+        for (int i = 0; i < PyramidNum; i++)
         {
             GameObject obj = Instantiate(PyramidObj);
             obj.transform.parent = PyramidList.transform;
@@ -113,6 +129,26 @@ public class DesertBossMove : MonoBehaviour
             PyramidClean();
 
         }
+
+        //---------------------------------------
+        //　コアが露出、攻撃終了
+        if(BossState == DesertBossState.END)
+        {
+            Debug.Log("終了");
+            //------------------------------------------
+            //　指定時間経過で全て片付ける
+            if (TimeMeasure > EndTime)
+            {
+                Pyramid_parent[0].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
+                Pyramid_parent[1].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
+                Pyramid_parent[2].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
+            }
+            else
+            {
+                TimeMeasure += Time.deltaTime;
+            }
+        }
+
     }
 
     //------------------------------------
@@ -121,45 +157,48 @@ public class DesertBossMove : MonoBehaviour
     {
         //-----------------------------------------
         //　出現するピラミッドを設定
-        for(int i = 0; i < 3; i++)
-        {
-            //-----------------------------
-            //　重複チェック
-            int num = Random.Range(0, PyramidNum - 1);
-            if (!Appearance.Contains(num))
+        do {
+            for (int i = 0; i < 3; i++)
             {
-                Appearance[i] = num;
+                //-----------------------------
+                //　重複チェック
+                int num = Random.Range(0, PyramidNum - 1);
+                if (!Appearance.Contains(num))
+                {
+                    Appearance[i] = num;
+                }
+                else
+                {
+                    i--;
+                }
             }
-            else
-            {
-                i--;
-            }
-        }
+
+            //  3つとも壊れていたらもう一度設定
+        } while ( (PyramidList.transform.GetChild(Appearance[0]).gameObject.GetComponent<PyramidData>().Breaked && 
+                   PyramidList.transform.GetChild(Appearance[1]).gameObject.GetComponent<PyramidData>().Breaked &&
+                   PyramidList.transform.GetChild(Appearance[2]).gameObject.GetComponent<PyramidData>().Breaked));
 
 
         //-----------------------------------------------------------
         // ピラミッドがなければピラミッドを生成(子オブジェクトにする)
-        GameObject Pyramid1 = GameObject.Find("Pyramid1");
         GameObject obj = PyramidList.transform.GetChild(Appearance[0]).gameObject;    // 左
-        obj.transform.position = Pyramid1.transform.position;
+        obj.transform.position = Pyramid_parent[0].transform.position;
         SpriteRenderer objrender = obj.GetComponent<SpriteRenderer>();
         objrender.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
       
-        GameObject Pyramid2 = GameObject.Find("Pyramid2");
         GameObject obj2 = PyramidList.transform.GetChild(Appearance[1]).gameObject;   // 真ん中
-        obj2.transform.position = Pyramid2.transform.position;
+        obj2.transform.position = Pyramid_parent[1].transform.position;
         SpriteRenderer obj2render = obj2.GetComponent<SpriteRenderer>();
         obj2render.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
      
-        GameObject Pyramid3 = GameObject.Find("Pyramid3");
         GameObject obj3 = PyramidList.transform.GetChild(Appearance[2]).gameObject;   // 右
-        obj3.transform.position = Pyramid3.transform.position;
+        obj3.transform.position = Pyramid_parent[2].transform.position;
         SpriteRenderer obj3render = obj3.GetComponent<SpriteRenderer>();
         obj3render.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
         
-        obj.transform.parent = Pyramid1.transform;
-        obj2.transform.parent = Pyramid2.transform;
-        obj3.transform.parent = Pyramid3.transform;
+        obj.transform.parent = Pyramid_parent[0].transform;
+        obj2.transform.parent = Pyramid_parent[1].transform;
+        obj3.transform.parent = Pyramid_parent[2].transform;
 
 
         BossState = DesertBossState.NONE;
@@ -170,14 +209,9 @@ public class DesertBossMove : MonoBehaviour
     //　ピラミッドを片付ける処理
     private void PyramidClean()
     {
-        GameObject Pyramid1 = GameObject.Find("Pyramid1");
-        GameObject Pyramid2 = GameObject.Find("Pyramid2");
-        GameObject Pyramid3 = GameObject.Find("Pyramid3");
-
-        Pyramid1.transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
-        Pyramid2.transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
-        Pyramid3.transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
-
+        Pyramid_parent[0].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
+        Pyramid_parent[1].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
+        Pyramid_parent[2].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
     }
 
 }
