@@ -6,11 +6,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class StageChild
+{
+
+    public GameObject StageObj;   // ステージ管理
+    public Vector2 PlayerPos;     // プレイヤー初期座標
+
+    
+    public StageChild(GameObject _stageobj,Vector2 _playerpos)
+    {
+        StageObj = _stageobj;
+        PlayerPos = _playerpos;
+    }
+
+
+}
+
+[System.Serializable]
+public class Stage
+{
+    public List<StageChild> stage;
+
+    public Stage(List<StageChild> _stage)
+    {
+        stage = _stage;
+    }
+}
+
 public class StageManager : MonoBehaviour
 {
 
     [Header("ステージ管理")]
-    public List<GameObject> StageObj;
+    public List<Stage> stage;
+
+    //-----------------------------------------
+    //　外部取得
+    private GameObject player;
+    private Transform PlayerTrans;  //PlayerのTransform
 
     //----------------------------------------------
     //　ステージを生成する関数
@@ -21,8 +54,8 @@ public class StageManager : MonoBehaviour
         if (StageData.StageNum > -1 && StageData.AreaNum > -1 &&
             StageData.StageNum < 5 && StageData.AreaNum < 5)
         {
-            GameObject obj = Instantiate(StageObj[StageData.AreaNum * 5 + StageData.StageNum]);
-            obj.transform.parent = this.transform;                  //子オブジェクトにする
+           GameObject obj = Instantiate(stage[StageData.AreaNum].stage[StageData.StageNum].StageObj);
+           obj.transform.parent = this.transform;                  //子オブジェクトにする
 
         }
         else
@@ -30,6 +63,12 @@ public class StageManager : MonoBehaviour
             Debug.Log("範囲外のステージ番号が割り振られています");
         }
 
+        //---------------------------------
+        // プレイヤーの初期座標指定
+        player = GameObject.Find("player");
+        PlayerTrans = player.transform;
+        PlayerTrans.localPosition = new Vector3(stage[StageData.AreaNum].stage[StageData.StageNum].PlayerPos.x,
+            stage[StageData.AreaNum].stage[StageData.StageNum].PlayerPos.y, 1.0f);
     }
 }
 
