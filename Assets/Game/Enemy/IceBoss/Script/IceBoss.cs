@@ -44,8 +44,11 @@ public class IceBoss : MonoBehaviour
     private CheckArea _isAttcked;// 攻撃
     [SerializeField]
     private CheckArea _isWall;// 壁
+    [SerializeField]
+    private GameObject _HitBox;
     [SerializeField, Header("体力")]
     private IceBossHealth _health;
+
 
     [SerializeField, Header("状態")]
     private StateID _state;
@@ -76,6 +79,7 @@ public class IceBoss : MonoBehaviour
         // 壁
         if (_isWall == null) Debug.LogError("IsWallが設定されてません。");
 
+        if (_HitBox == null) Debug.LogError("HitBoxが設定されてません。");
         //--------------------------------------
         // Animatorのコンポーネント取得
         _anim = GetComponent<Animator>();
@@ -203,6 +207,8 @@ public class IceBoss : MonoBehaviour
     private void Eating() 
     {
         Vector3 vec = transform.position - fish.transform.position;
+        //勝手にあたり判定が移動するので固定する。
+        _HitBox.transform.localPosition = new Vector3(0, 0, 0);
         // 魚が近くにあったら
         if (_isFish)
         {
