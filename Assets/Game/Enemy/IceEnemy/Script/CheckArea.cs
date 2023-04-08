@@ -30,6 +30,18 @@ public class CheckArea : MonoBehaviour
             _isEnter = true;
         }
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        //Debug.Log(name + ":" + collision.name);
+        if (_name != null && collision.name == _name)
+        {
+            _isEnter = false;
+        }
+        if (_tag != null && collision.tag == _tag)
+        {
+            _isEnter = false;
+        }
+    }
     //private void OnTriggerStay2D(Collider2D collision)
     //{
     //    Debug.Log(name+":"+collision.name);
