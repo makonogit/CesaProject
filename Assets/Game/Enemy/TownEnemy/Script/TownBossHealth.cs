@@ -30,7 +30,7 @@ public class TownBossHealth : MonoBehaviour
 
         BossHealth = MaxBossHealth;
         //BossHealth = 2;
-        BossHealth = 1;
+        //BossHealth = 1;
     }
 
     private void Update()

@@ -6766,62 +6766,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ddbf704048ff04fb287a3f7ea1b210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage:
-  - stage:
-    - StageObj: {fileID: 2483160076854475445, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
-      PlayerPos: {x: -7.2, y: -1.7}
-    - StageObj: {fileID: 2483160076854475445, guid: c90e1b17e96a23943b3f17332953afa1, type: 3}
-      PlayerPos: {x: -7.2, y: -1.7}
-    - StageObj: {fileID: 2483160076854475445, guid: bdcc332b13331f24ab1573e9f6ad49dc, type: 3}
-      PlayerPos: {x: -7.2, y: 3}
-    - StageObj: {fileID: 2483160076854475445, guid: 2a07234ed64b7074e83a44960f002bcb, type: 3}
-      PlayerPos: {x: -7.2, y: -1.7}
-    - StageObj: {fileID: 2483160076854475445, guid: 4fbcf255381ada447bf29bd137f104fc, type: 3}
-      PlayerPos: {x: -7.2, y: -1.7}
-  - stage:
-    - StageObj: {fileID: 2483160076854475445, guid: b5da7b96d9d9dcd44816fd58c37cb7d9, type: 3}
-      PlayerPos: {x: -7.2, y: -1.7}
-    - StageObj: {fileID: 2483160076854475445, guid: 500d862476ce88341b79b71fa141e698, type: 3}
-      PlayerPos: {x: -7.2, y: -1.7}
-    - StageObj: {fileID: 2483160076854475445, guid: 463c0b4da61a6fd48b0d059257c53211, type: 3}
-      PlayerPos: {x: -7.2, y: -1.7}
-    - StageObj: {fileID: 2483160076854475445, guid: 07abb4623863a9843afe3dfaaa4840b3, type: 3}
-      PlayerPos: {x: -7.2, y: -1.7}
-    - StageObj: {fileID: 2483160076854475445, guid: bdda0fab64d2ea9429951d619aecc2e5, type: 3}
-      PlayerPos: {x: -7.2, y: -1.7}
-  - stage:
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-  - stage:
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-  - stage:
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
-    - StageObj: {fileID: 0}
-      PlayerPos: {x: 0, y: 0}
+  StageObj:
+  - {fileID: 2483160076854475445, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
+  - {fileID: 2483160076854475445, guid: c90e1b17e96a23943b3f17332953afa1, type: 3}
+  - {fileID: 2483160076854475445, guid: bdcc332b13331f24ab1573e9f6ad49dc, type: 3}
+  - {fileID: 2483160076854475445, guid: 2a07234ed64b7074e83a44960f002bcb, type: 3}
+  - {fileID: 2483160076854475445, guid: 4fbcf255381ada447bf29bd137f104fc, type: 3}
+  - {fileID: 2483160076854475445, guid: b5da7b96d9d9dcd44816fd58c37cb7d9, type: 3}
+  - {fileID: 2483160076854475445, guid: 500d862476ce88341b79b71fa141e698, type: 3}
+  - {fileID: 2483160076854475445, guid: 463c0b4da61a6fd48b0d059257c53211, type: 3}
+  - {fileID: 2483160076854475445, guid: 07abb4623863a9843afe3dfaaa4840b3, type: 3}
+  - {fileID: 2483160076854475445, guid: bdda0fab64d2ea9429951d619aecc2e5, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &2140597418
 Transform:
   m_ObjectHideFlags: 0
@@ -7914,11 +7884,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.15
+      value: -3.8
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8
+      value: -1.8
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709828, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_Size.x
