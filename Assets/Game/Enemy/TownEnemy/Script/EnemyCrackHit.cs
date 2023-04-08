@@ -17,7 +17,7 @@ public class EnemyCrackHit : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //---------------------------------------------------------
-        Debug.Log(collision.gameObject.tag);
+        //Debug.Log(collision.gameObject.tag);
 
         // “–‚½‚Á‚½‚à‚Ì‚ª‚Ð‚Ñ‚È‚ç
         if (collision.gameObject.tag == CrackTag)

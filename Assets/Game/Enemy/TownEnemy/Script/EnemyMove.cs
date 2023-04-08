@@ -40,21 +40,37 @@ public class EnemyMove : MonoBehaviour
     [Header("攻撃モーションに入る距離")]
     public float attackDistance = 2.0f; // 攻撃する距離
 
+    // 攻撃用変数
+    private float AttackStartPositionX; // 攻撃状態になった時の座標
+    [Header("一回の攻撃のループに必要な時間")]
+    [SerializeField]private float OneAttackNeedTime = 0.5f; // 一回の攻撃のループに必要な時間
+    private float AttackTimer = 0f; // 攻撃が始まってからの経過時間(攻撃1ループごとに初期化)
+    [Header("攻撃が届く距離")]
+    [SerializeField]private float AttackDistance = 0.5f; // 攻撃が届く距離
+    private float AttackSign = 1f; // 正か負か
+    private bool Return = false;
+    private float NowEnemyPos; // 攻撃時の座標変化の結果用変数
+    [Header("攻撃後の硬直時間")]
+    [SerializeField] private float AttackWaitTime = 0.3f; // 攻撃後の待機時間
+    private float AttackWaitTimer = 0f;
+
+
     [Header("プレイヤーを追いかける速度")]
     public float TrackingSpeed = 3.0f; // 追跡スピード
 
-    private enum AIState
+    public enum AIState
     {
-        INIT_PATROL,
-        PATROL,
-        INIT_TRACKING,
-        TRACKING,
-        INIT_ATTACK,
-        ATTACK
+        INIT_PATROL,   // 巡回準備
+        PATROL,        // 巡回
+        INIT_TRACKING, // 追跡準備
+        TRACKING,      // 追跡
+        INIT_ATTACK,   // 攻撃準備
+        ATTACK,        // 攻撃
+        ATTACK_WAIT,   // 攻撃待機
     }
 
     // 敵行動状態
-    AIState EnemyAI = AIState.INIT_PATROL;
+    public AIState EnemyAI = AIState.INIT_PATROL;
 
     // 外部取得
     private Transform thisTransform; // このオブジェクトの座標を持つ変数
@@ -78,6 +94,9 @@ public class EnemyMove : MonoBehaviour
 
         // Hammerスクリプト取得
         hammer = player.GetComponent<HammerNail>();
+
+        // 攻撃移行範囲と攻撃が届く範囲を同じにする
+        //AttackDistance = attackDistance;
     }
 
     // Update is called once per frame
@@ -92,6 +111,7 @@ public class EnemyMove : MonoBehaviour
 
             // 三平方の定理
             Distance = SubX * SubX + SubY * SubY; // プレイヤーとの距離が求まった
+            Debug.Log(Distance);
 
             switch (EnemyAI)
             {
@@ -118,8 +138,12 @@ public class EnemyMove : MonoBehaviour
                 case AIState.ATTACK:
                     Attack();
                     break;
+
+                case AIState.ATTACK_WAIT:
+                    Attack_Wait();
+                    break;
             }
-        }
+         }
     }
 
     void Init_Patrol()
@@ -352,7 +376,7 @@ public class EnemyMove : MonoBehaviour
             if (Distance < attackDistance)
             {
                 // 攻撃状態に変化
-                EnemyAI = AIState.ATTACK;
+                EnemyAI = AIState.INIT_ATTACK;
             }
         }
         // 追跡範囲外にプレイヤーがでたら巡回に戻る
@@ -363,13 +387,108 @@ public class EnemyMove : MonoBehaviour
     }
     void Init_Attack()
     {
+        // 体当たり準備
+
+        // プレイヤーが敵自身より右にいるなら
+        if (SubX < 0.0f)
+        {
+            thisTransform.localScale = new Vector3(sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
+            AttackSign = 1f;
+        }
+        // プレイヤーが敵自身より左にいるなら
+        else if (SubX > 0.0f)
+        {
+            thisTransform.localScale = new Vector3(-sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
+
+            AttackSign = -1f;
+        }
+
+        // 攻撃になった時のX座標を取得
+        AttackStartPositionX = NowEnemyPos = thisTransform.localPosition.x;
+
+        // 初期化
+        AttackTimer = 0f;
+
         EnemyAI = AIState.ATTACK;
+
     }
     void Attack()
     {
+        // タックル
+
+        if (Return == false)
+        {
+            // 座標計算
+            NowEnemyPos += AttackSign * AttackDistance * Time.deltaTime * 2f;
+
+            // AttackTimerの値によって座標変化
+            thisTransform.localPosition = new Vector3(
+                NowEnemyPos,
+                thisTransform.localPosition.y,
+                thisTransform.localPosition.z);
+        }
+        else
+        {
+            // 座標計算
+            // 0に近づいていく
+            NowEnemyPos -= AttackSign * AttackDistance * Time.deltaTime * 2f;
+
+            // 元の位置を通り過ぎないようにする
+            if(AttackSign * NowEnemyPos < 0)
+            {
+                NowEnemyPos = AttackStartPositionX;
+            }
+
+            thisTransform.localPosition = new Vector3(
+                NowEnemyPos,
+                thisTransform.localPosition.y,
+                thisTransform.localPosition.z);
+        }
+        
+        AttackTimer += Time.deltaTime;
+
+        //  時間経過でもとの地点に戻るようの変数
+        if(AttackTimer > OneAttackNeedTime / 2)
+        {
+            Return = true;
+        }
+
+        // 一回の攻撃ループにかかる時間が経過したら
+        if(AttackTimer > OneAttackNeedTime)
+        {
+            // 繰り返し
+            EnemyAI = AIState.ATTACK_WAIT;
+
+            // 初期化
+            Return = false;
+        }
+
+        //if (Distance > attackDistance)
+        //{
+        //    EnemyAI = AIState.TRACKING;
+        //}
+    }
+
+    private void Attack_Wait()
+    {
+        // 待機
+        AttackWaitTimer += Time.deltaTime;
+
+        // 一定時間経過したら
+        if(AttackWaitTimer > AttackWaitTime)
+        {
+            // 攻撃に移行
+            EnemyAI = AIState.INIT_ATTACK;
+
+            AttackWaitTimer = 0;
+        }
+
         if (Distance > attackDistance)
         {
             EnemyAI = AIState.TRACKING;
+
+            AttackWaitTimer = 0;
+
         }
     }
 
