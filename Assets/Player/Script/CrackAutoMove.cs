@@ -202,6 +202,9 @@ public class CrackAutoMove : MonoBehaviour
 
                 // 自分のあたり判定を有効にする
                 thiscol.enabled = true;
+                // アニメーション終了していたらMove,Jumpを再開
+                //Jump.JumpHeight = 5.0f;
+                Move.SetMovement(true);
 
                 //--------------------------------
                 // アニメーション
@@ -213,9 +216,7 @@ public class CrackAutoMove : MonoBehaviour
                 }
                 else
                 {
-                    // アニメーション終了していたらMove,Jumpを再開
-                    //Jump.JumpHeight = 5.0f;
-                    Move.SetMovement(true);
+                    
 
                     // パーティクルシステムを非表示、自身を表示
                     if (ParticleSystemObj != null)
