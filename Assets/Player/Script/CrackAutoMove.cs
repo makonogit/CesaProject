@@ -41,6 +41,10 @@ public class CrackAutoMove : MonoBehaviour
     SpriteRenderer thisRenderer;        // このオブジェクトのspriterenderer
     CapsuleCollider2D thiscol;          // このオブジェクトのあたり判定
 
+    float Line = 1.0f;                  // ひびに入るアニメーション用変数
+    [SerializeField,Header("アニメーション速度")]
+    private float AnimSpeed;            // アニメーション速度
+
     //移動状態
     public enum MoveState
     {
@@ -100,10 +104,19 @@ public class CrackAutoMove : MonoBehaviour
                 {
                     ParticleSystemObj.active = true;
                 }
-                thisRenderer.enabled = false;
 
-                //ひびに入っていたら移動開始(ここは秒数待っても良さそう)
-                movestate = MoveState.CrackMove;
+                //thisRenderer.enabled = false;
+                if(Line >= 0.0f)
+                {
+                    Line -= AnimSpeed * Time.deltaTime;
+                    thisRenderer.material.SetFloat("_Border", Line);
+                }
+                else
+                {
+                    // アニメーション終了したら移動開始
+                    movestate = MoveState.CrackMove;
+                }
+               
                 break;
             case MoveState.CrackMove:
 
@@ -184,27 +197,40 @@ public class CrackAutoMove : MonoBehaviour
                 //釘の上に移動させる
                 //this.transform.position = new Vector3(Edge.points[Edge.pointCount - 1].x, Edge.points[Edge.pointCount - 1].y + 0.9f, 0.0f);
 
-                // 移動終了していたらMove,Jumpを再開
                 thisrigidbody.constraints = RigidbodyConstraints2D.None;
                 thisrigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-                //Jump.JumpHeight = 5.0f;
-                Move.SetMovement(true);
 
                 // 自分のあたり判定を有効にする
                 thiscol.enabled = true;
 
-                // パーティクルシステムを非表示、自身を表示
-                if (ParticleSystemObj != null) { 
-                
-                    ParticleSystemObj.active = false;
+                //--------------------------------
+                // アニメーション
+                if (Line <= 1.0f)
+                {
+                    Line += AnimSpeed * Time.deltaTime;
+                    thisRenderer.material.SetFloat("_Border", Line);
+                    Debug.Log("!!!!!!!!");
+                }
+                else
+                {
+                    // アニメーション終了していたらMove,Jumpを再開
+                    //Jump.JumpHeight = 5.0f;
+                    Move.SetMovement(true);
+
+                    // パーティクルシステムを非表示、自身を表示
+                    if (ParticleSystemObj != null)
+                    {
+
+                        ParticleSystemObj.active = false;
+                    }
+
                 }
 
-                thisRenderer.enabled = true;
+                //thisRenderer.enabled = true;
 
                 break;
 
         }
-
     }
 
 
@@ -274,7 +300,7 @@ public class CrackAutoMove : MonoBehaviour
     {
         //--------------------------------------------
         //移動終了していてひびから出たら歩行状態に遷移
-        if (movestate == MoveState.CrackMoveEnd)
+        if (movestate == MoveState.CrackMoveEnd && Line >= 1.0f)
         {
             Move.SetMovement(true);
             // ひびを消す
