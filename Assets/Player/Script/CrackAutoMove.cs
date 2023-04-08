@@ -303,7 +303,7 @@ public class CrackAutoMove : MonoBehaviour
         //à⁄ìÆèIóπÇµÇƒÇ¢ÇƒÇ–Ç—Ç©ÇÁèoÇΩÇÁï‡çsèÛë‘Ç…ëJà⁄
         if (movestate == MoveState.CrackMoveEnd && Line >= 1.0f)
         {
-            Move.SetMovement(true);
+            //Move.SetMovement(true);
             // Ç–Ç—Çè¡Ç∑
             Destroy(NowMoveCrack);
             movestate = MoveState.Walk;
