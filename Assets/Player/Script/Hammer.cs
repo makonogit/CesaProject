@@ -178,7 +178,7 @@ public class Hammer : MonoBehaviour
                         }
 
                         //　角度を45度ずつで管理
-                        angle = (((int)angle / 45)) * 45.0f;
+                        //angle = (((int)angle / 45)) * 45.0f;
 
                     }
                     else
@@ -223,8 +223,10 @@ public class Hammer : MonoBehaviour
                 //　前回の位置から移動していなかったらポイントを追加
                 if (AddCrackFlg)
                 {
-                    NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
-
+                    if (CrackManager.transform.childCount > 0)
+                    {
+                        NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
+                    }
                     if (NowCrack != null)
                     {
                         if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)

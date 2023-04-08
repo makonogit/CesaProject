@@ -209,7 +209,7 @@ public class CrackAutoMove : MonoBehaviour
                 {
                     Line += AnimSpeed * Time.deltaTime;
                     thisRenderer.material.SetFloat("_Border", Line);
-                    Debug.Log("!!!!!!!!");
+                   
                 }
                 else
                 {
