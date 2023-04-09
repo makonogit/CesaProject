@@ -131,10 +131,13 @@ public class Hammer : MonoBehaviour
                 {
                     // 前回の座標との距離を求める
                     float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
-                    //---------------------------------------------
-                    // 前回の位置とあまり移動していなかったらポイント追加
-                    if (Distance < 0.5f) 
+                    //-----------------------------------------------------------------------
+                    // 前回の位置とあまり移動していなかくて、前のひびが残ってたらポイント追加
+                    if (Distance < 0.5f && CrackManager.transform.childCount > 0) 
                     {
+                        //　ひびを取得
+                        NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
+                        
                         AddCrackFlg = true;
 
                     }
@@ -229,10 +232,7 @@ public class Hammer : MonoBehaviour
                 //　前回の位置から移動していなかったらポイントを追加
                 if (AddCrackFlg)
                 {
-                    if (CrackManager.transform.childCount > 0)
-                    {
-                        NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
-                    }
+                   
                     if (NowCrack != null)
                     {
                         if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
@@ -244,6 +244,7 @@ public class Hammer : MonoBehaviour
                     {
                         Debug.Log("ひびが見つかりません");
                     }
+
                     AddCrackFlg = false;
 
                 }
@@ -262,6 +263,7 @@ public class Hammer : MonoBehaviour
                 Debug.Log("HammerStateに設定できない数値が代入されています");
                 break;
         }
+        
         // 二宮追加
         // ヒットストップ
         if(stopTime < HitStopTime)
