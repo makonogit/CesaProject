@@ -399,7 +399,7 @@ ParticleSystemForceField:
   m_Parameters:
     m_Shape: 0
     m_StartRange: 0
-    m_EndRange: 19.5
+    m_EndRange: 7.0525007
     m_Length: 1
     m_GravityFocus: 0.001
     m_RotationRandomness: {x: 0, y: 0}
@@ -7003,12 +7003,56 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2213088982840327627, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213088982840327627, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213088982840327627, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213088982840327627, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -69.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213088982840327627, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 81
       objectReference: {fileID: 0}
     - target: {fileID: 2213088982840327628, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d40fb6c5fef2d6043b4cf17c5c4c9875, type: 3}
+    - target: {fileID: 2213088982840327628, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
       propertyPath: m_Color.a
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213088982840327628, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213088982840327628, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213088982840327628, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213088982840327628, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: m_Maskable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213088982840327628, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213088982840327629, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2213088983169423592, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
       propertyPath: m_LocalScale.x
@@ -7976,6 +8020,10 @@ PrefabInstance:
     - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_LocalPosition.y
       value: -1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709828, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_Size.x
