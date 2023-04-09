@@ -267,8 +267,10 @@ public class PlayerJump : MonoBehaviour
             //---------------------------------------------------------------
             // アニメーション関係
             // ジャンプ中ならジャンプアニメーション遷移用変数をtrue
-            anim.SetBool("jump", isJump);
-
+            if (!crackmove.HitFlg)
+            {
+                anim.SetBool("jump", isJump);
+            }
             // 落下中なら落下アニメーション遷移変数をセット
             anim.SetBool("drop", FallTime > 0.0f);
         }

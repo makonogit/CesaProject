@@ -25,6 +25,7 @@ public class CrackAutoMove : MonoBehaviour
     float Distance;             //pointとの距離計算用
 
     public bool MoveFlg = false;   //移動中フラグ
+    public bool HitFlg = false;    //ヒビに当たっているフラグ     
 
     [Header("InputManager用オブジェクト")]
     private GameObject PlayerInputManager;       // ゲームオブジェクトPlayerInputManagerを取得する変数
@@ -147,6 +148,7 @@ public class CrackAutoMove : MonoBehaviour
                         {
                             // ひびを消す
                             Destroy(NowMoveCrack);
+                            HitFlg = false;
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
                             movestate = MoveState.CrackMoveEnd;
@@ -182,6 +184,7 @@ public class CrackAutoMove : MonoBehaviour
                         {
                             // ひびを消す
                             Destroy(NowMoveCrack);
+                            HitFlg = false;
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
                             movestate = MoveState.CrackMoveEnd;
@@ -210,10 +213,8 @@ public class CrackAutoMove : MonoBehaviour
                 // 自分のあたり判定を有効にする
                 thiscol.enabled = true;
                 // アニメーション終了していたらMove,Jumpを再開
-                //　歩行アニメーションに戻る
-                anim.SetBool("jump", false);
-                //anim.SetBool("walk", true);
                 Move.SetMovement(true);
+               
 
                 //--------------------------------
                 // アニメーション
@@ -285,6 +286,8 @@ public class CrackAutoMove : MonoBehaviour
             //1番近い座標が始点or終点ならひびに入る
             if (MinPointNum == 0 || MinPointNum == Edge.pointCount - 1)
             {
+                HitFlg = true;
+
                 // Aボタンで入る
                 if (InputTrigger.GetJumpTrigger())
                 {
@@ -300,6 +303,10 @@ public class CrackAutoMove : MonoBehaviour
                     //Jump.JumpHeight = 0.0f;
                     Move.SetMovement(false);
                 }
+            }
+            else
+            {
+                HitFlg = false;
             }
 
         }
