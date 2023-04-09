@@ -40,6 +40,7 @@ public class CrackAutoMove : MonoBehaviour
     Rigidbody2D thisrigidbody;          // このオブジェクトのrigitbody
     SpriteRenderer thisRenderer;        // このオブジェクトのspriterenderer
     CapsuleCollider2D thiscol;          // このオブジェクトのあたり判定
+    Animator anim;                      // このオブジェクトのAnimator
 
     float Line = 1.0f;                  // ひびに入るアニメーション用変数
     [SerializeField,Header("アニメーション速度")]
@@ -71,6 +72,8 @@ public class CrackAutoMove : MonoBehaviour
         thisrigidbody = GetComponent<Rigidbody2D>();
         thisRenderer = GetComponent<SpriteRenderer>();
         thiscol = GetComponent<CapsuleCollider2D>();
+        // Animator取得
+        anim = GetComponent<Animator>();
 
         PlayerInputManager = GameObject.Find("PlayerInputManager");
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
@@ -142,6 +145,8 @@ public class CrackAutoMove : MonoBehaviour
                         //終点まで移動したら終了
                         if (NowPointNum == PointNum - 1)
                         {
+                            // ひびを消す
+                            Destroy(NowMoveCrack);
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
                             movestate = MoveState.CrackMoveEnd;
@@ -175,6 +180,8 @@ public class CrackAutoMove : MonoBehaviour
                         //終点まで移動したら終了
                         if (NowPointNum == 0)
                         {
+                            // ひびを消す
+                            Destroy(NowMoveCrack);
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
                             movestate = MoveState.CrackMoveEnd;
@@ -203,7 +210,9 @@ public class CrackAutoMove : MonoBehaviour
                 // 自分のあたり判定を有効にする
                 thiscol.enabled = true;
                 // アニメーション終了していたらMove,Jumpを再開
-                //Jump.JumpHeight = 5.0f;
+                //　歩行アニメーションに戻る
+                anim.SetBool("jump", false);
+                //anim.SetBool("walk", true);
                 Move.SetMovement(true);
 
                 //--------------------------------
@@ -248,9 +257,6 @@ public class CrackAutoMove : MonoBehaviour
             Point = Edge.points;
             PointNum = Edge.pointCount;
 
-            //　オブジェクトを取得
-            NowMoveCrack = collision.transform.gameObject;
-
             //---------------------------------------------
             //現在地から1番近いPoint座標を求める
             MinNearPoint = Edge.points[0];
@@ -283,6 +289,9 @@ public class CrackAutoMove : MonoBehaviour
                 if (InputTrigger.GetJumpTrigger())
                 {
                     NowPointNum = MinPointNum;
+                    
+                    //　ひびのオブジェクトを取得
+                    NowMoveCrack = collision.transform.gameObject;
 
                     movestate = MoveState.CrackHold;
                     //collision.ClosestPoint(this.transform.position);
@@ -304,8 +313,6 @@ public class CrackAutoMove : MonoBehaviour
         if (movestate == MoveState.CrackMoveEnd && Line >= 1.0f)
         {
             //Move.SetMovement(true);
-            // ひびを消す
-            Destroy(NowMoveCrack);
             movestate = MoveState.Walk;
         }
     }
