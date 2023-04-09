@@ -127,19 +127,35 @@ public class Hammer : MonoBehaviour
                 // 角度の可視化
                 TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
+                // 前回の座標との距離を求める
+                float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
+                if (Distance < 0.5f)
+                {
+                    if (CrackManager.transform.childCount > 0)
+                    {
+                        NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
+                        AddCrackFlg = true;
+                    }
+                }
+                else
+                {
+                    OldFirstPoint = Vector2.zero;
+                    AddCrackFlg = false;
+                }
+
                 //トリガーを押したら方向決定状態
                 if (InputManager.GetNail_Right() && !InputManager.GetNail_Left())
                 {
                     // 前回の座標との距離を求める
-                    float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
+                    //float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
                     //-----------------------------------------------------------------------
                     // 前回の位置とあまり移動していなかくて、前のひびが残ってたらポイント追加
                     if (Distance < 0.5f && CrackManager.transform.childCount > 0) 
                     {
-                        //　ひびを取得
-                        NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
+                        ////　ひびを取得
+                        //NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
                         
-                        AddCrackFlg = true;
+                        //AddCrackFlg = true;
 
                     }
                     else
