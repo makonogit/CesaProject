@@ -148,9 +148,6 @@ public class Hammer : MonoBehaviour
                         TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                     }
 
-                    //　移動できないようにする
-                    Move.SetMovement(false);
-                   
                     //　照準(仮)が壁にめりこんでなかったら
                     if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
                     {
@@ -160,6 +157,9 @@ public class Hammer : MonoBehaviour
 
                 break;
             case HammerState.DIRECTION:
+
+                //　移動できないようにする
+                Move.SetMovement(false);
 
                 //　左を押されたら状態を戻す
                 if (InputManager.GetNail_Left())
@@ -221,6 +221,16 @@ public class Hammer : MonoBehaviour
                         anim.speed = 0.02f;
                         stopTime = 0.0f;
                         hammerstate = HammerState.HAMMER;
+                    }
+                    else
+                    {
+                        // 照準非表示
+                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                        // Point座標を初期化
+                        AngleTest.transform.position = CrackPointList[0];
+                        //　移動制限解除
+                        Move.SetMovement(true);
+                        hammerstate = HammerState.NONE;
                     }
                    
                 }
