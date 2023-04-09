@@ -146,7 +146,12 @@ public class Hammer : MonoBehaviour
 
                     //Å@à⁄ìÆÇ≈Ç´Ç»Ç¢ÇÊÇ§Ç…Ç∑ÇÈ
                     Move.SetMovement(false);
-                    hammerstate = HammerState.DIRECTION;
+                   
+                    //Å@è∆èÄ(âº)Ç™ï«Ç…ÇﬂÇËÇ±ÇÒÇ≈Ç»Ç©Ç¡ÇΩÇÁ
+                    if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
+                    {
+                        hammerstate = HammerState.DIRECTION;
+                    }
                 }
 
                 break;
@@ -211,8 +216,9 @@ public class Hammer : MonoBehaviour
                         playerStatus.SetHitStop(true);
                         anim.speed = 0.02f;
                         stopTime = 0.0f;
+                        hammerstate = HammerState.HAMMER;
                     }
-                    hammerstate = HammerState.HAMMER;
+                   
                 }
 
                 
