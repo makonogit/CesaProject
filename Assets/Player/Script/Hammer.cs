@@ -35,7 +35,11 @@ public class Hammer : MonoBehaviour
     public Vector2 OldFirstPoint;              // 前回の始点座標
    
     [Header("ひびの長さ")]
-    public float CrackLength;            
+    public float CrackLength;
+
+    [SerializeField,Header("溜め技のかける力")]
+    private float CrackPower;
+    private float MoveLength;                  // 長さを保持する変数
 
     public List<Vector2> CrackPointList;       //ひびのリスト
 
@@ -44,6 +48,7 @@ public class Hammer : MonoBehaviour
     public enum HammerState
     {
         NONE,       // 何もしていない   
+        POWER,      // 溜め技
         DIRECTION,  // 方向決定
         HAMMER,     // 叩く
     }
@@ -79,6 +84,8 @@ public class Hammer : MonoBehaviour
 
         // 最初は何もしていない状態にする
         hammerstate = HammerState.NONE;
+
+        MoveLength = CrackLength;   //　ひびの長さを保持
 
         // ひびのポイントに自分の座標を指定
         CrackPointList.Add(transform.position);
@@ -142,6 +149,12 @@ public class Hammer : MonoBehaviour
                     OldFirstPoint = Vector2.zero;
                     AddCrackFlg = false;
                 }
+                
+                //　両方押しで溜め技
+                if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
+                {
+                    hammerstate = HammerState.POWER;
+                }
 
                 //トリガーを押したら方向決定状態
                 if (InputManager.GetNail_Right() && !InputManager.GetNail_Left())
@@ -172,6 +185,99 @@ public class Hammer : MonoBehaviour
                 }
 
                 break;
+
+            case HammerState.POWER:
+
+                //　移動できないようにする
+                Move.SetMovement(false);
+                // 照準の非表示
+                TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+
+                if (!AddCrackFlg)
+                //-----------------------------------------------------------------------------
+                // 角度と距離から座標を計算
+                {
+                    // 左スティックの入力から角度を取得する
+                    Vector2 LeftStick = InputManager.GetMovement();
+
+                    //----------------------------------------
+                    //　スティックの入力があれば角度計算
+                    if (LeftStick != Vector2.zero)
+                    {
+                        angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
+
+                        // 角度を正規化
+                        if (angle < 0)
+                        {
+                            angle += 360;
+                        }
+
+                        //　角度を45度ずつで管理
+                        //angle = (((int)angle / 45)) * 45.0f;
+
+                    }
+                    else
+                    {
+                        // なければ
+                        angle = angle;
+
+                    }
+                }
+
+
+                // 角度と距離からPoint座標を求める
+                CrackPointList[1] = new Vector2(CrackPointList[0].x + (MoveLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (MoveLength * Mathf.Sin(angle * (Mathf.PI / 180))));
+
+                //デバッグ用
+                AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
+
+
+                //----------------------------------------------
+                //　両方押されていたら長さを更新
+                if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
+                {
+                    MoveLength += CrackPower * Time.deltaTime;
+                }
+                else
+                {
+                    if(MoveLength > CrackLength)
+                    {
+                        //　分割数を求める
+                        int segment = (int)(MoveLength / CrackLength);
+
+                        //　前方の分割
+                        for (int i = 0; i < segment / 2; i++) {
+                         
+                            CrackPointList.Insert(1,Vector2.Lerp(CrackPointList[0],CrackPointList[1],0.5f));
+                            //Debug.Log(CrackPointList[1]);
+                        }
+
+                        //　後方の追加
+                        for (int i = 0; i < segment - (segment / 2); i++)
+                        {
+                            CrackPointList.Insert(CrackPointList.Count - 1,
+                                Vector2.Lerp(CrackPointList[CrackPointList.Count - 2], CrackPointList[CrackPointList.Count - 1], 0.5f));
+                        }
+
+                    }
+
+                    // SE再生
+                    vibration.SetVibration(0.5f);
+                    se.PlaySE_Crack1();
+                    se.PlayHammer();
+
+                    // ヒットストップ初期化
+                    playerStatus.SetHitStop(true);
+                    anim.speed = 0.02f;
+                    stopTime = 0.0f;
+
+                    MoveLength = CrackLength;   //　長さの初期化
+                    //　離されたら打ち込み状態にする
+                    hammerstate = HammerState.HAMMER;
+                }
+                
+                break;
+
             case HammerState.DIRECTION:
 
                 //　移動できないようにする
@@ -180,7 +286,7 @@ public class Hammer : MonoBehaviour
                 //　左を押されたら状態を戻す
                 if (InputManager.GetNail_Left())
                 {
-                    hammerstate = HammerState.NONE;
+                    hammerstate = HammerState.POWER;
                 }
 
                 if(!AddCrackFlg) 
@@ -228,9 +334,9 @@ public class Hammer : MonoBehaviour
                     if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
                     {
                         // SE再生
+                        vibration.SetVibration(0.5f);
                         se.PlaySE_Crack1();
                         se.PlayHammer();
-                        vibration.SetVibration(0.5f);
 
                         // ヒットストップ初期化
                         playerStatus.SetHitStop(true);
@@ -326,6 +432,12 @@ public class Hammer : MonoBehaviour
         for (int i = 1; i < 2; i++)
         {
             CrackPointList[i] = Vector2.zero;
+        }
+
+        //　ポイントが2つより多かったら削除
+        if(CrackPointList.Count > 2)
+        {
+            CrackPointList.RemoveRange(2, CrackPointList.Count - 2);
         }
 
     }
