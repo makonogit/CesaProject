@@ -104,6 +104,7 @@ public class Hammer : MonoBehaviour
         AngleTest = GameObject.Find("Target");
         TargtRenderer = AngleTest.GetComponent<SpriteRenderer>();
         Targetstate = AngleTest.GetComponent<TestTargetState>();
+        AngleTest.transform.position = transform.position;
 
         // アニメーター取得
         anim = GetComponent<Animator>();
