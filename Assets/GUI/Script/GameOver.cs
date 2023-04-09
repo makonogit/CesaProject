@@ -180,6 +180,14 @@ public class GameOver : MonoBehaviour
             //――――――――――――//
            
         }
+
+        //------------------------------------------
+        //　奈落に落ちたらリロード
+        if(transform.position.y < -15)
+        {
+            _scene.LoadScene("MainScene");
+        }
+
     }
 
     public void DecreaseHP(float _hp)
