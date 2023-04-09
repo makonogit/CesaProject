@@ -142,7 +142,7 @@ public class PauseGame : MonoBehaviour
                     targetTransform = Target.GetComponent<RectTransform>();
 
                     // ˆÊ’u‚ðˆÚ“®
-                    cursorTransform.position = targetTransform.position;
+                    cursorTransform.position = new Vector3(cursorTransform.position.x,targetTransform.position.y);
 
                     ScriptPIManager.SetCursorMove(Vector2.zero);
 
@@ -157,7 +157,7 @@ public class PauseGame : MonoBehaviour
                 {
                     //manualTransform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
                     manualImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                    cursorImage.color = new Color(0.0f, 0.0f, 0.0f, 0.31f);
+                    cursorImage.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                     manual = false;
 
                     ScriptPIManager.SetPressB(false);
@@ -235,7 +235,7 @@ public class PauseGame : MonoBehaviour
 
                 //manualTransform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
                 manualImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                cursorImage.color = new Color(0.0f, 0.0f, 0.0f, 0.31f);
+                cursorImage.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                 manual = false;
             }
         }
