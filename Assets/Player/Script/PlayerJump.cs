@@ -141,7 +141,6 @@ public class PlayerJump : MonoBehaviour
             // 一度目のジャンプ以降入力をやめるまでジャンプできないようにする
             if (ScriptPIManager.GetJumpTrigger() == true && isOverhead == false)
             {
-
                 //----------------------------------------------------------------------------------------------------------
                 // ジャンプボタンが押されているか取得
                 Jump = ScriptPIManager.GetJump();
@@ -220,7 +219,7 @@ public class PlayerJump : MonoBehaviour
             // 自由落下（加速度加味）
 
             // 地面についてないかつ、ジャンプ入力もない(PlayerInputManagerスクリプトの変数Resetがtrueか未入力)時
-            if ((isGround == false && isJump == false && crackmove.movestate == CrackAutoMove.MoveState.Walk))
+            if ((isGround == false && isJump == false && (crackmove.movestate == CrackAutoMove.MoveState.Walk || crackmove.movestate == CrackAutoMove.MoveState.CrackMoveEnd)))
             {
                 if (RayNum == 0)
                 {
@@ -271,8 +270,10 @@ public class PlayerJump : MonoBehaviour
             {
                 anim.SetBool("jump", isJump);
             }
+
             // 落下中なら落下アニメーション遷移変数をセット
             anim.SetBool("drop", FallTime > 0.0f);
+
         }
         else
         {
