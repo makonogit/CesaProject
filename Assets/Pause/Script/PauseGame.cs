@@ -16,10 +16,10 @@ public class PauseGame : MonoBehaviour
     public bool IsPause = false; // ポーズ状態かどうか
     public int CursorY = 0; // Y方向の移動をするカーソルの番号
     const int CursorMax = 3; // カーソルの一番下
-
-    //private float ManualSizeX = 3.8f;
-    //private float ManualSizeY = 10.2f;
-    public bool manual = false;
+    private bool magnification = false; // 拡大用変数
+    private bool reduction = false;     // 縮小用変数
+    [Header("1 / ChangeSpeed 秒でサイズが変わりきる")]public float ChangeSpeed = 1.0f; // 
+    private bool manual = false;
 
     // メニューの数が増えるたびに追加
     private string[] PauseObj = {
@@ -39,8 +39,10 @@ public class PauseGame : MonoBehaviour
     private RectTransform InitTransform; // カーソルが最初にいる位置を保存しておく変数
 
     private GameObject Manual;
-    //private RectTransform manualTransform;
+    private RectTransform manualTransform;
     private Image manualImage;
+    private GameObject black;
+    private Image blackImage;
 
     // se関係
     private GameObject se;
@@ -53,7 +55,8 @@ public class PauseGame : MonoBehaviour
         ScriptPIManager = PlayerInputMana.GetComponent<PlayerInputManager>();
 
         // 非表示にする
-        this.gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
+        //this.gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
+        transform.localScale = new Vector3(0f, 0f, 0f);
 
         // カーソル探す
         Cursor = GameObject.Find("Cursor");
@@ -79,6 +82,11 @@ public class PauseGame : MonoBehaviour
         manualImage = Manual.GetComponent<Image>();
         manualImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
+        // 背景暗くする
+        black = GameObject.Find("Black");
+        blackImage = black.GetComponent<Image>();
+        blackImage.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+
         // サウンド関係
         se = GameObject.Find("SE");
         // Seコンポーネント取得
@@ -93,14 +101,34 @@ public class PauseGame : MonoBehaviour
         // ポーズボタンが押されたなら
         if (ScriptPIManager.GetPause() == true)
         {
-            TimeOperate();
+            //TimeOperate();
+
+            if(IsPause == false)
+            {
+                magnification = true;
+            }
+            else
+            {
+                reduction = true;
+            }
 
             ScriptPIManager.SetPause(false);
 
             seMana.PlaySE_OK();
         }
 
-        //Debug.Log(manual);
+
+        if (magnification)
+        {
+            // ポーズメニューを拡大
+            Magnification();
+        }
+
+        if (reduction)
+        {
+            // ポーズメニューを縮小
+            Reduction();
+        }
 
         // ポーズ状態の時の処理
         if (IsPause)
@@ -172,7 +200,8 @@ public class PauseGame : MonoBehaviour
                 if (ScriptPIManager.GetPressB() == true)
                 {
                     // ポーズ終了
-                    TimeOperate();
+                    //TimeOperate();
+                    reduction = true;
 
                     ScriptPIManager.SetPressB(false);
 
@@ -194,12 +223,14 @@ public class PauseGame : MonoBehaviour
                         // 続ける
                         case 0:
                             // ポーズ終了
-                            TimeOperate();
+                            //TimeOperate();
+                            reduction = true;
                             break;
 
                         // リトライ
                         case 1:
-                            TimeOperate();
+                            //TimeOperate();
+                            reduction = true;
 
                             // 今いるシーンをロードしなおす
                             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -250,7 +281,8 @@ public class PauseGame : MonoBehaviour
         {
             // 通常再生にする
             Time.timeScale = 1f;
-            this.gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
+            //this.gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
+            blackImage.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 
             IsPause = false;
         }
@@ -259,9 +291,62 @@ public class PauseGame : MonoBehaviour
         {
             // 一時停止する
             Time.timeScale = 0f;
-            this.gameObject.GetComponent<CanvasGroup>().alpha = 1.0f;
+            //this.gameObject.GetComponent<CanvasGroup>().alpha = 1.0f;
+            blackImage.color = new Color(0.0f, 0.0f, 0.0f, 0.5f);
 
             IsPause = true;
+        }
+    }
+
+    // ポーズメニュー拡大演出
+    void Magnification()
+    {
+        // スケールを徐々に大きくしていく
+        float scale = transform.localScale.x + ChangeSpeed * Time.deltaTime;
+
+        // 上限
+        if(scale > 1f)
+        {
+            scale = 1f;
+        }
+
+        // 計算結果をスケールに代入
+        if (transform.localScale.x < 1.0f) 
+        {
+            transform.localScale = new Vector3(scale, scale, 0);
+        }
+        else
+        {
+            // 拡大しきったら
+            magnification = false;
+
+            TimeOperate();
+        }
+    }
+
+    // ポーズメニュー縮小演出
+    void Reduction()
+    {
+        // スケールを徐々に小さくしていく
+        float scale = transform.localScale.x - ChangeSpeed * Time.deltaTime;
+
+        // 下限
+        if (scale < 0f)
+        {
+            scale = 0f;
+        }
+
+        // 計算結果をスケールに代入
+        if (transform.localScale.x > 0.0f)
+        {
+            transform.localScale = new Vector3(scale, scale, 0);
+        }
+        else
+        {
+            // 縮小しきったら
+            reduction = false;
+
+            TimeOperate();
         }
     }
 }

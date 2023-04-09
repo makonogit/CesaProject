@@ -35,6 +35,8 @@ public class PlayerMove : MonoBehaviour
 
     public MOVESTATUS MoveSta = MOVESTATUS.NONE;
 
+    public bool debug = false;
+
     // 外部取得
     private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
@@ -86,6 +88,16 @@ public class PlayerMove : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // 普通の移動
         //----------------------------------------------------------------------------------------------------------
+
+        // スローモーション
+        if(debug == false)
+        {
+            Time.timeScale = 1f;
+        }
+        else
+        {
+            Time.timeScale = 0.2f;
+        }
 
         if (Moveflg && !playerStatus.GetHitStop()) // 移動フラグがたっているか、ヒットストップ中じゃない
         {
