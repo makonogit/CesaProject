@@ -32,11 +32,26 @@ public class SelectArea : MonoBehaviour
 
     [SerializeField]
     private Animator _next;
-    private float _nextUiTime = 0.3f;
-    private float _nowNextUiTime;
+    //private float _nextUiTime = 0.3f;
+    //private float _nowNextUiTime;
     [SerializeField]
     private Animator _prev;
-    private float _nowPrevUiTime;
+    //private float _nowPrevUiTime;
+    [SerializeField, Header("アイコン")]
+    private List<Transform> _stageIcon;
+    [SerializeField]
+    private float _speed = 1;
+    [SerializeField]
+    private float _diplayTime;
+    //[SerializeField]
+    private float _diplayNowTime;
+    //[SerializeField]
+    private float _ratio;
+    //[SerializeField]
+    private bool _start;
+    private Vector3 _startPos;
+    private Vector3 _endPos;
+
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -46,8 +61,13 @@ public class SelectArea : MonoBehaviour
         _nowArea = 0;// ※おそらくデータを読み込む処理に変わる
         _nextArea = 0;// ※おそらくデータを読み込む処理に変わる
         _max = _positions.Count - 1;
-        _nowNextUiTime = _nextUiTime;
-        _nowPrevUiTime = _nextUiTime;
+        _startPos =  new Vector3(-11, 4.2f, 0);
+        _endPos = new Vector3(-6.5f, 4.2f, 0);
+        _diplayNowTime = 0.0f;
+        _start = true;
+        _ratio = 0.0f;
+        //_nowNextUiTime = _nextUiTime;
+        //_nowPrevUiTime = _nextUiTime;
         //--------------------------------------
         //SceneChangeの取得
         scene = GameObject.Find("SceneManager").GetComponent<SceneChange>();
@@ -61,6 +81,8 @@ public class SelectArea : MonoBehaviour
         //--------------------------------------
         // エリア移動の処理
         ChangeArea();
+
+        DisplayIcon();
     }
 
     //-----------------------------------------------------------------
@@ -75,7 +97,7 @@ public class SelectArea : MonoBehaviour
             // 予期しない値にならないよう制限する
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
             _next.SetBool("isPush", true);
-            _nowNextUiTime = 0;
+            //_nowNextUiTime = 0;
         }
     }
 
@@ -88,7 +110,7 @@ public class SelectArea : MonoBehaviour
             // 予期しない値にならないよう制限する
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
             _prev.SetBool("isPush", true);
-            _nowPrevUiTime = 0;
+            //_nowPrevUiTime = 0;
         }
     }
 
@@ -156,7 +178,41 @@ public class SelectArea : MonoBehaviour
             this.transform.position = _pos;
             // 現在のエリアと次のエリアを同じにする。
             _nowArea = _nextArea;
+            _start = true;
         }
         //_nowNextUiTime += Time.deltaTime;        _nowPrevUiTime += Time.deltaTime;
     }
+
+    private void DisplayIcon() 
+    {
+        if (_start && _nowArea == _nextArea) 
+        {
+            _stageIcon[_nextArea].localPosition = (_startPos * (1 - _ratio)) + _endPos * _ratio;
+            _ratio += _speed * Time.deltaTime;
+        }
+        if (_ratio >= 1) 
+        {
+            _start = false;
+            _diplayNowTime += Time.deltaTime;
+        }else if (_ratio <= 0) 
+        {
+            _start = false;
+            _ratio = 0;
+            _diplayNowTime = 0;
+        }
+
+
+        if (_diplayNowTime >= _diplayTime) 
+        {
+            _stageIcon[_nextArea].localPosition = (_startPos * (1 - _ratio)) + _endPos * _ratio;
+            _ratio -= _speed * Time.deltaTime;
+        }
+
+        if (_nowArea != _nextArea && (_start || _diplayNowTime > 0)) 
+        {
+            _stageIcon[_nowArea].localPosition = (_startPos * (1 - _ratio)) + _endPos * _ratio;
+            _ratio -= _speed * Time.deltaTime;
+        }
+    }
+
 }
