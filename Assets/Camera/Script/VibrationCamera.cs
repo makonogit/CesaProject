@@ -93,6 +93,8 @@ public class VibrationCamera : MonoBehaviour
     private CameraControl2 _CameraControl;   //ƒJƒƒ‰’Ç]
 
     Gamepad gamepad;
+    private float vibration_speed = 0.0f;   // U“®‘¬“x
+    private float speed = 2.5f;             // ‘¬“x•Ï“®—¦
 
     void Awake()
     {
@@ -179,5 +181,28 @@ public class VibrationCamera : MonoBehaviour
         // ƒRƒ“ƒgƒ[ƒ‰[U“®
         gamepad.SetMotorSpeeds(0.0f, 0.5f);
 
+    }
+
+    public void SetControlerVibration()
+    {
+        
+        //------------------------------
+        //@U“®‚ð”g‘Å‚¿‚³‚¹‚é
+        if(vibration_speed > 1.0f)
+        {
+            speed = -3.0f;
+        }
+        if (vibration_speed < 0.0f)
+        {
+            speed = 4.0f;
+        }
+
+        vibration_speed += speed * Time.deltaTime;
+
+
+        Debug.Log(vibration_speed);
+
+        // ƒRƒ“ƒgƒ[ƒ‰[U“®
+        gamepad.SetMotorSpeeds(vibration_speed, vibration_speed);
     }
 }

@@ -236,6 +236,7 @@ public class Hammer : MonoBehaviour
                 //@—¼•û‰Ÿ‚³‚ê‚Ä‚¢‚½‚ç’·‚³‚ğXV
                 if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
                 {
+                    vibration.SetControlerVibration();
                     MoveLength += CrackPower * Time.deltaTime;
                 }
                 else
