@@ -33,6 +33,11 @@ public class CrackAutoMove : MonoBehaviour
     private InputTrigger InputTrigger;           // InputTrigger
 
     private GameObject NowMoveCrack;            //　移動中のヒビのオブジェクト
+    
+    [SerializeField, Header("光るひびのマテリアル")]
+    private Material FrashCrackMat;
+    [SerializeField, Header("通常のひびのマテリアル")]
+    private Material NomalCrackMat;
 
 
     PlayerJump Jump;                    // ジャンプスクリプト
@@ -98,6 +103,7 @@ public class CrackAutoMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         //状態によって行動
         switch (movestate)
         {
@@ -214,7 +220,7 @@ public class CrackAutoMove : MonoBehaviour
                 thiscol.enabled = true;
                 // アニメーション終了していたらMove,Jumpを再開
                 Move.SetMovement(true);
-               
+                HitFlg = false;
 
                 //--------------------------------
                 // アニメーション
@@ -254,7 +260,18 @@ public class CrackAutoMove : MonoBehaviour
         {
             //----------------------------------
             //ひびの情報を取得
-            Edge = collision.gameObject.GetComponent<EdgeCollider2D>();
+            GameObject crackobj = collision.gameObject;
+            Edge = crackobj.GetComponent<EdgeCollider2D>();
+            
+            //---------------------------------------
+            //　子オブジェクトのマテリルをすべて変更
+            for(int i = 0; i < crackobj.transform.childCount - 1; i++)
+            {
+                crackobj.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().material
+                    = FrashCrackMat;
+            }
+            
+
             Point = Edge.points;
             PointNum = Edge.pointCount;
 
@@ -287,7 +304,7 @@ public class CrackAutoMove : MonoBehaviour
             if (MinPointNum == 0 || MinPointNum == Edge.pointCount - 1)
             {
                 HitFlg = true;
-
+             
                 // Aボタンで入る
                 if (InputTrigger.GetJumpTrigger())
                 {
@@ -315,6 +332,17 @@ public class CrackAutoMove : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if(collision.tag == "Crack")
+        {
+            GameObject crackobj = collision.gameObject;
+            //---------------------------------------
+            //　子オブジェクトのマテリルをすべて変更
+            for (int i = 0; i < crackobj.transform.childCount - 1; i++)
+            {
+                crackobj.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().material
+                    = NomalCrackMat;
+            }
+        }
         //--------------------------------------------
         //移動終了していてひびから出たら歩行状態に遷移
         if (movestate == MoveState.CrackMoveEnd && Line >= 1.0f)
