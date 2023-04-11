@@ -69,6 +69,7 @@ public class Hammer : MonoBehaviour
 
     private Animator anim;
     private PlayerStatas playerStatus;
+    private bool animstate = true;
 
     // Start is called before the first frame update
     void Start()
@@ -339,7 +340,7 @@ public class Hammer : MonoBehaviour
                 //デバッグ用
                 AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
 
-                //トリガーを離したらひび生成状態
+                //トリガーを離したらひび生成状態(アニメーション終了)
                 if (!InputManager.GetNail_Right())
                 {
                     //　照準(仮)が壁にめりこんでなかったら
@@ -376,37 +377,46 @@ public class Hammer : MonoBehaviour
                 break;
             case HammerState.HAMMER:
 
-                //----------------------------------------------------
-                //　前回の位置から移動していなかったらポイントを追加
-                if (AddCrackFlg)
+               
+                //-------------------------------------------
+                //　アニメーション終了しているか確認
+                if (animstate)
                 {
-                   
-                    if (NowCrack != null)
+                    //-----------------------------------------------------
+                    //　前回の位置から移動していなかったらポイントを追加
+                    if (AddCrackFlg)
                     {
-                        if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+
+                        if (NowCrack != null)
                         {
-                            NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
+                            if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+                            {
+                                NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
+                            }
                         }
+                        else
+                        {
+                            Debug.Log("ひびが見つかりません");
+                        }
+
+                        AddCrackFlg = false;
+
                     }
                     else
                     {
-                        Debug.Log("ひびが見つかりません");
+                        CallCrackCreater();  //ひび生成
                     }
 
-                    AddCrackFlg = false;
+                    OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
+
+
+                    animstate = false;       //アニメーション再生状態初期化
+                                             // Point座標を初期化
+                    AngleTest.transform.position = CrackPointList[0];
+                    Move.SetMovement(true);
+                    hammerstate = HammerState.NONE;
 
                 }
-                else
-                {
-                    CallCrackCreater();  //ひび生成
-                }
-
-                OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
-
-                // Point座標を初期化
-                AngleTest.transform.position = CrackPointList[0];
-                Move.SetMovement(true);
-                hammerstate = HammerState.NONE;
 
                 break;
             default:
@@ -430,7 +440,7 @@ public class Hammer : MonoBehaviour
         // アニメーション関係
 
         // ためアニメーション
-        anim.SetBool("accumulate", hammerstate == HammerState.POWER);
+        anim.SetBool("accumulate", hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION);
         // ひびアニメーション
         anim.SetBool("crack", hammerstate == HammerState.HAMMER);
 
@@ -466,6 +476,12 @@ public class Hammer : MonoBehaviour
     }
     //-----------------------------------------------------------------
 
-
+    //-------------------------------------
+    //　アニメーションの状態を取得する関数
+    //　呼ばれたらアニメーションをtrueに
+    public void AnimationState()
+    {
+        animstate = true;
+    }
 }
 
