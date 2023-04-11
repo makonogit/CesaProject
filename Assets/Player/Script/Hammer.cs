@@ -427,6 +427,12 @@ public class Hammer : MonoBehaviour
             playerStatus.SetHitStop(false);
         }
 
+        // アニメーション関係
+
+        // ためアニメーション
+        anim.SetBool("accumulate", hammerstate == HammerState.POWER);
+        // ひびアニメーション
+        anim.SetBool("crack", hammerstate == HammerState.HAMMER);
 
         //----------------------------------------
         //　生成終了したら移動解除
