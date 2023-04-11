@@ -174,7 +174,7 @@ public class Hammer : MonoBehaviour
                     else
                     {
                         // 角度の可視化
-                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                        //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                     }
 
                     //　照準(仮)が壁にめりこんでなかったら
@@ -325,6 +325,17 @@ public class Hammer : MonoBehaviour
                 // 角度と距離からPoint座標を求める
                 CrackPointList[1] = new Vector2(CrackPointList[0].x + (CrackLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (CrackLength * Mathf.Sin(angle * (Mathf.PI / 180))));
 
+                if (AddCrackFlg)
+                {
+                    // 角度の非表示
+                    TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                }
+                else
+                {
+                    // 角度の可視化
+                    TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                }
+
                 //デバッグ用
                 AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
 
@@ -339,6 +350,7 @@ public class Hammer : MonoBehaviour
                         se.PlaySE_Crack1();
                         se.PlayHammer();
 
+
                         // ヒットストップ初期化
                         playerStatus.SetHitStop(true);
                         anim.speed = 0.02f;
@@ -347,10 +359,12 @@ public class Hammer : MonoBehaviour
                     }
                     else
                     {
-                        // 照準非表示
-                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                         // Point座標を初期化
                         AngleTest.transform.position = CrackPointList[0];
+                        // 照準非表示
+                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                        //// Point座標を初期化
+                        //AngleTest.transform.position = CrackPointList[0];
                         //　移動制限解除
                         Move.SetMovement(true);
                         hammerstate = HammerState.NONE;
@@ -388,7 +402,9 @@ public class Hammer : MonoBehaviour
                 }
 
                 OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
-              
+
+                // Point座標を初期化
+                AngleTest.transform.position = CrackPointList[0];
                 Move.SetMovement(true);
                 hammerstate = HammerState.NONE;
 
