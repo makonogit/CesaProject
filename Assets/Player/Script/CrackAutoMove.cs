@@ -261,16 +261,7 @@ public class CrackAutoMove : MonoBehaviour
             //----------------------------------
             //ひびの情報を取得
             GameObject crackobj = collision.gameObject;
-            Edge = crackobj.GetComponent<EdgeCollider2D>();
-            
-            //---------------------------------------
-            //　子オブジェクトのマテリルをすべて変更
-            for(int i = 0; i < crackobj.transform.childCount - 1; i++)
-            {
-                crackobj.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().material
-                    = FrashCrackMat;
-            }
-            
+            Edge = crackobj.GetComponent<EdgeCollider2D>(); 
 
             Point = Edge.points;
             PointNum = Edge.pointCount;
@@ -304,7 +295,15 @@ public class CrackAutoMove : MonoBehaviour
             if (MinPointNum == 0 || MinPointNum == Edge.pointCount - 1)
             {
                 HitFlg = true;
-             
+
+                //---------------------------------------
+                //　子オブジェクトのマテリルをすべて変更
+                for (int i = 0; i < crackobj.transform.childCount - 1; i++)
+                {
+                    crackobj.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().material
+                        = FrashCrackMat;
+                }
+
                 // Aボタンで入る
                 if (InputTrigger.GetJumpTrigger())
                 {
