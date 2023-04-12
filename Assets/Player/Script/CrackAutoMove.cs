@@ -139,12 +139,12 @@ public class CrackAutoMove : MonoBehaviour
                     //----------------------------------
                     //目的地(Point座標)まで移動
                     NowCrackspeed += CrackMoveSpeed * Time.deltaTime;
-                    transform.position = Vector3.MoveTowards(transform.position, Edge.points[NowPointNum], NowCrackspeed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(Edge.points[NowPointNum].x, Edge.points[NowPointNum].y, transform.position.z), NowCrackspeed * Time.deltaTime);
 
                     //-------------------------------------------------------------
                     //目的地との距離を求める
                     Distance = Vector3.Distance(this.transform.position,
-                                     new Vector3(Edge.points[NowPointNum].x, Edge.points[NowPointNum].y, 0.0f));
+                                     new Vector3(Edge.points[NowPointNum].x, Edge.points[NowPointNum].y, transform.position.z));
 
                     if (Distance <= 0)
                     {
@@ -175,12 +175,12 @@ public class CrackAutoMove : MonoBehaviour
                     NowCrackspeed += CrackMoveSpeed * Time.deltaTime;
                     //----------------------------------
                     //目的地(Point座標)まで移動
-                    transform.position = Vector3.MoveTowards(transform.position, Edge.points[NowPointNum], CrackMoveSpeed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(Edge.points[NowPointNum].x, Edge.points[NowPointNum].y, transform.position.z), CrackMoveSpeed * Time.deltaTime);
 
                     //-------------------------------------------------------------
                     //目的地との距離を求める
                     Distance = Vector3.Distance(this.transform.position,
-                                     new Vector3(Edge.points[NowPointNum].x, Edge.points[NowPointNum].y, 0.0f));
+                                     new Vector3(Edge.points[NowPointNum].x, Edge.points[NowPointNum].y, transform.position.z));
 
                     if (Distance <= 0)
                     {
@@ -270,7 +270,7 @@ public class CrackAutoMove : MonoBehaviour
             //現在地から1番近いPoint座標を求める
             MinNearPoint = Edge.points[0];
             MinNearPointDistance =
-            Vector3.Distance(this.transform.position, new Vector3(Edge.points[0].x, Edge.points[0].y, 0.0f));
+            Vector3.Distance(this.transform.position, new Vector3(Edge.points[0].x, Edge.points[0].y, transform.position.z));
             MinPointNum = 0;
 
             for (int i = 1; i < PointNum; i++)
@@ -278,7 +278,7 @@ public class CrackAutoMove : MonoBehaviour
                 //-----------------------------------------
                 //距離を求める
                 float NearPoint =
-                Vector3.Distance(this.transform.position, new Vector3(Edge.points[i].x, Edge.points[i].y, 0.0f));
+                Vector3.Distance(this.transform.position, new Vector3(Edge.points[i].x, Edge.points[i].y, transform.position.z));
 
                 //----------------------------------------
                 //現在1番近いポイントより近かったら座標更新
