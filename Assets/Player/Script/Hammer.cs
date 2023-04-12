@@ -120,7 +120,7 @@ public class Hammer : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         //　ひびの始点を常に自分の座標に指定
@@ -242,45 +242,43 @@ public class Hammer : MonoBehaviour
                 }
                 else
                 {
-                    //---------------------------------
-                    //アニメーション終了していたら移動
-                    if (animstate)
+                   
+                    if (MoveLength > CrackLength)
                     {
+                         //　分割数を求める
+                         int segment = (int)(MoveLength / CrackLength);
 
-                        if (MoveLength > CrackLength)
-                        {
-                             //　分割数を求める
-                             int segment = (int)(MoveLength / CrackLength);
+                         //　前方の分割
+                         for (int i = 0; i < segment / 2; i++) {
+                          
+                             CrackPointList.Insert(1,Vector2.Lerp(CrackPointList[0],CrackPointList[1],0.5f));
+                             //Debug.Log(CrackPointList[1]);
+                         }
 
-                             //　前方の分割
-                             for (int i = 0; i < segment / 2; i++) {
-                              
-                                 CrackPointList.Insert(1,Vector2.Lerp(CrackPointList[0],CrackPointList[1],0.5f));
-                                 //Debug.Log(CrackPointList[1]);
-                             }
+                         //　後方の追加
+                         for (int i = 0; i < segment - (segment / 2); i++)
+                         {
+                             CrackPointList.Insert(CrackPointList.Count - 1,
+                                 Vector2.Lerp(CrackPointList[CrackPointList.Count - 2], CrackPointList[CrackPointList.Count - 1], 0.5f));
+                         }
 
-                             //　後方の追加
-                             for (int i = 0; i < segment - (segment / 2); i++)
-                             {
-                                 CrackPointList.Insert(CrackPointList.Count - 1,
-                                     Vector2.Lerp(CrackPointList[CrackPointList.Count - 2], CrackPointList[CrackPointList.Count - 1], 0.5f));
-                             }
-
-                        }
-                        // SE再生
-                        vibration.SetVibration(0.5f);
-                        se.PlaySE_Crack1();
-                        se.PlayHammer();
-
-                        // ヒットストップ初期化
-                        playerStatus.SetHitStop(true);
-                        anim.speed = 0.02f;
-                        stopTime = 0.0f;
-
-                        MoveLength = CrackLength;   //　長さの初期化
-                                                    //　離されたら打ち込み状態にする
-                        hammerstate = HammerState.HAMMER;
                     }
+                    
+                    // SE再生
+                    vibration.SetVibration(0.5f);
+                    se.PlaySE_Crack1();
+                    se.PlayHammer();
+
+                    // ヒットストップ初期化
+                    playerStatus.SetHitStop(true);
+                    anim.speed = 0.02f;
+                    stopTime = 0.0f;
+
+                    MoveLength = CrackLength;   //　長さの初期化
+                                                //　離されたら打ち込み状態にする
+                    hammerstate = HammerState.HAMMER;
+                  
+                    
                 }
                 
                 break;
@@ -351,23 +349,20 @@ public class Hammer : MonoBehaviour
                     //　照準(仮)が壁にめりこんでなかったら
                     if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
                     {
-                        //---------------------------------
-                        //アニメーション終了していたら移動
-                        if (animstate)
-                        {
-                            // SE再生
-                            vibration.SetVibration(0.5f);
-                            se.PlaySE_Crack1();
-                            se.PlayHammer();
+
+                        // SE再生
+                        vibration.SetVibration(0.5f);
+                        se.PlaySE_Crack1();
+                        se.PlayHammer();
 
 
-                            // ヒットストップ初期化
-                            playerStatus.SetHitStop(true);
-                            anim.speed = 0.02f;
-                            stopTime = 0.0f;
+                        // ヒットストップ初期化
+                        playerStatus.SetHitStop(true);
+                        anim.speed = 0.02f;
+                        stopTime = 0.0f;
                        
-                            hammerstate = HammerState.HAMMER;
-                        }
+                        hammerstate = HammerState.HAMMER;
+                       
 
                     }
                     else
@@ -389,40 +384,45 @@ public class Hammer : MonoBehaviour
                 break;
             case HammerState.HAMMER:
 
-                //-----------------------------------------------------
-                //　前回の位置から移動していなかったらポイントを追加
-                if (AddCrackFlg)
+                //---------------------------------
+                //アニメーション終了していたら
+                if (animstate)
                 {
-
-                    if (NowCrack != null)
+                    //-----------------------------------------------------
+                    //　前回の位置から移動していなかったらポイントを追加
+                    if (AddCrackFlg)
                     {
-                        if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+
+                        if (NowCrack != null)
                         {
-                            NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
+                            if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+                            {
+                                NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
+                            }
                         }
+                        else
+                        {
+                            Debug.Log("ひびが見つかりません");
+                        }
+
+                        AddCrackFlg = false;
+
                     }
                     else
                     {
-                        Debug.Log("ひびが見つかりません");
+                        CallCrackCreater();  //ひび生成
                     }
 
-                    AddCrackFlg = false;
+                    OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
+
+
+                    animstate = false;       //アニメーション再生状態初期化
+                                             // Point座標を初期化
+                    AngleTest.transform.position = CrackPointList[0];
+                    Move.SetMovement(true);
+                    hammerstate = HammerState.NONE;
 
                 }
-                else
-                {
-                    CallCrackCreater();  //ひび生成
-                }
-
-                OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
-
-
-                animstate = false;       //アニメーション再生状態初期化
-                                         // Point座標を初期化
-                AngleTest.transform.position = CrackPointList[0];
-                Move.SetMovement(true);
-                hammerstate = HammerState.NONE;
-
 
                 break;
             default:
