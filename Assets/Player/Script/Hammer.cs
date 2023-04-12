@@ -443,6 +443,8 @@ public class Hammer : MonoBehaviour
         anim.SetBool("accumulate", hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION);
         // ひびアニメーション
         anim.SetBool("crack", hammerstate == HammerState.HAMMER);
+        // キャンセル
+        anim.SetBool("cansel", hammerstate == HammerState.NONE);
 
         //----------------------------------------
         //　生成終了したら移動解除
