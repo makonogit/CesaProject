@@ -22,7 +22,7 @@ public class GroundCheck : MonoBehaviour
 
     PlayerInputManager.DIRECTION oldDire; // 前フレームの向きを入れておくための変数
 
-    private LayerMask layerMask = 1 << 10;
+    private LayerMask layerMask = 1 << 10 | 1 << 14;
 
     // 外部取得
     private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数
