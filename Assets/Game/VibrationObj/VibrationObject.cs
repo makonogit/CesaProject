@@ -1,13 +1,12 @@
 //---------------------------------
 //担当：二宮怜
-//内容：パーリンノイズを使ってカメラを振動させる
+//内容：パーリンノイズを使ってスクリプトを
 //---------------------------------
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class VibrationCamera : MonoBehaviour
+public class VibrationObject : MonoBehaviour
 {
     // - 変数宣言 -
 
@@ -63,7 +62,7 @@ public class VibrationCamera : MonoBehaviour
             return new Vector3(
                 x.GetValue(time),
                 y.GetValue(time),
-                -230
+                0
                 );
         }
     }
@@ -71,11 +70,11 @@ public class VibrationCamera : MonoBehaviour
     // 位置の揺れ情報
     [SerializeField] private NoiseTransform _noisePosition;
 
-    // カメラの位置情報
+    // 自身の位置情報
     private Transform thisTransform;
 
     // Transformの初期状態
-    public Vector3 initLocalPosition;
+    private Vector3 initLocalPosition;
 
     // 振動命令
     private bool Vibration = false;
@@ -86,16 +85,6 @@ public class VibrationCamera : MonoBehaviour
     // 振動が始まった時間
     private float StartVibrationTime = 0.0f;
 
-    // 外部取得
-    private GameObject PlayerInputMana;
-    private PlayerInputManager ScriptPIManager;
-    private InputTrigger trigger;
-    private CameraControl2 _CameraControl;   //カメラ追従
-
-    Gamepad gamepad;
-    private float vibration_speed = 0.0f;   // 振動速度
-    private float speed = 2.5f;             // 速度変動率
-
     void Awake()
     {
         thisTransform = transform;
@@ -105,50 +94,21 @@ public class VibrationCamera : MonoBehaviour
 
         // パーリンノイズのオフセット初期化
         _noisePosition.SetRandomOffset();
-
-        // 探す
-        PlayerInputMana = GameObject.Find("PlayerInputManager");
-        ScriptPIManager = PlayerInputMana.GetComponent<PlayerInputManager>();
-        trigger = PlayerInputMana.GetComponent<InputTrigger>();
-        _CameraControl = GetComponent<CameraControl2>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-       gamepad = Gamepad.current;
-
-
-        //// ひび生成したら
-        //if (trigger.GetNailTrigger_Right())
-        //{
-        //    // 振動処理
-        //    initLocalPosition = thisTransform.localPosition;
-        //    Vibration = true;
-        //    VibrationTime = 1.0f; // 振動時間をセット
-        //    StartVibrationTime = Time.time; // 振動開始時間をセット
-        //    _CameraControl.enabled = false;
-
-        //    // コントローラー振動
-        //    gamepad.SetMotorSpeeds(0.0f, 0.5f);
-        //}
-
         // 指定時間が経過したら
-        if(Time.time - StartVibrationTime > VibrationTime)
+        if (Time.time - StartVibrationTime > VibrationTime)
         {
             if (Vibration == true)
             {
                 // 振動終了
                 Vibration = false;
 
-                _CameraControl.enabled = true;
-
                 // 振動が終わったら初期位置に戻す
-                //thisTransform.localPosition = initLocalPosition;
-
-                // コントローラー振動
-                gamepad.SetMotorSpeeds(0.0f, 0.0f);
+                thisTransform.localPosition = initLocalPosition;
             }
         }
 
@@ -161,12 +121,11 @@ public class VibrationCamera : MonoBehaviour
             // パーリンノイズの値を時刻から取得
             var noisePos = _noisePosition.GetValue(time);
 
-            //Debug.Log(noisePos);
+            Debug.Log(initLocalPosition);
+            Debug.Log(noisePos);
 
             // 各Transformにパーリンノイズの値を加算
-            thisTransform.localPosition = new Vector3(initLocalPosition.x + noisePos.x,initLocalPosition.y + noisePos.y,-1.0f);
-            //thisTransform.localPosition = initLocalPosition + noisePos;
-            
+            thisTransform.localPosition = new Vector3(initLocalPosition.x + noisePos.x, initLocalPosition.y + noisePos.y, initLocalPosition.z);
         }
     }
 
@@ -178,30 +137,11 @@ public class VibrationCamera : MonoBehaviour
         Vibration = true; // 振動命令セット
         VibrationTime = time; // 振動時間をセット
         StartVibrationTime = Time.time; // 振動開始時間をセット
-        _CameraControl.enabled = false; //追従停止
-
-        // コントローラー振動
-        gamepad.SetMotorSpeeds(0.0f, 0.5f);
-
     }
 
-    public void SetControlerVibration()
+    // 振動中かを返す
+    public bool GetVibration()
     {
-        
-        //------------------------------
-        //　振動を波打ちさせる
-        if(vibration_speed > 1.0f)
-        {
-            speed = -3.0f;
-        }
-        if (vibration_speed < 0.0f)
-        {
-            speed = 4.0f;
-        }
-
-        vibration_speed += speed * Time.deltaTime;
-
-        // コントローラー振動
-        gamepad.SetMotorSpeeds(vibration_speed, vibration_speed);
+        return Vibration;
     }
 }

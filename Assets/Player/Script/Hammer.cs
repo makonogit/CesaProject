@@ -463,6 +463,8 @@ public class Hammer : MonoBehaviour
         // キャンセル
         anim.SetBool("cansel", hammerstate == HammerState.NONE);
 
+        Debug.Log(hammerstate);
+
         //----------------------------------------
         //　生成終了したら移動解除
 

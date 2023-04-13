@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 8795744921411713160}
   - component: {fileID: 8309875791674190803}
   - component: {fileID: 969494598774760068}
-  m_Layer: 0
+  - component: {fileID: 6465099819131167710}
+  m_Layer: 15
   m_Name: Icicle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 0a8753823982fe24687ce9cb374f5ee6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -178,3 +179,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFall: 0
+--- !u!114 &6465099819131167710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144398224157200031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c3f953f3cad5fb42a4fa4a2a44fd1cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _noisePosition:
+    x:
+      amplitude: 0.5
+      speed: 5
+    y:
+      amplitude: 0
+      speed: 0

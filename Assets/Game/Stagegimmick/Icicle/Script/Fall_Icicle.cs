@@ -16,12 +16,19 @@ public class Fall_Icicle : MonoBehaviour
     private string EnemyTag = "Enemy"; // 敵オブジェクトのタグ名
     private string IceTag = "Ice"; // 氷ブロックのタグ名
 
+    // 落ちているか
     public bool isFall = false;
-    private Rigidbody2D rigid2D;
-    private Vector3 initTransform;
+    // ひびがあたったか
+    private bool CrackHit = false;
+    // 振動したか
+    private bool Vibration = false;
+
+    private Rigidbody2D rigid2D; // rigidbody
+    private Vector3 initTransform; // 初期座標
 
     // 外部取得
     private BreakBlock breakBlock = null;
+    private VibrationObject vibration; 
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +38,9 @@ public class Fall_Icicle : MonoBehaviour
 
         // 初期座標保存
         initTransform = transform.position;
+
+        // 振動用スクリプト取得
+        vibration = GetComponent<VibrationObject>();
     }
 
     private void Update()
@@ -38,14 +48,37 @@ public class Fall_Icicle : MonoBehaviour
         // isFallがtrueかつ重力の値が0の時
         if (isFall && rigid2D.gravityScale == 0f)
         {
-            rigid2D.gravityScale = 1f;
+            rigid2D.gravityScale = 1.0f;
         }
 
         // 天井に張り付いている状態なら
-        if(isFall == false)
+        if(isFall == false && !Vibration)
         {
             // 座標固定
             transform.position = initTransform;
+        }
+
+        // ひびに当たったフラグが経っている
+        if (CrackHit)
+        {
+            if (Vibration == false)
+            {
+                // 振動させる
+                vibration.SetVibration(0.7f);
+                CrackHit = false;
+                Vibration = true;
+            }
+        }
+
+        // 振動したなら
+        if (Vibration)
+        {
+            if(vibration.GetVibration() == false)
+            {
+                // 落下
+                rigid2D.gravityScale = 1.0f;
+                isFall = true;
+            }
         }
 
     }
@@ -56,9 +89,8 @@ public class Fall_Icicle : MonoBehaviour
         // 当たったものがひびなら
         if (collision.gameObject.tag == CrackTag)
         {
-            // 落下
-            rigid2D.gravityScale = 1.0f;
-            isFall = true;
+            // ひびに接触したフラグ立てる
+            CrackHit = true;
 
             // ひびを消去
             //Destroy(collision.gameObject);
