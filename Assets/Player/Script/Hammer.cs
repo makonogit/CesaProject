@@ -61,6 +61,9 @@ public class Hammer : MonoBehaviour
     [System.NonSerialized]
     public GameObject NewCrackObj;  //新しいヒビのオブジェクト
     CrackCreater _creater;
+
+    private bool _isStartHaloAnimation;// エフェクト開始フラグ
+    private haloEffect _haloEffect;// エフェクト
     //――――――――――――//
 
     // 二宮追加
@@ -98,6 +101,13 @@ public class Hammer : MonoBehaviour
 
         // 移動スクリプトを取得する
         Move = GetComponent<PlayerMove>();
+
+        //--------------------------------------------
+        //haloEffectを取得  //―追加担当者：中川直登―//
+        _haloEffect = GameObject.Find("HaloObj").GetComponent<haloEffect>();
+        if (_haloEffect == null) Debug.LogError("haloEffectのコンポーネントを取得できませんでした。");
+
+        _isStartHaloAnimation = false;
 
         //----------------------------------------------
         // SE再生用スクリプト取得
@@ -239,6 +249,7 @@ public class Hammer : MonoBehaviour
                 {
                     vibration.SetControlerVibration();
                     MoveLength += CrackPower * Time.deltaTime;
+                    StartHaloAnimation();//←追加者:中川直登 アニメーション開始
                 }
                 else
                 {
@@ -277,8 +288,8 @@ public class Hammer : MonoBehaviour
                     MoveLength = CrackLength;   //　長さの初期化
                                                 //　離されたら打ち込み状態にする
                     hammerstate = HammerState.HAMMER;
-                  
-                    
+
+                    EndHaloAnimation();//←追加者:中川直登 アニメーション停止
                 }
                 
                 break;
@@ -482,6 +493,35 @@ public class Hammer : MonoBehaviour
         }
 
     }
+
+    //
+    // 関数：StartHaloAnimation()
+    //
+    // 目的：Haloアニメーションを一回だけ再生する
+    // 
+    private void StartHaloAnimation()
+    {
+
+        if (_isStartHaloAnimation != true)
+        {
+            _haloEffect.Play();
+            _isStartHaloAnimation = true;
+        }
+    }
+    //
+    // 関数：EndHaloAnimation()
+    //
+    // 目的：Haloアニメーションを強制的に終了する
+    // 
+    private void EndHaloAnimation() 
+    {
+        if(_isStartHaloAnimation == true) 
+        {
+            _haloEffect.End();
+            _isStartHaloAnimation = false;
+        }
+    }
+
     //-----------------------------------------------------------------
 
     //-------------------------------------
