@@ -59,6 +59,8 @@ public class haloEffect : MonoBehaviour
     private bool _start;
     private bool _stop;
     private bool _end;
+    [SerializeField, Tooltip("アニメーションをループする")]
+    private bool _loop = true;
 
 #if UNITY_EDITOR    // エディター時
     private float _playTime;
@@ -263,7 +265,17 @@ public class haloEffect : MonoBehaviour
             yield return new WaitForSeconds(_oneTime);
 
             // 時間が経過したら
-            if (_isOverAnimationTime) _state = StateID.SATND_BY;
+            if (_isOverAnimationTime) 
+            {
+                _state = StateID.SATND_BY;
+                if (_loop)
+                {
+                    Init();
+                    _state = StateID.PLAYING;
+                }
+                
+
+            }
 
             if (_isBreakAnim)
             {
@@ -281,13 +293,14 @@ public class haloEffect : MonoBehaviour
     {
         get 
         {
-            // 時間が経過したか
-            if (_isOverAnimationTime) return true;
             // 停止要請があるか
             if (_stop) return true;
             // 終了要請があるか
             if (_end) return true;
-
+            // ループするか
+            if (_loop) return false;
+            // 時間が経過したか
+            if (_isOverAnimationTime) return true;
             return false;
         }
     }
