@@ -261,7 +261,7 @@ public class PauseGame : MonoBehaviour
             if (CursorY != 0)
             {
                 // カーソル位置初期化
-                cursorTransform.position = InitTransform.position;
+                cursorTransform.position = new Vector3(cursorTransform.position.x,InitTransform.position.y,0.0f);
                 CursorY = 0;
 
                 //manualTransform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
