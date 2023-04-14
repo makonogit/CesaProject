@@ -211,7 +211,7 @@ public class SelectArea : MonoBehaviour
         if (_nowArea != _nextArea && (_start || _diplayNowTime > 0)) 
         {
             _stageIcon[_nowArea].localPosition = (_startPos * (1 - _ratio)) + _endPos * _ratio;
-            _ratio -= _speed * Time.deltaTime;
+            _ratio -= _speed * Time.deltaTime * 2f;
         }
     }
 

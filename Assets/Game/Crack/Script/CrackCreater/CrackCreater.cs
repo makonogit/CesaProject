@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class CrackCreater : MonoBehaviour
 {
+    UnityEngine.Rendering.Universal.Light2D _light2D;
+    
     //-----------------------------------------------------------------
     //―変数―(公)Accessible variables
 
@@ -106,6 +108,13 @@ public class CrackCreater : MonoBehaviour
         //　layermaskでGroundだけ判定する
         layerMask = 1 << 10;
         //layerMask = ~layerMask;
+
+        //---------------------------------
+        // Light2Dのコンポーネントを取得
+        _light2D = GetComponent<UnityEngine.Rendering.Universal.Light2D>();
+        if (_light2D == null) Debug.LogError("Light2Dのコンポーネントを取得できませんでした。");
+        // 非表示
+        _light2D.enabled = false;
     }
 
 
@@ -318,6 +327,7 @@ public class CrackCreater : MonoBehaviour
         // 全て表示したら
         if (_createCount == _cracks.Count)
         {
+            SetLight();
             //_nowState = CrackCreaterState.ADD_CREATE;
             _nowState = CrackCreaterState.CRAETED;
         }
@@ -559,8 +569,120 @@ public class CrackCreater : MonoBehaviour
         // 全て表示したら
         if (_addCrackCount <= 0)
         {
+            SetLight();
             // 状態変更
             _nowState = CrackCreaterState.CRAETED;
         }
+    }
+
+    //
+    // 関数：SetLight ()
+    //
+    // 目的：光の形をセットする
+    // 
+    // コメント：座標は反時計回りにしてください
+    // 
+    private void SetLight ()
+    {
+        // 表示
+        _light2D.enabled = true;
+
+        // 方向設定
+        Vector2 _direction = new Vector2(0.125f, -1);
+        
+        // 距離設定
+        float _distance = 10000f;
+
+        // 右向きか
+        if (_isRight)
+        {
+            RightSideShape(_direction, _distance);
+        }
+        else // 左向きなら
+        {
+            LeftSideShape(_direction, _distance);
+        }
+    }
+
+    //
+    // 関数：SetLightShape(Vector2 _pos,Vector2 _direction,float _distance) 
+    //
+    // 目的：レイを飛ばして当たったとこの位置を返す   
+    // 
+    private Vector3 SetLightShape(Vector2 _pos,Vector2 _direction,float _distance) 
+    {
+        // レイを飛ばす
+        RaycastHit2D _hit = Physics2D.Raycast(_pos, _direction.normalized, _distance, layerMask);
+        // 当たったのがステージの床なら
+        if (_hit && _hit.transform.tag == "Ground") return new Vector3(_hit.point.x, _hit.point.y, 0);
+        // 当たらなかったとき
+        Vector2 resut = _pos + (_direction.normalized * _distance);
+
+        return new Vector3(resut.x, resut.y, 0);
+    }
+
+    //
+    // 関数：_isRight 
+    //
+    // 目的：ひびが右向きかを判断する
+    // 
+    private bool _isRight 
+    {
+        get 
+        {
+            if (_edgePoints[0].x < _edgePoints[_edgePoints.Count - 1].x) return true;
+            return false;
+        }
+    }
+
+    //
+    // 関数：RightSideShape(Vector2 _direction,float _distance) 
+    //
+    // 目的：ひびが右向きの方法で光の形を設定する
+    // 
+    private void RightSideShape(Vector2 _direction,float _distance) 
+    {
+        // 頂点数
+        int pointNum = _edgePoints.Count;
+        // 変数宣言
+        Vector3[] _shape;
+        // サイズ指定
+        _shape = new Vector3[pointNum * 2];
+
+        // 頂点をひびの形に合わせる
+        for (int i = 1; i <= pointNum; i++)
+        {
+            _shape[i-1] = new Vector3(_edgePoints[pointNum - i].x, _edgePoints[pointNum - i].y, 0.0f);
+            _shape[pointNum * 2 - i] = SetLightShape(_edgePoints[pointNum - i], _direction, _distance);
+        }
+
+        // 形を設定
+        _light2D.SetShapePath(_shape);
+    }
+
+    //
+    // 関数：LeftSideShape(Vector2 _direction, float _distance) 
+    //
+    // 目的：ひびが左向きの方法で、光の形を設定する
+    // 
+    private void LeftSideShape(Vector2 _direction, float _distance) 
+    {
+        // 頂点数
+        int pointNum = _edgePoints.Count;
+        // 変数宣言
+        Vector3[] _shape;
+        // サイズ指定
+        _shape = new Vector3[pointNum * 2];
+        
+        // 頂点をひびの形に合わせる
+        for (int i = 0; i < pointNum; i++)
+        {
+            _shape[i] = new Vector3(_edgePoints[i].x, _edgePoints[i].y, 0.0f);
+            // 頂点設定
+            _shape[pointNum * 2 - (i + 1)] = SetLightShape(_edgePoints[i], _direction, _distance);
+        }
+
+        // 形を設定
+        _light2D.SetShapePath(_shape);
     }
 }
