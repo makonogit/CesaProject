@@ -72,7 +72,9 @@ public class Hammer : MonoBehaviour
 
     private Animator anim;
     private PlayerStatas playerStatus;
-    private bool animstate = true;
+    [SerializeField,Header("ハンマー打ち込むまでの待機時間")]
+    private float WaitHammer;                  // ハンマーを打つまでの待ち時間
+    private float WaitHammerMeasure = 0.0f;    // ハンマー打ち込み時間を計測する変数
 
     // Start is called before the first frame update
     void Start()
@@ -395,9 +397,12 @@ public class Hammer : MonoBehaviour
                 break;
             case HammerState.HAMMER:
 
+                //　待機時間計測
+                WaitHammerMeasure += Time.deltaTime;
+
                 //---------------------------------
-                //アニメーション終了していたら
-                if (animstate)
+                // 待機時間経過していたら
+                if (WaitHammerMeasure > WaitHammer)
                 {
                     //-----------------------------------------------------
                     //　前回の位置から移動していなかったらポイントを追加
@@ -427,9 +432,9 @@ public class Hammer : MonoBehaviour
                     OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
 
 
-                    animstate = false;       //アニメーション再生状態初期化
-                                             // Point座標を初期化
-                    AngleTest.transform.position = CrackPointList[0];
+                    WaitHammerMeasure = 0.0f;       // 経過用変数初期化
+                                             
+                    AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
                     Move.SetMovement(true);
                     hammerstate = HammerState.NONE;
 
@@ -524,14 +529,5 @@ public class Hammer : MonoBehaviour
         }
     }
 
-    //-----------------------------------------------------------------
-
-    //-------------------------------------
-    //　アニメーションの状態を取得する関数
-    //　呼ばれたらアニメーションをtrueに
-    public void AnimationState()
-    {
-        animstate = true;
-    }
 }
 

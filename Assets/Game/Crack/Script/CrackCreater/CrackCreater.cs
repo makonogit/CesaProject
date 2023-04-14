@@ -327,7 +327,7 @@ public class CrackCreater : MonoBehaviour
         // 全て表示したら
         if (_createCount == _cracks.Count)
         {
-            SetLight();
+            //SetLight();
             //_nowState = CrackCreaterState.ADD_CREATE;
             _nowState = CrackCreaterState.CRAETED;
         }
@@ -569,7 +569,7 @@ public class CrackCreater : MonoBehaviour
         // 全て表示したら
         if (_addCrackCount <= 0)
         {
-            SetLight();
+            //SetLight();
             // 状態変更
             _nowState = CrackCreaterState.CRAETED;
         }
