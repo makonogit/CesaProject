@@ -36,7 +36,8 @@ public class PauseGame : MonoBehaviour
     private Image cursorImage;
     private GameObject Target; // カーソルの位置の基準となるobj
     private RectTransform targetTransform; // Targetの座標取得
-    private RectTransform InitTransform; // カーソルが最初にいる位置を保存しておく変数
+    private float InitPosX; // カーソルが最初にいる位置を保存しておく変数
+    private float InitPosY; // カーソルが最初にいる位置を保存しておく変数
 
     private GameObject Manual;
     private RectTransform manualTransform;
@@ -74,7 +75,8 @@ public class PauseGame : MonoBehaviour
         targetTransform = Target.GetComponent<RectTransform>();
 
         // カーソル初期位置保存
-        InitTransform = targetTransform;
+        InitPosX = cursorTransform.anchoredPosition.x;
+        InitPosY = cursorTransform.anchoredPosition.y;
 
         Manual = GameObject.Find("Manual");
         //manualTransform = Manual.GetComponent<RectTransform>();
@@ -170,7 +172,7 @@ public class PauseGame : MonoBehaviour
                     targetTransform = Target.GetComponent<RectTransform>();
 
                     // 位置を移動
-                    cursorTransform.position = new Vector3(cursorTransform.position.x,targetTransform.position.y);
+                    cursorTransform.anchoredPosition = new Vector2(InitPosX,targetTransform.anchoredPosition.y);
 
                     ScriptPIManager.SetCursorMove(Vector2.zero);
 
@@ -261,8 +263,14 @@ public class PauseGame : MonoBehaviour
             if (CursorY != 0)
             {
                 // カーソル位置初期化
-                cursorTransform.position = new Vector3(cursorTransform.position.x,InitTransform.position.y,0.0f);
+                cursorTransform.anchoredPosition = new Vector2(InitPosX, InitPosY);
+                //cursorTransform.position = InitTransform.position;
                 CursorY = 0;
+
+                // ターゲット更新
+                Target = GameObject.Find(PauseObj[CursorY]);
+                // ターゲット座標更新
+                targetTransform = Target.GetComponent<RectTransform>();
 
                 //manualTransform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
                 manualImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
