@@ -65,7 +65,6 @@ public class GiveScene : MonoBehaviour
             
            if(_selected != null) 
             {
-                Debug.Log("!!!!");
                 _Stagemanager.SetStageData(_Areanumber, _number);
                 _selected.SelectScene(GetScene);
             }

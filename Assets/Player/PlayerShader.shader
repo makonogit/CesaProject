@@ -4,7 +4,7 @@ Shader "Unlit/PlayerShader"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Volume("volume",Range(0,1)) = 0
-        _Color("color",color) = (1,1,1)
+        _Color("color",color) = (0,1,0)
         _Border("border",float) = 0
     }
 

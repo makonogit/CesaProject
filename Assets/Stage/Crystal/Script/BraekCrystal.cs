@@ -48,31 +48,41 @@ public class BraekCrystal : MonoBehaviour
         ScriptPIManager = PlayerInputMana.GetComponent<PlayerInputManager>();
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+
+        if (/* ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right() */
+               collision.tag == "Crack")
+        {
+            stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
+            Destroy(this.gameObject);
+            // クリスタル破壊数増加
+            playerStatus.AddBreakCrystal();
+        }
+
         //-----------------------------------------------------------
         // プレイヤーが一定範囲内でスマッシュしたらクリスタルが壊れる
 
-        // プレイヤーとの距離をもとめる
-        SubX = thisTransform.position.x - playerTransform.position.x; // x差
-        SubY = thisTransform.position.y - playerTransform.position.y; // y差
+        //// プレイヤーとの距離をもとめる
+        //SubX = thisTransform.position.x - playerTransform.position.x; // x差
+        //SubY = thisTransform.position.y - playerTransform.position.y; // y差
 
-        // 三平方の定理
-        Distace = SubX * SubX + SubY * SubY; // プレイヤーとクリスタルの距離が求まった
+        //// 三平方の定理
+        //Distace = SubX * SubX + SubY * SubY; // プレイヤーとクリスタルの距離が求まった
 
-        // 一定距離内にプレイヤーがいる
-        if(Distace < judgeDistance)
-        {
-            // 同時押しされた
-            if(/* ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right() */
-                collision.tag == "Crack")
-            {
-                stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
-                Destroy(this.gameObject);
-                // クリスタル破壊数増加
-                playerStatus.AddBreakCrystal();
-            }
-        }
+        //// 一定距離内にプレイヤーがいる
+        //if(Distace < judgeDistance)
+        //{
+        //    // 同時押しされた
+        //    //if(/* ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right() */
+        //    //    collision.tag == "Crack")
+        //    //{
+        //    //    stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
+        //    //    Destroy(this.gameObject);
+        //    //    // クリスタル破壊数増加
+        //    //    playerStatus.AddBreakCrystal();
+        //    //}
+        //}
     }
 
 

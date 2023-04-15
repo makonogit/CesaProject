@@ -1,6 +1,6 @@
 //-----------------------------------
-//’S“–F›áÁS
-//“à—eFƒ`ƒ…[ƒgƒŠƒAƒ‹—pUI‚Ì•\¦
+//æ‹…å½“ï¼šè…çœå¿ƒ
+//å†…å®¹ï¼šãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«ç”¨UIã®è¡¨ç¤º
 //-----------------------------------
 using System.Collections;
 using System.Collections.Generic;
@@ -9,48 +9,67 @@ using UnityEngine;
 public class Tutorial : MonoBehaviour
 {
     //--------------------------------------
-    //@•Ï”éŒ¾
+    //ã€€å¤‰æ•°å®£è¨€
     
     //--------------------------------------
-    //@ŠO•”æ“¾
-    private GameObject Player;      // ƒvƒŒƒCƒ„[‚ÌƒIƒuƒWƒFƒNƒg
-    private Transform PlayerTrans;  // ƒvƒŒƒCƒ„[‚ÌTransform
+    //ã€€å¤–éƒ¨å–å¾—
+    private GameObject Player;      // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    private Transform PlayerTrans;  // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®Transform
 
-    private Transform thisTrans;    // ©g‚ÌTransform
+    private Transform thisTrans;    // è‡ªèº«ã®Transform
 
-    [SerializeField,Header("‚Ç‚Ì‚­‚ç‚¢‚Ì‹——£‚Å•\¦‚³‚ê‚é‚©")]
+    [SerializeField,Header("ã©ã®ãã‚‰ã„ã®è·é›¢ã§è¡¨ç¤ºã•ã‚Œã‚‹ã‹")]
     private float OpenDistance;
 
-    [SerializeField,Header("UI‚ÌƒTƒCƒY")]
+    [SerializeField,Header("UIã®ã‚µã‚¤ã‚º")]
     private Vector3 UIsize;
 
-    [SerializeField, Header("Šg‘åk¬ƒXƒs[ƒh")]
+    [SerializeField, Header("æ‹¡å¤§ç¸®å°ã‚¹ãƒ”ãƒ¼ãƒ‰")]
     private float MoveSpeed;
 
-    private bool OpenFlg = false;   //•\¦ƒtƒ‰ƒO
+    private bool OpenFlg = false;   //è¡¨ç¤ºãƒ•ãƒ©ã‚°
+
+    GameObject buttonUI;                   //ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã™ã‚‹UI
+    private float waitUItime = 0.0f;       //ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³çµ‚äº†ã‹ã‚‰ä¸€å®šæ™‚é–“åœæ­¢
+    private float gravity = 1.5f;          //ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨é‡åŠ›åŠ é€Ÿåº¦
+    private GameObject Abuttton;           //Aãƒœã‚¿ãƒ³UI
+    Animator anim;                         //Animator
 
 
     // Start is called before the first frame update
     void Start()
     {
         //------------------------------------
-        // ƒvƒŒƒCƒ„[‚ÌƒIƒuƒWƒFƒNƒg‚ğæ“¾
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—
         Player = GameObject.Find("player");
         PlayerTrans = Player.transform;
 
-        //@©g‚ÌTransform
+        //ã€€è‡ªèº«ã®Transform
         thisTrans = transform;
+
+        //ã€€ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã™ã‚‹UIã®å–å¾—(æœ€å¾Œã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ)
+        buttonUI = transform.GetChild(transform.childCount - 1).gameObject;
+
+        //ã€€Aãƒœã‚¿ãƒ³UI
+        Abuttton = transform.Find("Abutton").gameObject;
+
+        //ã€€UIã«AnimatorãŒã‚ã‚Œã°å–å¾—
+        if (buttonUI.GetComponent<Animator>())
+        {
+            anim = buttonUI.GetComponent<Animator>();
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        // ƒvƒŒƒCƒ„[‚ÆUI‚Ì‹——£‚ğ‹‚ß‚é
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨UIã®è·é›¢ã‚’æ±‚ã‚ã‚‹
         float Distance = Vector3.Magnitude(PlayerTrans.position - thisTrans.position);
         
         //--------------------------------------------
-        //@•\¦‹——£‚Ü‚Å‹ß‚Ã‚¢‚½‚çUI‚Ì•\¦ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶
+        //ã€€è¡¨ç¤ºè·é›¢ã¾ã§è¿‘ã¥ã„ãŸã‚‰UIã®è¡¨ç¤ºã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿ
         if(Distance < OpenDistance)
         {
             OpenFlg = true;
@@ -58,13 +77,69 @@ public class Tutorial : MonoBehaviour
         else
         {
             //----------------------------------------
-            //@—£‚ê‚½‚ç•Â‚¶‚é
+            //ã€€é›¢ã‚ŒãŸã‚‰é–‰ã˜ã‚‹
             OpenFlg = false;
         }
 
         if (OpenFlg)
         {
-            OpenAnim();
+            //ã€€æ‹¡å¤§çµ‚äº†ã—ãŸã‚‰UIã‚’ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã•ã›ã‚‹
+            if (OpenAnim())
+            {
+                //ã€€ç§»å‹•ç”¨UI
+                if (buttonUI.name == "Lstick_front")
+                {
+                    if (buttonUI.transform.localPosition.x < 1.5f)
+                    {
+                        buttonUI.transform.localPosition = new Vector3(buttonUI.transform.localPosition.x + (MoveSpeed / 4) * Time.deltaTime, buttonUI.transform.localPosition.y, 0.0f);
+                    }
+                    else
+                    {
+                        //ã€€ä¸€å®šæ™‚é–“æ­¢ã¾ã£ã¦ã‹ã‚‰åˆæœŸä½ç½®ã«ç§»å‹•
+                        waitUItime += Time.deltaTime;
+                        
+                        if (waitUItime > 0.5f)
+                        {
+                            waitUItime = 0.0f;
+                            buttonUI.transform.localPosition = new Vector3(0.92f, buttonUI.transform.localPosition.y, 0.0f);
+                        }
+                    }
+                }
+
+                // ã‚¸ãƒ£ãƒ³ãƒ—ç”¨UI
+                if(buttonUI.name == "UIPlayerJump")
+                {
+                    //ã€€ã‚¸ãƒ£ãƒ³ãƒ—ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿ
+                    anim.SetInteger("Select", 1);
+
+                    if (buttonUI.transform.localPosition.x < 0.3f)
+                    {
+                        if (buttonUI.transform.localPosition.x > 0.0f)
+                        {
+                            gravity = -1.0f;
+                        }
+
+                        Abuttton.transform.localScale = new Vector3(Abuttton.transform.localScale.x + (gravity * -1.0f) * Time.deltaTime, Abuttton.transform.localScale.y + (gravity * -1.0f) * Time.deltaTime,1.0f);
+                        buttonUI.transform.localPosition = new Vector3(buttonUI.transform.localPosition.x + (MoveSpeed / 2) * Time.deltaTime, buttonUI.transform.localPosition.y + gravity * Time.deltaTime, 0.0f);
+                    }
+                    else
+                    {
+                        //ã€€ä¸€å®šæ™‚é–“æ­¢ã¾ã£ã¦ã‹ã‚‰åˆæœŸä½ç½®ã«ç§»å‹•
+                        waitUItime += Time.deltaTime;
+
+                        if (waitUItime > 0.5f)
+                        {
+                            anim.Play("TutorialJump", 0, 0);
+                            gravity = 1.5f;
+                            waitUItime = 0.0f;
+                            buttonUI.transform.localPosition = new Vector3(-0.86f, -0.4f, 0.0f);
+                            Abuttton.transform.localScale = new Vector3(1.0f,1.1f,1.0f);
+                        }
+                    }
+                }
+
+            }
+            
         }
         else
         {
@@ -74,11 +149,11 @@ public class Tutorial : MonoBehaviour
     }
 
     //-------------------------------
-    // UI‚Ì•\¦ƒAƒjƒ[ƒVƒ‡ƒ“
-    private void OpenAnim()
+    // UIã®è¡¨ç¤ºã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
+    private bool OpenAnim()
     {
         //---------------------------------------------------
-        // UI‚ğŠg‘å‚·‚é
+        // UIã‚’æ‹¡å¤§ã™ã‚‹
         if (thisTrans.localScale.x < UIsize.x)
         {
             thisTrans.localScale = new Vector3(thisTrans.localScale.x + (MoveSpeed + 1) * Time.deltaTime, thisTrans.localScale.y, 1.0f);
@@ -87,14 +162,17 @@ public class Tutorial : MonoBehaviour
         {
             thisTrans.localScale = new Vector3(thisTrans.localScale.x, thisTrans.localScale.y + MoveSpeed * Time.deltaTime, 1.0f);
         }
+
+        //ã€€æ‹¡å¤§çµ‚äº†ã—ãŸã‚‰trueã‚’è¿”ã™
+        return thisTrans.localScale.x >= UIsize.x && thisTrans.localScale.y >= UIsize.y;
     }
 
     //---------------------------------
-    //@UI‚ğ”ñ•\¦‚·‚éƒAƒjƒ[ƒVƒ‡ƒ“
+    //ã€€UIã‚’éè¡¨ç¤ºã™ã‚‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
     private void CloseAnim()
     {
         //---------------------------------------------------
-        // UI‚ğk¬‚·‚é
+        // UIã‚’ç¸®å°ã™ã‚‹
         if (thisTrans.localScale.x > 0.0f)
         {
             thisTrans.localScale = new Vector3(thisTrans.localScale.x - (MoveSpeed + 1) * Time.deltaTime, thisTrans.localScale.y, 1.0f);
