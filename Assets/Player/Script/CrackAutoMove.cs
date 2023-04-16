@@ -66,6 +66,10 @@ public class CrackAutoMove : MonoBehaviour
 
     Collider2D HitCollider;
 
+    // サウンド関係
+    private GameObject se;
+    private SEManager_Player seMana;
+
     //--------------------------------
     // パーティクルシステム
     GameObject ParticleSystemObj;         
@@ -98,6 +102,11 @@ public class CrackAutoMove : MonoBehaviour
         NowCrackspeed = CrackMoveSpeed;
         movestate = MoveState.Walk;
         Distance = 0.0f;
+
+        // サウンド関係
+        se = GameObject.Find("SE");
+        // Seコンポーネント取得
+        seMana = se.GetComponent<SEManager_Player>();
     }
 
     // Update is called once per frame
@@ -207,6 +216,9 @@ public class CrackAutoMove : MonoBehaviour
 
                 }
 
+                // サウンド関係
+                seMana.PlaySE_CrackMove();
+
                 break;
             case MoveState.CrackMoveEnd:
 
@@ -242,6 +254,8 @@ public class CrackAutoMove : MonoBehaviour
                 }
 
                 //thisRenderer.enabled = true;
+                // サウンド関係
+                seMana.StopSE_crackMove();
 
                 break;
 

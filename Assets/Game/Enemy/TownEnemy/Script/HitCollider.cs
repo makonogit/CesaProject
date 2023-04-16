@@ -42,7 +42,7 @@ public class HitCollider : MonoBehaviour
             {
                 //---------------------------------------------------------
                 // HP -Damage
-                gameOver.DecreaseHP(Damage);
+                gameOver.StartHPUIAnimation();
 
                 //---------------------------------------------------------
                 // 接触時間リセット
@@ -61,8 +61,8 @@ public class HitCollider : MonoBehaviour
             if (HitTime > NoDamageTime)
             {
                 //---------------------------------------------------------
-                // HP -Damage
-                gameOver.DecreaseHP(Damage);
+                // HP減らすための処理
+                gameOver.StartHPUIAnimation();
 
                 //---------------------------------------------------------
                 // 接触時間リセット

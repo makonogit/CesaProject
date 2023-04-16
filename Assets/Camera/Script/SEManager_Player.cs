@@ -15,6 +15,7 @@ public class SEManager_Player : MonoBehaviour
     public AudioClip se_crack1; // ひびつくる（長）
     public AudioClip se_drop; // 着地
     public AudioClip se_jimp; // ジャンプ
+    public AudioClip se_crackmove; // ひび移動中の音
 
     // 走る
     public AudioClip se_town_run1;
@@ -206,5 +207,26 @@ public class SEManager_Player : MonoBehaviour
         audioSource.volume = 0.5f;
 
         audioSource.PlayOneShot(se_jimp);
+    }
+
+    public void PlaySE_CrackMove()
+    {
+        // ボリューム調整
+        audioSource.volume = 0.5f;
+
+        // 再生中でないなら
+        if(audioSource.isPlaying == false){
+            // ループさせる
+            audioSource.loop = true;
+
+            audioSource.PlayOneShot(se_crackmove);
+        }
+    }
+    public void StopSE_crackMove()
+    {
+        // ループさせる
+        audioSource.loop = false;
+
+        audioSource.Stop();
     }
 }
