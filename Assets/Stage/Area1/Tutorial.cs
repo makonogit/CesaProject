@@ -33,6 +33,9 @@ public class Tutorial : MonoBehaviour
     private float waitUItime = 0.0f;       //アニメーション終了から一定時間停止
     private float gravity = 1.5f;          //アニメーション用重力加速度
     private GameObject Abuttton;           //AボタンUI
+    private GameObject RTbutton;           //RTボタンUI
+    private GameObject Lstick;             //LスティックUI
+    private GameObject Crack;              //ひびのオブジェクト
     Animator anim;                         //Animator
 
 
@@ -50,13 +53,40 @@ public class Tutorial : MonoBehaviour
         //　アニメーションするUIの取得(最後の子オブジェクト)
         buttonUI = transform.GetChild(transform.childCount - 1).gameObject;
 
-        //　AボタンUI
-        Abuttton = transform.Find("Abutton").gameObject;
+        if (buttonUI.name != "Lstick_front")
+        {
+            buttonUI = transform.Find("UIPlayer").gameObject;
+
+        }
 
         //　UIにAnimatorがあれば取得
         if (buttonUI.GetComponent<Animator>())
         {
             anim = buttonUI.GetComponent<Animator>();
+        }
+
+        //　AボタンUI
+        if (transform.Find("Abutton"))
+        {
+            Abuttton = transform.Find("Abutton").gameObject;
+        }
+
+        if (transform.Find("RTbutton"))
+        {
+            //　RTボタンUI
+            RTbutton = transform.Find("RTbutton").gameObject;
+        }
+
+        if (transform.Find("Lstick"))
+        {
+            //　LボタンUI
+            Lstick = transform.Find("Lstick").gameObject;
+        }
+
+        if (transform.Find("crack"))
+        {
+            //　LボタンUI
+            Crack = transform.Find("crack").gameObject;
         }
 
     }
@@ -107,7 +137,7 @@ public class Tutorial : MonoBehaviour
                 }
 
                 // ジャンプ用UI
-                if(buttonUI.name == "UIPlayerJump")
+                if(buttonUI.name == "UIPlayer" && (anim.GetInteger("Select") == 4 || anim.GetInteger("Select") == 1))
                 {
                     //　ジャンプアニメーションを再生
                     anim.SetInteger("Select", 1);
@@ -138,7 +168,66 @@ public class Tutorial : MonoBehaviour
                     }
                 }
 
+
+                // ハンマーUI
+                if (buttonUI.name == "UIPlayer" && (anim.GetInteger("Select") == 5 || anim.GetInteger("Select") == 2))
+                {
+                    //　ハンマーアニメーションを再生
+                    anim.SetInteger("Select", 2);
+                    if (RTbutton.transform.localScale.x > 0.3 && Lstick.transform.localPosition != new Vector3(2.0f, 1.5f, 0.0f))
+                    {
+                        RTbutton.transform.localScale = new Vector3(RTbutton.transform.localScale.x - 1 * Time.deltaTime, RTbutton.transform.localScale.y - 1 * Time.deltaTime, 0.0f);
+                    }
+                    else
+                    {
+                        //　一定時間止まってから移動
+                        waitUItime += Time.deltaTime;
+
+                        var stickpos = new Vector3(2.0f, 1.5f, 0.0f);
+
+                        if (waitUItime > 0.3f && Lstick.transform.localPosition != stickpos)
+                        {
+                            Lstick.transform.localPosition = Vector3.MoveTowards(Lstick.transform.localPosition, stickpos, 1 * Time.deltaTime);
+                        }
+
+                        if (Lstick.transform.localPosition == stickpos)
+                        {
+                            if (RTbutton.transform.localScale.x < 0.5f)
+                            {
+                                RTbutton.transform.localScale = new Vector3(RTbutton.transform.localScale.x + 1 * Time.deltaTime, RTbutton.transform.localScale.y + 1 * Time.deltaTime, 0.0f);
+                                waitUItime = 0.0f;
+                            }
+                            else
+                            {
+                                anim.SetBool("Hammer", true);
+
+                                if (waitUItime > 0.2f)
+                                {
+                                    Crack.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                                }
+                                
+                                if(waitUItime > 1.0f)
+                                {
+                                    Crack.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                                    RTbutton.transform.localScale = new Vector3(0.5f, 0.6f, 0.0f);
+                                    Lstick.transform.localPosition = new Vector3(1.8f, 1.2f, 0.0f);
+                                    //anim.Play("TutorialHammer", 0, 0);
+                                    anim.SetBool("Hammer", false);
+                                    waitUItime = 0.0f;
+
+                                }
+                            }
+                        }
+
+                        //anim.SetBool("Hammer", true);
+                    }
+
+
+                }
+
             }
+
+
             
         }
         else

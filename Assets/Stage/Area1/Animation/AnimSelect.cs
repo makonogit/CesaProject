@@ -14,7 +14,7 @@ public class AnimSelect : MonoBehaviour
     // 再生するアニメーションの種類
     public enum PlayAnim{
         Move,
-        Hammer,
+        Hammer = 5,
         Jump = 4
     }
 
