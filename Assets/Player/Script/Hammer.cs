@@ -41,6 +41,10 @@ public class Hammer : MonoBehaviour
     [SerializeField,Header("溜め技のかける力")]
     private float CrackPower;
     private float MoveLength;                  // 長さを保持する変数
+    [SerializeField]
+    private float AddPower = 1;                  // ひび追加時のかける力
+    private float Power = 0;
+    private bool AddPowerFlg = false;
 
     public List<Vector2> CrackPointList;       //ひびのリスト
 
@@ -76,6 +80,7 @@ public class Hammer : MonoBehaviour
     [SerializeField,Header("ハンマー打ち込むまでの待機時間")]
     private float WaitHammer;                  // ハンマーを打つまでの待ち時間
     private float WaitHammerMeasure = 0.0f;    // ハンマー打ち込み時間を計測する変数
+
 
     // Start is called before the first frame update
     void Start()
@@ -170,10 +175,7 @@ public class Hammer : MonoBehaviour
                     //　両方押しで溜め技
                     if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
                     {
-                        if (!AddCrackFlg)
-                        {
-                            hammerstate = HammerState.POWER;
-                        }
+                        hammerstate = HammerState.POWER;
                     }
 
                     //トリガーを押したら方向決定状態
@@ -243,7 +245,7 @@ public class Hammer : MonoBehaviour
 
                         }
 
-
+                    }
 
                         // 角度と距離からPoint座標を求める
                         CrackPointList[1] = new Vector2(CrackPointList[0].x + (MoveLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (MoveLength * Mathf.Sin(angle * (Mathf.PI / 180))));
@@ -257,30 +259,39 @@ public class Hammer : MonoBehaviour
                         if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
                         {
                             vibration.SetControlerVibration();
-                            MoveLength += CrackPower * Time.deltaTime;
+                            if (!AddCrackFlg)
+                            {
+                                MoveLength += CrackPower * Time.deltaTime;
+                            }
+                            else
+                            {
+                                AddPower += (CrackPower / 2) * Time.deltaTime;
+                            }
+
                             StartHaloAnimation();//←追加者:中川直登 アニメーション開始
                         }
                         else
                         {
-
-                            if (MoveLength > CrackLength)
-                            {
-                                //　分割数を求める
-                                int segment = (int)(MoveLength / CrackLength);
-
-                                //　前方の分割
-                                for (int i = 0; i < segment / 2; i++)
+                            if (!AddCrackFlg) {
+                                if (MoveLength > CrackLength)
                                 {
+                                    //　分割数を求める
+                                    int segment = (int)(MoveLength / CrackLength);
 
-                                    CrackPointList.Insert(1, Vector2.Lerp(CrackPointList[0], CrackPointList[1], 0.5f));
-                                    //Debug.Log(CrackPointList[1]);
-                                }
+                                    //　前方の分割
+                                    for (int i = 0; i < segment / 2; i++)
+                                    {
 
-                                //　後方の追加
-                                for (int i = 0; i < segment - (segment / 2); i++)
-                                {
-                                    CrackPointList.Insert(CrackPointList.Count - 1,
-                                        Vector2.Lerp(CrackPointList[CrackPointList.Count - 2], CrackPointList[CrackPointList.Count - 1], 0.5f));
+                                        CrackPointList.Insert(1, Vector2.Lerp(CrackPointList[0], CrackPointList[1], 0.5f));
+                                        //Debug.Log(CrackPointList[1]);
+                                    }
+
+                                    //　後方の追加
+                                    for (int i = 0; i < segment - (segment / 2); i++)
+                                    {
+                                        CrackPointList.Insert(CrackPointList.Count - 1,
+                                            Vector2.Lerp(CrackPointList[CrackPointList.Count - 2], CrackPointList[CrackPointList.Count - 1], 0.5f));
+                                    }
                                 }
 
                             }
@@ -302,7 +313,7 @@ public class Hammer : MonoBehaviour
                             EndHaloAnimation();//←追加者:中川直登 アニメーション停止
                         }
 
-                    }
+                    
                     break;
 
                 case HammerState.DIRECTION:
@@ -313,10 +324,7 @@ public class Hammer : MonoBehaviour
                     //　左を押されたら状態を戻す
                     if (InputManager.GetNail_Left())
                     {
-                        if (!AddCrackFlg)
-                        {
-                            hammerstate = HammerState.POWER;
-                        }
+                        hammerstate = HammerState.POWER;
                     }
 
                     if (!AddCrackFlg)
@@ -420,36 +428,59 @@ public class Hammer : MonoBehaviour
                         //　前回の位置から移動していなかったらポイントを追加
                         if (AddCrackFlg)
                         {
-
                             if (NowCrack != null)
                             {
-                                if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+                                //　溜めた力分伸ばす(通常は1回)
+                                if (Power < AddPower)
                                 {
-                                    NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
+
+                                    if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+                                    {
+                                        Move.SetMovement(true);
+                                        NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
+                                        Power++;
+                                    }
+
+                                }
+                                else
+                                {
+
+                                    Power = 0;
+                                    AddPower = 1;   //　力の初期化
+                                    OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
+                                    WaitHammerMeasure = 0.0f;       // 経過用変数初期化
+
+                                    AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
+                                    //Move.SetMovement(true);
+                                    AddCrackFlg = false;
+                                    hammerstate = HammerState.NONE;
                                 }
                             }
                             else
                             {
+                                OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
+                                WaitHammerMeasure = 0.0f;       // 経過用変数初期化
+
+                                AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
+                                Move.SetMovement(true);
+                                AddCrackFlg = false;
+                                hammerstate = HammerState.NONE;
+
                                 Debug.Log("ひびが見つかりません");
                             }
-
-                            AddCrackFlg = false;
 
                         }
                         else
                         {
                             CallCrackCreater();  //ひび生成
+
+                            OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
+                            WaitHammerMeasure = 0.0f;       // 経過用変数初期化
+
+                            AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
+                            Move.SetMovement(true);
+                            hammerstate = HammerState.NONE;
                         }
-
-                        OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
-
-
-                        WaitHammerMeasure = 0.0f;       // 経過用変数初期化
-
-                        AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
-                        Move.SetMovement(true);
-                        hammerstate = HammerState.NONE;
-
                     }
 
                     break;
