@@ -170,7 +170,10 @@ public class Hammer : MonoBehaviour
                     //　両方押しで溜め技
                     if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
                     {
-                        hammerstate = HammerState.POWER;
+                        if (!AddCrackFlg)
+                        {
+                            hammerstate = HammerState.POWER;
+                        }
                     }
 
                     //トリガーを押したら方向決定状態
@@ -230,7 +233,7 @@ public class Hammer : MonoBehaviour
                             }
 
                             //　角度を45度ずつで管理
-                            angle = (((int)angle / 25)) * 25.0f;
+                            angle = (((int)angle / 20)) * 20.0f;
 
                         }
                         else
@@ -239,66 +242,67 @@ public class Hammer : MonoBehaviour
                             angle = angle;
 
                         }
-                    }
 
 
-                    // 角度と距離からPoint座標を求める
-                    CrackPointList[1] = new Vector2(CrackPointList[0].x + (MoveLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (MoveLength * Mathf.Sin(angle * (Mathf.PI / 180))));
 
-                    //デバッグ用
-                    //AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
+                        // 角度と距離からPoint座標を求める
+                        CrackPointList[1] = new Vector2(CrackPointList[0].x + (MoveLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (MoveLength * Mathf.Sin(angle * (Mathf.PI / 180))));
+
+                        //デバッグ用
+                        //AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
 
 
-                    //----------------------------------------------
-                    //　両方押されていたら長さを更新
-                    if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
-                    {
-                        vibration.SetControlerVibration();
-                        MoveLength += CrackPower * Time.deltaTime;
-                        StartHaloAnimation();//←追加者:中川直登 アニメーション開始
-                    }
-                    else
-                    {
-
-                        if (MoveLength > CrackLength)
+                        //----------------------------------------------
+                        //　両方押されていたら長さを更新
+                        if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
                         {
-                            //　分割数を求める
-                            int segment = (int)(MoveLength / CrackLength);
+                            vibration.SetControlerVibration();
+                            MoveLength += CrackPower * Time.deltaTime;
+                            StartHaloAnimation();//←追加者:中川直登 アニメーション開始
+                        }
+                        else
+                        {
 
-                            //　前方の分割
-                            for (int i = 0; i < segment / 2; i++)
+                            if (MoveLength > CrackLength)
                             {
+                                //　分割数を求める
+                                int segment = (int)(MoveLength / CrackLength);
 
-                                CrackPointList.Insert(1, Vector2.Lerp(CrackPointList[0], CrackPointList[1], 0.5f));
-                                //Debug.Log(CrackPointList[1]);
+                                //　前方の分割
+                                for (int i = 0; i < segment / 2; i++)
+                                {
+
+                                    CrackPointList.Insert(1, Vector2.Lerp(CrackPointList[0], CrackPointList[1], 0.5f));
+                                    //Debug.Log(CrackPointList[1]);
+                                }
+
+                                //　後方の追加
+                                for (int i = 0; i < segment - (segment / 2); i++)
+                                {
+                                    CrackPointList.Insert(CrackPointList.Count - 1,
+                                        Vector2.Lerp(CrackPointList[CrackPointList.Count - 2], CrackPointList[CrackPointList.Count - 1], 0.5f));
+                                }
+
                             }
 
-                            //　後方の追加
-                            for (int i = 0; i < segment - (segment / 2); i++)
-                            {
-                                CrackPointList.Insert(CrackPointList.Count - 1,
-                                    Vector2.Lerp(CrackPointList[CrackPointList.Count - 2], CrackPointList[CrackPointList.Count - 1], 0.5f));
-                            }
+                            // SE再生
+                            vibration.SetVibration(0.5f);
+                            se.PlaySE_Crack1();
+                            se.PlayHammer();
 
+                            // ヒットストップ初期化
+                            playerStatus.SetHitStop(true);
+                            anim.speed = 0.02f;
+                            stopTime = 0.0f;
+
+                            MoveLength = CrackLength;   //　長さの初期化
+                                                        //　離されたら打ち込み状態にする
+                            hammerstate = HammerState.HAMMER;
+
+                            EndHaloAnimation();//←追加者:中川直登 アニメーション停止
                         }
 
-                        // SE再生
-                        vibration.SetVibration(0.5f);
-                        se.PlaySE_Crack1();
-                        se.PlayHammer();
-
-                        // ヒットストップ初期化
-                        playerStatus.SetHitStop(true);
-                        anim.speed = 0.02f;
-                        stopTime = 0.0f;
-
-                        MoveLength = CrackLength;   //　長さの初期化
-                                                    //　離されたら打ち込み状態にする
-                        hammerstate = HammerState.HAMMER;
-
-                        EndHaloAnimation();//←追加者:中川直登 アニメーション停止
                     }
-
                     break;
 
                 case HammerState.DIRECTION:
@@ -309,7 +313,10 @@ public class Hammer : MonoBehaviour
                     //　左を押されたら状態を戻す
                     if (InputManager.GetNail_Left())
                     {
-                        hammerstate = HammerState.POWER;
+                        if (!AddCrackFlg)
+                        {
+                            hammerstate = HammerState.POWER;
+                        }
                     }
 
                     if (!AddCrackFlg)
@@ -332,7 +339,7 @@ public class Hammer : MonoBehaviour
                             }
 
                             //　角度を45度ずつで管理
-                            angle = (((int)angle / 25)) * 25.0f;
+                            angle = (((int)angle / 20)) * 20.0f;
 
                         }
                         else
