@@ -210,9 +210,6 @@ public class CrackAutoMove : MonoBehaviour
                 break;
             case MoveState.CrackMoveEnd:
 
-                //釘の上に移動させる
-                //this.transform.position = new Vector3(Edge.points[Edge.pointCount - 1].x, Edge.points[Edge.pointCount - 1].y + 0.9f, 0.0f);
-
                 thisrigidbody.constraints = RigidbodyConstraints2D.None;
                 thisrigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -232,8 +229,9 @@ public class CrackAutoMove : MonoBehaviour
                 }
                 else
                 {
-                    
-
+                    //--------------------------------------------
+                    //移動終了していてひびから出たら歩行状態に遷移
+                    movestate = MoveState.Walk;
                     // パーティクルシステムを非表示、自身を表示
                     if (ParticleSystemObj != null)
                     {
@@ -342,13 +340,7 @@ public class CrackAutoMove : MonoBehaviour
                     = NomalCrackMat;
             }
         }
-        //--------------------------------------------
-        //移動終了していてひびから出たら歩行状態に遷移
-        if (movestate == MoveState.CrackMoveEnd && Line >= 1.0f)
-        {
-            //Move.SetMovement(true);
-            movestate = MoveState.Walk;
-        }
+      
     }
 
 

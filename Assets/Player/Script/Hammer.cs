@@ -21,6 +21,7 @@ public class Hammer : MonoBehaviour
     private SpriteRenderer TargtRenderer;       // 角度可視化用のレンダー
     private TestTargetState Targetstate;        // ひびを作れるか判断
     private PlayerMove Move;    　              // 移動スクリプト
+    private CrackAutoMove crackmove;            // ひびの移動スクリプト
     private GameObject CrackManager;            // 全てのひびの親オブジェクト
     private CrackCreater NowCrack;              // 現在のひびのCreater
     private GameObject seobj;                   // SEオブジェクト
@@ -103,6 +104,7 @@ public class Hammer : MonoBehaviour
 
         // 移動スクリプトを取得する
         Move = GetComponent<PlayerMove>();
+        crackmove = GetComponent<CrackAutoMove>();
 
         //--------------------------------------------
         //haloEffectを取得  //―追加担当者：中川直登―//
@@ -138,336 +140,340 @@ public class Hammer : MonoBehaviour
         //　ひびの始点を常に自分の座標に指定
         CrackPointList[0] = transform.position;
 
-        //------------------------------------------------------
-        // 状態によって処理
-        switch (hammerstate)
+        if (crackmove.movestate == CrackAutoMove.MoveState.Walk)
         {
-            case HammerState.NONE:
+            //------------------------------------------------------
+            // 状態によって処理
+            switch (hammerstate)
+            {
+                case HammerState.NONE:
 
-                // 角度の可視化
-                TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-
-                // 前回の座標との距離を求める
-                float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
-                if (Distance < 0.5f)
-                {
-                    if (CrackManager.transform.childCount > 0)
-                    {
-                        NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
-                        AddCrackFlg = true;
-                    }
-                }
-                else
-                {
-                    OldFirstPoint = Vector2.zero;
-                    AddCrackFlg = false;
-                }
-                
-                //　両方押しで溜め技
-                if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
-                {
-                    hammerstate = HammerState.POWER;
-                }
-
-                //トリガーを押したら方向決定状態
-                if (InputManager.GetNail_Right() && !InputManager.GetNail_Left())
-                {
-                    // 前回の座標との距離を求める
-                    //float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
-                    //-----------------------------------------------------------------------
-                    // 前回の位置とあまり移動していなかくて、前のひびが残ってたらポイント追加
-                    if (Distance < 0.5f && CrackManager.transform.childCount > 0) 
-                    {
-                        ////　ひびを取得
-                        //NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
-                        
-                        //AddCrackFlg = true;
-
-                    }
-                    else
-                    {
-                        // 角度の可視化
-                        //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                    }
-
-                    //　照準(仮)が壁にめりこんでなかったら
-                    if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
-                    {
-                        hammerstate = HammerState.DIRECTION;
-                    }
-                }
-
-                break;
-
-            case HammerState.POWER:
-
-                //　移動できないようにする
-                Move.SetMovement(false);
-                // 照準の非表示
-                TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-
-                if (!AddCrackFlg)
-                //-----------------------------------------------------------------------------
-                // 角度と距離から座標を計算
-                {
-                    // 左スティックの入力から角度を取得する
-                    Vector2 LeftStick = InputManager.GetMovement();
-
-                    //----------------------------------------
-                    //　スティックの入力があれば角度計算
-                    if (LeftStick != Vector2.zero)
-                    {
-                        angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
-
-                        // 角度を正規化
-                        if (angle < 0)
-                        {
-                            angle += 360;
-                        }
-
-                        //　角度を45度ずつで管理
-                        //angle = (((int)angle / 45)) * 45.0f;
-
-                    }
-                    else
-                    {
-                        // なければ
-                        angle = angle;
-
-                    }
-                }
-
-
-                // 角度と距離からPoint座標を求める
-                CrackPointList[1] = new Vector2(CrackPointList[0].x + (MoveLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (MoveLength * Mathf.Sin(angle * (Mathf.PI / 180))));
-
-                //デバッグ用
-                //AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
-
-
-                //----------------------------------------------
-                //　両方押されていたら長さを更新
-                if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
-                {
-                    vibration.SetControlerVibration();
-                    MoveLength += CrackPower * Time.deltaTime;
-                    StartHaloAnimation();//←追加者:中川直登 アニメーション開始
-                }
-                else
-                {
-                   
-                    if (MoveLength > CrackLength)
-                    {
-                         //　分割数を求める
-                         int segment = (int)(MoveLength / CrackLength);
-
-                         //　前方の分割
-                         for (int i = 0; i < segment / 2; i++) {
-                          
-                             CrackPointList.Insert(1,Vector2.Lerp(CrackPointList[0],CrackPointList[1],0.5f));
-                             //Debug.Log(CrackPointList[1]);
-                         }
-
-                         //　後方の追加
-                         for (int i = 0; i < segment - (segment / 2); i++)
-                         {
-                             CrackPointList.Insert(CrackPointList.Count - 1,
-                                 Vector2.Lerp(CrackPointList[CrackPointList.Count - 2], CrackPointList[CrackPointList.Count - 1], 0.5f));
-                         }
-
-                    }
-                    
-                    // SE再生
-                    vibration.SetVibration(0.5f);
-                    se.PlaySE_Crack1();
-                    se.PlayHammer();
-
-                    // ヒットストップ初期化
-                    playerStatus.SetHitStop(true);
-                    anim.speed = 0.02f;
-                    stopTime = 0.0f;
-
-                    MoveLength = CrackLength;   //　長さの初期化
-                                                //　離されたら打ち込み状態にする
-                    hammerstate = HammerState.HAMMER;
-
-                    EndHaloAnimation();//←追加者:中川直登 アニメーション停止
-                }
-                
-                break;
-
-            case HammerState.DIRECTION:
-
-                //　移動できないようにする
-                Move.SetMovement(false);
-
-                //　左を押されたら状態を戻す
-                if (InputManager.GetNail_Left())
-                {
-                    hammerstate = HammerState.POWER;
-                }
-
-                if(!AddCrackFlg) 
-                //-----------------------------------------------------------------------------
-                // 角度と距離から座標を計算
-                {
-                    // 左スティックの入力から角度を取得する
-                    Vector2 LeftStick = InputManager.GetMovement();
-                    
-                    //----------------------------------------
-                    //　スティックの入力があれば角度計算
-                    if (LeftStick != Vector2.zero)
-                    {
-                        angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
-
-                        // 角度を正規化
-                        if (angle < 0)
-                        {
-                            angle += 360;
-                        }
-
-                        //　角度を45度ずつで管理
-                        //angle = (((int)angle / 45)) * 45.0f;
-
-                    }
-                    else
-                    {
-                        // なければ
-                        angle = angle;
-
-                    }
-                }
-
-
-                // 角度と距離からPoint座標を求める
-                CrackPointList[1] = new Vector2(CrackPointList[0].x + (CrackLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (CrackLength * Mathf.Sin(angle * (Mathf.PI / 180))));
-
-                if (AddCrackFlg)
-                {
-                    // 角度の非表示
-                    TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                }
-                else
-                {
                     // 角度の可視化
-                    TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                }
+                    TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
-                //デバッグ用
-                AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
-
-                //トリガーを離したらひび生成状態(アニメーション終了)
-                if (!InputManager.GetNail_Right())
-                {
-                    //　照準(仮)が壁にめりこんでなかったら
-                    if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
+                    // 前回の座標との距離を求める
+                    float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
+                    if (Distance < 0.5f)
                     {
+                        if (CrackManager.transform.childCount > 0)
+                        {
+                            NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
+                            AddCrackFlg = true;
+                        }
+                    }
+                    else
+                    {
+                        OldFirstPoint = Vector2.zero;
+                        AddCrackFlg = false;
+                    }
+
+                    //　両方押しで溜め技
+                    if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
+                    {
+                        hammerstate = HammerState.POWER;
+                    }
+
+                    //トリガーを押したら方向決定状態
+                    if (InputManager.GetNail_Right() && !InputManager.GetNail_Left())
+                    {
+                        // 前回の座標との距離を求める
+                        //float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
+                        //-----------------------------------------------------------------------
+                        // 前回の位置とあまり移動していなかくて、前のひびが残ってたらポイント追加
+                        if (Distance < 0.5f && CrackManager.transform.childCount > 0)
+                        {
+                            ////　ひびを取得
+                            //NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
+
+                            //AddCrackFlg = true;
+
+                        }
+                        else
+                        {
+                            // 角度の可視化
+                            //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                        }
+
+                        //　照準(仮)が壁にめりこんでなかったら
+                        if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
+                        {
+                            hammerstate = HammerState.DIRECTION;
+                        }
+                    }
+
+                    break;
+
+                case HammerState.POWER:
+
+                    //　移動できないようにする
+                    Move.SetMovement(false);
+                    // 照準の非表示
+                    TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+
+                    if (!AddCrackFlg)
+                    //-----------------------------------------------------------------------------
+                    // 角度と距離から座標を計算
+                    {
+                        // 左スティックの入力から角度を取得する
+                        Vector2 LeftStick = InputManager.GetMovement();
+
+                        //----------------------------------------
+                        //　スティックの入力があれば角度計算
+                        if (LeftStick != Vector2.zero)
+                        {
+                            angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
+
+                            // 角度を正規化
+                            if (angle < 0)
+                            {
+                                angle += 360;
+                            }
+
+                            //　角度を45度ずつで管理
+                            //angle = (((int)angle / 45)) * 45.0f;
+
+                        }
+                        else
+                        {
+                            // なければ
+                            angle = angle;
+
+                        }
+                    }
+
+
+                    // 角度と距離からPoint座標を求める
+                    CrackPointList[1] = new Vector2(CrackPointList[0].x + (MoveLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (MoveLength * Mathf.Sin(angle * (Mathf.PI / 180))));
+
+                    //デバッグ用
+                    //AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
+
+
+                    //----------------------------------------------
+                    //　両方押されていたら長さを更新
+                    if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
+                    {
+                        vibration.SetControlerVibration();
+                        MoveLength += CrackPower * Time.deltaTime;
+                        StartHaloAnimation();//←追加者:中川直登 アニメーション開始
+                    }
+                    else
+                    {
+
+                        if (MoveLength > CrackLength)
+                        {
+                            //　分割数を求める
+                            int segment = (int)(MoveLength / CrackLength);
+
+                            //　前方の分割
+                            for (int i = 0; i < segment / 2; i++)
+                            {
+
+                                CrackPointList.Insert(1, Vector2.Lerp(CrackPointList[0], CrackPointList[1], 0.5f));
+                                //Debug.Log(CrackPointList[1]);
+                            }
+
+                            //　後方の追加
+                            for (int i = 0; i < segment - (segment / 2); i++)
+                            {
+                                CrackPointList.Insert(CrackPointList.Count - 1,
+                                    Vector2.Lerp(CrackPointList[CrackPointList.Count - 2], CrackPointList[CrackPointList.Count - 1], 0.5f));
+                            }
+
+                        }
 
                         // SE再生
                         vibration.SetVibration(0.5f);
                         se.PlaySE_Crack1();
                         se.PlayHammer();
 
-
                         // ヒットストップ初期化
                         playerStatus.SetHitStop(true);
                         anim.speed = 0.02f;
                         stopTime = 0.0f;
-                       
+
+                        MoveLength = CrackLength;   //　長さの初期化
+                                                    //　離されたら打ち込み状態にする
                         hammerstate = HammerState.HAMMER;
-                       
 
+                        EndHaloAnimation();//←追加者:中川直登 アニメーション停止
                     }
-                    else
+
+                    break;
+
+                case HammerState.DIRECTION:
+
+                    //　移動できないようにする
+                    Move.SetMovement(false);
+
+                    //　左を押されたら状態を戻す
+                    if (InputManager.GetNail_Left())
                     {
-                        // Point座標を初期化
-                        AngleTest.transform.position = CrackPointList[0];
-                        // 照準非表示
-                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                        //// Point座標を初期化
-                        //AngleTest.transform.position = CrackPointList[0];
-                        //　移動制限解除
-                        Move.SetMovement(true);
-                        hammerstate = HammerState.NONE;
+                        hammerstate = HammerState.POWER;
                     }
-                   
-                }
 
-                
-                break;
-            case HammerState.HAMMER:
-
-                //　待機時間計測
-                WaitHammerMeasure += Time.deltaTime;
-
-                //---------------------------------
-                // 待機時間経過していたら
-                if (WaitHammerMeasure > WaitHammer)
-                {
-                    //-----------------------------------------------------
-                    //　前回の位置から移動していなかったらポイントを追加
-                    if (AddCrackFlg)
+                    if (!AddCrackFlg)
+                    //-----------------------------------------------------------------------------
+                    // 角度と距離から座標を計算
                     {
+                        // 左スティックの入力から角度を取得する
+                        Vector2 LeftStick = InputManager.GetMovement();
 
-                        if (NowCrack != null)
+                        //----------------------------------------
+                        //　スティックの入力があれば角度計算
+                        if (LeftStick != Vector2.zero)
                         {
-                            if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+                            angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
+
+                            // 角度を正規化
+                            if (angle < 0)
                             {
-                                NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
+                                angle += 360;
                             }
+
+                            //　角度を45度ずつで管理
+                            //angle = (((int)angle / 45)) * 45.0f;
+
                         }
                         else
                         {
-                            Debug.Log("ひびが見つかりません");
+                            // なければ
+                            angle = angle;
+
                         }
+                    }
 
-                        AddCrackFlg = false;
 
+                    // 角度と距離からPoint座標を求める
+                    CrackPointList[1] = new Vector2(CrackPointList[0].x + (CrackLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (CrackLength * Mathf.Sin(angle * (Mathf.PI / 180))));
+
+                    if (AddCrackFlg)
+                    {
+                        // 角度の非表示
+                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                     }
                     else
                     {
-                        CallCrackCreater();  //ひび生成
+                        // 角度の可視化
+                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                     }
 
-                    OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
+                    //デバッグ用
+                    AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
+
+                    //トリガーを離したらひび生成状態(アニメーション終了)
+                    if (!InputManager.GetNail_Right())
+                    {
+                        //　照準(仮)が壁にめりこんでなかったら
+                        if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
+                        {
+
+                            // SE再生
+                            vibration.SetVibration(0.5f);
+                            se.PlaySE_Crack1();
+                            se.PlayHammer();
 
 
-                    WaitHammerMeasure = 0.0f;       // 経過用変数初期化
-                                             
-                    AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
-                    Move.SetMovement(true);
-                    hammerstate = HammerState.NONE;
+                            // ヒットストップ初期化
+                            playerStatus.SetHitStop(true);
+                            anim.speed = 0.02f;
+                            stopTime = 0.0f;
 
-                }
+                            hammerstate = HammerState.HAMMER;
 
-                break;
-            default:
-                Debug.Log("HammerStateに設定できない数値が代入されています");
-                break;
+
+                        }
+                        else
+                        {
+                            // Point座標を初期化
+                            AngleTest.transform.position = CrackPointList[0];
+                            // 照準非表示
+                            TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                            //// Point座標を初期化
+                            //AngleTest.transform.position = CrackPointList[0];
+                            //　移動制限解除
+                            Move.SetMovement(true);
+                            hammerstate = HammerState.NONE;
+                        }
+
+                    }
+
+
+                    break;
+                case HammerState.HAMMER:
+
+                    //　待機時間計測
+                    WaitHammerMeasure += Time.deltaTime;
+
+                    //---------------------------------
+                    // 待機時間経過していたら
+                    if (WaitHammerMeasure > WaitHammer)
+                    {
+                        //-----------------------------------------------------
+                        //　前回の位置から移動していなかったらポイントを追加
+                        if (AddCrackFlg)
+                        {
+
+                            if (NowCrack != null)
+                            {
+                                if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+                                {
+                                    NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
+                                }
+                            }
+                            else
+                            {
+                                Debug.Log("ひびが見つかりません");
+                            }
+
+                            AddCrackFlg = false;
+
+                        }
+                        else
+                        {
+                            CallCrackCreater();  //ひび生成
+                        }
+
+                        OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
+
+
+                        WaitHammerMeasure = 0.0f;       // 経過用変数初期化
+
+                        AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
+                        Move.SetMovement(true);
+                        hammerstate = HammerState.NONE;
+
+                    }
+
+                    break;
+                default:
+                    Debug.Log("HammerStateに設定できない数値が代入されています");
+                    break;
+            }
+
+            // 二宮追加
+            // ヒットストップ
+            if (stopTime < HitStopTime)
+            {
+                stopTime += Time.deltaTime;
+            }
+            else
+            {
+                // ヒットストップ終了
+                anim.speed = 1f;
+                playerStatus.SetHitStop(false);
+            }
+
+            // アニメーション関係
+
+            // ためアニメーション
+            anim.SetBool("accumulate", hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION);
+            // ひびアニメーション
+            anim.SetBool("crack", hammerstate == HammerState.HAMMER);
+            // キャンセル
+            anim.SetBool("cansel", hammerstate == HammerState.NONE);
+
         }
-        
-        // 二宮追加
-        // ヒットストップ
-        if(stopTime < HitStopTime)
-        {
-            stopTime += Time.deltaTime;
-        }
-        else
-        {
-            // ヒットストップ終了
-            anim.speed = 1f;
-            playerStatus.SetHitStop(false);
-        }
-
-        // アニメーション関係
-
-        // ためアニメーション
-        anim.SetBool("accumulate", hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION);
-        // ひびアニメーション
-        anim.SetBool("crack", hammerstate == HammerState.HAMMER);
-        // キャンセル
-        anim.SetBool("cansel", hammerstate == HammerState.NONE);
-
         //Debug.Log(hammerstate);
 
         //----------------------------------------
