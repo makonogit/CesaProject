@@ -12,13 +12,13 @@ public class DrawCrystalNum : MonoBehaviour
     //---------------------------------------------------------
     // - 変数宣言 -
 
-    private Text TextCrystalNum; // ゲーム画面に描画する
-    public int oldCrystalNum; // 前フレームのクリスタルの数を保存する
+    [SerializeField]
+    List<Sprite> Number;    //数字のスプライト
 
     // 外部取得
-    private GameObject player; // プレイヤーを見つけて保持する
-    //private HaveCrystal crystal; // HaveCrystalを保持
-
+    private GameObject player;      // プレイヤーを見つけて保持する
+    private Image Number_2;         // 10の位
+    private Image Number_1;         // 1の位
     private PlayerStatas status;
 
     // Start is called before the first frame update
@@ -32,21 +32,15 @@ public class DrawCrystalNum : MonoBehaviour
         //crystal = player.GetComponent<HaveCrystal>();
         status = player.GetComponent<PlayerStatas>();
 
-        TextCrystalNum = GetComponent<Text>();
+        Number_1 = transform.GetChild(0).gameObject.GetComponent<Image>();
+        Number_2 = transform.GetChild(1).gameObject.GetComponent<Image>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // 前フレームのクリスタルの数から変動があれば
-        if (oldCrystalNum != status.GetCrystal())
-        {
-            //---------------------------------------------------------
-            // プレイヤーが所持するクリスタルの数を再描画
-            TextCrystalNum.text = string.Format("×{0:00}", status.GetCrystal());
-        }
-
-        // 古いクリスタル更新
-        oldCrystalNum = status.GetCrystal();
+        Number_1.sprite = Number[status.GetCrystal() % 10];
+        Number_2.sprite = Number[status.GetCrystal() / 10];
     }
 }
