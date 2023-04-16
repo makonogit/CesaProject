@@ -20,8 +20,14 @@ public class DrawHpUI : MonoBehaviour
     private GameObject parent; // 親となるゲームオブジェクト
     private RectTransform parentTransform; // 親となるゲームオブジェクトの座標
     public GameObject chirdren; // 生成するオブジェクト
-    //private Image img; // 画像を変更するための変数
-    //[SerializeField] Sprite[] sprites; // 画像名を入れておく
+
+    // アニメーション用
+    private Image img; // 画像を変更するための変数
+    [SerializeField] Sprite[] sprites; // 画像名を入れておく
+    private int NowHPAnimationNumber = 0; // spritesの添え字用変数
+    private bool isHPUIAnimation = false; // HPUIのアニメーションをするか
+    public float NextImageTime = 0.1f; // 次の画像に変わるまでのタイマー
+    private float ChangeImageTimer = 0f; // 前の画像に変わってからの経過時間
 
     GameObject[] objs;
 
@@ -53,19 +59,13 @@ public class DrawHpUI : MonoBehaviour
         // 表示するHp用変数に最大HP入れて初期化
         //NowHp = gameover.maxHp;
 
-        //一番右端にあるHPのImageコンポーネントを取得
-        //img = objs[gameover.maxHp - 1].GetComponent<Image>();
-
-        // 初期化
-        //oldSpriteStatus = GameOver.SPRITESTATUS.HIGH;
+        // 一番右端にあるHPのImageコンポーネントを取得
+        img = objs[gameover.maxHp - 1].GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // 現在の状態を取得
-        //GameOver.SPRITESTATUS SS = gameover.GetSpriteStatus();
-
         ////--------------------------------------------------------
         //// 前の状態と現在の状態が違ったらスプライトを変更する
         //if (oldSpriteStatus != SS)
@@ -87,6 +87,12 @@ public class DrawHpUI : MonoBehaviour
         //// 比較変数更新
         //oldSpriteStatus = SS;
 
+        // アニメーション指示が出ていたら
+        if(isHPUIAnimation == true)
+        {
+            HPUI_Animation();
+        }
+
         //---------------------------------------------------------
         // 現在のHP分ハートを表示する
         
@@ -103,5 +109,49 @@ public class DrawHpUI : MonoBehaviour
         }
     }
 
-    
+    // HPUIのアニメーション用関数
+    public void HPUI_Animation()
+    {
+        // 一定時間ごとに画像を変更してアニメーションさせる
+
+        // 一定時間経過したら
+        if(ChangeImageTimer >= NextImageTime)
+        {
+            // 次の画像
+            NowHPAnimationNumber++;
+            if (NowHPAnimationNumber <= 4)
+            {
+                // 次の画像に切り替え
+                img.sprite = sprites[NowHPAnimationNumber];
+            }
+
+            // 初期化
+            ChangeImageTimer = 0f;
+        }
+
+        // 最後のアニメーション画像になってから一定時間経過したら
+        if (NowHPAnimationNumber >= 5) 
+        {
+            // HP減らす
+            gameover.DecreaseHP(1f);
+
+            // 次のアニメーション対象設定
+            img = objs[gameover.HP - 1].GetComponent<Image>();
+
+            // アニメーション終了
+            isHPUIAnimation = false;
+
+            // 初期化
+            NowHPAnimationNumber = 0;
+        }
+
+        ChangeImageTimer += Time.deltaTime;
+    }
+
+    public void Set_HPAnim(bool _set)
+    {
+        isHPUIAnimation = _set;
+    }
 }
+
+
