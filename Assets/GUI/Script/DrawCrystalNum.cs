@@ -12,14 +12,16 @@ public class DrawCrystalNum : MonoBehaviour
     //---------------------------------------------------------
     // - 変数宣言 -
 
-    [SerializeField]
-    List<Sprite> Number;    //数字のスプライト
+    [SerializeField, Header("数字のフォント")]
+    List<Sprite> Number;
 
     // 外部取得
-    private GameObject player;      // プレイヤーを見つけて保持する
-    private Image Number_2;         // 10の位
-    private Image Number_1;         // 1の位
+    private GameObject player; // プレイヤーを見つけて保持する
     private PlayerStatas status;
+
+    private Image Number_1;    // 1の位
+    private Image Number_2;    // 10の位
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,8 +34,8 @@ public class DrawCrystalNum : MonoBehaviour
         //crystal = player.GetComponent<HaveCrystal>();
         status = player.GetComponent<PlayerStatas>();
 
-        Number_1 = transform.GetChild(0).gameObject.GetComponent<Image>();
-        Number_2 = transform.GetChild(1).gameObject.GetComponent<Image>();
+        Number_1 = transform.GetChild(0).GetComponent<Image>();
+        Number_2 = transform.GetChild(1).GetComponent<Image>();
 
     }
 
