@@ -18,6 +18,9 @@ public class GameOver : MonoBehaviour
     [Header("最大HP")]
     public int maxHp = 5; //表示するHPUIの個数
 
+    private GameObject health; // HPUIManagerオブジェクト
+    private DrawHpUI drawHpUI; // HP描画スクリプト
+
     //private float maxWallHp = 1.0f; // 壁の最大体力
     //private float nowWallHp; // 現在の壁の最大体力
     //private float Baseline1 = 0.2f / 3 * 2; // 壁のスプライトを変更する基準値
@@ -98,6 +101,9 @@ public class GameOver : MonoBehaviour
         if (_cameraControl2 == null) Debug.LogError("CameraControl2のコンポーネントを取得できませんでした。");
         //――――――――――――//
 
+        // DrawHpUIスクリプト取得
+        health = GameObject.Find("Health");
+        drawHpUI = health.GetComponent<DrawHpUI>();
 
     }
 
@@ -150,6 +156,8 @@ public class GameOver : MonoBehaviour
         //    }
         //}
 
+
+
         //---------------------------------------------------------
         //HPが0以下になったら
         if (HP <= 0)
@@ -188,6 +196,11 @@ public class GameOver : MonoBehaviour
             _scene.LoadScene("MainScene");
         }
 
+    }
+
+    public void StartHPUIAnimation()
+    {
+        drawHpUI.Set_HPAnim(true);
     }
 
     public void DecreaseHP(float _hp)
