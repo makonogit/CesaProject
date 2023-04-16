@@ -230,7 +230,7 @@ public class Hammer : MonoBehaviour
                             }
 
                             //　角度を45度ずつで管理
-                            //angle = (((int)angle / 45)) * 45.0f;
+                            angle = (((int)angle / 25)) * 25.0f;
 
                         }
                         else
@@ -332,7 +332,7 @@ public class Hammer : MonoBehaviour
                             }
 
                             //　角度を45度ずつで管理
-                            //angle = (((int)angle / 45)) * 45.0f;
+                            angle = (((int)angle / 25)) * 25.0f;
 
                         }
                         else
