@@ -51,8 +51,6 @@ public class TitleMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //タイトルのSptiteRenderereを取得
-        MainSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         // ScreenBreakを取得
         BreakObj = GameObject.Find("ScreenBreak");
         _ScreenBreak = BreakObj.GetComponent<ScreenBreak>();
@@ -64,6 +62,8 @@ public class TitleMove : MonoBehaviour
         CrystalObj = GameObject.Find("Crystal");
         CrystalRenderer = CrystalObj.GetComponent<SpriteRenderer>();
         CrystalAlpha = CrystalRenderer.color.a;
+        //タイトルのSptiteRenderereを取得
+        //MainSpriteRenderer = .GetComponent<SpriteRenderer>();
 
         //--------------------------------------------
         //　SEの情報を取得
@@ -85,33 +85,33 @@ public class TitleMove : MonoBehaviour
     void Update()
     {
         //  キー入力
-        if (Input.GetKeyDown("joystick button 0"))
+        if (Input.GetKeyDown(KeyCode.Space)/*("joystick button 0")*/)
         {
+
             //Sesource.Play();
             Sesource.PlayOneShot(se_crush[FallNum - 1]);
-
-            FallNum--;
             //-------------------------------------------------
             //スプライトを変更
             if (FallNum > 0)
             {
-                CrystalAlpha += (1.0f / 255.0f) * 20;
-                CrystalRenderer.color = new Color(1.0f, 1.0f, 1.0f, CrystalAlpha);
+                //CrystalAlpha += (1.0f / 255.0f) * 20;
+                //CrystalRenderer.color = new Color(1.0f, 1.0f, 1.0f, CrystalAlpha);
                 //―追加担当者：中川直登―//
                 Instantiate(_particle);
                 //――――――――――――//
-                // MainSpriteRenderer.sprite = TitleBackSprite[FallNum - 1];
+                CrystalRenderer.sprite = TitleBackSprite[FallNum - 1];
             }
             //-------------------------------------------------
+            FallNum--;
 
-            //---------------------------------------------------
-            // 崩壊までのカウントダウンが0になったらシーン移動
-            if (FallNum == 0)
-            {
-                CrystalRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                _ScreenBreak.enabled = true;
-            }
+        }
 
+        //---------------------------------------------------
+        // 崩壊までのカウントダウンが0になったらシーン移動
+        if (FallNum == 0)
+        {
+            //CrystalRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+            _ScreenBreak.enabled = true;
         }
 
         if (_ScreenBreak.enabled)
@@ -128,6 +128,8 @@ public class TitleMove : MonoBehaviour
                 SceneManager.LoadScene("newSelectScene");//―変更担当者：中川直登―//SelectSceneからnewSelectSceneに変更
             }
         }
+
+       
     }
 
 }
