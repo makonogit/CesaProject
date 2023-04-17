@@ -44,8 +44,11 @@ public class ChangeResultScene : MonoBehaviour
             //演出開始
             //result.SetFadeFlg(true);
 
-            //　振動停止
-            gamepad.SetMotorSpeeds(0.0f, 0.0f);
+            if (gamepad != null)
+            {
+                //　振動停止
+                gamepad.SetMotorSpeeds(0.0f, 0.0f);
+            }
             // リザルト画面へ
             SceneManager.LoadScene("newSelectScene");
 

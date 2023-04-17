@@ -85,7 +85,7 @@ public class TitleMove : MonoBehaviour
     void Update()
     {
         //  ÉLÅ[ì¸óÕ
-        if (Input.GetKeyDown(KeyCode.Space)/*("joystick button 0")*/)
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0"))
         {
 
             //Sesource.Play();
