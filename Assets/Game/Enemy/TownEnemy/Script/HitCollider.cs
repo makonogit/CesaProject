@@ -19,11 +19,18 @@ public class HitCollider : MonoBehaviour
     // 外部取得
     private GameObject player;
     private GameOver gameOver; // ゲームオーバー画面遷移用スクリプト取得用変数
+    private KnockBack knocback; // ノックバックスクリプト取得用変数
 
     private void Start()
     {
         player = GameObject.Find("player");
+
+        // ゲームオーバースクリプト取得
+        // プレイヤーの被ダメージ処理用
         gameOver = player.GetComponent<GameOver>();
+
+        // ノックバックスクリプト取得
+        knocback = player.GetComponent<KnockBack>();
     }
 
     void Update()
@@ -41,8 +48,12 @@ public class HitCollider : MonoBehaviour
             if (HitTime > NoDamageTime)
             {
                 //---------------------------------------------------------
-                // HP -Damage
+                // HP減らすための処理
                 gameOver.StartHPUIAnimation();
+
+                Debug.Log("ノックバック!!!!");
+                // ノックバック
+                knocback.KnockBack_Func();
 
                 //---------------------------------------------------------
                 // 接触時間リセット
@@ -63,6 +74,9 @@ public class HitCollider : MonoBehaviour
                 //---------------------------------------------------------
                 // HP減らすための処理
                 gameOver.StartHPUIAnimation();
+
+                // ノックバック
+                knocback.KnockBack_Func();
 
                 //---------------------------------------------------------
                 // 接触時間リセット
