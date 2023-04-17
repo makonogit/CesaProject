@@ -54,8 +54,9 @@ public class BraekCrystal : MonoBehaviour
         if (/* ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right() */
                collision.tag == "Crack")
         {
-            stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
             Destroy(this.gameObject);
+            stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
+
             // ƒNƒŠƒXƒ^ƒ‹”j‰ó”‘‰Á
             playerStatus.AddBreakCrystal();
         }

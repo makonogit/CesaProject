@@ -147,8 +147,11 @@ public class VibrationCamera : MonoBehaviour
                 // 振動が終わったら初期位置に戻す
                 //thisTransform.localPosition = initLocalPosition;
 
-                // コントローラー振動
-                gamepad.SetMotorSpeeds(0.0f, 0.0f);
+                if (gamepad != null)
+                {
+                    // コントローラー振動
+                    gamepad.SetMotorSpeeds(0.0f, 0.0f);
+                }
             }
         }
 
@@ -180,8 +183,11 @@ public class VibrationCamera : MonoBehaviour
         StartVibrationTime = Time.time; // 振動開始時間をセット
         _CameraControl.enabled = false; //追従停止
 
-        // コントローラー振動
-        gamepad.SetMotorSpeeds(0.0f, 0.5f);
+        if (gamepad != null)
+        {
+            // コントローラー振動
+            gamepad.SetMotorSpeeds(0.0f, 0.5f);
+        }
 
     }
 
