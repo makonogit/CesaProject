@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
 
     // 移動用
     public float BaseSpeed = 5f; // 移動速度用変数
-    Vector2 movement; // 入力量を取得する変数
+    private Vector2 movement; // 入力量を取得する変数
     bool Moveflg = true;    //移動フラグ　追加担当：菅
 
     [Header("歩くときは走るときのどれくらいのスピードか")]
@@ -190,5 +190,15 @@ public class PlayerMove : MonoBehaviour
     public void SetMovement(bool moveflg)
     {
         Moveflg = moveflg;
+    }
+
+    //-------------------------------------
+    //　入力量取得関数
+    //　引数：なし
+    //　戻り値：入力量
+    //　追加担当：菅
+    public Vector2 GetMovement()
+    {
+        return movement;
     }
 }

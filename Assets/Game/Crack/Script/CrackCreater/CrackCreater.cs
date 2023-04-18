@@ -31,6 +31,7 @@ public class CrackCreater : MonoBehaviour
 
     [System.NonSerialized]// 非表示
     public EdgeCollider2D Edge2D;
+    private EdgeCollider2D SandEdge;    //砂との当たり判定用
 
     //-----------------------------------------------------------------
     //―変数―(私)Inaccessible variables
@@ -81,6 +82,11 @@ public class CrackCreater : MonoBehaviour
         {
             Debug.LogError("EdgeCollider2Dがコンポーネントされてません。");
         }
+
+        //　砂用コライダー　担当：菅
+        SandEdge = transform.GetChild(0).GetComponent<EdgeCollider2D>();
+        if(SandEdge == null) Debug.LogError("Sand用EdgeCollider2Dがコンポーネントされてません。");
+
 
         //--------------------------------------
         // 釘の座標リストに値が入っているか
@@ -261,6 +267,7 @@ public class CrackCreater : MonoBehaviour
         }
         // 頂点を設定する
         Edge2D.SetPoints(_edgePoints);
+        SandEdge.SetPoints(_edgePoints);
 
         _nowState = CrackCreaterState.CREATING;
     }
@@ -346,6 +353,7 @@ public class CrackCreater : MonoBehaviour
         AddBack();
         // 頂点を再設定する
         Edge2D.SetPoints(_edgePoints);
+        SandEdge.SetPoints(_edgePoints);
     }
 
     //-------------------------------------------------------------------
@@ -360,6 +368,7 @@ public class CrackCreater : MonoBehaviour
 
         // 頂点を再設定する
         Edge2D.SetPoints(_edgePoints);
+        SandEdge.SetPoints(_edgePoints);
 
     }
 
@@ -375,6 +384,7 @@ public class CrackCreater : MonoBehaviour
 
         // 頂点を再設定する
         Edge2D.SetPoints(_edgePoints);
+        SandEdge.SetPoints(_edgePoints);
 
     }
 
@@ -685,4 +695,5 @@ public class CrackCreater : MonoBehaviour
         // 形を設定
         _light2D.SetShapePath(_shape);
     }
+
 }
