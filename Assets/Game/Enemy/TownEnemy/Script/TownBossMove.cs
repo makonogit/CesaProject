@@ -35,13 +35,13 @@ public class TownBossMove : MonoBehaviour
     float AdjustX;
 
     // 突進用変数
-    private float RammingSpeed = 6.0f;     // 突進時の移動速度
+    private float RammingSpeed = 5.0f;     // 突進時の移動速度
     private float PreRammingTimer = 0f;    // 突進準備時間
     private int SwitchBack;                // 切り返し回数
     private float RammingWaitTimer;        // 突進後の隙時間
 
     // かけら飛ばし用変数
-    private float CreateShardsNeedTime = 0.5f;   // かけらを作るのにかかる時間
+    private float CreateShardsNeedTime = 0.6f;   // かけらを作るのにかかる時間
     private float ShardCreateTimer;            // かけらを生成し始めてからの経過時間
     private int CreatedNum = 0; // かけらを作った数
     public GameObject Shards_Prefab; // かけらのプレハブを持っておく変数
@@ -401,6 +401,8 @@ public class TownBossMove : MonoBehaviour
     private void ThrowShards()
     {
         // かけら飛ばし
+        // 無敵解除
+        invincibility = false;
 
         // このAIStateになった最初のフレームのみ入る
         if (AllAddVelocity == false)
@@ -447,9 +449,6 @@ public class TownBossMove : MonoBehaviour
                 AllAddVelocity = false;
                 ShardThrowTimer = 0f;
                 NowShardWave = 0;
-
-                // 無敵解除
-                invincibility = false;
             }
         }
 
