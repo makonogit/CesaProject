@@ -74,7 +74,7 @@ public class SandControl : MonoBehaviour
 
             // EdgeColliderの終点からパーティクルを放出
             var EdgePos = Edge.points[Edge.pointCount - 1];
-            ReleasePos = new Vector3(EdgePos.x + ReleaseLength / 2 + 0.1f,EdgePos.y - 0.5f,1.0f);
+            ReleasePos = new Vector3(EdgePos.x + ReleaseLength / 4,EdgePos.y - 0.1f,1.0f);
            
             //　同じ座標に砂がなければ生成
             if (!sandmanager.GetSand().Contains(ReleasePos))
