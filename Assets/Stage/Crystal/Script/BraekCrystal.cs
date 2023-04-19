@@ -8,25 +8,24 @@ using UnityEngine;
 
 public class BraekCrystal : MonoBehaviour
 {
+    //-----------------------------------------
+    // 変数宣言
+
     GameObject StageObj;
     StageStatas stageStatas;    //ステージのステータス管理
 
-    //-----------------------------
-    // 二宮追加
-    private float SubX;    // 求めたX座標の差を保持する変数
-    private float SubY;    // 求めたY座標の差を保持する変数
-    private float Distace; // 求めた距離を保持する変数
-    private float judgeDistance = 2.0f; // 判定をとる範囲
-
     // 外部取得
     private GameObject player;
-    private Transform playerTransform;
-    private Transform thisTransform;
-
     private PlayerStatas playerStatus;
+    private SpriteRenderer render;
 
-    private GameObject PlayerInputMana;
-    private PlayerInputManager ScriptPIManager;
+    [SerializeField, Header("ひびのスプライト")]
+    private Sprite Crack;
+
+    GameObject BackGround;          // 背景オブジェクト
+    BreakBackGround BreakBack;      // 背景の崩壊スクリプトを呼び出す
+
+    private bool Break = false;       //　破壊されたかどうか 
 
     // Start is called before the first frame update
     void Start()
@@ -38,52 +37,33 @@ public class BraekCrystal : MonoBehaviour
 
         // プレイヤー探す
         player = GameObject.Find("player");
-        // コンポーネント取得
-        playerTransform = player.GetComponent<Transform>();
-        thisTransform = GetComponent<Transform>();
         playerStatus = player.GetComponent<PlayerStatas>();
 
-        // PlayerInputManager探す
-        PlayerInputMana = GameObject.Find("PlayerInputManager");
-        ScriptPIManager = PlayerInputMana.GetComponent<PlayerInputManager>();
+        //　このオブジェクトのspriterenderer
+        render = GetComponent<SpriteRenderer>();
+
+        // 背景の情報取得
+        BackGround = GameObject.Find("BackGround");
+        BreakBack = BackGround.GetComponent<BreakBackGround>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (/* ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right() */
-               collision.tag == "Crack")
+        // ひびに当たったら
+        if (collision.tag == "Crack" && !Break)
         {
-            Destroy(this.gameObject);
+            render.sprite = Crack;  //　スプライトの変更
+
+            BreakBack.BreakBack();  //　背景の崩壊
+
+            //Destroy(this.gameObject);
             stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
 
             // クリスタル破壊数増加
             playerStatus.AddBreakCrystal();
+            Break = true;
         }
-
-        //-----------------------------------------------------------
-        // プレイヤーが一定範囲内でスマッシュしたらクリスタルが壊れる
-
-        //// プレイヤーとの距離をもとめる
-        //SubX = thisTransform.position.x - playerTransform.position.x; // x差
-        //SubY = thisTransform.position.y - playerTransform.position.y; // y差
-
-        //// 三平方の定理
-        //Distace = SubX * SubX + SubY * SubY; // プレイヤーとクリスタルの距離が求まった
-
-        //// 一定距離内にプレイヤーがいる
-        //if(Distace < judgeDistance)
-        //{
-        //    // 同時押しされた
-        //    //if(/* ScriptPIManager.GetNail_Left() && ScriptPIManager.GetNail_Right() */
-        //    //    collision.tag == "Crack")
-        //    //{
-        //    //    stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
-        //    //    Destroy(this.gameObject);
-        //    //    // クリスタル破壊数増加
-        //    //    playerStatus.AddBreakCrystal();
-        //    //}
-        //}
     }
 
 
