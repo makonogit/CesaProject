@@ -74,8 +74,12 @@ public class SandControl : MonoBehaviour
 
             // EdgeColliderの終点からパーティクルを放出
             var EdgePos = Edge.points[Edge.pointCount - 1];
-            ReleasePos = new Vector3(EdgePos.x + ReleaseLength / 4,EdgePos.y - 0.1f,1.0f);
-           
+
+            // ひびの向きによって座標を指定
+            ReleasePos = Edge.points[Edge.pointCount - 1].x > transform.position.x ?
+                new Vector3(EdgePos.x + ReleaseLength / 4, EdgePos.y - 0.1f, 1.0f) :
+                new Vector3(EdgePos.x - ReleaseLength / 4, EdgePos.y - 0.1f, 1.0f);
+                
             //　同じ座標に砂がなければ生成
             if (!sandmanager.GetSand().Contains(ReleasePos))
             {
@@ -94,7 +98,7 @@ public class SandControl : MonoBehaviour
         if(other.tag == "Player")
         {
             PlayerMove move = other.GetComponent<PlayerMove>();
-            other.transform.Translate(-4.0f * (move.GetMovement().x * move.BaseSpeed * Time.deltaTime), 0.0f, 0.0f);
+            other.transform.Translate(-6.0f * (move.GetMovement().x * move.BaseSpeed * Time.deltaTime), 0.0f, 0.0f);
         }
      
 
