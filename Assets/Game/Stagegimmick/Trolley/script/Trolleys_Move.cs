@@ -18,6 +18,10 @@ public class Trolleys_Move : MonoBehaviour
     private CheckArea _onPlayer;     // プレイヤーが乗っているかを判断するクラス
     [SerializeField]
     private GameObject _attackArea; // 攻撃範囲を含むGameObject
+    [SerializeField]
+    private CheckArea _hitEnemy; // 敵に当たった判定
+    [SerializeField]
+    private GameObject _damageArea; // ダメージ範囲を含むGameObject
     private Rigidbody2D _rb2d;
     private Hammer _hammer;     // ハンマーの状態を見るため
     private Hammer.HammerState _oldState;   // 状態が変わった瞬間を判別するため
@@ -54,6 +58,7 @@ public class Trolleys_Move : MonoBehaviour
         _dashFlag = false;
         _nowTime = 0.0f;
         _attackArea.SetActive(false);// 攻撃範囲を非表示
+        _damageArea.SetActive(false);// ダメージ範囲を非表示
     }
 
     //
@@ -70,7 +75,10 @@ public class Trolleys_Move : MonoBehaviour
         if (_onPlayer == null) Debug.LogError("_onPlayerが設定されていません。");
         //_attackArea
         if (_attackArea == null) Debug.LogError("_attackAreaが設定されていません。");
-        
+        // _hitEnemy
+        if (_hitEnemy == null) Debug.LogError("_hitEnemyが設定されていません。");
+        //_damageArea
+        if (_damageArea == null) Debug.LogError("_damageAreaが設定されていません。");
         //-----------------------------------------------------
         // Rigidbody2Dのコンポーネントを取得
         _rb2d = GetComponent<Rigidbody2D>();
@@ -107,6 +115,7 @@ public class Trolleys_Move : MonoBehaviour
         SetDirection(); // 進行方向の設定
         DashSetting();  // ダッシュの設定
         AttackSetting();// 攻撃の設定
+        DamageSystem(); // ダメージ処理
         Move();         // 移動処理
         _oldState = _hammer.hammerstate;// 状態を保存
     }
@@ -175,10 +184,21 @@ public class Trolleys_Move : MonoBehaviour
         _attackArea.SetActive(_dashFlag);
 
         // 変数
-        Vector3 attackDirection = new Vector3(_direction, _attackArea.transform.localScale.y, _attackArea.transform.localScale.z);
+        //Vector3 attackDirection = new Vector3(_direction, _attackArea.transform.localScale.y, _attackArea.transform.localScale.z);
 
         // 方向設定
-        _attackArea.transform.localScale = attackDirection;
+        //_attackArea.transform.localScale = attackDirection;
+    }
+
+    //
+    // 関数：DamageSystem() 
+    //
+    // 目的：攻撃の設定
+    // 
+
+    private void DamageSystem() 
+    {
+        _damageArea.SetActive(isDamage);
     }
 
     //
@@ -242,6 +262,8 @@ public class Trolleys_Move : MonoBehaviour
     {
         get 
         {
+            // 乗っていないなら
+            if (!_onPlayer.IsEnter) return false;
             // 現在の状態が HAMMERではないなら
             if (!isStateHammer) return false;
             // 前の状態が POWER ではないなら
@@ -297,6 +319,23 @@ public class Trolleys_Move : MonoBehaviour
             if (isMoveTrigger&&!isDash) return true;
             // 攻撃時間を過ぎてないなら
             if (!isAttackTimeOver) return false;
+            return true;
+        }
+    }
+
+    //
+    // 関数：isDamage
+    //
+    // 目的：ダメージを受けるか
+    // 
+    private bool isDamage 
+    {
+        get
+        {
+            // ダッシュ中なら
+            if (_dashFlag) return false;            
+            // 敵に当たってないなら
+            if (!_hitEnemy.IsEnter) return false;
             return true;
         }
     }
