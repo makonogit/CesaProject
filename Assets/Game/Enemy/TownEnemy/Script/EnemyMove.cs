@@ -54,6 +54,9 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] private float AttackWaitTime = 0.3f; // 攻撃後の待機時間
     private float AttackWaitTimer = 0f;
 
+    // 死亡時の処理が終わったかを持つ変数
+    private bool death = false;
+
 
     [Header("プレイヤーを追いかける速度")]
     public float TrackingSpeed = 3.0f; // 追跡スピード
@@ -67,6 +70,7 @@ public class EnemyMove : MonoBehaviour
         INIT_ATTACK,   // 攻撃準備
         ATTACK,        // 攻撃
         ATTACK_WAIT,   // 攻撃待機
+        DEATH,         // 死亡
     }
 
     // 敵行動状態
@@ -77,6 +81,8 @@ public class EnemyMove : MonoBehaviour
     private GameObject player; // プレイヤーのゲームオブジェクト探す用
     private Transform playerTransform;
     private HammerNail hammer; // HammerNailを取得
+    private GameObject Child; // 敵自身の子オブジェクト
+
 
     // Start is called before the first frame update
     void Start()
@@ -97,6 +103,9 @@ public class EnemyMove : MonoBehaviour
 
         // 攻撃移行範囲と攻撃が届く範囲を同じにする
         //AttackDistance = attackDistance;
+
+        // 子オブジェクト取得
+        Child = transform.Find("HitCollider").gameObject;
     }
 
     // Update is called once per frame
@@ -111,7 +120,6 @@ public class EnemyMove : MonoBehaviour
 
             // 三平方の定理
             Distance = SubX * SubX + SubY * SubY; // プレイヤーとの距離が求まった
-            Debug.Log(Distance);
 
             switch (EnemyAI)
             {
@@ -141,6 +149,10 @@ public class EnemyMove : MonoBehaviour
 
                 case AIState.ATTACK_WAIT:
                     Attack_Wait();
+                    break;
+
+                case AIState.DEATH:
+                    Death();
                     break;
             }
          }
@@ -489,6 +501,21 @@ public class EnemyMove : MonoBehaviour
 
             AttackWaitTimer = 0;
 
+        }
+    }
+
+    private void Death()
+    {
+        // 死亡状態
+
+        if (death == false) 
+        {
+            Debug.Log(Child);
+
+            // プレイヤーとの当たり判定を
+            Child.GetComponent<CircleCollider2D>().enabled = false;
+
+            death = true;
         }
     }
 

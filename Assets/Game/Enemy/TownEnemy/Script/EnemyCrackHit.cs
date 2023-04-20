@@ -14,23 +14,39 @@ public class EnemyCrackHit : MonoBehaviour
 
     // 外部取得
     private CrackCreater order = null;
+    private GameObject ParentEnemy; // 親オブジェクトの敵
+    private EnemyMove enemyMove; // EnemyMoveスクリプト取得用変数
+
+    private void Start()
+    {
+        // 親オブジェクト取得
+        ParentEnemy = transform.root.gameObject;
+
+        // 敵の基本AI処理スクリプト取得
+        enemyMove = ParentEnemy.GetComponent<EnemyMove>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //---------------------------------------------------------
         //Debug.Log(collision.gameObject.tag);
 
-        // 当たったものがひびなら
-        if (collision.gameObject.tag == CrackTag)
+        // 初めの一回のみ入る
+        if (enemyMove.EnemyAI != EnemyMove.AIState.DEATH)
         {
-            // 当たったひびのCrackOrderを取得
-            order = collision.gameObject.GetComponent<CrackCreater>();
-
-            //生成中なら
-            if (order.State == CrackCreater.CrackCreaterState.CREATING)
+            // 当たったものがひびなら
+            if (collision.gameObject.tag == CrackTag)
             {
-                // 敵を消す
-                Destroy(this.gameObject.transform.parent.gameObject);
+                // 当たったひびのCrackOrderを取得
+                order = collision.gameObject.GetComponent<CrackCreater>();
+
+                //生成中なら
+                if (order.State == CrackCreater.CrackCreaterState.CREATING)
+                {
+                    // 死亡状態にする
+                    enemyMove.EnemyAI = EnemyMove.AIState.DEATH;
+                }
             }
-        }  
+        }
     }
 }
