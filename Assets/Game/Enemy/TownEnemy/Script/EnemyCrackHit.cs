@@ -20,7 +20,7 @@ public class EnemyCrackHit : MonoBehaviour
     private void Start()
     {
         // 親オブジェクト取得
-        ParentEnemy = transform.root.gameObject;
+        ParentEnemy = transform.parent.gameObject;
 
         // 敵の基本AI処理スクリプト取得
         enemyMove = ParentEnemy.GetComponent<EnemyMove>();
@@ -41,7 +41,7 @@ public class EnemyCrackHit : MonoBehaviour
                 order = collision.gameObject.GetComponent<CrackCreater>();
 
                 //生成中なら
-                if (order.State == CrackCreater.CrackCreaterState.CREATING)
+                if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
                 {
                     // 死亡状態にする
                     enemyMove.EnemyAI = EnemyMove.AIState.DEATH;
