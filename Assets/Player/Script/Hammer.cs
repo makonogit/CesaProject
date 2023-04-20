@@ -48,7 +48,6 @@ public class Hammer : MonoBehaviour
 
     public List<Vector2> CrackPointList;       //ひびのリスト
 
-
     //状態管理
     public enum HammerState
     {
@@ -132,7 +131,7 @@ public class Hammer : MonoBehaviour
         TargtRenderer = AngleTest.GetComponent<SpriteRenderer>();
         Targetstate = AngleTest.GetComponent<TestTargetState>();
         AngleTest.transform.position = transform.position;
-
+      
         // アニメーター取得
         anim = GetComponent<Animator>();
         playerStatus = GetComponent<PlayerStatas>();
@@ -375,6 +374,7 @@ public class Hammer : MonoBehaviour
 
                     //デバッグ用
                     AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
+                    AngleTest.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
                     //トリガーを離したらひび生成状態(アニメーション終了)
                     if (!InputManager.GetNail_Right())
