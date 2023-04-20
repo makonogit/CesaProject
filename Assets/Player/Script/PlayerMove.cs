@@ -51,6 +51,13 @@ public class PlayerMove : MonoBehaviour
 
     private PlayerStatas playerStatus;
 
+    //--------------------------------------
+    // 追加担当者:中川直登
+    [SerializeField]
+    private ParticleSystem _RunDust;
+    private float _paritcleStartTime;
+    bool _playflag;
+    //--------------------------------------
 
     //----------------------------------------------------------------------------------------------------------
     // - 初期化処理 -
@@ -78,7 +85,13 @@ public class PlayerMove : MonoBehaviour
         seMana = se.GetComponent<SEManager_Player>();
 
         playerStatus = GetComponent<PlayerStatas>();
-
+        //--------------------------------------
+        // 追加担当者:中川直登
+        if (_RunDust == null) Debug.LogError("_RunDustが設定されていません。");
+        _RunDust.Play();
+        _paritcleStartTime = 0.0f;
+        _playflag = true;
+        //--------------------------------------
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -171,13 +184,16 @@ public class PlayerMove : MonoBehaviour
         anim.SetBool("walk", MoveSta == MOVESTATUS.WALK); // スティック入力の左右半分までなら歩く
         anim.SetBool("run", MoveSta == MOVESTATUS.RUN); // スティック入力の左右半分以上なら走る
         anim.SetBool("frieze", MoveSta == MOVESTATUS.FRIEZE); // スティック入力が無ければ準備状態
-
+        
         if (oldDire != ScriptPIManager.Direction)
         {
             // プレイヤーの向きを今と逆にする
             thisTransform.localScale = new Vector3(-thisTransform.localScale.x, thisTransform.localScale.y, thisTransform.localScale.z);
         }
-
+        //--------------------------------------
+        // 追加担当者:中川直登
+        RunDust();
+        //--------------------------------------
         // 前フレームの向きとして保存
         oldDire = ScriptPIManager.Direction;
     }
@@ -201,4 +217,24 @@ public class PlayerMove : MonoBehaviour
     {
         return movement;
     }
+
+    //--------------------------------------
+    // 追加担当者:中川直登
+    // 関数：RunDust() 
+    // 目的：走った時のエフェクトのオンオフ
+    private void RunDust() 
+    {
+        
+        if(MoveSta != MOVESTATUS.FRIEZE&& !_playflag) 
+        {
+            _RunDust.Play();
+            _playflag = true;
+        }
+        else if(MoveSta == MOVESTATUS.FRIEZE && _playflag)
+        {
+            _RunDust.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            _playflag = false;
+        }
+    }
+    //--------------------------------------
 }
