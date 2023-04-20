@@ -59,6 +59,9 @@ public class PlayerJump : MonoBehaviour
     private AudioSource audioSource;  // 取得したAudioSourceコンポーネント
     [SerializeField] AudioClip sound1; // 音声ファイル
 
+    //------------中川---------------
+    private RunDustParticle _runDust;
+    //-------------------------------
 
     // Start is called before the first frame update
     void Start()
@@ -106,12 +109,20 @@ public class PlayerJump : MonoBehaviour
         seMana = se.GetComponent<SEManager_Player>();
 
         playerStatus = GetComponent<PlayerStatas>();
-
+        //--------------------------------------
+        // 追加担当者:中川直登
+        _runDust = GetComponent<RunDustParticle>();
+        if (_runDust == null) Debug.LogError("RunDustParticleのコンポーネントを取得できませんでした。");
+        //--------------------------------------
     }
 
     // Update is called once per frame
     void Update()
     {
+        //--------------------------------------
+        // 追加担当者:中川直登
+        RunDust();
+        //--------------------------------------
         // ヒットストップ中でないなら実行
         if (!playerStatus.GetHitStop())
         {
@@ -280,5 +291,11 @@ public class PlayerJump : MonoBehaviour
             // その場でストップさせる
             thisRigidbody2d.velocity = new Vector2(0, 0);
         }
+    }
+
+
+    private void RunDust ()
+    {
+        _runDust.IsJump = !isGround;
     }
 }

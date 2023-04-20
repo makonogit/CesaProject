@@ -8662,8 +8662,72 @@ PrefabInstance:
       value: RunParticle-Dust
       objectReference: {fileID: 0}
     - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: NoiseModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationModule.curve.scalar
+      value: -0.7853981
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationModule.x.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationModule.y.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationBySpeedModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationModule.curve.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationBySpeedModule.curve.scalar
+      value: 3.1415925
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationBySpeedModule.separateAxes
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationBySpeedModule.x.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationBySpeedModule.y.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: EmissionModule.rateOverTime.minScalar
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationBySpeedModule.curve.minScalar
+      value: -3.1415925
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: EmissionModule.rateOverTime.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
+      propertyPath: RotationBySpeedModule.curve.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
@@ -9770,6 +9834,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particle: {fileID: 5491312296742988153, guid: c55ff40f72dd7cf41afaa01bf55d4b54, type: 3}
+--- !u!114 &8059579095247675398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8059579095247675266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3f26721965a0408c2f1ce7e56a4d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _RunDust: {fileID: 1536767101}
 --- !u!1001 &8074353046155381516
 PrefabInstance:
   m_ObjectHideFlags: 0

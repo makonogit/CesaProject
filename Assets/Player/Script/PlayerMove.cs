@@ -53,10 +53,7 @@ public class PlayerMove : MonoBehaviour
 
     //--------------------------------------
     // 追加担当者:中川直登
-    [SerializeField]
-    private ParticleSystem _RunDust;
-    private float _paritcleStartTime;
-    bool _playflag;
+    private RunDustParticle _runDust;
     //--------------------------------------
 
     //----------------------------------------------------------------------------------------------------------
@@ -87,10 +84,8 @@ public class PlayerMove : MonoBehaviour
         playerStatus = GetComponent<PlayerStatas>();
         //--------------------------------------
         // 追加担当者:中川直登
-        if (_RunDust == null) Debug.LogError("_RunDustが設定されていません。");
-        _RunDust.Play();
-        _paritcleStartTime = 0.0f;
-        _playflag = true;
+        _runDust = GetComponent<RunDustParticle>();
+        if(_runDust == null) Debug.LogError("RunDustParticleのコンポーネントを取得できませんでした。");
         //--------------------------------------
     }
 
@@ -224,17 +219,7 @@ public class PlayerMove : MonoBehaviour
     // 目的：走った時のエフェクトのオンオフ
     private void RunDust() 
     {
-        
-        if(MoveSta != MOVESTATUS.FRIEZE&& !_playflag) 
-        {
-            _RunDust.Play();
-            _playflag = true;
-        }
-        else if(MoveSta == MOVESTATUS.FRIEZE && _playflag)
-        {
-            _RunDust.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-            _playflag = false;
-        }
+        _runDust.IsMove = (MoveSta != MOVESTATUS.FRIEZE);
     }
     //--------------------------------------
 }
