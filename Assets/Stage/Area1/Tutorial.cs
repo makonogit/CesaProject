@@ -174,7 +174,7 @@ public class Tutorial : MonoBehaviour
                 {
                     //　ハンマーアニメーションを再生
                     anim.SetInteger("Select", 2);
-                    if (RTbutton.transform.localScale.x > 0.3 && Lstick.transform.localPosition != new Vector3(2.0f, 1.5f, 0.0f))
+                    if (RTbutton.transform.localScale.x > 0.5)
                     {
                         RTbutton.transform.localScale = new Vector3(RTbutton.transform.localScale.x - 1 * Time.deltaTime, RTbutton.transform.localScale.y - 1 * Time.deltaTime, 0.0f);
                     }
@@ -183,40 +183,30 @@ public class Tutorial : MonoBehaviour
                         //　一定時間止まってから移動
                         waitUItime += Time.deltaTime;
 
-                        var stickpos = new Vector3(2.0f, 1.5f, 0.0f);
-
-                        if (waitUItime > 0.3f && Lstick.transform.localPosition != stickpos)
+                        if (RTbutton.transform.localScale.x < 0.3f)
                         {
-                            Lstick.transform.localPosition = Vector3.MoveTowards(Lstick.transform.localPosition, stickpos, 1 * Time.deltaTime);
-                        }
-
-                        if (Lstick.transform.localPosition == stickpos)
+                            RTbutton.transform.localScale = new Vector3(RTbutton.transform.localScale.x + 1 * Time.deltaTime, RTbutton.transform.localScale.y + 1 * Time.deltaTime, 0.0f);
+                            waitUItime = 0.0f;
+                        }     
+                        else
                         {
-                            if (RTbutton.transform.localScale.x < 0.5f)
+                            anim.SetBool("Hammer", true);
+                            
+                            if (waitUItime > 0.5f)
                             {
-                                RTbutton.transform.localScale = new Vector3(RTbutton.transform.localScale.x + 1 * Time.deltaTime, RTbutton.transform.localScale.y + 1 * Time.deltaTime, 0.0f);
+                                Crack.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                            }
+                            
+                            if(waitUItime > 1.2f)
+                            {
+                                Crack.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                                RTbutton.transform.localScale = new Vector3(1.0f, 1.0f, 0.0f);
+                                //anim.Play("TutorialHammer", 0, 0);
+                                anim.SetBool("Hammer", false);
                                 waitUItime = 0.0f;
+                            
                             }
-                            else
-                            {
-                                anim.SetBool("Hammer", true);
-
-                                if (waitUItime > 0.2f)
-                                {
-                                    Crack.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                                }
-                                
-                                if(waitUItime > 1.0f)
-                                {
-                                    Crack.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                                    RTbutton.transform.localScale = new Vector3(0.5f, 0.6f, 0.0f);
-                                    Lstick.transform.localPosition = new Vector3(1.8f, 1.2f, 0.0f);
-                                    //anim.Play("TutorialHammer", 0, 0);
-                                    anim.SetBool("Hammer", false);
-                                    waitUItime = 0.0f;
-
-                                }
-                            }
+                            
                         }
 
                         //anim.SetBool("Hammer", true);
