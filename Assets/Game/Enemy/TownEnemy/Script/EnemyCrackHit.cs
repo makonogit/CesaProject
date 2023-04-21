@@ -14,7 +14,7 @@ public class EnemyCrackHit : MonoBehaviour
 
     // 外部取得
     private CrackCreater order = null;
-    private GameObject ParentEnemy; // 親オブジェクトの敵
+    private GameObject ParentEnemy; // 親オブジェクトの敵;
     private EnemyMove enemyMove; // EnemyMoveスクリプト取得用変数
 
     private void Start()
@@ -31,11 +31,12 @@ public class EnemyCrackHit : MonoBehaviour
         //---------------------------------------------------------
         //Debug.Log(collision.gameObject.tag);
 
-        // 初めの一回のみ入る
-        if (enemyMove.EnemyAI != EnemyMove.AIState.DEATH)
+
+        // 当たったものがひびなら
+        if (collision.gameObject.tag == CrackTag)
         {
-            // 当たったものがひびなら
-            if (collision.gameObject.tag == CrackTag)
+            // 初めの一回のみ入る
+            if (enemyMove.EnemyAI != EnemyMove.AIState.DEATH)
             {
                 // 当たったひびのCrackOrderを取得
                 order = collision.gameObject.GetComponent<CrackCreater>();

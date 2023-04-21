@@ -136,7 +136,7 @@ public class DrawHpUI : MonoBehaviour
             gameover.DecreaseHP(1f);
 
             // 次のアニメーション対象設定
-            img = objs[gameover.HP - 1].GetComponent<Image>();
+            //img = objs[gameover.HP - 1].GetComponent<Image>();
 
             // アニメーション終了
             isHPUIAnimation = false;

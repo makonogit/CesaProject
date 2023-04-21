@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 //担当者：二宮怜
-//内容　：敵AI
+//内容　：敵AI(町雑魚)
 //---------------------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
@@ -121,39 +121,46 @@ public class EnemyMove : MonoBehaviour
             // 三平方の定理
             Distance = SubX * SubX + SubY * SubY; // プレイヤーとの距離が求まった
 
-            switch (EnemyAI)
+            if (death == false)
             {
-                case AIState.INIT_PATROL:
-                    Init_Patrol();
-                    break;
+                switch (EnemyAI)
+                {
+                    case AIState.INIT_PATROL:
+                        Init_Patrol();
+                        break;
 
-                case AIState.PATROL:
-                    Patrol();
-                    break;
+                    case AIState.PATROL:
+                        Patrol();
+                        break;
 
-                case AIState.TRACKING:
-                    Tracking();
-                    break;
+                    case AIState.TRACKING:
+                        Tracking();
+                        break;
 
-                case AIState.INIT_TRACKING:
-                    Init_Tracking();
-                    break;
+                    case AIState.INIT_TRACKING:
+                        Init_Tracking();
+                        break;
 
-                case AIState.INIT_ATTACK:
-                    Init_Attack();
-                    break;
+                    case AIState.INIT_ATTACK:
+                        Init_Attack();
+                        break;
 
-                case AIState.ATTACK:
-                    Attack();
-                    break;
+                    case AIState.ATTACK:
+                        Attack();
+                        break;
 
-                case AIState.ATTACK_WAIT:
-                    Attack_Wait();
-                    break;
+                    case AIState.ATTACK_WAIT:
+                        Attack_Wait();
+                        break;
 
-                case AIState.DEATH:
-                    Death();
-                    break;
+                    case AIState.DEATH:
+                        Death();
+                        break;
+                }
+            }
+            else
+            {
+                Patrol();
             }
          }
     }
