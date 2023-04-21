@@ -136,8 +136,8 @@ public class CameraControl2 : MonoBehaviour
         {
             if (!AreaMove)
             {
-                NextAreaPos[0].x = AreaCollider.points[0].x + _AreaManager.AreaSize;
-                NextAreaPos[3].x = AreaCollider.points[0].x + _AreaManager.AreaSize;
+                NextAreaPos[0].x = AreaCollider.points[0].x + _AreaManager.AreaSize / 5;
+                NextAreaPos[3].x = AreaCollider.points[0].x + _AreaManager.AreaSize / 5;
                 NowAreaNum++;
                 AreaMove = true;
             }
