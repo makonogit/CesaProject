@@ -12,9 +12,12 @@ public class Result : MonoBehaviour
     //--------------------------------------------------------------------------
     // - 変数宣言 -
 
-    bool isFadeFlg = false;// 画面を割る処理のON、OFF
+    
+    // インスタンス
+    public static Result instance;// このクラスのインスタンス
 
     // フェード関連
+    bool isFadeFlg = false;// 画面を割る処理のON、OFF
     [Header("フェードアウトする速度")]
     public float fadeSpeed = 0.001f;// フェードアウトする速度
     float alpha = 0.0f;             // パネルの透明度
@@ -93,10 +96,10 @@ public class Result : MonoBehaviour
                     // 破片のクリア後の座標を決定
                     if (clear[i] == 1)
                     {
-                        ResultDebris resultDebris = debrisRist[i].GetComponent<ResultDebris>();
-                        resultDebris.clearPos.x = transform.position.x + -7.0f + 0.8f * (i % 19);
-                        resultDebris.clearPos.y = 4.0f - 0.8f * (i / 19);
-                        resultDebris.clearPos.z = 2.0f;
+                        //ResultDebris resultDebris = debrisRist[i].GetComponent<ResultDebris>();
+                        //resultDebris.clearPos.x = transform.position.x + -7.0f + 0.8f * (i % 19);
+                        //resultDebris.clearPos.y = 4.0f - 0.8f * (i / 19);
+                        //resultDebris.clearPos.z = 2.0f;
                     }
 
                     Transform objTransform = debrisRist[i].transform;
@@ -180,5 +183,6 @@ public class Result : MonoBehaviour
     {
         isFadeFlg = _isSet;
     }
-    //============================================================
+
+    
 }

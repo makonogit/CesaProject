@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1986601248997242944
+--- !u!1 &2028171091918995805
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5527207423771790707}
-  - component: {fileID: 22358763897722524}
-  - component: {fileID: 815122189613144863}
-  m_Layer: 5
-  m_Name: Hexagon Flat-Top ResultDebris
+  - component: {fileID: 2028171091918995807}
+  - component: {fileID: 2028171091918995806}
+  - component: {fileID: 2028171091918995800}
+  - component: {fileID: 2028171091918995801}
+  m_Layer: 0
+  m_Name: Result_StageClear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5527207423771790707
+--- !u!4 &2028171091918995807
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1986601248997242944}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.56109, y: -6.8537617, z: -0.9}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_GameObject: {fileID: 2028171091918995805}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.4799999, z: 1}
+  m_LocalScale: {x: 3, y: 3.7120078, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &22358763897722524
+--- !u!212 &2028171091918995806
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1986601248997242944}
+  m_GameObject: {fileID: 2028171091918995805}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -53,7 +54,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8774d37461d4a1d47af84cbf2e71c211, type: 2}
+  - {fileID: 2100000, guid: b0a4d6b39de019f4c8371e7b52ef0a0b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -73,28 +74,49 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
-  m_Sprite: {fileID: 2747690628134850419, guid: b670ab75dde984907b8570040daa08c5, type: 3}
+  m_SortingOrder: 7
+  m_Sprite: {fileID: 21300000, guid: 002a8dc8c6c64db43ab1374b4e402614, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 0.8828125}
+  m_Size: {x: 5.04, y: 1.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &815122189613144863
+--- !u!114 &2028171091918995800
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1986601248997242944}
+  m_GameObject: {fileID: 2028171091918995805}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78ceb701d7f1cda40ab7894f5fee2932, type: 3}
+  m_Script: {fileID: 11500000, guid: 60dbd4f2096823f43b9bd0d8130bc044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearPos: {x: 0, y: 0, z: 0}
+  debris:
+  - {fileID: 2410599454876727387, guid: f428f070ba751f34dbb55d9e1f9b3912, type: 3}
+  - {fileID: 2443012711920118117, guid: 7f04fdf4ce89e3b41b10eded6e6505a6, type: 3}
+  - {fileID: 1986601248997242944, guid: 690943aa86b915c41b012cb249637c57, type: 3}
+  standbyTim: 360
+--- !u!114 &2028171091918995801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028171091918995805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 785a78205ca5e2c46b332ef2931d58a8, type: 2}
