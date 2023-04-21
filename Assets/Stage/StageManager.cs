@@ -93,4 +93,23 @@ public class SetStage {
         StageData.AreaNum = _AreaNum - 1;
         StageData.StageNum = _StageNum - 1;
     }
+
+    //----------------------------------------------
+    //　ステージ番号を獲得する関数
+    //  引数：なし   
+    //　戻り値：ステージ番号
+    public int GetStageNum()
+    {
+        return StageData.StageNum;
+    }
+
+    //----------------------------------------------
+    //　エリア番号を獲得する関数
+    //  引数：なし   
+    //　戻り値：エリア番号
+    public int GetAreaNum()
+    {
+        return StageData.AreaNum;
+    }
+
 }

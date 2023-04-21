@@ -18,8 +18,17 @@ public class SelectedScene : MonoBehaviour
     private GameObject se;
     private AudioSource Audio;
 
+    // 菅追加
+    private SetStage setmanager;
+    private StageManager stagemanager;
+
     private void Start()
     {
+        setmanager = new SetStage();  //ステージマネージャーの取得
+        stagemanager = GetComponent<StageManager>();
+
+        transform.position = stagemanager.stage[setmanager.GetAreaNum()].stage[setmanager.GetStageNum()].StageObj.transform.position;
+
         _selectScene = null;
         sceneChange = GameObject.Find("SceneManager").GetComponent<SceneChange>();
         if (sceneChange == null) Debug.LogError("SceneChangeのコンポーネントを取得できませんでした。");
