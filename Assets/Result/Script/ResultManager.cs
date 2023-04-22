@@ -68,11 +68,23 @@ public class ResultManager : MonoBehaviour
 
         textScale = this.transform.localScale;
 
+
+        //----------------------------------------------
+        // テキストの横幅を0にする
+        //----------------------------------------------
+
+        Transform textTransform = this.transform;
+        Vector3 scale = textTransform.localScale;
+        scale.x = 0.0f;
+        textTransform.localScale = scale;
+
         //-----------------------------------------
         // 画面幅をワールド座標用に変換する
         //-----------------------------------------
 
         screenWide = 0.03f * Screen.width;
+
+        //PlayResult();
     }
 
     //=============================================
@@ -123,15 +135,6 @@ public class ResultManager : MonoBehaviour
         flameCnt = 0;
 
         //----------------------------------------------
-        // テキストの横幅を0にする
-        //----------------------------------------------
-
-        Transform textTransform = this.transform;
-        Vector3 scale = textTransform.localScale;
-        scale.x = 0.0f;
-        textTransform.localScale = scale;
-
-        //----------------------------------------------
         // 状態をRESULT_UPDATEに変更
         //----------------------------------------------
 
@@ -154,7 +157,7 @@ public class ResultManager : MonoBehaviour
         // 破片を画面の端から端まで生成
         //----------------------------------------------
 
-        if (screenWide * 2 > 0.1f * flameCnt)
+        if (screenWide / 2 > 0.1f * flameCnt)
         {
             // ランダムに形、座標、大きさ、回転率を取得する
             int rndDebris = Random.Range(0, 3);
@@ -172,9 +175,9 @@ public class ResultManager : MonoBehaviour
 
             // 座標を変更
             Vector3 pos0 = objTransform.position;
-            pos0.x = objTransform.position.x + screenWide - 0.1f * flameCnt; ;
+            pos0.x = objTransform.position.x + screenWide / 4 - 0.1f * flameCnt;
             pos0.y = objTransform.position.y + 1.0f - 3.0f + 0.2f * rndY;
-            pos0.z = -0.9f;
+            pos0.z = 1.0f;//-0.9f;
 
             // 大きさを変更
             Vector3 scale;
@@ -200,25 +203,35 @@ public class ResultManager : MonoBehaviour
 
         else
         {
-            nextState = StateID.RESULT_END;
-            flameCnt = 0;
+            // 横幅をtextScaleまで大きくする
+            Transform textTransform = this.transform;
+            Vector3 scale = textTransform.localScale;
+            if (textTransform.localScale.x < textScale.x)
+            {
+                scale.x += 6 * Time.deltaTime;
+            }
+            else
+            {
+                nextState = StateID.RESULT_END;
+                flameCnt = 0;
+            }
+
+            textTransform.localScale = scale;
+
+            //nextState = StateID.RESULT_END;
+            //flameCnt = 0;
         }
 
         //----------------------------------------------
         // クリアテキストの挙動を制御する
         //----------------------------------------------
 
-        if (screenWide < 0.1f * flameCnt)
+        if (screenWide <= 0.1f * flameCnt)
         {
-            // 横幅をtextScaleまで大きくする
-            Transform textTransform = this.transform;  
-            Vector3 scale = textTransform.localScale;
-            if (textTransform.localScale.x < textScale.x)
-            {
-                scale.x += 0.02f;
-            }
-            textTransform.localScale = scale;
+            //Debug.Log(0.1f * flameCnt);
         }
+        
+
     }
 
     //=============================================
@@ -239,7 +252,7 @@ public class ResultManager : MonoBehaviour
 
         if (standbyTim < flameCnt)
         {
-            SceneManager.LoadScene("SelectScene");
+            SceneManager.LoadScene("newSelectScene");
             nowState = StateID.NULL;
         }
     }

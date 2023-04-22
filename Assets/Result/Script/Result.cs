@@ -56,7 +56,7 @@ public class Result : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         // ‚±‚ÌŠÖ”‚Å‰‰o‚ğONAOFF‚·‚é
-        //SetFadeFlg(true);
+        SetFadeFlg(true);
     }
 
     //============================================================
@@ -86,8 +86,8 @@ public class Result : MonoBehaviour
                     int rndDebris = Random.Range(0, 3);
                     int rndX = Random.Range(0, 21);
                     int rndY = Random.Range(0, 21);
-                    int rndSizeX = Random.Range(1, 10);
-                    int rndSizeY = Random.Range(1, 10);
+                    int rndSizeX = Random.Range(1, 2);
+                    int rndSizeY = Random.Range(1, 2);
                     int rndRot = Random.Range(1, 360);
 
                     // ”j•Ğ‚ğ¶¬
@@ -171,7 +171,7 @@ public class Result : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene("SelectScene");
+                SceneManager.LoadScene("newSelectScene");
             }
         }
     }

@@ -81,7 +81,7 @@ public class GameOver : MonoBehaviour
         if (_scene == null) Debug.LogError("SceneChangeのコンポーネントを取得できませんでした。");
         cam = GameObject.Find("Main Camera");
         if (cam == null) Debug.LogError("Main Cameraが見つかりませんでした。");
-        _goalArea = GameObject.Find("GoalArea");
+        _goalArea = GameObject.Find("StageData").transform.GetChild(0).gameObject;
         
 
         _playerMove = GetComponent<PlayerMove>();

@@ -10,12 +10,8 @@ public class CameraZoom : MonoBehaviour
 {
     //---------------------------------------------------------
     // - 変数宣言 -
-    private string playerTag = "Player"; // プレイヤーのタグ
-
-    //[System.NonSerialized]
-    public bool InArea = false; // エリア内にいるか
-
-    [Header("一秒あたりの変化量")]
+    
+   [Header("一秒あたりの変化量")]
     public float ChangeVolume = 0.1f; // カメラサイズの変化量
 
     [Header("ズーム後の描画サイズ")]
@@ -31,29 +27,13 @@ public class CameraZoom : MonoBehaviour
     private GameObject Camera; // ゲームオブジェクトMainCamera
     Camera Cam; // カメラスクリプトを取得
 
-    private GameObject goal; // ゴールオブジェクト
-    private Transform goalTransform;   // ゴールの座標
     private Transform cameraTransform; // カメラの座標
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        // プレイヤーとの当たり判定のみ考慮
-        if (collision.gameObject.tag == playerTag)
-        {
-            // 状態→エリア内にいる
-            InArea = true;
-        }
-    }
+    private GameObject player;      // プレイヤー
+    private Transform playertans;   // プレイヤーのTransform
+    private StageStatas stagestatas;    // ステージのステータスを取得
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        // プレイヤーとの当たり判定のみ考慮
-        if (collision.gameObject.tag == playerTag)
-        {
-            // 状態→エリア内にいない
-            InArea = false;
-        }
-    }
+    public bool ZoomEnd = false;
 
     // Start is called before the first frame update
     void Start()
@@ -63,20 +43,18 @@ public class CameraZoom : MonoBehaviour
         // カメラスクリプトを取得
         Cam = Camera.GetComponent<Camera>();
 
-        // Goal探す
-        goal = GameObject.Find("Goal");
+        player = GameObject.Find("player");
+        playertans = player.transform;
 
-        // Goalの座標取得
-        goalTransform = goal.GetComponent<Transform>();
-        cameraTransform = Camera.GetComponent<Transform>();
-        //Debug.Log(Camera);
+        stagestatas = GetComponent<StageStatas>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // ゴールイベントの範囲内にいれば
-        if (InArea == true)
+        //　全て破壊されたら
+        if (stagestatas.GetStageCrystal() == 0)
         {
             // ズーム後のカメラ描画サイズになるまで徐々にズームインしていく
             if (NowCameraSize > ZoomCameraSize)
@@ -87,26 +65,15 @@ public class CameraZoom : MonoBehaviour
             else
             {
                 NowCameraSize = ZoomCameraSize;
+                ZoomEnd = true;
             }
 
-            // カメラの位置はエリアの中心に固定
-            cameraTransform = goalTransform;
-        }
-        else
-        {
-            // デフォルトのカメラ描画サイズになるまで徐々にズームアウトしていく
-            if (NowCameraSize < DefaultCameraSize)
-            {
-                // 描画サイズ計算
-                NowCameraSize += ChangeVolume * Time.deltaTime;
-            }
-            else
-            {
-                NowCameraSize = DefaultCameraSize;
-            }
-        }
+            // カメラの位置はプレイヤーの中心に固定
+            //cameraTransform.position = playertans.position;
 
-        //カメラサイズ変更
-        Cam.orthographicSize = NowCameraSize;
+            //カメラサイズ変更
+            Cam.orthographicSize = NowCameraSize;
+        }
+       
     }
 }

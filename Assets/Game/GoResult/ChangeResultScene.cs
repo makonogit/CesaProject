@@ -18,8 +18,8 @@ public class ChangeResultScene : MonoBehaviour
     private GameObject player;
     private PlayerStatas playerStatus;
     private GameObject Resultobj;   // リザルト演出用のオブジェクト
-    private Result result;          // リザルト演出用のスクリプト
-
+    private ResultManager resultmanager;
+  
     // Start is called before the first frame update
     void Start()
     {
@@ -28,8 +28,8 @@ public class ChangeResultScene : MonoBehaviour
 
         //------------------------------------------------
         // リザルト演出用のシステム取得
-        //Resultobj = GameObject.Find("Result");
-        //result = Resultobj.GetComponent<Result>();
+        Resultobj = GameObject.Find("Result_StageClear");
+        resultmanager = Resultobj.GetComponent<ResultManager>();
     }
 
     // Update is called once per frame
@@ -40,6 +40,11 @@ public class ChangeResultScene : MonoBehaviour
         // 3つのクリスタルを壊したらリザルト画面に移動
         if (playerStatus.GetBreakCrystalNum() == 3)
         {
+            GameObject stage = GameObject.Find("StageData").transform.GetChild(0).gameObject;
+            CameraZoom zoom = stage.GetComponent<CameraZoom>();
+            player.GetComponent<PlayerMove>().SetMovement(false);
+            
+
             //playerStatus.AddBreakCrystal();
             //演出開始
             //result.SetFadeFlg(true);
@@ -49,15 +54,10 @@ public class ChangeResultScene : MonoBehaviour
                 //　振動停止
                 gamepad.SetMotorSpeeds(0.0f, 0.0f);
             }
-            // リザルト画面へ
-            SceneManager.LoadScene("newSelectScene");
-
-            //// 待ち時間が経過したら
-            //if (time > WaitTime)
-            //{
-            //    // リザルト画面へ
-            //    SceneManager.LoadScene("newSelectScene");
-            //}
+            if (zoom.ZoomEnd)
+            {
+                resultmanager.PlayResult();
+            }
         }
     }
 }

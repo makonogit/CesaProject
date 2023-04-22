@@ -14,11 +14,12 @@ public class EnemyCrackHit : MonoBehaviour
 
     // 外部取得
     private CrackCreater order = null;
-    public GameObject ParentEnemy; // 親オブジェクトの敵;
+    private GameObject ParentEnemy; // 親オブジェクトの敵;
     private EnemyMove enemyMove; // EnemyMoveスクリプト取得用変数
 
     private void Start()
     {
+        ParentEnemy = transform.parent.gameObject;  //　親オブジェクトを取得
         // 敵の基本AI処理スクリプト取得
         enemyMove = ParentEnemy.GetComponent<EnemyMove>();
     }

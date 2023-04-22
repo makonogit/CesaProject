@@ -82,29 +82,6 @@ public class CameraControl : MonoBehaviour
     void LateUpdate()   // すべてのゲームオブジェクトのUpdateメソッドが呼び出された後に実行される関数
     {
         //------------------------------------------------------------------------------------------------------
-        // エリア内にいるかいないかで追従ターゲットを変える
-        if (zoom.InArea == true)
-        {
-            // エリア内でターゲットがプレイヤーなら
-            if(target.name == "player")
-            {
-                // ターゲットを変更
-                target = GameObject.Find("GoalArea");
-                targetTransform = target.transform;
-            }
-        }
-        else
-        {
-            // エリア外でターゲットがゴールエリアなら
-            if (target.name == "GoalArea")
-            {
-                // ターゲットを変更
-                target = GameObject.Find("player");
-                targetTransform = target.transform;
-            }
-        }
-
-        //------------------------------------------------------------------------------------------------------
         // カメラの追従 ＆　カメラ切り替え
 
         // 移動範囲制限に必要な四頂点の座標

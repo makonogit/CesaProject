@@ -23,15 +23,15 @@ public class GoalHit : MonoBehaviour
     //---------------------------------------------------------------
     void Start()
     {
-        // PlayerInputManagerを探す
-        PlayerInputManager = GameObject.Find("PlayerInputManager");
-        // ゲームオブジェクトPlayerInputManagerが持つPlayerInputManagerスクリプトを取得
-        ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
+        //// PlayerInputManagerを探す
+        //PlayerInputManager = GameObject.Find("PlayerInputManager");
+        //// ゲームオブジェクトPlayerInputManagerが持つPlayerInputManagerスクリプトを取得
+        //ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
 
-        //　GoalAreaを探す
-        GoalArea = GameObject.Find("GoalArea");
-        // カメラスクリプトを取得
-        CamZoom = GoalArea.GetComponent<CameraZoom>();
+        ////　GoalAreaを探す
+        //GoalArea = GameObject.Find("GoalArea");
+        //// カメラスクリプトを取得
+        //CamZoom = GoalArea.GetComponent<CameraZoom>();
 
 
     }
@@ -42,16 +42,16 @@ public class GoalHit : MonoBehaviour
     //---------------------------------------------------------------
     void Update()
     {
-        // ゴールエリアに入っていたらイベント処理
-        if (CamZoom.InArea)
-        {
-            // 力が最大値に達したらボタンでシーン移動
-            if (ScriptPIManager.GetHammer() == true) 
-            {
-                //クリア画面の描画
-                SceneManager.LoadScene("ClearScene");
-            }
-        }
+        //// ゴールエリアに入っていたらイベント処理
+        //if (CamZoom.InArea)
+        //{
+        //    // 力が最大値に達したらボタンでシーン移動
+        //    if (ScriptPIManager.GetHammer() == true) 
+        //    {
+        //        //クリア画面の描画
+        //        SceneManager.LoadScene("ClearScene");
+        //    }
+        //}
 
     }
 }
