@@ -65,6 +65,12 @@ public class PlantEnemyMove : MonoBehaviour
     [Header("予備動作時のスピード")]public float PreSpeed = 3f; // 予備動作時の移動速度
     [Header("攻撃モーション時スピード")]public float AttackSpeed = 10f; // 攻撃するときの移動速度
 
+    // 被衝撃時用変数
+    public bool CrackInPipe = false; // パイプにひびがあたったか
+    private Rigidbody2D rigid2D; // 敵自身のrigidbody2D
+    [Header("射出時に加える力")] public float ImpulsePower = 5f; // 射出時に加える力
+    [System.NonSerialized]public GameObject CrackInObject = null; // ひびがあたったパイプを保存する
+
     // 外部取得
     private Transform thisTransform; // このオブジェクトの座標を持つ変数
     private GameObject player; // プレイヤーのゲームオブジェクト探す用
@@ -91,6 +97,9 @@ public class PlantEnemyMove : MonoBehaviour
         thisTransform = transform;
 
         sizeX = thisTransform.localScale.x;
+
+        // rigidbody取得
+        rigid2D = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -176,38 +185,20 @@ public class PlantEnemyMove : MonoBehaviour
         {
             EnemyAI = AIState.Pre_Attack;
         }
+
+        // 遷移判断関数
+        JudgeFiring();
     }
 
     private void Pre_Attack()
     {
         if (Timer == 0f)
         {
-            // 反対側のパイプを目的にする
-            if (whichPipe == WhichPipe.Pipe1)
-            {
-                // パイプ2を目的地にする
-                TargetObject = Pipe_2;
-            }
-            else
-            {
-                // パイプ1を目的地にする
-                TargetObject = Pipe_1;
-            }
-
-            // 現在地から目的地までのベクトルを取得
-            var Vector_TargetEnemy = TargetObject.transform.position - thisTransform.position;
-
-            // ベクトルを正規化
-            vector = Vector_TargetEnemy.normalized;
-
-            TargetPosition = new Vector3(
-                thisTransform.localPosition.x + vector.x * 1.0f,
-                thisTransform.localPosition.y + vector.y * 1.0f,
-                0f);
+            SetTargetPipe();
         }
 
         // 頭をひょこっと出すくらいまで座標変更
-        thisTransform.localPosition = Vector3.MoveTowards(thisTransform.localPosition, TargetPosition, Time.deltaTime);
+        thisTransform.localPosition = Vector3.MoveTowards(thisTransform.localPosition, TargetPosition, Time.deltaTime * PreSpeed);
 
         // カウント
         Timer += Time.deltaTime;
@@ -220,6 +211,9 @@ public class PlantEnemyMove : MonoBehaviour
             // 初期化
             Timer = 0f;
         }
+
+        // 遷移判断関数
+        JudgeFiring();
     }
 
     private void Attack()
@@ -295,11 +289,24 @@ public class PlantEnemyMove : MonoBehaviour
             // 初期化
             Timer = 0f;
         }
+
+        // 遷移判断関数
+        JudgeFiring();
     }
 
     private void Firing()
     {
+        if(Timer == 0f)
+        {
+            SetTargetPipe();
 
+            // 敵の向いている方向に射出
+            rigid2D.AddForce(thisTransform.forward * rigid2D.mass * ImpulsePower, ForceMode2D.Impulse);
+
+            rigid2D.gravityScale = 1.0f;
+        }
+
+        Timer += Time.deltaTime;
     }
 
     private void Confusion()
@@ -324,6 +331,64 @@ public class PlantEnemyMove : MonoBehaviour
             // 右向き
             thisTransform.localScale = new Vector3(sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
         }
+    }
+
+    // 次に向かうターゲットを設定
+    private void SetTargetPipe()
+    {
+        // 反対側のパイプを目的にする
+        if (whichPipe == WhichPipe.Pipe1)
+        {
+            // パイプ2を目的地にする
+            TargetObject = Pipe_2;
+        }
+        else
+        {
+            // パイプ1を目的地にする
+            TargetObject = Pipe_1;
+        }
+
+        // 現在地から目的地までのベクトルを取得
+        var Vector_TargetEnemy = TargetObject.transform.localPosition - thisTransform.localPosition;
+
+        // ベクトルを正規化
+        vector = Vector_TargetEnemy.normalized;
+
+        TargetPosition = new Vector3(
+            thisTransform.localPosition.x + vector.x * 1.0f,
+            thisTransform.localPosition.y + vector.y * 1.0f,
+            0f);
+    }
+
+    // Firing状態に遷移するか判断する関数
+    private void JudgeFiring()
+    {
+        // ひびが敵自身のいるパイプにあたったら
+        if (CrackInPipe == true)
+        {
+            // 自身がいるパイプがパイプ1のときひびが当たったパイプもパイプ1だったら
+            if (whichPipe == WhichPipe.Pipe1 && CrackInObject == Pipe_1)
+            {
+                EnemyAI = AIState.Firing;
+                Debug.Log("ジャッジメントですの");
+
+            }
+            // 自身がいるパイプがパイプ2のときひびが当たったパイプもパイプ2だったら
+            else if (whichPipe == WhichPipe.Pipe2 && CrackInObject == Pipe_2)
+            {
+                EnemyAI = AIState.Firing;
+                Debug.Log("ジャッジメントですの");
+            }
+
+            CrackInPipe = false;
+        }
+    }
+
+    private IEnumerator WaitTime(float _time)
+    {
+        // 指定時間待機
+        yield return new WaitForSeconds(_time);
+
     }
 }
 

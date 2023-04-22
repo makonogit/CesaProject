@@ -1,12 +1,12 @@
 //---------------------------------------------------------
 //担当者：二宮怜
-//内容　：生成中のひびを敵に当てた時に敵が死ぬ
+//内容　：プラント場の敵がひびに当たったら死ぬ
 //---------------------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyCrackHit : MonoBehaviour
+public class PlantEnemyCrackHit : MonoBehaviour
 {
     //---------------------------------------------------------
     // - 変数宣言 -
@@ -15,33 +15,34 @@ public class EnemyCrackHit : MonoBehaviour
     // 外部取得
     private CrackCreater order = null;
     public GameObject ParentEnemy; // 親オブジェクトの敵;
-    private EnemyMove enemyMove; // EnemyMoveスクリプト取得用変数
+    private PlantEnemyMove enemyMove; // PlantEnemyMoveスクリプト取得用変数
 
     private void Start()
     {
         // 敵の基本AI処理スクリプト取得
-        enemyMove = ParentEnemy.GetComponent<EnemyMove>();
+        enemyMove = ParentEnemy.GetComponent<PlantEnemyMove>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //---------------------------------------------------------
-        //Debug.Log(collision.gameObject.tag);
-
         // 当たったものがひびなら
         if (collision.gameObject.tag == CrackTag)
         {
             // 初めの一回のみ入る
-            if (enemyMove.EnemyAI != EnemyMove.AIState.DEATH)
+            if (enemyMove.EnemyAI != PlantEnemyMove.AIState.Death)
             {
                 // 当たったひびのCrackOrderを取得
                 order = collision.gameObject.GetComponent<CrackCreater>();
 
                 //生成中なら
-                if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                if (order != null && (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING))
                 {
-                    // 死亡状態にする
-                    enemyMove.EnemyAI = EnemyMove.AIState.DEATH;
+                    if (enemyMove.EnemyAI == PlantEnemyMove.AIState.Attack || enemyMove.EnemyAI == PlantEnemyMove.AIState.Confusion)
+                    {
+                        // 死亡状態にする
+                        enemyMove.EnemyAI = PlantEnemyMove.AIState.Death;
+                    }
                 }
             }
         }

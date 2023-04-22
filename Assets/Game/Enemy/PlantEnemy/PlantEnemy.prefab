@@ -140,7 +140,11 @@ MonoBehaviour:
   EnemyAI: 0
   PlayerHit: 0
   AttackWaitTime: 1
-  AttackGapTime: 1
+  AttackIntervalTime: 1
+  PreSpeed: 3
+  AttackSpeed: 10
+  CrackInPipe: 0
+  Parent: {fileID: 0}
 --- !u!1 &6669761895189266307
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,3 +222,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575d3def9d1f63f46a9b1c4e41ea5d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParentEnemy: {fileID: 0}

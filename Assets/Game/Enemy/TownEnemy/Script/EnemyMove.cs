@@ -517,8 +517,6 @@ public class EnemyMove : MonoBehaviour
 
         if (death == false) 
         {
-            Debug.Log(Child);
-
             // ƒvƒŒƒCƒ„[‚Æ‚Ì“–‚½‚è”»’è‚ğ
             Child.GetComponent<CircleCollider2D>().enabled = false;
 
