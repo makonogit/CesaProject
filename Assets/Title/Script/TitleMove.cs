@@ -94,8 +94,8 @@ public class TitleMove : MonoBehaviour
             //スプライトを変更
             if (FallNum > 0)
             {
-                //CrystalAlpha += (1.0f / 255.0f) * 20;
-                //CrystalRenderer.color = new Color(1.0f, 1.0f, 1.0f, CrystalAlpha);
+                CrystalAlpha += (1.0f / 255.0f) * 20;
+                CrystalRenderer.color = new Color(1.0f, 1.0f, 1.0f, CrystalAlpha);
                 //―追加担当者：中川直登―//
                 Instantiate(_particle);
                 //――――――――――――//
