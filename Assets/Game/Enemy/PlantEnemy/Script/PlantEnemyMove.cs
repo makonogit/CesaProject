@@ -27,7 +27,7 @@ public class PlantEnemyMove : MonoBehaviour
     }
 
     // 初期状態はパイプ1の中
-    private WhichPipe whichPipe = WhichPipe.Pipe1;
+    [SerializeField]private WhichPipe whichPipe = WhichPipe.Pipe1;
 
     private float sizeX; // ローカルサイズ保存
 
@@ -55,13 +55,13 @@ public class PlantEnemyMove : MonoBehaviour
 
     // 攻撃用変数
     
-    private float Timer = 0f; // タイマー
+    public float Timer = 0f; // タイマー
     private GameObject TargetObject; // 飛び出した先のオブジェクト
     private Vector3 TargetPosition; // 目標地点
     private Vector3 vector; // 正規化したベクトル
 
-    [Header("予備動作から攻撃までの待機時間")] public float AttackWaitTime = 1.0f; // 顔を出してから攻撃に入るまでの待ち時間
-    [Header("攻撃してから次の予備動作に移るまでの時間")] public float AttackIntervalTime = 1.0f; // 攻撃してから次の攻撃に移るまでの時間
+    [Header("予備動作から攻撃までの待機時間(s)")] public float AttackWaitTime = 1.0f; // 顔を出してから攻撃に入るまでの待ち時間
+    [Header("攻撃してから次の予備動作に移るまでの時間(s)")] public float AttackIntervalTime = 1.0f; // 攻撃してから次の攻撃に移るまでの時間
     [Header("予備動作時のスピード")]public float PreSpeed = 3f; // 予備動作時の移動速度
     [Header("攻撃モーション時スピード")]public float AttackSpeed = 10f; // 攻撃するときの移動速度
 
@@ -70,6 +70,12 @@ public class PlantEnemyMove : MonoBehaviour
     private Rigidbody2D rigid2D; // 敵自身のrigidbody2D
     [Header("射出時に加える力")] public float ImpulsePower = 5f; // 射出時に加える力
     [System.NonSerialized]public GameObject CrackInObject = null; // ひびがあたったパイプを保存する
+    private Vector3 CenterBetweenPipes; // パイプ間の中心座標
+    [Header("射出してから混乱状態になるまでの時間(s)")]public float FiringTime = 0.5f;
+    private float Adjustment; // 射出時の目標位置から少し遠ざける
+
+    //マテリアル
+    private Material mat;
 
     // 外部取得
     private Transform thisTransform; // このオブジェクトの座標を持つ変数
@@ -79,6 +85,7 @@ public class PlantEnemyMove : MonoBehaviour
     [Header("この敵が所属するPipeEnemyGroupを入れてね")]public GameObject Parent; // 親オブジェクト
     private GameObject Pipe_1; // パイプ1
     private GameObject Pipe_2; // パイプ2
+    private GameObject Child; // 敵自身の子オブジェクト
 
     // Start is called before the first frame update
     void Start()
@@ -100,6 +107,22 @@ public class PlantEnemyMove : MonoBehaviour
 
         // rigidbody取得
         rigid2D = GetComponent<Rigidbody2D>();
+
+        // パイプ間の中心座標を取得
+        if (Pipe_1.transform.localPosition.x > Pipe_2.transform.localPosition.x) 
+        {
+            CenterBetweenPipes = (Pipe_1.transform.localPosition - Pipe_2.transform.localPosition) / 2f;
+        }
+        else
+        {
+            CenterBetweenPipes = (Pipe_2.transform.localPosition - Pipe_1.transform.localPosition) / 2f;
+        }
+
+        // 子オブジェクト取得
+        Child = transform.Find("HitCollider").gameObject;
+
+        // マテリアル取得
+        mat = GetComponent<SpriteRenderer>().material;
     }
 
     // Update is called once per frame
@@ -154,11 +177,10 @@ public class PlantEnemyMove : MonoBehaviour
                 break;
         }
 
-        //Debug.Log(EnemyAI);
-        //Debug.Log("which");
-        //Debug.Log(whichPipe);
-        //Debug.Log("Target");
-        //Debug.Log(TargetObject);
+
+        Debug.Log(Pipe_1.transform.localPosition);
+        Debug.Log(Pipe_2.transform.localPosition);
+        Debug.Log(CenterBetweenPipes);
     }
 
     private void Idle()
@@ -228,7 +250,7 @@ public class PlantEnemyMove : MonoBehaviour
                     0f);
         }
 
-        // 頭をひょこっと出すくらいまで座標変更
+        // 目標のパイプの位置まで移動
         thisTransform.localPosition = Vector3.MoveTowards(thisTransform.localPosition, TargetPosition, Time.deltaTime * AttackSpeed);
 
         // カウント
@@ -298,25 +320,70 @@ public class PlantEnemyMove : MonoBehaviour
     {
         if(Timer == 0f)
         {
-            SetTargetPipe();
-
-            // 敵の向いている方向に射出
-            rigid2D.AddForce(thisTransform.forward * rigid2D.mass * ImpulsePower, ForceMode2D.Impulse);
-
-            rigid2D.gravityScale = 1.0f;
+            // 目標地点をずらすための値作り
+            if(whichPipe == WhichPipe.Pipe1)
+            {
+                Adjustment = CenterBetweenPipes.x * 0.2f;
+            }
+            else
+            {
+                Adjustment = -CenterBetweenPipes.x * 0.2f;
+            }
         }
 
+        // 指定時間が経過してから重力の影響を与える
+        if(Timer >= 0.1f)
+        {
+            rigid2D.gravityScale = 1f;
+        }
+
+        // 最終目標位置
+        var target = new Vector3(
+            CenterBetweenPipes.x + Adjustment,
+            CenterBetweenPipes.y,
+            CenterBetweenPipes.z
+            );
+
+        // y座標は自由落下
+        var PositionY = thisTransform.localPosition.y;
+
+        // パイプの中心まで移動
+        thisTransform.localPosition = Vector3.MoveTowards(thisTransform.localPosition, target, Time.deltaTime * ImpulsePower);
+
+        // y座標を正しいものに置き換える
+        thisTransform.localPosition = new Vector3(
+            thisTransform.localPosition.x,
+            thisTransform.localPosition.y,
+            thisTransform.localPosition.z
+            );
+
         Timer += Time.deltaTime;
+
+        // 一定時間たったら
+        if (Timer >= FiringTime)
+        {
+            // 混乱状態へ
+            EnemyAI = AIState.Confusion;
+        }
     }
 
     private void Confusion()
     {
-
+        mat.color = Color.blue;
     }
 
     private void Death()
     {
+        // プレイヤーとの当たり判定をけす
+        Child.GetComponent<CircleCollider2D>().enabled = false;
 
+        // 重力がついてないならつける
+        if(rigid2D.gravityScale == 0f)
+        {
+            rigid2D.gravityScale = 1f;
+        }
+
+        mat.color = Color.red;
     }
 
     private void SetDirection()
@@ -370,14 +437,16 @@ public class PlantEnemyMove : MonoBehaviour
             if (whichPipe == WhichPipe.Pipe1 && CrackInObject == Pipe_1)
             {
                 EnemyAI = AIState.Firing;
-                Debug.Log("ジャッジメントですの");
+                Timer = 0f;
+                //Debug.Log("ジャッジメントですの");
 
             }
             // 自身がいるパイプがパイプ2のときひびが当たったパイプもパイプ2だったら
             else if (whichPipe == WhichPipe.Pipe2 && CrackInObject == Pipe_2)
             {
                 EnemyAI = AIState.Firing;
-                Debug.Log("ジャッジメントですの");
+                Timer = 0f;
+                //Debug.Log("ジャッジメントですの");
             }
 
             CrackInPipe = false;

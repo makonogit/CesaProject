@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3814946231488405932}
   - component: {fileID: 3814946231488405933}
   - component: {fileID: 8096334670641845587}
+  - component: {fileID: 949577477}
+  - component: {fileID: 949577476}
   m_Layer: 17
   m_Name: PipeOfEnemy_2
   m_TagString: EnemyPipe
@@ -73,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -111,6 +113,40 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &949577477
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3814946231488405935}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
+--- !u!114 &949577476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3814946231488405935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c557db9bca9473d4b9380698c791e3c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyObj: {fileID: 3814946232320544356}
 --- !u!1 &3814946232851702057
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,6 +158,8 @@ GameObject:
   - component: {fileID: 3814946232851702062}
   - component: {fileID: 3814946232851702063}
   - component: {fileID: 1492000838016318536}
+  - component: {fileID: 215103891}
+  - component: {fileID: 215103890}
   m_Layer: 17
   m_Name: PipeOfEnemy_1
   m_TagString: EnemyPipe
@@ -184,7 +222,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -222,6 +260,40 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &215103891
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3814946232851702057}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
+--- !u!114 &215103890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3814946232851702057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c557db9bca9473d4b9380698c791e3c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyObj: {fileID: 3814946232320544356}
 --- !u!1 &3814946233279524810
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,7 +485,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlantEnemy
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3204242314438072383, guid: 4c534bbbb9b91ea4ab6e700227cb4f9c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577780168638756866, guid: 4c534bbbb9b91ea4ab6e700227cb4f9c, type: 3}
+      propertyPath: Parent
+      value: 
+      objectReference: {fileID: 3814946233279524810}
+    - target: {fileID: 5577780168638756866, guid: 4c534bbbb9b91ea4ab6e700227cb4f9c, type: 3}
+      propertyPath: FiringTime
+      value: 2.3
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2731023120348540403, guid: 4c534bbbb9b91ea4ab6e700227cb4f9c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4c534bbbb9b91ea4ab6e700227cb4f9c, type: 3}
 --- !u!1 &3814946232320544356 stripped
 GameObject:
@@ -425,3 +510,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3204242314438072368, guid: 4c534bbbb9b91ea4ab6e700227cb4f9c, type: 3}
   m_PrefabInstance: {fileID: 1767284667795707482}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4902565193986615769 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6669761895189266307, guid: 4c534bbbb9b91ea4ab6e700227cb4f9c, type: 3}
+  m_PrefabInstance: {fileID: 1767284667795707482}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &405029867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4902565193986615769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e68555b1d20bd4aa0fc8099873eb21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ParentEnemy: {fileID: 3814946232320544356}
