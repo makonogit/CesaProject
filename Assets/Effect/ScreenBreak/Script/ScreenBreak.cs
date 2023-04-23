@@ -51,8 +51,8 @@ public class ScreenBreak : MonoBehaviour
             int rndDebris = Random.Range(0, 3);
             int rndX = Random.Range(1, 20);
             int rndY = Random.Range(1, 20);
-            int rndSizeX = Random.Range(1, 3);
-            int rndSizeY = Random.Range(1, 3);
+            int rndSizeX = Random.Range(1, 2);
+            int rndSizeY = Random.Range(1, 2);
             int rndRot = Random.Range(1, 360);
 
             // ”j•Ğ‚ğ¶¬

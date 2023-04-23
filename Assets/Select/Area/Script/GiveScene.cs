@@ -30,7 +30,6 @@ public class GiveScene : MonoBehaviour
 
     private SetStage _Stagemanager;
     //private SetStage setStage;
-   
 
     private void Start()
     {
@@ -62,8 +61,9 @@ public class GiveScene : MonoBehaviour
         // もしプレイヤーに当たったなら
         if (collision.tag == "Player")
         {
-            
-           if(_selected != null) 
+            _selected.AreaPos = transform;  //　自身のTransformをセット
+
+            if(_selected != null) 
             {
                 _Stagemanager.SetStageData(_Areanumber, _number);
                 _selected.SelectScene(GetScene);

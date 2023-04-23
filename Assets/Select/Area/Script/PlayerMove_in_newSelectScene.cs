@@ -145,7 +145,7 @@ public class PlayerMove_in_newSelectScene : MonoBehaviour
             _state = value;
 
             // パーティクルの非表示
-            _praticle.SetActive(value == PlayerState_in_newSelectScene.CRACK);
+            //_praticle.SetActive(value == PlayerState_in_newSelectScene.CRACK);
             // プレイヤーの表示
             _sprite.enabled = (value == PlayerState_in_newSelectScene.WALK);
         }
