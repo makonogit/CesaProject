@@ -54,6 +54,11 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] private float AttackWaitTime = 0.3f; // 攻撃後の待機時間
     private float AttackWaitTimer = 0f;
 
+    // コルーチン関係
+    private bool InCoroutine = false; // コルーチンに入ったか
+    private bool AttackStart = false; // 攻撃にディレイを掛ける
+    [Header("攻撃を何秒おくらせるか")]public float InCoroutineWaitTime = 0.5f; // 何秒遅らせるか
+
     // 死亡時の処理が終わったかを持つ変数
     private bool death = false;
 
@@ -75,6 +80,8 @@ public class EnemyMove : MonoBehaviour
 
     // 敵行動状態
     public AIState EnemyAI = AIState.INIT_PATROL;
+
+    private CircleCollider2D circleCol;
 
     // 外部取得
     private Transform thisTransform; // このオブジェクトの座標を持つ変数
@@ -106,6 +113,10 @@ public class EnemyMove : MonoBehaviour
 
         // 子オブジェクト取得
         Child = transform.Find("HitCollider").gameObject;
+
+        // コライダー取得
+        circleCol = GetComponent<CircleCollider2D>();
+        AdjustX = circleCol.radius;
     }
 
     // Update is called once per frame
@@ -253,8 +264,8 @@ public class EnemyMove : MonoBehaviour
 
         // 進行方向にレイを飛ばして壁にぶつかったら進行方向を変える
         Vector2 origin = new Vector2(
-            thisTransform.position.x + AdjustX,
-            thisTransform.position.y
+            thisTransform.localPosition.x + AdjustX,
+            thisTransform.localPosition.y
             );
 
         // レイを飛ばす方向
@@ -342,8 +353,8 @@ public class EnemyMove : MonoBehaviour
 
             // 進行方向にレイを飛ばして壁にぶつかったら進行方向を変える
             Vector2 origin = new Vector2(
-                thisTransform.position.x + AdjustX,
-                thisTransform.position.y
+                thisTransform.localPosition.x + AdjustX,
+                thisTransform.localPosition.y
                 );
 
             // レイを飛ばす方向
@@ -435,57 +446,68 @@ public class EnemyMove : MonoBehaviour
     {
         // タックル
 
-        if (Return == false)
+        // 最初のフレームでディレイかける
+        if(InCoroutine == false)
         {
-            // 座標計算
-            NowEnemyPos += AttackSign * AttackDistance * Time.deltaTime * 2f;
-
-            // AttackTimerの値によって座標変化
-            thisTransform.localPosition = new Vector3(
-                NowEnemyPos,
-                thisTransform.localPosition.y,
-                thisTransform.localPosition.z);
+            StartCoroutine(WaitTimer());
         }
-        else
-        {
-            // 座標計算
-            // 0に近づいていく
-            NowEnemyPos -= AttackSign * AttackDistance * Time.deltaTime * 2f;
 
-            // 元の位置を通り過ぎないようにする
-            if(AttackSign * NowEnemyPos < 0)
+        if (AttackStart == true)
+        {
+            if (Return == false)
             {
-                NowEnemyPos = AttackStartPositionX;
+                // 座標計算
+                NowEnemyPos += AttackSign * AttackDistance * Time.deltaTime * 2f;
+
+                // AttackTimerの値によって座標変化
+                thisTransform.localPosition = new Vector3(
+                    NowEnemyPos,
+                    thisTransform.localPosition.y,
+                    thisTransform.localPosition.z);
+            }
+            else
+            {
+                // 座標計算
+                // 0に近づいていく
+                NowEnemyPos -= AttackSign * AttackDistance * Time.deltaTime * 2f;
+
+                // 元の位置を通り過ぎないようにする
+                if (AttackSign * NowEnemyPos < 0)
+                {
+                    NowEnemyPos = AttackStartPositionX;
+                }
+
+                thisTransform.localPosition = new Vector3(
+                    NowEnemyPos,
+                    thisTransform.localPosition.y,
+                    thisTransform.localPosition.z);
             }
 
-            thisTransform.localPosition = new Vector3(
-                NowEnemyPos,
-                thisTransform.localPosition.y,
-                thisTransform.localPosition.z);
-        }
-        
-        AttackTimer += Time.deltaTime;
+            AttackTimer += Time.deltaTime;
 
-        //  時間経過でもとの地点に戻るようの変数
-        if(AttackTimer > OneAttackNeedTime / 2)
+            //  時間経過でもとの地点に戻るようの変数
+            if (AttackTimer > OneAttackNeedTime / 2)
+            {
+                Return = true;
+            }
+
+            // 一回の攻撃ループにかかる時間が経過したら
+            if (AttackTimer > OneAttackNeedTime)
+            {
+                // 繰り返し
+                EnemyAI = AIState.ATTACK_WAIT;
+
+                // 初期化
+                Return = false;
+                InCoroutine = false;
+                AttackStart = false;
+            }
+        }
+
+        if (Distance > attackDistance)
         {
-            Return = true;
+            EnemyAI = AIState.TRACKING;
         }
-
-        // 一回の攻撃ループにかかる時間が経過したら
-        if(AttackTimer > OneAttackNeedTime)
-        {
-            // 繰り返し
-            EnemyAI = AIState.ATTACK_WAIT;
-
-            // 初期化
-            Return = false;
-        }
-
-        //if (Distance > attackDistance)
-        //{
-        //    EnemyAI = AIState.TRACKING;
-        //}
     }
 
     private void Attack_Wait()
@@ -524,16 +546,12 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag == NailTag)
-    //    {
-    //        Debug.Log("tag");
+    IEnumerator WaitTimer()
+    {
+        InCoroutine = true;
+        // 指定時間待機
+        yield return new WaitForSeconds(InCoroutineWaitTime);
 
-    //        if(hammer.MomentHitNails == true)
-    //        {
-    //            Destroy(this.gameObject);
-    //        }
-    //    }
-    //}
+        AttackStart = true;
+    }
 }

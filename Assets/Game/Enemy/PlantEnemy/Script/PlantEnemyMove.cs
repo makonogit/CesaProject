@@ -452,12 +452,5 @@ public class PlantEnemyMove : MonoBehaviour
             CrackInPipe = false;
         }
     }
-
-    private IEnumerator WaitTime(float _time)
-    {
-        // Žw’èŽžŠÔ‘Ò‹@
-        yield return new WaitForSeconds(_time);
-
-    }
 }
 
