@@ -17,6 +17,10 @@ public class SEManager_Select : MonoBehaviour
     public AudioClip se_town_run3;
     public AudioClip se_town_run4;
 
+    // ハンマー
+    [SerializeField]
+    private AudioClip se_hammer;
+
     // 移動SE用変数
     private bool MoveStart = false; // 動き始め
     private bool Moving = false; // 動いている途中
@@ -128,5 +132,10 @@ public class SEManager_Select : MonoBehaviour
     public void SetMoveFinish()
     {
         MoveFinish = true;
+    }
+
+    public void PlayHammer()
+    {
+        audioSource.PlayOneShot(se_hammer);
     }
 }
