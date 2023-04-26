@@ -25,7 +25,8 @@ public class OverheadCheck : MonoBehaviour
     // 10 : Ground
     // 14 : Block
     // 17 : EnemyPipe
-    private LayerMask layerMask = 1 << 10 | 1 << 14 | 1 << 17;
+    // 18 : Pipe
+    private LayerMask layerMask = 1 << 10 | 1 << 14 | 1 << 17 | 1 << 18;
 
     // 外部取得
     private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数

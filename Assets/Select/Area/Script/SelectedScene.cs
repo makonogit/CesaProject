@@ -82,7 +82,7 @@ public class SelectedScene : MonoBehaviour
                     AreaPos.position, Quaternion.identity);
                 CrackObj.transform.localScale = new Vector3(0.08f, 0.08f, 1.0f);
                 CrackObj.GetComponent<SpriteRenderer>().sortingOrder = 12;
-                se.GetComponent<SEManager_Select>().PlayHammer();
+                //se.GetComponent<SEManager_Select>().PlayHammer();
                 
                 //　パーティクルを生成
                 GameObject Particle = Instantiate(CrackParticle, transform.position, Quaternion.identity);
