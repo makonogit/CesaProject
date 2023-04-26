@@ -11,7 +11,13 @@ public class GiveScene : MonoBehaviour
     //-----------------------------------------------------------------
     //―公開変数―(公)
 
-    // ナシ
+    public enum StateID 
+    {
+        UNPLAYABLE, // プレイ不可能
+        PLAYABLE,   // プレイ可能
+        CLEAR,      // クリア済み
+    }
+
 
     //-----------------------------------------------------------------
     //―秘匿変数―(私)
@@ -30,6 +36,8 @@ public class GiveScene : MonoBehaviour
 
     private SetStage _Stagemanager;
     //private SetStage setStage;
+    [SerializeField]
+    private StateID _state;
 
     private void Start()
     {
@@ -41,6 +49,8 @@ public class GiveScene : MonoBehaviour
         if (_selected == null) Debug.LogError("SelectedSceneのコンポーネントを取得できませんでした。newSeelctScene用です。");
 
         _Stagemanager = new SetStage();
+
+        _state = StateID.UNPLAYABLE;
         //setStage = _Stagemanager.GetComponent<SetStage>();
     }
 
@@ -95,6 +105,18 @@ public class GiveScene : MonoBehaviour
                 _selectMove.SelectScene(null);
                 _selectMove.StageNumber = 0;
             }
+        }
+    }
+
+    public StateID State 
+    {
+        get 
+        {
+            return _state;
+        }
+        set 
+        {
+            _state = value;
         }
     }
 

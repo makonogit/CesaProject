@@ -15,13 +15,14 @@ public class AreaCrack : MonoBehaviour
     [SerializeField]
     private List<GameObject> _cracks;
     private int _displayedNum = 0;
-    private bool _init = false;
+    private int _startNum;
     private int _nextNum = 0;
     [SerializeField, Header("クリスタル")]
     private GameObject Crystal;
     private SpriteRenderer _crys;
     [SerializeField, Header("ひびの生成時間")]
-    private float _creatTime = 0.1f;
+    private AnimationCurve _creatTime;
+    //private float _creatTime = 0.1f;
     [SerializeField, Header("壊れる時間")]
     private float _breakTime = 2.0f;
 
@@ -29,82 +30,88 @@ public class AreaCrack : MonoBehaviour
 
     [SerializeField]
     private ParticleSystem particle;
+
+    private bool _isAnimation;
+
+    [SerializeField]
+    private List<GiveScene>_stages;
+
+    private bool _isBreaked;
+
+    private bool _isAreClear;
+
     // Use this for initialization
     void Start()
     {
-        if (!_init) Init();
-        if(Crystal == null) Debug.LogError("Crystalがありません");
-        _crys = Crystal.GetComponent<SpriteRenderer>();
-        if (_crys == null) Debug.LogError("SpriteRendererのコンポーネントを取得できませんでした。");
+        // 確認
+        Check();
+
+        // コンポーネントを取得
+        SetComponents();
+
+        
+        // 最後の位置設定
+        _point[_point.Length - 1] = _eddgeC2D.edgeCount - 1;
+        // 初期化
+        _isAnimation = false;
+        _isBreaked = false;
+        _isAreClear = false;
+        _displayedNum = 0;
+        _nowTime = 0.0f;
+        // ひびオブジェの設置
+        SetCrackObject();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ((_displayedNum - _nextNum) < 0)
-        {
-            CracksGenerating();
-            Debug.Log("表示した数" + _displayedNum+"最大"+ _eddgeC2D.edgeCount);
-        }
-        if(_displayedNum == _eddgeC2D.edgeCount-1) 
-        {
-            _nowTime += Time.deltaTime;
-            _crys.color = new Color(1, 1, 1, _nowTime / _breakTime);// 結晶の透明度を変えてる
-            if (_nowTime >= _breakTime) 
-            {
-                if (Crystal.activeSelf) 
-                {
-                    Instantiate(particle,transform.position,Quaternion.identity);
-                }
-                CrystalDisp(false);
-            }
-            
-        }
+        if (_isAnimation) CrackAnimetion();
+        if (isBreak) BreakCrystal();
+        
     }
-    public void CrystalDisp(bool _onOff) 
+
+    //=====================================================
+    // プライベート関数
+
+    //
+    // 関数：Check() 
+    // 
+    // 内容：変数が設定されているか確認する
+    //
+    private void Check() 
     {
-        Crystal.SetActive(_onOff);
-        if (!_onOff) 
-        {
-            for (int i = 0; i < _cracks.Count; i++)
-            {
-                _cracks[i].SetActive(false);
-            }
-        }
-    }
-    public void Set(int _oldnNm,int _nowNum) 
-    {
-        if (!_init) Init();
-        if(_oldnNm > 0) 
-        {
-            for (int i = 0; i <= _point[_oldnNm - 1]; i++)
-            {
-                _cracks[i].SetActive(true);
-            }
-            _displayedNum = _point[_oldnNm - 1];
-        }
-        if (_nowNum>0) 
-        {
-            _nextNum = _point[_nowNum - 1];
-        }
-    }
-    private void Init()
-    {
-        _eddgeC2D = GetComponent<EdgeCollider2D>();
-        if (_eddgeC2D == null) Debug.LogError("EdgeCollider2Dのコンポーネントを取得できませんでした。");
         if (_crackObj == null) Debug.LogError("ひびのオブジェクトが入ってません" + this.name);
         if (_point.Length < 5) Debug.LogError("ポイント設定しましたか？");
-        
-        // 最後の位置設定
-        _point[_point.Length - 1] = _eddgeC2D.edgeCount-1;
-        _displayedNum = 0;
-        _nextNum = 0;
-        for (int i = 0; i < _eddgeC2D.edgeCount; i++) 
+        if (Crystal == null) Debug.LogError("Crystalがありません");
+    }
+    //
+    // 関数：SetComponents() 
+    // 
+    // 内容：コンポーネントを取得する
+    //
+    private void SetComponents() 
+    {
+        _crys = Crystal.GetComponent<SpriteRenderer>();
+        if (_crys == null) Debug.LogError("SpriteRendererのコンポーネントを取得できませんでした。");
+
+        _eddgeC2D = GetComponent<EdgeCollider2D>();
+        if (_eddgeC2D == null) Debug.LogError("EdgeCollider2Dのコンポーネントを取得できませんでした。");
+
+    }
+
+    //
+    // 関数：SetCrackObject()
+    // 
+    // 内容：ひびオブジェの設置
+    //
+    private void SetCrackObject()
+    {
+        for (int i = 0; i < _eddgeC2D.edgeCount; i++)
         {
-            Vector2 _pos = (_eddgeC2D.points[i] + _eddgeC2D.points[i + 1])/2;
+            Vector2 _pos = (_eddgeC2D.points[i] + _eddgeC2D.points[i + 1]) / 2;
             _pos = new Vector2(_pos.x * this.transform.localScale.x, _pos.y * this.transform.localScale.y);
             _pos += new Vector2(this.transform.position.x, this.transform.position.y);
-            _cracks.Add(Instantiate(_crackObj,new Vector3(_pos.x, _pos.y,0),Quaternion.identity));
+            _cracks.Add(Instantiate(_crackObj, new Vector3(_pos.x, _pos.y, 0), Quaternion.identity));
 
             _cracks[i].name = (transform.name + "crack" + i);
             //--------------------------------------
@@ -122,18 +129,176 @@ public class AreaCrack : MonoBehaviour
             _cracks[i].SetActive(false);
             //_cracks[i].transform.SetParent(this.transform);
         }
-        _init = true;
     }
 
-    private void CracksGenerating() 
+    //
+    // 関数： CrackAnimetion() 
+    // 
+    // 内容：ひびのアニメーション
+    //
+    private void CrackAnimetion() 
     {
+        // 時間経過
         _nowTime += Time.deltaTime;
-        if (_nowTime >= _creatTime&& _displayedNum < _eddgeC2D.edgeCount) 
+        if (isCrackActive)
         {
-            _displayedNum++;
             _cracks[_displayedNum].SetActive(true);
-
-            _nowTime = 0;
+            _displayedNum++;
+            _nowTime = 0.0f;
         }
+        if(_displayedNum >= _point[_nextNum]) 
+        {
+            _isAnimation = false;
+        }
+    }
+
+    //
+    // 関数：BreakCrystal() 
+    // 
+    // 内容：結晶が壊れる関数
+    //
+    private void BreakCrystal() 
+    {
+        // 結晶の非表示
+        AreaClear();
+
+        // パーティクルの設定
+        Quaternion quat = Quaternion.Euler(-90, 0.0f, 0.0f);// 角度
+        // パーティクル生成
+        for (int i = 0; i < 2; i++) Instantiate(particle, this.transform.position, quat);
+        
+        
+        _isBreaked = true;
+    }
+
+    //
+    // 関数：isBreak 
+    // 
+    // 内容：結晶が壊れるフラグ
+    //
+    private bool isBreak 
+    {
+        get 
+        {
+            // 壊れているか
+            if (_isBreaked) return false;
+            // すべて表示したか
+            if (_displayedNum < _point[_point.Length - 1]) return false;
+            return true;
+        }
+    }
+    //
+    // 関数：isCrackActive 
+    // 
+    // 内容：ひびの表示をするか
+    //
+    private bool isCrackActive 
+    {
+        get
+        {
+            float numerator = (_displayedNum - _startNum);
+            numerator = (numerator == 0 ? 1 : numerator);
+            float  ratio = numerator / (float)(_point[_nextNum] - _startNum);
+            if (_nowTime < _creatTime.Evaluate(ratio)) return false;
+            return true;
+        }
+    }
+
+
+    //=====================================================
+    // パブリック関数
+
+    //
+    // 関数： AreaClear()
+    // 
+    // 内容：エリアをクリアしていた時
+    //
+    public void AreaClear()
+    {
+        // 結晶非表示
+        _crys.enabled = false;
+        // 全ひびの非表示
+        for (int i =0; i < _cracks.Count; i++) _cracks[i].SetActive(false);
+        
+        // 全ステージの状態をクリアにする
+        for (int i = 0; i < _stages.Count; i++) _stages[i].State = GiveScene.StateID.CLEAR;
+    }
+
+    //
+    // 関数：LoadStage(int _clearNum) 
+    // 
+    // 内容：エリアのステージ状態を設定する
+    //
+    public void LoadStage(int _clearNum) 
+    {
+        Debug.Log("クリアした数"+_clearNum);
+        // 配列に合わせるため値を一個ずらす
+        int Num = _clearNum - 1;
+        if(Num >= 0)// ステージ１以上クリアしているなら
+        {
+            // ひびの表示
+            for (; _displayedNum <= _point[Num]; _displayedNum++) _cracks[_displayedNum].SetActive(true);
+            // ステージの状態をクリアにする
+            for (int i = 0; i <= Num; i++) _stages[i].State = GiveScene.StateID.CLEAR;
+            //次のステージをプレイ可能にする
+            _stages[Num+1].State = GiveScene.StateID.PLAYABLE;
+        }
+        else if (Num < 0) // まだステージをクリアしてないなら
+        {
+            //はじめのステージをプレイ可能にする
+            _stages[0].State = GiveScene.StateID.PLAYABLE;
+        }    
+        
+    }
+
+    //
+    // 関数：ClearStage(int _stageNum) 
+    // 
+    // 内容：ステージをクリアしたならひびのアニメーションを開始する
+    //
+    public int ClearStage(int _stageNum) 
+    {
+        Debug.Log("ステージステータス"+_stages[_stageNum].State);
+        // プレイ可能でクリアしていない時
+        if (_stages[_stageNum].State == GiveScene.StateID.PLAYABLE) 
+        {
+            _isAnimation = true;
+            _startNum = _displayedNum;
+            _nextNum = _stageNum;
+            _stages[_stageNum].State = GiveScene.StateID.CLEAR;
+            int next = _stageNum + 1;
+            if(next < 5) 
+            {
+                _stages[next].State = GiveScene.StateID.PLAYABLE;
+            }
+            else 
+            {
+                _isAreClear = true;
+            }
+            return 1;
+        }
+        return 0;
+    }
+
+    //
+    // 関数：AreaStart()
+    // 
+    // 内容：エリアの解放
+    //
+    public void AreaStart() 
+    {
+        //はじめのステージをプレイ可能にする
+        _stages[0].State = GiveScene.StateID.PLAYABLE;
+    }
+    //
+    // 関数：IsAreaClear 
+    // 
+    // 内容：エリアがクリアしたか
+    //
+    public bool IsAreaClear 
+    { get 
+        {
+            return _isAreClear;
+        } 
     }
 }

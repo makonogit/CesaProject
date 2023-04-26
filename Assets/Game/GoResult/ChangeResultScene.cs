@@ -19,7 +19,11 @@ public class ChangeResultScene : MonoBehaviour
     private PlayerStatas playerStatus;
     private GameObject Resultobj;   // リザルト演出用のオブジェクト
     private ResultManager resultmanager;
-  
+
+    //----追加者：中川直登----
+    private Clear clear;// クリアしたかどうかをセレクトに持っていく
+    //------------------------
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -30,10 +34,14 @@ public class ChangeResultScene : MonoBehaviour
         // リザルト演出用のシステム取得
         Resultobj = GameObject.Find("Result_StageClear");
         resultmanager = Resultobj.GetComponent<ResultManager>();
-    }
 
-    // Update is called once per frame
-    void Update()
+        //----追加者：中川直登----
+        clear = new Clear();
+        //------------------------
+}
+
+// Update is called once per frame
+void Update()
     {
         var gamepad = Gamepad.current;
 
@@ -48,7 +56,7 @@ public class ChangeResultScene : MonoBehaviour
             //playerStatus.AddBreakCrystal();
             //演出開始
             //result.SetFadeFlg(true);
-
+            
             if (gamepad != null)
             {
                 //　振動停止
@@ -58,6 +66,9 @@ public class ChangeResultScene : MonoBehaviour
             {
                 resultmanager.PlayResult();
             }
+            //----追加者：中川直登----
+            clear.GameClear();// クリアした
+            //------------------------
         }
     }
 }

@@ -5,65 +5,95 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 public class ClearStageManager : MonoBehaviour
 {
-
-    private SaveData _saveData;
+    private SaveData _data;
     [SerializeField,Header("エリア")]
     private List<AreaCrack> _areas;
-    private static int _clearStages = 0;
-    private static int _oldClearStages = 0;
+
+    //必要のもの
+    // クリアしたか
+    private Clear clear;
+    // どこのステージか
+    private SetStage setmanager;
+    [SerializeField]
+    private bool flag;
     // Use this for initialization
     void Start()
     {
-        _saveData = GetComponent<SaveData>();
-        _clearStages = _saveData.Data.ClearStages;
-        if (_oldClearStages / 6 != _clearStages / 6 && _oldClearStages % 6 == 5)
-        {
-            _oldClearStages++;
-        }
-        _areas[_clearStages / 6].Set(_oldClearStages % 6, _clearStages % 6);
-        for (int i = 0; i < _areas.Count; i++) 
-        {
-            _areas[i].CrystalDisp(!(i < _oldClearStages / 6));
-        }
-    }
+        clear = new Clear();
+        setmanager = new SetStage();
+        //-------------------------------------------------------
+        _data = new SaveData();
 
+        //-------------------------------------------------------
+
+        // クリアしたステージの設定
+        SetClearStageNum();
+        flag = clear.GetFlag;
+        // クリアしたなら　クリアしたエリアにステージ番号を送る
+        if (clear.GetFlag) 
+        {
+            int areaNum = setmanager.GetAreaNum();
+            int stageNum = setmanager.GetStageNum();
+            //Debug.Log("エリア"+areaNum+"ステージ"+stageNum);
+            _data._data.ClearStages += _areas[areaNum].ClearStage(stageNum);
+            //Debug.Log(_data._data.ClearStages);
+            _data.Save(_data._data);
+            // エリアをクリアしたか
+            if (_areas[areaNum].IsAreaClear && areaNum+1 < 5)
+            {
+                _areas[areaNum+1].AreaStart();//新エリア解放
+                    
+            }
+        }
+        
+    }
     private void OnDestroy()
     {
-        _saveData.Data.ClearStages = _clearStages;
-        _saveData.Save(_saveData.Data);
-        _oldClearStages = _clearStages;
+        // メインゲーム開始
+        clear.StartGame();
     }
 
-    // Update is called once per frame
-    void Update()
+    //
+    // 関数；SetClearStageNum()
+    //
+    // 内容：クリアしたステージの設定
+    //
+    private void SetClearStageNum()
     {
+        // エリア番号：ゼロの除算をする可能性があるため三項演算でやっています。
+        int _areaNum = (_data._data.ClearStages == 0 ? 0 : _data._data.ClearStages / 5);
 
+        // ステージ番号
+        int _stageNum = _data._data.ClearStages - (_areaNum * 5);
+
+        // クリアしたステージの設定
+        _areas[_areaNum].LoadStage(_stageNum);
+
+        // クリアしたエリアの設定
+        for (int i = 0; i < _areaNum; i++) _areas[i].AreaClear();
     }
 
-    public void OnTest(InputAction.CallbackContext _context) 
+
+}
+public class Clear 
+{
+    private static bool _isClear = false;
+    public bool GetFlag
     {
-        // 押された瞬間
-        if (_context.phase == InputActionPhase.Started)
+        get 
         {
-            _clearStages++;
-            if(_clearStages < 30) 
-            {
-                if(_oldClearStages/6 != _clearStages / 6 && _oldClearStages % 6 == 5) 
-                {
-                    _oldClearStages++;
-                }
-                _areas[_clearStages / 6].Set(_oldClearStages % 6, _clearStages % 6);
-                //Debug.Log("エリア"+(_clearStages / 6)+"前のデータ"+(_oldClearStages % 6)+"今のデータ"+( _clearStages % 6));
-            }
-            for (int i = 0; i < _areas.Count; i++)
-            {
-                _areas[i].CrystalDisp(!(i < _oldClearStages / 6));
-            }
-            _oldClearStages = _clearStages;
+            return _isClear;
         }
     }
 
+    public void GameClear() 
+    {
+        _isClear = true;
+    }
+    public void StartGame()
+    {
+        _isClear = false;
+    }
 }

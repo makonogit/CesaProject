@@ -6,19 +6,34 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+
 public class SaveData : MonoBehaviour
 {
     [HideInInspector]
     public StatusData _data;                          // json変換するデータのクラス
-    string filepath;                                        // ファイルパス
-    string fileName = "Data.json";                          // ファイル名
+    private string filepath;                                        // ファイルパス
+    private string fileName = "Data.json";                          // ファイル名
 
-    private int _maxArea = 5;
-    private int _maxStage = 5;
+    public SaveData() 
+    {
+        // パス名取得
+        filepath = Application.dataPath + "/" + fileName;
 
+        // ファイルがないとき、ファイル作成
+        if (!File.Exists(filepath))
+        {
+            // 初期化
+            Init();
+
+            Save(_data);
+        }
+
+        // ファイルを読み込んでdataに格納
+        _data = Load(filepath);
+    }
     //-----------------------------------------------------------------
     //―開始時
-    private void Awake()
+    private void Start()
     {
         // パス名取得
         filepath = Application.dataPath + "/" + fileName;
@@ -48,18 +63,25 @@ public class SaveData : MonoBehaviour
         }
     }
 
-    public void Save(StatusData _data)
+    public void Save(StatusData data)
     {
-        string json = JsonUtility.ToJson(_data);
-        StreamWriter wr = new StreamWriter(filepath, false);
+        // パス名取得
+        filepath = Application.dataPath + "/" + fileName;
+
+        var fs = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+        string json = JsonUtility.ToJson(data);
+        StreamWriter wr = new StreamWriter(fs);
         wr.WriteLine(json);
+        wr.Flush();
         wr.Close();
+        fs.Close();
     }
 
     private StatusData Load(string path)
     {
         StreamReader rd = new StreamReader(path);
         string json = rd.ReadToEnd();
+        rd.Close();
         return JsonUtility.FromJson<StatusData>(json);
     }
     private void OnDestroy()
@@ -68,26 +90,7 @@ public class SaveData : MonoBehaviour
     }
     private void Init()
     {
-
-        // 初期化
-        _data.Name = "テストデータ";
-        _data.ClearStages = 0;
-        //宣言
-        _data.Stage =new bool[_maxArea][];
-        for (int i = 0; i < _maxArea; i++) 
-        {
-            _data.Stage[i] = new bool[_maxStage];
-        }
-        // 初期化
-        for(int i = 0;i<_maxArea; i++) 
-        {
-            for(int j = 0; j < _maxStage; j++) 
-            {
-                _data.Stage[i][j] = false;
-            }
-        }
-        
-
+        _data = new StatusData();
     }
 
 }
@@ -97,6 +100,10 @@ public class SaveData : MonoBehaviour
 public class StatusData
 { 
     public string Name;
-    public bool[][] Stage;
     public int ClearStages;
+    public StatusData() 
+    { 
+        Name = "テストデータ";
+        ClearStages = 0;
+    }
 }
