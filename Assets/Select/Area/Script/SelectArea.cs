@@ -52,14 +52,17 @@ public class SelectArea : MonoBehaviour
     private Vector3 _startPos;
     private Vector3 _endPos;
 
+    private SetStage setmanager;
+
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
     {
         //--------------------------------------
         //初期化
-        _nowArea = 0;// ※おそらくデータを読み込む処理に変わる
-        _nextArea = 0;// ※おそらくデータを読み込む処理に変わる
+        setmanager = new SetStage();
+        _nowArea = setmanager.GetAreaNum();// ※おそらくデータを読み込む処理に変わる
+        _nextArea = setmanager.GetAreaNum();// ※おそらくデータを読み込む処理に変わる
         _max = _positions.Count - 1;
         _startPos =  new Vector3(-11, 4.2f, 0);
         _endPos = new Vector3(-6.5f, 4.2f, 0);
@@ -72,6 +75,7 @@ public class SelectArea : MonoBehaviour
         //SceneChangeの取得
         scene = GameObject.Find("SceneManager").GetComponent<SceneChange>();
         if (scene == null) Debug.LogError("SceneChangeのコンポーネントを取得できませんでした。");
+        this.transform.position = new Vector3(_positions[_nowArea].position.x, _positions[_nowArea].position.y, transform.position.z);
     }
 
     //-----------------------------------------------------------------
