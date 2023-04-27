@@ -328,7 +328,7 @@ public class ResultManager : MonoBehaviour
 
         if (standbyTim < flameCnt)
         {
-            SceneManager.LoadScene("SelectScene");
+            SceneManager.LoadScene("newSelectScene");
             nowState = StateID.NULL;
         }
     }
