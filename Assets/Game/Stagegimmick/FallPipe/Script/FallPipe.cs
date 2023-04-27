@@ -13,9 +13,10 @@ public class FallPipe : MonoBehaviour
     // 当たり判定時の必要タグ名
     private string GroundTag = "Ground";
     private string PipeTag = "Pipe";
+    private string PlayerTag = "Player";
 
     // パイプの状態
-    private enum PIPESTATUS
+    public enum PIPESTATUS
     {
         NotBroken,       // どこも壊れていない
         LeftBroken,      // 左のクリスタルだけ壊れた
@@ -25,13 +26,22 @@ public class FallPipe : MonoBehaviour
     }
 
     // 現在のパイプの状態：初期NotBroken
-    [SerializeField]private PIPESTATUS pipeStatus = PIPESTATUS.NotBroken;
+    [SerializeField]public PIPESTATUS pipeStatus = PIPESTATUS.NotBroken;
+
+    private bool InPipe = false;
 
     // 自身のコンポーネント変数
     private Transform thisTransform;
     private Rigidbody2D rigid2D;
 
     // 外部取得
+    // プレイヤー
+    private GameObject player;
+    private Transform playerTransform;
+
+    // 子オブジェクト
+    private GameObject Child;
+    private EdgeCollider2D ChildEdge;
 
     // 親オブジェクト(PipeSet)
     private GameObject Parent;
@@ -48,15 +58,24 @@ public class FallPipe : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // プレイヤー取得
+        player = GameObject.Find("player");
+        playerTransform = player.GetComponent<Transform>();
+
         // トランスフォーム取得
         thisTransform = GetComponent<Transform>();
 
         // リジッドボディ取得
         rigid2D = GetComponent<Rigidbody2D>();
 
+        // 子オブジェクト取得
+        Child = transform.GetChild(1).gameObject;
+
+        //子オブジェクトのコライダー取得
+        ChildEdge = Child.GetComponent<EdgeCollider2D>();
+
         // 親取得
         Parent = transform.parent.gameObject;
-        Debug.Log(Parent);
 
         // クリスタルマネージャー取得
         CrystalManager = Parent.transform.GetChild(3).gameObject;
@@ -73,6 +92,20 @@ public class FallPipe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (InPipe == false)
+        {
+            // プレイヤーがパイプより上にいたら
+            if (playerTransform.position.y > thisTransform.position.y)
+            {
+                // 判定あり
+                ChildEdge.isTrigger = false;
+            }
+            else
+            {
+                // 判定無し
+                ChildEdge.isTrigger = true;
+            }
+        }
 
         // ステータスによって異なる処理を行う
         switch (pipeStatus)
@@ -128,12 +161,22 @@ public class FallPipe : MonoBehaviour
 
     private void LeftBroken()
     {
+        bool right = UnionRight.GetBreak();
 
+        if (right)
+        {
+            pipeStatus = PIPESTATUS.AllBroken;
+        }
     }
 
     private void RightBroken()
     {
+        bool left = UnionRight.GetBreak();
 
+        if (left)
+        {
+            pipeStatus = PIPESTATUS.AllBroken;
+        }
     }
 
     private void AllBroken()
@@ -168,6 +211,26 @@ public class FallPipe : MonoBehaviour
             {
                 pipeStatus = PIPESTATUS.Fell;
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == PlayerTag)
+        {
+            ChildEdge.isTrigger = true;
+
+            InPipe = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == PlayerTag)
+        {
+            ChildEdge.isTrigger = false;
+
+            InPipe = false;
         }
     }
 }

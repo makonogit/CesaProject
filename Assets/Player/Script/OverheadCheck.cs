@@ -79,7 +79,7 @@ public class OverheadCheck : MonoBehaviour
         // Œü‚«
         Vector2 direction = new Vector2(0, 1);
         // ’·‚³
-        float length = 0.1f;
+        float length = 0.05f;
         // ‹——£
         Vector2 distance = direction * length;
 
