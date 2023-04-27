@@ -21,24 +21,24 @@ public class SelectedScene : MonoBehaviour
     // 菅追加
     private SetStage setmanager;
     private StageManager stagemanager;
-    private SelectZoom zoom;
     private Animator anim;
-
+    private VibrationCamera main;
+    public GameObject SelectObject;
+  
     [SerializeField,Header("ひびのオブジェクト")]
     private GameObject Crack;   // ひびのオブジェクト
 
     [SerializeField, Header("ひびの破片")]
     private GameObject CrackParticle;
-    private bool Create = false;    // 生成フラグ
-    
+    private bool Create = false;    // 生成フラグ    
 
     // プレイヤーのパーティクル関連
     private GameObject PlayerParticle; // プレイヤーのパーティクル
     private ParticleSystem PlayerParticleSystem;
     private float ParticleLifetime = 5.0f;
 
-
     //　選択アニメーション用
+    private bool AnimStart = false;
     private GameObject CrackObj;
     private float WaitTime = 0.0f;
     private float Line = 1.0f;  //Materialアニメーション用
@@ -48,7 +48,6 @@ public class SelectedScene : MonoBehaviour
     {
         setmanager = new SetStage();  //ステージマネージャーの取得
         stagemanager = GetComponent<StageManager>();
-        zoom = GameObject.Find("CameraControl").GetComponent<SelectZoom>();
         anim = GetComponent<Animator>();    // Animatorを取得
         PlayerParticle = transform.GetChild(0).gameObject;
         PlayerParticleSystem = PlayerParticle.GetComponent<ParticleSystem>();
@@ -64,15 +63,27 @@ public class SelectedScene : MonoBehaviour
 
         se = GameObject.Find("SE");
         Audio = se.GetComponent<AudioSource>();
+
+        main = GameObject.Find("MainCamera").GetComponent<VibrationCamera>();
+
     }
 
     private void Update()
     {
-        if (zoom.ZoomEnd)
+        if (AnimStart)
         {
-            anim.SetBool("accumulate", false);
-            anim.SetBool("crack", true);
+            WaitTime += Time.deltaTime;
 
+            if (SelectObject != null)
+            {
+                SelectObject.transform.Rotate(0.0f, 5.0f, 0.0f, Space.World);
+            }
+
+            if (WaitTime > 1.0f)
+            {
+                anim.SetBool("accumulate", false);
+                anim.SetBool("crack", true);
+            }
             //------------------------------------
             // ヒビに入るアニメーション
             if (!Create)
@@ -90,7 +101,7 @@ public class SelectedScene : MonoBehaviour
                 Create = true;
 
                 GetComponent<Rigidbody2D>().gravityScale = 0.0f;
-
+                WaitTime = 0.0f;
             }
             else
             {
@@ -142,10 +153,11 @@ public class SelectedScene : MonoBehaviour
             //Debug.Log(_selectScene);
             if (_selectScene != null && !_isChanging)
             {
+                main.SetVibration(1.0f);
                 anim.SetBool("accumulate", true);
-                zoom.Select = true; // 選択状態にする
-             
-            }
+                AnimStart = true;
+
+             }
             else
             {
                 //Debug.Log("しーんがないです");

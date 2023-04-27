@@ -87,9 +87,6 @@ public class VibrationCamera : MonoBehaviour
     private float StartVibrationTime = 0.0f;
 
     // 外部取得
-    private GameObject PlayerInputMana;
-    private PlayerInputManager ScriptPIManager;
-    private InputTrigger trigger;
     private CameraControl2 _CameraControl;   //カメラ追従
 
     Gamepad gamepad;
@@ -107,9 +104,9 @@ public class VibrationCamera : MonoBehaviour
         _noisePosition.SetRandomOffset();
 
         // 探す
-        PlayerInputMana = GameObject.Find("PlayerInputManager");
-        ScriptPIManager = PlayerInputMana.GetComponent<PlayerInputManager>();
-        trigger = PlayerInputMana.GetComponent<InputTrigger>();
+        //PlayerInputMana = GameObject.Find("PlayerInputManager");
+        //ScriptPIManager = PlayerInputMana.GetComponent<PlayerInputManager>();
+        //trigger = PlayerInputMana.GetComponent<InputTrigger>();
         _CameraControl = GetComponent<CameraControl2>();
     }
 
@@ -142,8 +139,11 @@ public class VibrationCamera : MonoBehaviour
                 // 振動終了
                 Vibration = false;
 
-                _CameraControl.enabled = true;
+                if (_CameraControl != null)
+                {
+                    _CameraControl.enabled = true;
 
+                }
                 // 振動が終わったら初期位置に戻す
                 //thisTransform.localPosition = initLocalPosition;
 
@@ -181,8 +181,10 @@ public class VibrationCamera : MonoBehaviour
         Vibration = true; // 振動命令セット
         VibrationTime = time; // 振動時間をセット
         StartVibrationTime = Time.time; // 振動開始時間をセット
-        _CameraControl.enabled = false; //追従停止
-
+        if (_CameraControl != null)
+        {
+            _CameraControl.enabled = false; //追従停止
+        }
         if (gamepad != null)
         {
             // コントローラー振動

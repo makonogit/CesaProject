@@ -100,6 +100,7 @@ public class CameraControl2 : MonoBehaviour
         // Œ»İ‚ÌÀ•W‚ğæ“¾
         Vector3 NowPos = new Vector3(TargetTrans.position.x, TargetTrans.position.y,transform.position.z);
 
+
         // ‚Ğ‚Ñ‚ÌˆÚ“®’†‚ÍƒJƒƒ‰‚Ì’Ç]‚ğŠÉ‚â‚©‚É‚·‚é
         if (_AutoMove.movestate == CrackAutoMove.MoveState.CrackMove)
         {

@@ -86,27 +86,27 @@ public class SelectZoom : MonoBehaviour
             Cam.orthographicSize = NowCameraSize;
 
 
-            //----------------------------------------------------------------------
-            // 画面端の座標を取得
-            float Max_x = HorizonLimit.points[1].x - Cam.orthographicSize * 1.78f;
-            float Min_x = HorizonLimit.points[0].x + Cam.orthographicSize * 1.78f;
-            float Max_y = VerticalLimit.points[0].y - Cam.orthographicSize;
-            float Min_y = VerticalLimit.points[1].y + Cam.orthographicSize;
-
-
-            Vector2 CameraPos = cameraTransform.position;
-
-            // カメラの移動制限
-            CameraPos.x = Mathf.Clamp(CameraPos.x, Min_x, Max_x);
-            CameraPos.y = Mathf.Clamp(CameraPos.y, Min_y, Max_y);
-
-            //　カメラの位置更新
-            cameraTransform.position = new Vector3(CameraPos.x, CameraPos.y, -1.0f);
-
-
-
-
+           
         }
+
+        //----------------------------------------------------------------------
+        // 画面端の座標を取得
+        float Max_x = HorizonLimit.points[1].x - Cam.orthographicSize * 1.78f;
+        float Min_x = HorizonLimit.points[0].x + Cam.orthographicSize * 1.78f;
+        float Max_y = VerticalLimit.points[0].y - Cam.orthographicSize;
+        float Min_y = VerticalLimit.points[1].y + Cam.orthographicSize;
+
+
+        Vector2 CameraPos = cameraTransform.position;
+
+        // カメラの移動制限
+        CameraPos.x = Mathf.Clamp(CameraPos.x, Min_x, Max_x);
+        CameraPos.y = Mathf.Clamp(CameraPos.y, Min_y, Max_y);
+
+        //　カメラの位置更新
+        cameraTransform.position = new Vector3(CameraPos.x, CameraPos.y, -1.0f);
+
+
 
     }
 }

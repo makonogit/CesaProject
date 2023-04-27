@@ -39,6 +39,7 @@ public class GiveScene : MonoBehaviour
     [SerializeField]
     private StateID _state;
 
+
     private void Start()
     {
         _player = GameObject.Find("Player(SelectScene)");
@@ -72,6 +73,7 @@ public class GiveScene : MonoBehaviour
         if (collision.tag == "Player")
         {
             _selected.AreaPos = transform;  //　自身のTransformをセット
+            _selected.SelectObject = transform.GetChild(0).gameObject;
 
             if(_selected != null) 
             {
@@ -94,6 +96,7 @@ public class GiveScene : MonoBehaviour
         // もしプレイヤーが出たら
         if (collision.tag == "Player")
         {
+            _selected.SelectObject = null;
 
             if (_selected != null)
             {
