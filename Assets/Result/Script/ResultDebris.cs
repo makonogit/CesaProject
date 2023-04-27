@@ -8,70 +8,106 @@ using UnityEngine;
 
 public class ResultDebris : MonoBehaviour
 {
-    //--------------------------------------------------------------------------
-    // - 変数宣言 -
+    //============================================================
+    // *** 変数宣言 ***
+    //============================================================
+   
+    //-------------------------------------
+    // 移動関連
+    //-------------------------------------
 
-    // 座標関連
-    Vector3 startRot;       // 生成時の回転率
-    Vector3 startPos;       // 生成時の座標
-    //public Vector3 clearPos;// テキスト生成時の座標
+    // 回転速度
+    Vector3 rot_speed = new Vector3(0.0f, 0.0f,0.05f);
 
-    // テキスト関連
-    bool isMoveFlg = false;// 移動開始フラグ
-    int delayCnt = 0;      // 待機時間をカウント
+    // 移動速度
+    Vector2 move_speed = new Vector2(0.001f, 0.001f);
 
-    int rndX;
-    int rndY;
+    // 移動方向（単位ベクトル）
+    Vector2 direction;
+
+    //目標地点
+    Vector2 destination;
+
+    GameObject obj;
+    ResultManager resultManager;
 
     //============================================================
-    // - 初期化処理 -
+    // *** 初期化処理 ***
+    //============================================================
 
     void Start()
     {
-        //-------------------------------------------------------
-        // 初期位置を保存する
+        //-------------------------------------
+        // テキストの周辺を目的地に設定
+        //-------------------------------------
 
-        Transform objTransform = this.transform;
-        startRot = objTransform.eulerAngles;
-        startPos = objTransform.position;
+        // 目標地点を初期化
+        obj = GameObject.Find("Result_StageClear");
+        resultManager = obj.GetComponent<ResultManager>();
+        destination = obj.transform.position;
+
+        //-------------------------------------
+        // ランダムに移動方向を決定する
+        //-------------------------------------
+
+        // 乱数を生成
+        int rndX = Random.Range(-1, 1 + 1);
+        int rndY = Random.Range(-1, 1 + 1);
+        // 方向ベクトルを初期化
+        direction.x = rndX;
+        direction.y = rndY;
     }
 
     //============================================================
-    // - 更新処理 -
+    // *** 更新処理 ***
+    //============================================================
 
     void Update()
     {
-        // このオブジェクトのTransformを取得
-        Transform objTransform = this.transform;
 
-        // 座標の指定
-        Vector3 pos = objTransform.position;
+        //-------------------------------------
+        // 破片を回転させる
+        //-------------------------------------
 
+        // 現在の角度を取得
+        Vector3 rot = this.transform.eulerAngles;
+        // 現在の角度に回転速度を加算
+        rot += rot_speed;
+        // 現在の角度を更新
+        this.transform.eulerAngles = rot;
 
-        if (isMoveFlg == false)
+        //-------------------------------------
+        // 破片を移動させる
+        //-------------------------------------
+
+        // 現在の座標を取得
+        Vector2 position = this.transform.position;
+        // ベクトルの成分を求める
+        Vector2 components;
+        components.x = destination.x - this.transform.position.x;
+        components.y = destination.y - this.transform.position.y;
+        // ベクトルの大きさを求める
+        float magnitude = (float)Mathf.Sqrt(components.x * components.x + components.y * components.y);
+        if (resultManager.isMoveFlg == true)
         {
+            // ベクトルを正規化
+            direction.x = components.x / magnitude;
+            direction.y = components.y / magnitude;
+            move_speed.x += 0.001f;
+            move_speed.y += 0.001f;
 
-            rndX = Random.Range(-3, 3 + 1);
-            rndY = Random.Range(-3, 3 + 1);
-
-            pos.x = startPos.x + 0.01f * rndX;
-            pos.y = startPos.y + 0.01f * rndY;
-
-            isMoveFlg = true;
+            // ベクトルの大きさが1未満ならこのオブジェクトを消去
+            if (magnitude < 1)
+            {
+                Destroy(gameObject);
+            }
         }
+        // 現在の座標に移動ベクトルを加算
+        position += move_speed * direction;
+        // 現在の座標を更新
+        this.transform.position = position;
 
-        pos.x += 0.001f * rndX;
-        pos.y += 0.001f * rndY;
-
-        // 座標を敵用する
-        objTransform.position = pos;
-
-        Vector3 rot;
-        rot.x = 1.0f;
-        rot.y = 1.0f;
-        rot.z = startRot.z += 0.05f;
-        objTransform.eulerAngles = rot;
-
+        
     }
 }
 

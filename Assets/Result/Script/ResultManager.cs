@@ -25,7 +25,7 @@ public class ResultManager : MonoBehaviour
     // 状態関連
     //---------------------------------------------
 
-    enum StateID// 状態ID
+    public enum StateID// 状態ID
     {
         NULL,          // 状態なし
         RESULT_INIT,   // リザルト演出準備
@@ -42,6 +42,7 @@ public class ResultManager : MonoBehaviour
 
     [Header("破片のオブジェクト")]
     public GameObject[] debris = new GameObject[3];// 破片用オブジェクト
+    public bool isMoveFlg;// 破片の集まるフラグ
 
     //---------------------------------------------
     // クリアテキスト関連
@@ -62,12 +63,12 @@ public class ResultManager : MonoBehaviour
 
     void Start()
     {
+
         //-----------------------------------------
         // クリアテキストの大きさを保存する
         //-----------------------------------------
 
         textScale = this.transform.localScale;
-
 
         //----------------------------------------------
         // テキストの横幅を0にする
@@ -83,8 +84,6 @@ public class ResultManager : MonoBehaviour
         //-----------------------------------------
 
         screenWide = 0.03f * Screen.width;
-
-        //PlayResult();
     }
 
     //=============================================
@@ -133,6 +132,16 @@ public class ResultManager : MonoBehaviour
         //-----------------------------------------
 
         flameCnt = 0;
+        isMoveFlg = false;
+
+        //----------------------------------------------
+        // テキストの横幅を0にする
+        //----------------------------------------------
+
+        Transform textTransform = this.transform;
+        Vector3 scale = textTransform.localScale;
+        scale.x = 0.0f;
+        textTransform.localScale = scale;
 
         //----------------------------------------------
         // 状態をRESULT_UPDATEに変更
@@ -157,7 +166,7 @@ public class ResultManager : MonoBehaviour
         // 破片を画面の端から端まで生成
         //----------------------------------------------
 
-        if (screenWide / 2 > 0.1f * flameCnt)
+        if (screenWide * 2 > 0.1f * flameCnt)
         {
             // ランダムに形、座標、大きさ、回転率を取得する
             int rndDebris = Random.Range(0, 3);
@@ -175,9 +184,9 @@ public class ResultManager : MonoBehaviour
 
             // 座標を変更
             Vector3 pos0 = objTransform.position;
-            pos0.x = objTransform.position.x + screenWide / 4 - 0.1f * flameCnt;
-            pos0.y = objTransform.position.y + 1.0f - 3.0f + 0.2f * rndY;
-            pos0.z = 1.0f;//-0.9f;
+            pos0.x = objTransform.position.x + screenWide - 0.1f * flameCnt; ;
+            pos0.y = objTransform.position.y + 2.0f - 6.0f + 0.4f * rndY;
+            pos0.z = -0.9f;
 
             // 大きさを変更
             Vector3 scale;
@@ -203,35 +212,27 @@ public class ResultManager : MonoBehaviour
 
         else
         {
-            // 横幅をtextScaleまで大きくする
-            Transform textTransform = this.transform;
-            Vector3 scale = textTransform.localScale;
-            if (textTransform.localScale.x < textScale.x)
-            {
-                scale.x += 6 * Time.deltaTime;
-            }
-            else
-            {
-                nextState = StateID.RESULT_END;
-                flameCnt = 0;
-            }
+            isMoveFlg = true;
 
-            textTransform.localScale = scale;
-
-            //nextState = StateID.RESULT_END;
-            //flameCnt = 0;
+            nextState = StateID.RESULT_END;
+            flameCnt = 0;
         }
 
         //----------------------------------------------
         // クリアテキストの挙動を制御する
         //----------------------------------------------
 
-        if (screenWide <= 0.1f * flameCnt)
+        if (screenWide < 0.1f * flameCnt)
         {
-            //Debug.Log(0.1f * flameCnt);
+            // 横幅をtextScaleまで大きくする
+            Transform textTransform = this.transform;  
+            Vector3 scale = textTransform.localScale;
+            if (textTransform.localScale.x < textScale.x)
+            {
+                scale.x += 0.02f;
+            }
+            textTransform.localScale = scale;
         }
-        
-
     }
 
     //=============================================
@@ -240,6 +241,7 @@ public class ResultManager : MonoBehaviour
 
     void ResultEnd()
     {
+
         //----------------------------------------------
         // 現在のフレーム数を更新
         //----------------------------------------------
@@ -252,7 +254,7 @@ public class ResultManager : MonoBehaviour
 
         if (standbyTim < flameCnt)
         {
-            SceneManager.LoadScene("newSelectScene");
+            SceneManager.LoadScene("SelectScene");
             nowState = StateID.NULL;
         }
     }
