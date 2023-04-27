@@ -112,7 +112,7 @@ public class CrackCreater : MonoBehaviour
 
         //---------------------------------
         //　layermaskでGroundだけ判定する
-        layerMask = 1 << 10;
+        layerMask = 1 << 10 | 1 << 18;
         //layerMask = ~layerMask;
 
         //---------------------------------
