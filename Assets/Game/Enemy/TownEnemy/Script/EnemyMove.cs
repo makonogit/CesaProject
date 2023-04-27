@@ -169,10 +169,6 @@ public class EnemyMove : MonoBehaviour
                         break;
                 }
             }
-            else
-            {
-                Patrol();
-            }
          }
     }
 

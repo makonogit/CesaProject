@@ -20,6 +20,7 @@ public class EnemyCrackHit : MonoBehaviour
     private void Start()
     {
         ParentEnemy = transform.parent.gameObject;  //　親オブジェクトを取得
+        Debug.Log(ParentEnemy);
         // 敵の基本AI処理スクリプト取得
         enemyMove = ParentEnemy.GetComponent<EnemyMove>();
     }

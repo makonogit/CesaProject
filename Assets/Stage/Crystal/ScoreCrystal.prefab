@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 365506163496298806}
   - component: {fileID: 2864555972379521939}
   - component: {fileID: 4984118323354014911}
-  - component: {fileID: 6323696242575696133}
+  - component: {fileID: 2623630186087357020}
+  - component: {fileID: 2818677266929055305}
   m_Layer: 0
   m_Name: ScoreCrystal
   m_TagString: Crystal
@@ -102,7 +103,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &6323696242575696133
+--- !u!114 &2623630186087357020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5554216606958911760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697f07b739ce64543988fc252aa6d6f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crystalNum: 1
+--- !u!114 &2818677266929055305
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

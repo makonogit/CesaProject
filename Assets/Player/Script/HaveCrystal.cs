@@ -19,6 +19,8 @@ public class HaveCrystal : MonoBehaviour
     private GameObject player;
     private PlayerStatas status;
 
+    private CrystalNum Crystal;
+
     // Update is called once per frame
     void Update()
     {
@@ -35,11 +37,14 @@ public class HaveCrystal : MonoBehaviour
         // タグがクリスタルなら
         if (collision.tag == CrystalTag)
         {
-            // クリスタル所持数を増やす
-            status.SetCrystal(status.GetCrystal() + 1);
-            // アイテムとしてのクリスタルは消す
-            Destroy(collision.gameObject);
+            Crystal = collision.GetComponent<CrystalNum>();
+            if (Crystal != null)
+            {
+                // クリスタル所持数を増やす
+                status.SetCrystal(status.GetCrystal() + Crystal.crystalNum);
+                // アイテムとしてのクリスタルは消す
+                Destroy(collision.gameObject);
+            }
         }
-
     }
 }
