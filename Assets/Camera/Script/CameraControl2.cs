@@ -131,28 +131,32 @@ public class CameraControl2 : MonoBehaviour
 
         //----------------------------------------------
         //プレイヤーがエリア外に出たら次のエリアを指定
-        if (TargetTrans.position.x > AreaCollider.points[0].x + AreaCollider.offset.x
-            && NowAreaNum < _AreaManager.AreaNum)
+        if (TargetTrans.position.x > AreaCollider.points[0].x + AreaCollider.offset.x)
         {
-            if (!AreaMove)
+             if (!AreaMove)
             {
                 NextAreaPos[0].x = AreaCollider.points[0].x + _AreaManager.AreaSize / 5;
                 NextAreaPos[3].x = AreaCollider.points[0].x + _AreaManager.AreaSize / 5;
+                NextAreaPos[1].x = AreaCollider.points[1].x + _AreaManager.AreaSize + 2.0f;
+                NextAreaPos[2].x = AreaCollider.points[2].x + _AreaManager.AreaSize + 2.0f;
                 NowAreaNum++;
                 AreaMove = true;
             }
         }
         else
         {
-           // AreaMove = false;
+            //AreaMove = false;
         }
 
         if (AreaMove)
         {
             Vector2[] points = AreaCollider.points;
 
+            points[1].x = NextAreaPos[1].x;
+            points[2].x = NextAreaPos[2].x;
+
             //次のエリアに到達するまで右端座標を更新
-            if(NowMax_x <= NextAreaPos[0].x)
+            if (NowMax_x <= NextAreaPos[0].x)
             {
                 NowMax_x += CameraMoveSpeed * Time.deltaTime;
                 points[0].x = NowMax_x;

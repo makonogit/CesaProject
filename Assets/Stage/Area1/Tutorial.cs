@@ -77,10 +77,14 @@ public class Tutorial : MonoBehaviour
             RTbutton = transform.Find("RTbutton").gameObject;
         }
 
-        if (transform.Find("Lstick"))
+        if (transform.Find("Lstick_front"))
         {
             //　LボタンUI
-            Lstick = transform.Find("Lstick").gameObject;
+            Lstick = transform.Find("Lstick_front").gameObject;
+        }
+        else
+        {
+            Debug.Log("ない");
         }
 
         if (transform.Find("crack"))
@@ -144,6 +148,7 @@ public class Tutorial : MonoBehaviour
 
                     if (buttonUI.transform.localPosition.x < 0.3f)
                     {
+
                         if (buttonUI.transform.localPosition.x > 0.0f)
                         {
                             gravity = -1.0f;
@@ -176,6 +181,7 @@ public class Tutorial : MonoBehaviour
                     anim.SetInteger("Select", 2);
                     if (RTbutton.transform.localScale.x > 0.5)
                     {
+                        Lstick.transform.localPosition = new Vector3(Lstick.transform.localPosition.x + (MoveSpeed / 4) * Time.deltaTime, Lstick.transform.localPosition.y, 0.0f);
                         RTbutton.transform.localScale = new Vector3(RTbutton.transform.localScale.x - 1 * Time.deltaTime, RTbutton.transform.localScale.y - 1 * Time.deltaTime, 0.0f);
                     }
                     else
@@ -201,6 +207,7 @@ public class Tutorial : MonoBehaviour
                             {
                                 Crack.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                                 RTbutton.transform.localScale = new Vector3(1.0f, 1.0f, 0.0f);
+                                Lstick.transform.localPosition = new Vector3(1.36f, 1.02f, 0.0f);
                                 //anim.Play("TutorialHammer", 0, 0);
                                 anim.SetBool("Hammer", false);
                                 waitUItime = 0.0f;
