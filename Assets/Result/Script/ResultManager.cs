@@ -18,8 +18,10 @@ public class ResultManager : MonoBehaviour
     // 汎用
     //---------------------------------------------
 
+    [Header("[デバックのON、OFF]")]
+    public bool debugging = false;
+
     int flameCnt;    // フレームカウント用
-    float screenWide;// 画面の横幅
 
     //---------------------------------------------
     // 状態関連
@@ -40,22 +42,44 @@ public class ResultManager : MonoBehaviour
     // 破片関連
     //---------------------------------------------
 
-    [Header("破片のオブジェクト")]
+    [Header("[破片生成の設定]")]
+    [Header("・生成開始位置（このオブジェクトが基準点）")]
+    public Vector2 start = new Vector2(6.0f,2.0f);
+    [Header("・生成する間隔（距離）")]
+    public Vector2 distance = new Vector2(0.02f, 0.5f);
+    [Header("・破片の大きさ")]
+    public float size = 0.02f;
+    [Header("・何フレーム毎に生成するか")]
+    public float flame = 2;
+    [Header("・破片の移動速度")]
+    public Vector2 move_speed = new Vector2(0.002f, 0.002f);
+    [Header("・集まる時の破片の加速度")]
+    public float acceleration = 0.0002f;
+    [Header("・破片のオブジェクト")]
     public GameObject[] debris = new GameObject[3];// 破片用オブジェクト
-    public bool isMoveFlg;// 破片の集まるフラグ
+   
+    bool isMoveFlg;                         // 破片の集まるフラグ
 
     //---------------------------------------------
     // クリアテキスト関連
     //---------------------------------------------
 
+    [Header("[クリアテキストの設定]")]
+    [Header("・テキストの出現方法（0通常、1勢い）")]
+    int type = 1;// テキストの出現方法
+
+    // 挙動制御用変数
     Vector3 textScale;// 初期サイズ
+    float scaleX;     // 加算する大きさ
+    bool flg;
 
     //---------------------------------------------
     // リザルト関連
     //---------------------------------------------
 
-    [Header("演出終了後の待機フレーム数")]
-    public int standbyTim = 360;// 演出終了後の待機フレーム数
+    [Header("[リザルトの設定]")]
+    [Header("・演出終了後の待機フレーム数")]
+    public int standbyTim = 1000;// 演出終了後の待機フレーム数
 
     //=============================================
     // *** 初期化処理 ***
@@ -63,6 +87,12 @@ public class ResultManager : MonoBehaviour
 
     void Start()
     {
+        //-----------------------------------------
+        // デバックがONなら演習を開始
+        //-----------------------------------------
+
+        if (debugging == true)
+          PlayResult();
 
         //-----------------------------------------
         // クリアテキストの大きさを保存する
@@ -78,12 +108,6 @@ public class ResultManager : MonoBehaviour
         Vector3 scale = textTransform.localScale;
         scale.x = 0.0f;
         textTransform.localScale = scale;
-
-        //-----------------------------------------
-        // 画面幅をワールド座標用に変換する
-        //-----------------------------------------
-
-        screenWide = 0.03f * Screen.width;
     }
 
     //=============================================
@@ -134,6 +158,9 @@ public class ResultManager : MonoBehaviour
         flameCnt = 0;
         isMoveFlg = false;
 
+        flg = false;
+        scaleX = 0.0f;
+
         //----------------------------------------------
         // テキストの横幅を0にする
         //----------------------------------------------
@@ -151,7 +178,7 @@ public class ResultManager : MonoBehaviour
     }
 
     //=============================================
-    // *** リザルト演出中　処理 ***
+    // *** リザルト演出　初期化処理 ***
     //=============================================
 
     void ResultUpdate()
@@ -163,57 +190,64 @@ public class ResultManager : MonoBehaviour
         flameCnt++;
 
         //----------------------------------------------
-        // 破片を画面の端から端まで生成
+        // 破片を生成
         //----------------------------------------------
 
-        if (screenWide * 2 > 0.1f * flameCnt)
+        if (start.x * 2 > distance.x * flameCnt)
         {
-            // ランダムに形、座標、大きさ、回転率を取得する
-            int rndDebris = Random.Range(0, 3);
-            int rndX = Random.Range(0, 21);
-            int rndY = Random.Range(0, 21);
-            int rndSizeX = Random.Range(1, 10);
-            int rndSizeY = Random.Range(1, 10);
-            int rndRot = Random.Range(1, 360);
+            if(flameCnt % flame == 0)
+            {
+                // ランダムに形、座標、大きさ、回転率を取得する
+                int rndDebris = Random.Range(0, 3);
+                int rndX = Random.Range(0, 10);
+                int rndY = Random.Range(0, 10);
+                int rndSizeX = Random.Range(1, 10);
+                int rndSizeY = Random.Range(1, 10);
+                int rndRot = Random.Range(1, 360);
 
-            // 破片を生成
-            GameObject debrisRist = Instantiate(debris[rndDebris], transform.position, Quaternion.identity);
+                // 破片を生成
+                GameObject debrisRist = Instantiate(debris[rndDebris], transform.position, Quaternion.identity);
 
-            // 生成した破片をのtransformを取得
-            Transform objTransform = debrisRist.transform;
+                // 生成した破片のtransformを取得
+                Transform objTransform = debrisRist.transform;
 
-            // 座標を変更
-            Vector3 pos0 = objTransform.position;
-            pos0.x = objTransform.position.x + screenWide - 0.1f * flameCnt; ;
-            pos0.y = objTransform.position.y + 2.0f - 6.0f + 0.4f * rndY;
-            pos0.z = -0.9f;
+                // 座標を変更
+                Vector3 pos0;
+                pos0.x = objTransform.position.x + start.x - distance.x * flameCnt;
+                pos0.y = objTransform.position.y + start.y - distance.y * rndY;
+                pos0.z = -0.9f;
 
-            // 大きさを変更
-            Vector3 scale;
-            scale.x = 0.05f * rndSizeX;
-            scale.y = 0.05f * rndSizeY;
-            scale.z = 1.0f;
+                // 大きさを変更
+                Vector3 scale;
+                scale.x = size * rndSizeX;
+                scale.y = size * rndSizeY;
+                scale.z = 1.0f;
 
-            // 回転を変更
-            Vector3 rot;
-            rot.x = 1.0f;
-            rot.y = 1.0f;
-            rot.z = 1.0f * rndRot;
+                // 回転を変更
+                Vector3 rot;
+                rot.x = 1.0f;
+                rot.y = 1.0f;
+                rot.z = 1.0f * rndRot;
 
-            // 変更を敵用する
-            objTransform.position = pos0;   // 座標
-            objTransform.localScale = scale;// 大きさ
-            objTransform.eulerAngles = rot; // 回転
+                // 変更を敵用する
+                objTransform.position = pos0;   // 座標
+                objTransform.localScale = scale;// 大きさ
+                objTransform.eulerAngles = rot; // 回転
+
+                // 破片の変数を初期化
+                debrisRist.GetComponent<ResultDebris>().move_speed = move_speed;
+                debrisRist.GetComponent<ResultDebris>().acceleration = acceleration;
+            }
+
+
         }
 
         //----------------------------------------------
-        // 端まで行ったら状態をRESULT_ENDにする
+        // 生成が終了したらRESULT_ENDにする
         //----------------------------------------------
 
         else
         {
-            isMoveFlg = true;
-
             nextState = StateID.RESULT_END;
             flameCnt = 0;
         }
@@ -222,21 +256,56 @@ public class ResultManager : MonoBehaviour
         // クリアテキストの挙動を制御する
         //----------------------------------------------
 
-        if (screenWide < 0.1f * flameCnt)
+        if ( start.x < distance.x * flameCnt)
         {
             // 横幅をtextScaleまで大きくする
             Transform textTransform = this.transform;  
             Vector3 scale = textTransform.localScale;
-            if (textTransform.localScale.x < textScale.x)
+
+            // テキストの出現方法によって処理を分岐
+            switch (type)
             {
-                scale.x += 0.02f;
+                case 0:
+                    if (textTransform.localScale.x < textScale.x)
+                    {
+                        scale.x += textScale.x * 0.01f;
+                    }
+                    break;
+
+                case 1:
+
+                    if (textTransform.localScale.x < textScale.x + 2.0f)
+                    {
+                        scale.x += 0.03f + 0.00002f * flameCnt;
+                    }
+                    else
+                    {
+                        flg = true;
+                    }
+
+                    if (flg == true)
+                    {
+                        if (textTransform.localScale.x > textScale.x)
+                        {
+                            scale.x -= 0.06f + 0.00002f * flameCnt;
+                        }
+                    }
+                    break;
+
+                default:
+                    if (textTransform.localScale.x < textScale.x)
+                    {
+                        scale.x += textScale.x * 0.01f;
+                    }
+                    break;
             }
+
             textTransform.localScale = scale;
         }
     }
 
     //=============================================
-    // *** リザルト演出終了　処理 ***
+    // *** リザルト演出　終了処理 ***
     //=============================================
 
     void ResultEnd()
@@ -251,6 +320,11 @@ public class ResultManager : MonoBehaviour
         //----------------------------------------------
         // 待機時間が経過したらセレクト画面に遷移
         //----------------------------------------------
+
+        if (standbyTim / 2 < flameCnt)
+        {
+            isMoveFlg = true;
+        }
 
         if (standbyTim < flameCnt)
         {
@@ -276,5 +350,10 @@ public class ResultManager : MonoBehaviour
             nextState = StateID.RESULT_INIT;
         }
     
+    }
+
+    public bool GetMoveFlg()
+    {
+        return isMoveFlg;
     }
 }

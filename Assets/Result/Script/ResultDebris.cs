@@ -20,13 +20,15 @@ public class ResultDebris : MonoBehaviour
     Vector3 rot_speed = new Vector3(0.0f, 0.0f,0.05f);
 
     // 移動速度
-    Vector2 move_speed = new Vector2(0.001f, 0.001f);
+    public Vector2 move_speed;
+
+    public float acceleration;
 
     // 移動方向（単位ベクトル）
     Vector2 direction;
 
     //目標地点
-    Vector2 destination;
+    Vector2 destination; 
 
     GameObject obj;
     ResultManager resultManager;
@@ -88,13 +90,13 @@ public class ResultDebris : MonoBehaviour
         components.y = destination.y - this.transform.position.y;
         // ベクトルの大きさを求める
         float magnitude = (float)Mathf.Sqrt(components.x * components.x + components.y * components.y);
-        if (resultManager.isMoveFlg == true)
+        if (resultManager.GetMoveFlg() == true)
         {
             // ベクトルを正規化
             direction.x = components.x / magnitude;
             direction.y = components.y / magnitude;
-            move_speed.x += 0.001f;
-            move_speed.y += 0.001f;
+            move_speed.x += acceleration;
+            move_speed.y += acceleration;
 
             // ベクトルの大きさが1未満ならこのオブジェクトを消去
             if (magnitude < 1)
@@ -105,9 +107,7 @@ public class ResultDebris : MonoBehaviour
         // 現在の座標に移動ベクトルを加算
         position += move_speed * direction;
         // 現在の座標を更新
-        this.transform.position = position;
-
-        
+        this.transform.position = position;   
     }
 }
 
