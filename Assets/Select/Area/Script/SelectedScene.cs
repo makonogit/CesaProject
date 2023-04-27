@@ -82,7 +82,7 @@ public class SelectedScene : MonoBehaviour
                     AreaPos.position, Quaternion.identity);
                 CrackObj.transform.localScale = new Vector3(0.08f, 0.08f, 1.0f);
                 CrackObj.GetComponent<SpriteRenderer>().sortingOrder = 12;
-                //se.GetComponent<SEManager_Select>().PlayHammer();
+                se.GetComponent<SEManager_Select>().PlayHammer();
                 
                 //　パーティクルを生成
                 GameObject Particle = Instantiate(CrackParticle, transform.position, Quaternion.identity);
@@ -97,19 +97,18 @@ public class SelectedScene : MonoBehaviour
                 WaitTime += Time.deltaTime;
 
                 //　打ち込んでから0.3秒待機
-                if (WaitTime > 0.3f)
+                if (WaitTime > 0.5f)
                 {
                     PlayerParticle.SetActive(true);
 
-                    Line -= 2.0f * Time.deltaTime;
+                    Line -= 1.0f * Time.deltaTime;
                     GetComponent<SpriteRenderer>().material.SetFloat("_Border",Line);
 
                     //　Materialアニメーションが終了していたら
                     if (Line < 0.0f)
                     {
-
                         //　ヒビに入る
-                        transform.position = Vector3.MoveTowards(transform.position, CrackObj.transform.position, 5.0f * Time.deltaTime);
+                        transform.position = Vector3.MoveTowards(transform.position, CrackObj.transform.position, 3.0f * Time.deltaTime);
 
 
                         //　パーティクルを消していく
