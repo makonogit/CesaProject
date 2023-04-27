@@ -2038,6 +2038,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143664070}
   m_CullTransparentMesh: 1
+--- !u!1 &1161311422 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2103646556448133361, guid: 8daac7792c1bceb409d860e89a0916b8, type: 3}
+  m_PrefabInstance: {fileID: 1469203823115666046}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1161311427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1161311422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538660ac73f176c40a0010075dc6cad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pipeStatus: 0
 --- !u!1 &1249075789
 GameObject:
   m_ObjectHideFlags: 0
@@ -8100,8 +8118,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 852b4e94a234ad64084fba4f25aa2e43, type: 3}
-<<<<<<< HEAD
-<<<<<<< HEAD
 --- !u!1001 &1469203823115666046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8112,10 +8128,6 @@ PrefabInstance:
     - target: {fileID: 4013212215339117096, guid: 8daac7792c1bceb409d860e89a0916b8, type: 3}
       propertyPath: m_Name
       value: PipeSet
-      objectReference: {fileID: 0}
-    - target: {fileID: 4013212215339117096, guid: 8daac7792c1bceb409d860e89a0916b8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4013212215339117097, guid: 8daac7792c1bceb409d860e89a0916b8, type: 3}
       propertyPath: m_RootOrder
@@ -8163,10 +8175,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8daac7792c1bceb409d860e89a0916b8, type: 3}
-=======
->>>>>>> bug-Pipe
-=======
->>>>>>> origin/master
 --- !u!1001 &2213088981940429984
 PrefabInstance:
   m_ObjectHideFlags: 0
