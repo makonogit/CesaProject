@@ -260,8 +260,8 @@ public class EnemyMove : MonoBehaviour
 
         // 進行方向にレイを飛ばして壁にぶつかったら進行方向を変える
         Vector2 origin = new Vector2(
-            thisTransform.localPosition.x + AdjustX,
-            thisTransform.localPosition.y
+            thisTransform.position.x + AdjustX,
+            thisTransform.position.y
             );
 
         // レイを飛ばす方向
@@ -288,6 +288,8 @@ public class EnemyMove : MonoBehaviour
         hit = Physics2D.Raycast(origin, RayDirection, length, layerMask); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
 
         Debug.DrawRay(origin, distance, Color.red);
+        //Debug.Log(transform.position);
+        //Debug.Log(origin);
         //-----------------------------------------------------------------------------------------------
 
         // レイがステージに衝突してなければ移動処理
