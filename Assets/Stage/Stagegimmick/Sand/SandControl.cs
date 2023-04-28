@@ -65,6 +65,7 @@ public class SandControl : MonoBehaviour
         // ひびに当たったら1回処理
         if (other.tag == "Crack" && !HitTrigger)
         {
+            Debug.Log("hibi");
             //　オブジェクトの情報を保存
             HitCrack = other;
             HitCrackCreater = other.transform.parent.gameObject.GetComponent<CrackCreater>();
