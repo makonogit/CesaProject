@@ -111,6 +111,12 @@ public class PauseGame : MonoBehaviour
             }
             else
             {
+                manualImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                // 子オブジェクトのα値を全て更新
+                for (int i = 0; i < Manual.transform.childCount; i++)
+                {
+                    Manual.transform.GetChild(i).gameObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                }
                 reduction = true;
             }
 
