@@ -106,7 +106,5 @@ public class SelectZoom : MonoBehaviour
         //　カメラの位置更新
         cameraTransform.position = new Vector3(CameraPos.x, CameraPos.y, -1.0f);
 
-
-
     }
 }

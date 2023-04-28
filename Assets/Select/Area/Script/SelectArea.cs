@@ -54,6 +54,12 @@ public class SelectArea : MonoBehaviour
 
     private SetStage setmanager;
 
+    //　カメラ制限
+    private EdgeCollider2D HorizonLimit;
+    private Vector2 OldLimitpoint;
+    private bool LeftMove = false;
+    private bool RightMove = false;
+
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -76,6 +82,10 @@ public class SelectArea : MonoBehaviour
         scene = GameObject.Find("SceneManager").GetComponent<SceneChange>();
         if (scene == null) Debug.LogError("SceneChangeのコンポーネントを取得できませんでした。");
         this.transform.position = new Vector3(_positions[_nowArea].position.x, _positions[_nowArea].position.y, transform.position.z);
+
+        HorizonLimit = GameObject.Find("HorizonLimit").GetComponent<EdgeCollider2D>();
+
+    
     }
 
     //-----------------------------------------------------------------
@@ -124,7 +134,16 @@ public class SelectArea : MonoBehaviour
         // 押された瞬間
         if(_context.phase == InputActionPhase.Started) 
         {
-            NextArea();  
+            NextArea();
+            if (_nowArea != _nextArea && !RightMove)
+            {
+                RightMove = true;
+                OldLimitpoint = HorizonLimit.points[1];
+                List<Vector2> point = new List<Vector2>(2);
+                point.Add(new Vector2(HorizonLimit.points[0].x, HorizonLimit.points[0].y));
+                point.Add(new Vector2(9.0f + (18.0f * _nextArea), HorizonLimit.points[1].y));
+                HorizonLimit.SetPoints(point);
+            }
         }
     }
 
@@ -135,6 +154,15 @@ public class SelectArea : MonoBehaviour
         if (_context.phase == InputActionPhase.Started)
         {
             PrevArea();
+            if (_nowArea != _nextArea && !LeftMove)
+            {
+                LeftMove = true;
+                OldLimitpoint = HorizonLimit.points[0];
+                List<Vector2> point = new List<Vector2>(2);
+                point.Add(new Vector2((18.0f * _nextArea) - 9.0f, HorizonLimit.points[0].y));
+                point.Add(new Vector2(HorizonLimit.points[1].x, HorizonLimit.points[1].y));
+                HorizonLimit.SetPoints(point);
+            }
         }
     }
 
@@ -183,6 +211,26 @@ public class SelectArea : MonoBehaviour
             // 現在のエリアと次のエリアを同じにする。
             _nowArea = _nextArea;
             _start = true;
+
+            //　カメラの端を調整
+            if (LeftMove)
+            {
+                List<Vector2> point = new List<Vector2>(2);
+                point.Add(new Vector2(HorizonLimit.points[0].x, HorizonLimit.points[0].y));
+                point.Add(new Vector2(OldLimitpoint.x, HorizonLimit.points[1].y));
+                HorizonLimit.SetPoints(point);
+                LeftMove = false;
+            }
+            if (RightMove)
+            {
+                List<Vector2> point = new List<Vector2>(2);
+                point.Add(new Vector2(OldLimitpoint.x, HorizonLimit.points[0].y));
+                point.Add(new Vector2(HorizonLimit.points[1].x, HorizonLimit.points[1].y));
+                HorizonLimit.SetPoints(point);
+                OldLimitpoint = Vector2.zero;
+                RightMove = false;
+            }
+
         }
         //_nowNextUiTime += Time.deltaTime;        _nowPrevUiTime += Time.deltaTime;
     }
