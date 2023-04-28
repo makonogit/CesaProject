@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 987962297510360784}
   - component: {fileID: 2421359362128465447}
-  - component: {fileID: 9123985305639798879}
   - component: {fileID: 2000102001901046137}
   - component: {fileID: 8053465799645740705}
+  - component: {fileID: 4486166371394237445}
+  - component: {fileID: 1490115373376971991}
   m_Layer: 11
   m_Name: TownBossShards
   m_TagString: BossEnemy
@@ -28,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3224777434751250611}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.64, y: -4.79, z: 0.31728688}
-  m_LocalScale: {x: 0.04, y: 0.04, z: 0}
+  m_LocalPosition: {x: 5.64, y: -4.79, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 90866475d6fcc1a4f9fd3e5fa6635fc1, type: 3}
-  m_Color: {r: 0.6141291, g: 0.22075468, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 701fe33a1249807419db94123fd41105, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -87,37 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!68 &9123985305639798879
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3224777434751250611}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: 1.306939, y: 4.5435715}
-  - {x: -3.2431023, y: -0.80915177}
-  - {x: -5.4785333, y: 4.3290167}
-  - {x: -3.4538968, y: 9.999909}
-  - {x: 0.8707638, y: 6.973435}
-  - {x: 1.7204423, y: 13.509465}
-  - {x: 9.142008, y: 5.650622}
-  - {x: 9.349568, y: -1.1548386}
-  - {x: 7.0469995, y: -10.878567}
-  - {x: 1.7657269, y: -0.9323283}
-  - {x: 1.1368982, y: 4.091926}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
 --- !u!50 &2000102001901046137
 Rigidbody2D:
   serializedVersion: 4
@@ -154,3 +124,40 @@ MonoBehaviour:
   NoDamageTime: 1
   HitTime: 0
   Damage: 1
+--- !u!68 &4486166371394237445
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3224777434751250611}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 0.0066747665, y: -0.43857622}
+  - {x: -0.1645174, y: 0.16845131}
+  - {x: -0.0012960434, y: 0.44501257}
+  - {x: 0.17506218, y: 0.16771221}
+  - {x: 0.005657673, y: -0.43351078}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
+--- !u!114 &1490115373376971991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3224777434751250611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73985d0c28497fa4cae4a69e0a0ce6d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

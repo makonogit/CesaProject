@@ -30,9 +30,10 @@ public class TownBossMove : MonoBehaviour
     // レイの衝突判定結果用変数
     RaycastHit2D hit;
     // レイ調整基準値：正　右にずらす,　負　左にずらす
-    private float halfScale; 
+    private float Scale; 
     // レイの位置調整
     float AdjustX;
+    float AdjustY;
 
     // 突進用変数
     private float RammingSpeed = 5.0f;     // 突進時の移動速度
@@ -58,13 +59,17 @@ public class TownBossMove : MonoBehaviour
     // かけら配置用変数
     [Header("何度間隔でかけらを配置するか(初期値10)")]public float SpacingDeg = 10f; // 何度間隔で配置するか
     private float shardDeg = -15f; // 角度（何度から始まるのか)               
-    private float radius = 4f;   // ボスを原点とした円の半径
+    private float radius = 2.5f;   // ボスを原点とした円の半径
+
+    private bool HitPlayer = false;
 
     //無敵
     [System.NonSerialized]public bool invincibility = false;
 
     public enum AIState
     {
+        None,            // 待機
+        Walk,            // 散歩
         Lottery,         // 行動抽選
         RammingInit,     // 突進準備
         Ramming,         // 突進
@@ -75,7 +80,7 @@ public class TownBossMove : MonoBehaviour
     }
 
     // 敵行動状態
-    public AIState EnemyAI = AIState.Lottery;
+    public AIState EnemyAI = AIState.None;
 
     // 外部取得
     private Transform thisTransform; // このオブジェクトの座標を持つ変数
@@ -87,7 +92,7 @@ public class TownBossMove : MonoBehaviour
     private CameraControl2 cameraControl;   //カメラ追従
     private VibrationCamera vibration;
 
-    private Material mat;
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
@@ -115,15 +120,15 @@ public class TownBossMove : MonoBehaviour
         cameraControl = mainCam.GetComponent<CameraControl2>();
 
         // レイ位置調整
-        halfScale = thisTransform.localScale.x / 2.0f;
-        AdjustX = halfScale;
+        Scale = thisTransform.localScale.x * 1.3f;
+        AdjustX = Scale;
+        AdjustY = -0.9f;
 
         // サイズを保存
         sizeX = thisTransform.localScale.x;
 
-        // 色取得
-        mat = GetComponent<SpriteRenderer>().material;
-
+        // アニメーション取得
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -145,6 +150,14 @@ public class TownBossMove : MonoBehaviour
 
         switch (EnemyAI)
         {
+            case AIState.None:
+                None();
+                break;
+
+            case AIState.Walk:
+                Walk();
+                break;
+
             case AIState.Lottery:
                 Lottery();
                 break;
@@ -222,13 +235,19 @@ public class TownBossMove : MonoBehaviour
             PreRammingTimer = 0f;
         }
 
-        mat.color = new Color(1f, 0f, 0f);
+        anim.SetBool("ramminginit", true);
     }
 
     private void Ramming()
     {
         // 突進攻撃
         // 無敵
+
+        // 壁にぶつかる前にプレイヤーにぶつかったら
+        if (HitPlayer == true)
+        {
+            EnemyAI = AIState.Walk;
+        }
 
         float sign = 0.0f; // 符号
 
@@ -271,12 +290,12 @@ public class TownBossMove : MonoBehaviour
             }
             else
             {
-                EnemyAI = AIState.RammingWait; 
+                EnemyAI = AIState.RammingWait;
             }
         }
+        anim.SetBool("ramminginit", false);
 
-        mat.color = new Color(0f, 1f, 0f);
-
+        anim.SetBool("ramming", true);
     }
 
     private void RammingWait()
@@ -318,10 +337,7 @@ public class TownBossMove : MonoBehaviour
             // 初期化
             RammingWaitTimer = 0;
         }
-
-        // デバッグ用に色の変化で行動を判別
-        mat.color = new Color(0f, 0f, 1f);
-
+        anim.SetBool("ramming", false);
     }
 
     private void ThrowShardsInit()
@@ -372,7 +388,7 @@ public class TownBossMove : MonoBehaviour
             // もとめたベクトルのオブジェクトの作成番号と配列の添え字が一致するようにベクトルを保存
             ShardVelocity[CreatedNum] = Vector_Shrad_Boss;
             // 大きさ調整
-            shardObj[CreatedNum].transform.localScale = new Vector3(0.01f, 0.01f, 0f);
+            shardObj[CreatedNum].transform.localScale = new Vector3(1f, 1f, 1f);
         }
 
         // かけらを生成してからの経過時間
@@ -396,6 +412,9 @@ public class TownBossMove : MonoBehaviour
             // 初期化
             ShardCreateTimer = 0.0f;
         }
+
+        // アニメーションセット
+        anim.SetBool("charge", true);
     }
 
     private void ThrowShards()
@@ -414,6 +433,8 @@ public class TownBossMove : MonoBehaviour
                 rigid2D.velocity = ShardVelocity[i] * ShardSpeed;
             }
 
+            // アニメーションセット
+            anim.SetBool("charge", false);
         }
 
         // HPが少なくなればなるほどかけらを飛ばす回数が増える
@@ -451,13 +472,31 @@ public class TownBossMove : MonoBehaviour
                 NowShardWave = 0;
             }
         }
-
-        mat.color = new Color(1f, 0f, 1f);
     }
 
     private void Death()
     {
-        mat.color = new Color(2f, 2f, 2f);
+        //mat.color = new Color(2f, 2f, 2f);
+    }
+
+    private void None()
+    {
+        // 一定距離までプレイヤーが近づいたら
+        if(Distance < 100f)
+        {
+            EnemyAI = AIState.Lottery;
+        }
+    }
+
+    private void Walk()
+    {
+        anim.SetBool("walk", true);
+
+        if (hit == true)
+        {
+            EnemyAI = AIState.Lottery;
+            anim.SetBool("walk", false);
+        }
     }
 
     private void CreateRay()
@@ -465,7 +504,7 @@ public class TownBossMove : MonoBehaviour
         // 進行方向にレイを飛ばして壁にぶつかったら進行方向を変える
         Vector2 origin = new Vector2(
             thisTransform.position.x + AdjustX,
-            thisTransform.position.y
+            thisTransform.position.y + AdjustY
             );
 
         // レイを飛ばす方向
@@ -506,14 +545,19 @@ public class TownBossMove : MonoBehaviour
             // 左向き
             thisTransform.localScale = new Vector3(-sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
             // レイ調整
-            AdjustX = -halfScale;
+            AdjustX = Scale;
         }
         else
         {
             // 右向き
             thisTransform.localScale = new Vector3(sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
             // レイ調整
-            AdjustX = halfScale;
+            AdjustX = -Scale;
         }
+    }
+
+    public void SetHitPlayer(bool _hit)
+    {
+        HitPlayer = _hit;
     }
 }

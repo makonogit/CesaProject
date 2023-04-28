@@ -78,9 +78,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.00000016959333, y: -0.02895467}
+  m_Offset: {x: -0.28094912, y: -0.8851806}
   serializedVersion: 2
-  m_Radius: 0.42883956
+  m_Radius: 0.9104667
 --- !u!114 &5008190937140354744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +138,7 @@ Transform:
   m_GameObject: {fileID: 3007114840224502459}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.52, y: -3.59, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8134940055895088475}
@@ -187,7 +187,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: a5b80bba247965044907c4ff92991908, type: 3}
+  m_Sprite: {fileID: 295008757, guid: c6f39daf289c75e46b2fe7a030684cba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -232,9 +232,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.00000025439, y: -0.031916447}
+  m_Offset: {x: -0.14047503, y: -0.76773536}
   serializedVersion: 2
-  m_Radius: 0.42406705
+  m_Radius: 1.1665761
 --- !u!114 &763984895660101168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,4 +250,4 @@ MonoBehaviour:
   Shards_Prefab: {fileID: 3224777434751250611, guid: 081941a940eda9b43ba686d4ac2b8802, type: 3}
   ShardSpeed: 5
   SpacingDeg: 10
-  EnemyAI: 0
+  EnemyAI: 5

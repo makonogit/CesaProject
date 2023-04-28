@@ -9,6 +9,7 @@ using UnityEngine;
 public class HitCollider : MonoBehaviour
 {
     private string playerTag = "Player"; // •¶š—ñEnemy‚ğ‚Â•Ï”
+    private string BossEnemyTag = "BossEnemy";
 
     public float NoDamageTime = 1.0f; //–³“GŠÔ
     [SerializeField] float HitTime = 0.0f; // “G‚ÆÚG‚µ‚Ä‚¢‚éŠÔ
