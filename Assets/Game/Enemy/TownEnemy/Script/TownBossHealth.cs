@@ -48,22 +48,28 @@ public class TownBossHealth : MonoBehaviour
             order = collision.gameObject.GetComponent<CrackCreater>();
 
             //ê∂ê¨íÜÇ»ÇÁ
-            if (order.State == CrackCreater.CrackCreaterState.CREATING)
+            if (order != null)
             {
-                // ñ≥ìGèÛë‘Ç∂Ç·Ç»ÇØÇÍÇŒ
-                if (bossMove.invincibility == false)
+                if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
                 {
-                    // ëÃóÕ-1
-                    BossHealth--;
-
-                    // Ç–Ç—è¡Ç∑
-                    Destroy(collision.gameObject);
-
-                    // É{ÉXÇÃëÃóÕÇ™0à»â∫Ç…Ç»Ç¡ÇΩÇÁ
-                    if (BossHealth <= 0)
+                    // ñ≥ìGèÛë‘Ç∂Ç·Ç»ÇØÇÍÇŒ
+                    if (bossMove.invincibility == false)
                     {
-                        // AIÇÃèÛë‘Çïœâª
-                        bossMove.EnemyAI = TownBossMove.AIState.Death; // åÇîjèÛë‘
+                        // ëÃóÕ-1
+                        BossHealth--;
+
+                        // Ç–Ç—è¡Ç∑
+                        Destroy(collision.gameObject);
+
+                        // É{ÉXÇÃëÃóÕÇ™0à»â∫Ç…Ç»Ç¡ÇΩÇÁ
+                        if (BossHealth <= 0)
+                        {
+                            // AIÇÃèÛë‘Çïœâª
+                            bossMove.EnemyAI = TownBossMove.AIState.Death; // åÇîjèÛë‘
+                        }
+
+                        // òAë±îÌíeÇñhÇÆÇΩÇﬂéüÇÃçsìÆÇ‹Ç≈ñ≥ìG
+                        bossMove.invincibility = true;
                     }
                 }
             }

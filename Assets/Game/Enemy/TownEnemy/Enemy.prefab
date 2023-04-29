@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 28137785612753857}
   - component: {fileID: 28137785612753856}
-  - component: {fileID: 28137785612753858}
   - component: {fileID: 205727173881233843}
   - component: {fileID: 8964770170709385331}
   - component: {fileID: 5504847843207913909}
@@ -90,28 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &28137785612753858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28137785612753870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7601eacf35027a4591fb1bf26cfb92f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Stop: 0
-  MoveArea: 5
-  senserDistance: 6
-  attackDistance: 2
-  OneAttackNeedTime: 0.3
-  AttackDistance: 2.5
-  AttackWaitTime: 1
-  InCoroutineWaitTime: 0.5
-  TrackingSpeed: 3
-  EnemyAI: 0
 --- !u!95 &205727173881233843
 Animator:
   serializedVersion: 4
