@@ -48,13 +48,18 @@ public class CameraZoom : MonoBehaviour
 
         stagestatas = GetComponent<StageStatas>();
 
+        if(stagestatas.GetStageCrystal() == 0)
+        {
+            stagestatas = null;
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
         //　全て破壊されたら
-        if (stagestatas.GetStageCrystal() == 0)
+        if (stagestatas != null && stagestatas.GetStageCrystal() == 0)
         {
             // ズーム後のカメラ描画サイズになるまで徐々にズームインしていく
             if (NowCameraSize > ZoomCameraSize)

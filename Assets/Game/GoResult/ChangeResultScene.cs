@@ -19,6 +19,8 @@ public class ChangeResultScene : MonoBehaviour
     private PlayerStatas playerStatus;
     private GameObject Resultobj;   // リザルト演出用のオブジェクト
     private ResultManager resultmanager;
+    private bool Firstcheck = false;
+    private bool BossStage = false; // ボスステージ用
 
     //----追加者：中川直登----
     private Clear clear;// クリアしたかどうかをセレクトに持っていく
@@ -38,37 +40,64 @@ public class ChangeResultScene : MonoBehaviour
         //----追加者：中川直登----
         clear = new Clear();
         //------------------------
-}
+    }
 
-// Update is called once per frame
-void Update()
+    // Update is called once per frame
+    void Update()
     {
-        var gamepad = Gamepad.current;
+        
+
+        if (!Firstcheck)
+        {
+            BossStage = GameObject.Find("StageData").transform.GetChild(0).GetComponent<StageStatas>().
+                GetStageCrystal() == 0 ? true : false;
+            Firstcheck = true;
+        }
 
         // 3つのクリスタルを壊したらリザルト画面に移動
         if (playerStatus.GetBreakCrystalNum() == 3)
         {
-            GameObject stage = GameObject.Find("StageData").transform.GetChild(0).gameObject;
-            CameraZoom zoom = stage.GetComponent<CameraZoom>();
-            player.GetComponent<PlayerMove>().SetMovement(false);
-            
-
-            //playerStatus.AddBreakCrystal();
-            //演出開始
-            //result.SetFadeFlg(true);
-            
-            if (gamepad != null)
+            Result();
+        }
+        
+        // ボスステージ用
+        if (BossStage)
+        {
+            //ボスが見つからなくなったら
+            if (!GameObject.Find("BossEnemy"))
             {
-                //　振動停止
-                gamepad.SetMotorSpeeds(0.0f, 0.0f);
+                //コアを破壊してリザルト
+                if(playerStatus.GetBreakCrystalNum() == 1)
+                {
+                    Result();
+                }
             }
-            if (zoom.ZoomEnd)
-            {
-                resultmanager.PlayResult();
-            }
-            //----追加者：中川直登----
-            clear.GameClear();// クリアした
-            //------------------------
+            
         }
     }
+
+    private void Result()
+    {
+        var gamepad = Gamepad.current;
+        GameObject stage = GameObject.Find("StageData").transform.GetChild(0).gameObject;
+        CameraZoom zoom = stage.GetComponent<CameraZoom>();
+        player.GetComponent<PlayerMove>().SetMovement(false);
+        //playerStatus.AddBreakCrystal();
+        //演出開始
+        //result.SetFadeFlg(true);
+
+        if (gamepad != null)
+        {
+            //　振動停止
+            gamepad.SetMotorSpeeds(0.0f, 0.0f);
+        }
+        if (zoom.ZoomEnd)
+        {
+            resultmanager.PlayResult();
+        }
+        //----追加者：中川直登----
+        clear.GameClear();// クリアした
+                          //------------------------
+    }
+
 }
