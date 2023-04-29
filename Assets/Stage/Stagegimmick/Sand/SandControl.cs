@@ -58,6 +58,7 @@ public class SandControl : MonoBehaviour
             Destroy(ReleasedSand);
             HitTrigger = false;
         }
+
     }
 
     private void OnParticleCollision(GameObject other)
@@ -65,7 +66,7 @@ public class SandControl : MonoBehaviour
         // ひびに当たったら1回処理
         if (other.tag == "Crack" && !HitTrigger)
         {
-            Debug.Log("hibi");
+            //Debug.Log("hibi");
             //　オブジェクトの情報を保存
             HitCrack = other;
             HitCrackCreater = other.transform.parent.gameObject.GetComponent<CrackCreater>();
@@ -86,7 +87,7 @@ public class SandControl : MonoBehaviour
             {
                 ReleasedSand = Instantiate(SandObj, ReleasePos, Quaternion.identity);
                 ReleasedSand.transform.localScale = new Vector3(ReleaseLength, 1.0f, 1.0f);
-                ReleasedSand.transform.parent = sandmanagerobj.transform;
+                ReleasedSand.transform.parent = transform;
                 sandmanager.SetSand(ReleasePos);
             }
 
@@ -100,6 +101,11 @@ public class SandControl : MonoBehaviour
         {
             PlayerMove move = other.GetComponent<PlayerMove>();
             other.transform.Translate(-6.0f * (move.GetMovement().x * move.BaseSpeed * Time.deltaTime), 0.0f, 0.0f);
+        }
+
+        if(other.tag == "SandLine")
+        {
+            other.GetComponent<Sand>().SandHit = true;
         }
      
 

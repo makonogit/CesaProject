@@ -15,8 +15,8 @@ public class ChangeResultScene : MonoBehaviour
     private float WaitTime = 2.0f; // シーン遷移するまでの待ち時間
 
     // 外部取得
-    private GameObject player;
-    private PlayerStatas playerStatus;
+    private GameObject Stage;
+    private StageStatas Stagestatus;
     private GameObject Resultobj;   // リザルト演出用のオブジェクト
     private ResultManager resultmanager;
     private bool Firstcheck = false;
@@ -29,9 +29,8 @@ public class ChangeResultScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("player");
-        playerStatus = player.GetComponent<PlayerStatas>();
-
+        Stage = GameObject.Find("StageData");
+       
         //------------------------------------------------
         // リザルト演出用のシステム取得
         Resultobj = GameObject.Find("Result_StageClear");
@@ -49,13 +48,13 @@ public class ChangeResultScene : MonoBehaviour
 
         if (!Firstcheck)
         {
-            BossStage = GameObject.Find("StageData").transform.GetChild(0).GetComponent<StageStatas>().
-                GetStageCrystal() == 0 ? true : false;
+            Stagestatus = Stage.transform.GetChild(0).GetComponent<StageStatas>();
+            BossStage = Stagestatus.GetStageCrystal() == 0 ? true : false;
             Firstcheck = true;
         }
 
-        // 3つのクリスタルを壊したらリザルト画面に移動
-        if (playerStatus.GetBreakCrystalNum() == 3)
+        // 全てクリスタルを壊したらリザルト画面に移動
+        if (Stagestatus.GetStageCrystal() == 0)
         {
             Result();
         }
@@ -67,7 +66,7 @@ public class ChangeResultScene : MonoBehaviour
             if (!GameObject.Find("BossEnemy"))
             {
                 //コアを破壊してリザルト
-                if(playerStatus.GetBreakCrystalNum() == 1)
+                if(Stagestatus.GetStageCrystal() == 0)
                 {
                     Result();
                 }
@@ -81,7 +80,7 @@ public class ChangeResultScene : MonoBehaviour
         var gamepad = Gamepad.current;
         GameObject stage = GameObject.Find("StageData").transform.GetChild(0).gameObject;
         CameraZoom zoom = stage.GetComponent<CameraZoom>();
-        player.GetComponent<PlayerMove>().SetMovement(false);
+        GameObject.Find("player").GetComponent<PlayerMove>().SetMovement(false);
         //playerStatus.AddBreakCrystal();
         //演出開始
         //result.SetFadeFlg(true);

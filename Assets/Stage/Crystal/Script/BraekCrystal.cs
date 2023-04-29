@@ -32,7 +32,7 @@ public class BraekCrystal : MonoBehaviour
     {
         //-------------------------------------
         //ステージのステータスを取得
-        StageObj = transform.root.gameObject;
+        StageObj = GameObject.Find("StageData");
         stageStatas = StageObj.transform.GetChild(0).GetComponent<StageStatas>();
 
         // プレイヤー探す

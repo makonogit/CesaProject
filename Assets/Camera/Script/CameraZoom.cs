@@ -31,10 +31,10 @@ public class CameraZoom : MonoBehaviour
 
     private GameObject player;      // プレイヤー
     private Transform playertans;   // プレイヤーのTransform
-    private StageStatas stagestatas;    // ステージのステータスを取得
+    public StageStatas stagestatas;    // ステージのステータスを取得
 
     public bool ZoomEnd = false;
-
+  
     // Start is called before the first frame update
     void Start()
     {
@@ -48,19 +48,16 @@ public class CameraZoom : MonoBehaviour
 
         stagestatas = GetComponent<StageStatas>();
 
-        if(stagestatas.GetStageCrystal() == 0)
-        {
-            stagestatas = null;
-        }
-
     }
 
     // Update is called once per frame
     void Update()
     {
+
         //　全て破壊されたら
         if (stagestatas != null && stagestatas.GetStageCrystal() == 0)
         {
+            Debug.Log("zoom");
             // ズーム後のカメラ描画サイズになるまで徐々にズームインしていく
             if (NowCameraSize > ZoomCameraSize)
             {
@@ -79,6 +76,6 @@ public class CameraZoom : MonoBehaviour
             //カメラサイズ変更
             Cam.orthographicSize = NowCameraSize;
         }
-       
+      
     }
 }

@@ -140,7 +140,7 @@ public class Hammer : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        Debug.Log(Move.GetMovementFlg());
         //　ひびの始点を常に自分の座標に指定
         CrackPointList[0] = transform.position;
 
@@ -152,6 +152,7 @@ public class Hammer : MonoBehaviour
             {
                 case HammerState.NONE:
 
+                    Move.SetMovement(true);
                     // 角度の可視化
                     TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
@@ -516,8 +517,8 @@ public class Hammer : MonoBehaviour
 
         //----------------------------------------
         //　生成終了したら移動解除
-
     }
+
 
     //-----------------------------------------------------------------
     //―CrackCreaterを呼ぶ関数―           //―追加担当者：中川直登―//
