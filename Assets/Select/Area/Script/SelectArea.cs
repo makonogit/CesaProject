@@ -231,6 +231,9 @@ public class SelectArea : MonoBehaviour
                 RightMove = false;
             }
 
+            //プレイヤーの座標変更
+            GameObject.Find("Player(SelectScene)").transform.position = new Vector3(HorizonLimit.points[0].x - 1.0f, HorizonLimit.points[0].y, 1.0f);
+
         }
         //_nowNextUiTime += Time.deltaTime;        _nowPrevUiTime += Time.deltaTime;
     }
