@@ -219,6 +219,16 @@ public class SelectArea : MonoBehaviour
                 point.Add(new Vector2(HorizonLimit.points[0].x, HorizonLimit.points[0].y));
                 point.Add(new Vector2(OldLimitpoint.x, HorizonLimit.points[1].y));
                 HorizonLimit.SetPoints(point);
+                if (_nowArea > 0)
+                {
+                    //プレイヤーの座標変更
+                    GameObject.Find("Player(SelectScene)").transform.position = new Vector3(HorizonLimit.points[1].x + 1.5f, HorizonLimit.points[0].y, 1.0f);
+                }
+                else
+                {
+                    //プレイヤーの座標変更
+                    GameObject.Find("Player(SelectScene)").transform.position = new Vector3(HorizonLimit.points[0].x + 1.5f, HorizonLimit.points[1].y - 0.5f, 1.0f);
+                }
                 LeftMove = false;
             }
             if (RightMove)
@@ -228,11 +238,12 @@ public class SelectArea : MonoBehaviour
                 point.Add(new Vector2(HorizonLimit.points[1].x, HorizonLimit.points[1].y));
                 HorizonLimit.SetPoints(point);
                 OldLimitpoint = Vector2.zero;
+
+                //プレイヤーの座標変更
+                GameObject.Find("Player(SelectScene)").transform.position = new Vector3(HorizonLimit.points[0].x - 1.0f, HorizonLimit.points[0].y, 1.0f);
+
                 RightMove = false;
             }
-
-            //プレイヤーの座標変更
-            GameObject.Find("Player(SelectScene)").transform.position = new Vector3(HorizonLimit.points[0].x - 1.0f, HorizonLimit.points[0].y, 1.0f);
 
         }
         //_nowNextUiTime += Time.deltaTime;        _nowPrevUiTime += Time.deltaTime;
