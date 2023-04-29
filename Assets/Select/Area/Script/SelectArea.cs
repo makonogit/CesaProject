@@ -138,7 +138,7 @@ public class SelectArea : MonoBehaviour
         if(_context.phase == InputActionPhase.Started) 
         {
             NextArea();
-            if (_nowArea != _nextArea && !RightMove)
+            if (_nowArea != _nextArea && !RightMove && !LeftMove)
             {
                 RightMove = true;
                 OldLimitpoint = HorizonLimit.points[1];
@@ -157,7 +157,7 @@ public class SelectArea : MonoBehaviour
         if (_context.phase == InputActionPhase.Started)
         {
             PrevArea();
-            if (_nowArea != _nextArea && !LeftMove)
+            if (_nowArea != _nextArea && !LeftMove && !RightMove)
             {
                 LeftMove = true;
                 OldLimitpoint = HorizonLimit.points[0];
