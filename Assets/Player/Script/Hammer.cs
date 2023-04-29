@@ -140,8 +140,7 @@ public class Hammer : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log(Move.GetMovementFlg());
-        //　ひびの始点を常に自分の座標に指定
+         //　ひびの始点を常に自分の座標に指定
         CrackPointList[0] = transform.position;
 
         if (crackmove.movestate == CrackAutoMove.MoveState.Walk)

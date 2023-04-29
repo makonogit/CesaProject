@@ -60,12 +60,6 @@ public class SmashScript : MonoBehaviour
         if(_thisTrans == null) Debug.LogError("Transformのコンポーネントを取得できませんでした。");
 
         //--------------------------------------
-        // HammerNailのコンポーネント取得
-        _hammerNail = GetComponent<HammerNail>();
-        //エラー文
-        if (_hammerNail == null) Debug.LogError("HammerNailのコンポーネントを取得できませんでした。");
-
-        //--------------------------------------
         // PlayerInputManagerの取得
 
         // PlayerInputManagerを探す

@@ -82,10 +82,7 @@ public class Tutorial : MonoBehaviour
             //　LボタンUI
             Lstick = transform.Find("Lstick_front").gameObject;
         }
-        else
-        {
-            Debug.Log("ない");
-        }
+     
 
         if (transform.Find("crack"))
         {
