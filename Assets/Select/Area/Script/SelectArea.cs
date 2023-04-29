@@ -230,8 +230,9 @@ public class SelectArea : MonoBehaviour
                 }
                 else
                 {
-                    //プレイヤーの座標変更
-                    GameObject.Find("Player(SelectScene)").transform.position = new Vector3(HorizonLimit.points[0].x + 1.5f, HorizonLimit.points[1].y - 0.5f, 1.0f);
+                    if (HorizonLimit.points[1].x < GameObject.Find("Player(SelectScene)").transform.position.x)
+                        //プレイヤーの座標変更
+                        GameObject.Find("Player(SelectScene)").transform.position = new Vector3(HorizonLimit.points[0].x + 1.5f, HorizonLimit.points[1].y - 0.5f, 1.0f);
                 }
                 LeftMove = false;
             }
