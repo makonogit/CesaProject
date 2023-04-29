@@ -222,8 +222,9 @@ public class SelectArea : MonoBehaviour
                 point.Add(new Vector2(HorizonLimit.points[0].x, HorizonLimit.points[0].y));
                 point.Add(new Vector2(OldLimitpoint.x, HorizonLimit.points[1].y));
                 HorizonLimit.SetPoints(point);
-                if (_nowArea > 0 && HorizonLimit.points[1].x < GameObject.Find("Player(SelectScene)").transform.position.x)
+                if (_nowArea > 0)
                 {
+                    if(HorizonLimit.points[1].x < GameObject.Find("Player(SelectScene)").transform.position.x)
                     //プレイヤーの座標変更
                     GameObject.Find("Player(SelectScene)").transform.position = new Vector3(HorizonLimit.points[1].x + 1.5f, HorizonLimit.points[0].y, 1.0f);
                 }
