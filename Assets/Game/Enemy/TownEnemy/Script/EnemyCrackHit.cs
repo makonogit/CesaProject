@@ -40,10 +40,13 @@ public class EnemyCrackHit : MonoBehaviour
                 order = collision.gameObject.GetComponent<CrackCreater>();
 
                 //ê∂ê¨íÜÇ»ÇÁ
-                if (order != null && order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                if (order != null)
                 {
-                    // éÄñSèÛë‘Ç…Ç∑ÇÈ
-                    enemyMove.EnemyAI = EnemyMove.AIState.DEATH;
+                    if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                    {
+                        // éÄñSèÛë‘Ç…Ç∑ÇÈ
+                        enemyMove.EnemyAI = EnemyMove.AIState.DEATH;
+                    }
                 }
             }
         }
