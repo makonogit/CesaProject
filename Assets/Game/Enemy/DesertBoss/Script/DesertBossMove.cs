@@ -142,11 +142,13 @@ public class DesertBossMove : MonoBehaviour
                 Pyramid_parent[0].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
                 Pyramid_parent[1].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
                 Pyramid_parent[2].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
+                Destroy(gameObject);
             }
             else
             {
                 TimeMeasure += Time.deltaTime;
             }
+
         }
 
     }
