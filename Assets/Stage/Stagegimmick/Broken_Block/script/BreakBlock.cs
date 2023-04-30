@@ -25,6 +25,7 @@ public class BreakBlock : MonoBehaviour
     private CrackCreater order = null;
     private ParticleSystem BreakParticle;   //壊れるエフェクト
     private ParticleSystem CrystalParticle; //クリスタルをゲットしたパーティクル
+    private GameObject CrystalPoint;        //クリスタルが集まる座標
 
     private void Start()
     {
@@ -34,6 +35,20 @@ public class BreakBlock : MonoBehaviour
         statas = Player.GetComponent<PlayerStatas>();
         BreakParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
         CrystalParticle = transform.GetChild(1).GetComponent<ParticleSystem>();
+        CrystalPoint = transform.GetChild(2).gameObject;
+    }
+
+    private void Update()
+    {
+        //再生中
+        if (CrystalParticle.isPlaying)
+        {
+            CrystalPoint.transform.position = Player.transform.position;
+        }
+        else
+        {
+            CrystalPoint.transform.position = new Vector3(-1000.0f, -1000.0f);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -53,8 +68,8 @@ public class BreakBlock : MonoBehaviour
                 BreakParticle.Play();
                 if(CrystalNum > 0)
                 {
-                    //CrystalParticle.velocityOverLifetime;
-
+                    CrystalPoint.transform.position = Player.transform.position;
+                    //Debug.Log(CrystalPoint);
                     CrystalParticle.Play();
                 }
                 // 壊れるブロックの処理用関数呼び出し

@@ -36,8 +36,6 @@ public class AnimSelect : MonoBehaviour
         //　再生するアニメーションを選択
         anim.SetInteger("Select", (int)(playanim));
 
-        Debug.Log(anim.GetInteger("Select"));
-
     }
 
     // Update is called once per frame
