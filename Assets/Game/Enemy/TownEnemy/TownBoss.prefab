@@ -355,6 +355,7 @@ MonoBehaviour:
   RammingWaitTime: 3
   Shards_Prefab: {fileID: 3224777434751250611, guid: 081941a940eda9b43ba686d4ac2b8802, type: 3}
   ShardSpeed: 5
+  ChargeEffect: {fileID: 5464189228412731114, guid: 54149277bd0f8874fb203fe9caedcecf, type: 3}
   SpacingDeg: 12
   EnemyAI: 0
 --- !u!95 &1357279458
@@ -396,17 +397,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1667249851898859561}
     m_Modifications:
+    - target: {fileID: 7760445788845680240, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760445788845680240, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.51
+      objectReference: {fileID: 0}
     - target: {fileID: 7760445788882548320, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7760445788882548320, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.1955719
+      value: -0.14
       objectReference: {fileID: 0}
     - target: {fileID: 7760445788882548320, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.2512794
+      value: -0.88
       objectReference: {fileID: 0}
     - target: {fileID: 7760445788882548320, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -440,9 +449,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7760445788882548321, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
+      propertyPath: PieceOfBoss
+      value: 
+      objectReference: {fileID: 7052504874363746491, guid: 8b8f8be0fd2e7b84691bdc107780e038, type: 3}
     - target: {fileID: 7760445788882548327, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
       propertyPath: m_Name
       value: Directing_BossLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760445789085341502, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760445789085341502, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760445789340747939, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760445789340747939, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760445789799861922, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760445789799861922, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760445790485166086, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760445790485166086, guid: 67a5d1772ece82348b34d895271913f5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.47
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67a5d1772ece82348b34d895271913f5, type: 3}

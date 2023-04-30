@@ -64,6 +64,8 @@ public class TownBossMove : MonoBehaviour
     private float ShardThrowTimer = 0f; // かけらをとばしてからの経過時間
     private int ShardWaveNum = 0; // なんかいのウェーブがあるか
     private int NowShardWave = 0; // 今何ウェーブ目か
+    // 欠片生成時のエフェクト
+    public GameObject ChargeEffect;
 
     // かけら配置用変数
     [Header("何度間隔でかけらを配置するか(初期値10)")]public float SpacingDeg = 10f; // 何度間隔で配置するか
@@ -77,7 +79,9 @@ public class TownBossMove : MonoBehaviour
     private GameObject Barrier; // バリアオブジェクト
     private Material BariMat;   // マテリアル
 
+    // 死亡
     private bool death = false;
+    private Directing_BossLight bossDirecting;
 
     public enum AIState
     {
@@ -142,6 +146,9 @@ public class TownBossMove : MonoBehaviour
 
         // サイズを保存
         sizeX = thisTransform.localScale.x;
+
+        // ボス撃破用演出
+        bossDirecting = transform.GetChild(3).gameObject.GetComponent<Directing_BossLight>();
     }
 
     // Update is called once per frame
@@ -368,6 +375,9 @@ public class TownBossMove : MonoBehaviour
         }
     }
 
+    Vector3 CreatePos;
+    Quaternion CreateRotate;
+
     private void ThrowShardsInit()
     {
         // かけら準備
@@ -398,23 +408,21 @@ public class TownBossMove : MonoBehaviour
             }
 
             // ボスを中心とした円周上の点を求める
-            Vector3 CreatePos = new Vector3(thisTransform.position.x + sign * cos * radius, thisTransform.position.y + AdjustY + sin * radius, 0f);
+            CreatePos = new Vector3(thisTransform.position.x + sign * cos * radius, thisTransform.position.y + AdjustY + sin * radius, 0f);
 
             // そのかけらの回転角度を求める
             // 第一引数 回転させたい角度
             // 第二引数 回転させたい軸 right,up,forward
-            Quaternion CreateRotate = Quaternion.AngleAxis(
+            CreateRotate = Quaternion.AngleAxis(
                 (sign *               // 符号（どちら向きに飛ばすのか）
                 (90f +                // 呼び出す欠片を飛ばす方向にむかせるための角度
                 SpacingDeg *          // 何度間隔で配置するのか
                 (CreatedNum % 6)))    // そのウェーブの中で何番目に生成されるモノか(1ウェーブ6個)
                 , Vector3.forward);   // z軸回転させたい
 
-            // 第一引数 作成するオブジェクトの素となるプレハブ
-            // 第二引数 作成する位置
-            // 第三引数 作成するときの角度
-            // 第四引数 作成するオブジェクトの親オブジェクト
-            shardObj[CreatedNum] = Instantiate(Shards_Prefab, CreatePos, CreateRotate, shardParent.transform);
+            // 中心に集まってくるエフェクト生成
+            var effect = Instantiate(ChargeEffect);
+            effect.transform.position = CreatePos;
 
             // ボスの中心座標をAdjustYでずらしたのでずらした座標を持っておく
             Vector3 AdjustYThisPos = new Vector3(thisTransform.position.x, thisTransform.position.y + AdjustY, thisTransform.position.z);
@@ -423,8 +431,6 @@ public class TownBossMove : MonoBehaviour
             var Vector_Shrad_Boss = CreatePos - AdjustYThisPos;
             // もとめたベクトルのオブジェクトの作成番号と配列の添え字が一致するようにベクトルを保存
             ShardVelocity[CreatedNum] = Vector_Shrad_Boss;
-            // 大きさ調整
-            shardObj[CreatedNum].transform.localScale = new Vector3(1f, 1f, 1f);
         }
 
         // かけらを生成してからの経過時間
@@ -432,6 +438,15 @@ public class TownBossMove : MonoBehaviour
 
         if(ShardCreateTimer > CreateShardsNeedTime)
         {
+            // 第一引数 作成するオブジェクトの素となるプレハブ
+            // 第二引数 作成する位置
+            // 第三引数 作成するときの角度
+            // 第四引数 作成するオブジェクトの親オブジェクト
+            shardObj[CreatedNum] = Instantiate(Shards_Prefab, CreatePos, CreateRotate, shardParent.transform);
+
+            // 大きさ調整
+            shardObj[CreatedNum].transform.localScale = new Vector3(1f, 1f, 1f);
+
             // 作成数カウント
             CreatedNum++;
 
@@ -517,6 +532,8 @@ public class TownBossMove : MonoBehaviour
             Colchild.GetComponent<CircleCollider2D>().enabled = false;
 
             death = true;
+
+            bossDirecting.Flash();
         }
     }
 
