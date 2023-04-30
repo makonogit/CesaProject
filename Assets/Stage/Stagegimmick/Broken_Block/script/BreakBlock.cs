@@ -16,8 +16,12 @@ public class BreakBlock : MonoBehaviour
     // このゲームオブジェクトのマテリアルを保持する変数
     private Material mat;
 
+    private GameObject Crystal;
+
     [SerializeField,Header("中に入っているクリスタルの数")]
     private int CrystalNum;
+
+    public bool Break = false;
 
     // 外部取得
     private GameObject Player;
@@ -36,6 +40,11 @@ public class BreakBlock : MonoBehaviour
         BreakParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
         CrystalParticle = transform.GetChild(1).GetComponent<ParticleSystem>();
         CrystalPoint = transform.GetChild(2).gameObject;
+
+        if (transform.childCount == 4)
+        {
+            Crystal = transform.GetChild(3).gameObject;
+        }
     }
 
     private void Update()
@@ -59,25 +68,31 @@ public class BreakBlock : MonoBehaviour
             // 当たったひびのCrackOrderを取得
             order = collision.gameObject.GetComponent<CrackCreater>();
 
-            // ひび生成中なら
-            if (order.State == CrackCreater.CrackCreaterState.CREATING ||
-                order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+            if (order != null)
             {
-                //Destroy(collision.gameObject);
-                //壊れるパーティクルの再生
-                BreakParticle.Play();
-                if(CrystalNum > 0)
+                // ひび生成中なら
+                if (order.State == CrackCreater.CrackCreaterState.CREATING ||
+                    order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
                 {
-                    CrystalPoint.transform.position = Player.transform.position;
-                    //Debug.Log(CrystalPoint);
-                    CrystalParticle.Play();
-                }
-                // 壊れるブロックの処理用関数呼び出し
-                Func_BreakBlock();
+                    if (Break == false)
+                    {
+                        // ひびを消す
+                        Destroy(collision.gameObject);
 
-                //クリスタルを付与
-                statas.SetCrystal(statas.GetCrystal() + CrystalNum);
-              
+                        //壊れるパーティクルの再生
+                        BreakParticle.Play();
+                        if (CrystalNum > 0)
+                        {
+                            CrystalPoint.transform.position = Player.transform.position;
+                            CrystalParticle.Play();
+                        }
+                        // 壊れるブロックの処理用関数呼び出し
+                        Func_BreakBlock();
+
+                        //クリスタルを付与
+                        statas.SetCrystal(statas.GetCrystal() + CrystalNum);
+                    }
+                }
             }
         }
     }
@@ -86,9 +101,15 @@ public class BreakBlock : MonoBehaviour
     {
         // 透明にする
         mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.0f);
+        if (Crystal != null)
+        {
+            Destroy(Crystal);
+        }
 
         // 当たり判定を消す
         //GetComponent<BoxCollider2D>().enabled = false;
         Destroy(GetComponent<BoxCollider2D>());
+
+        Break = true;
     }
 }

@@ -377,7 +377,7 @@ public class TownBossMove : MonoBehaviour
 
     Vector3 CreatePos;
     Quaternion CreateRotate;
-
+    GameObject effect;
     private void ThrowShardsInit()
     {
         // かけら準備
@@ -421,7 +421,7 @@ public class TownBossMove : MonoBehaviour
                 , Vector3.forward);   // z軸回転させたい
 
             // 中心に集まってくるエフェクト生成
-            var effect = Instantiate(ChargeEffect);
+            effect = Instantiate(ChargeEffect);
             effect.transform.position = CreatePos;
 
             // ボスの中心座標をAdjustYでずらしたのでずらした座標を持っておく
@@ -446,6 +446,9 @@ public class TownBossMove : MonoBehaviour
 
             // 大きさ調整
             shardObj[CreatedNum].transform.localScale = new Vector3(1f, 1f, 1f);
+
+            // パーティクルのゲームオブジェクト消す
+            Destroy(effect);
 
             // 作成数カウント
             CreatedNum++;
@@ -534,6 +537,9 @@ public class TownBossMove : MonoBehaviour
             death = true;
 
             bossDirecting.Flash();
+
+            // バリア透明にする
+            BariMat.color = new Color(1f, 1f, 1f, 0f);
         }
     }
 
