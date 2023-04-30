@@ -39,6 +39,7 @@ public class SelectArea : MonoBehaviour
     //private float _nowPrevUiTime;
     [SerializeField, Header("アイコン")]
     private List<Transform> _stageIcon;
+  
     [SerializeField]
     private float _speed = 1;
     [SerializeField]

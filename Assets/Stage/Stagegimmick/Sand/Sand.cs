@@ -38,11 +38,13 @@ public class Sand : MonoBehaviour
         }
         else
         {
-            //if (Line > 0.0f)
-            //{
-            //    Line -= accumulatespeed * Time.deltaTime;
-            //}
+            if (Line > 0.0f)
+            {
+                Line -= accumulatespeed * Time.deltaTime;
+            }
         }
+
+        
 
         thismat.material.SetFloat("_Border", Line);
     }
