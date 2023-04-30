@@ -17,6 +17,8 @@ public class Directing_BossLight : MonoBehaviour
     private float DirectingTimer = 0f; // 演出開始からの経過時間
     private int FlashNum = 0; // いくつ光っているか
 
+    public GameObject PieceOfBoss; // 爆散するパーティクル
+
     public List<float> FlashTiming = new List<float>(); // float型のリストを定義
 
     // ゲームオブジェクト格納配列
@@ -24,6 +26,8 @@ public class Directing_BossLight : MonoBehaviour
 
     // Light2D格納配列
     private List<Light2D> sc_light = new List<Light2D>(); // Light2D型のリストを定義
+
+    private Transform thisTransform;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +44,8 @@ public class Directing_BossLight : MonoBehaviour
             //Debug.Log("BossLight" + BossLight[i]);
             //Debug.Log("sc_light" + sc_light[i]);
         }
+
+        thisTransform = GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -48,7 +54,7 @@ public class Directing_BossLight : MonoBehaviour
         // 演出開始
         if(FlashStart == true)
         {
-            // ライトの数分光るまで
+            // ライトの数ぶん光るまで
             if (FlashNum < LightNum)
             {
                 // 演出開始してからの経過時間がライトを光らせるタイミングを過ぎたら
@@ -59,6 +65,13 @@ public class Directing_BossLight : MonoBehaviour
 
                     // 光らせたライトの数を加算
                     FlashNum++;
+                }
+            }
+            else
+            {
+                if (DirectingTimer > FlashTiming[LightNum - 1] + 0.5f)
+                {
+                    BreakStart = true;
                 }
             }
 
@@ -76,7 +89,16 @@ public class Directing_BossLight : MonoBehaviour
             }
         }
 
+        // 爆散する
+        if (BreakStart)
+        {
+            // パーティクル生成
+            var Obj = Instantiate(PieceOfBoss);
+            Obj.transform.position = thisTransform.position;
 
+            // ボス消す
+            Destroy(transform.parent.gameObject);
+        }
     }
 
     // 他のスクリプトで呼び出して演出開始

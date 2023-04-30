@@ -525,7 +525,7 @@ public class TownBossMove : MonoBehaviour
         // ˆê’è‹——£‚Ü‚ÅƒvƒŒƒCƒ„[‚ª‹ß‚Ã‚¢‚½‚ç
         if(Distance < 100f)
         {
-            //EnemyAI = AIState.Lottery;
+            EnemyAI = AIState.Lottery;
         }
     }
 
