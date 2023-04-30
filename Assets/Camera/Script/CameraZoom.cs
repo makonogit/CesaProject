@@ -32,6 +32,9 @@ public class CameraZoom : MonoBehaviour
     private GameObject player;      // プレイヤー
     private Transform playertans;   // プレイヤーのTransform
     public StageStatas stagestatas;    // ステージのステータスを取得
+    private ChangeResultScene resultScene;
+
+    private bool First = false;
 
     public bool ZoomEnd = false;
   
@@ -47,6 +50,7 @@ public class CameraZoom : MonoBehaviour
         playertans = player.transform;
 
         stagestatas = GetComponent<StageStatas>();
+        resultScene = GameObject.Find("ChageResultScene").GetComponent<ChangeResultScene>();
 
     }
 
@@ -55,7 +59,8 @@ public class CameraZoom : MonoBehaviour
     {
 
         //　全て破壊されたら
-        if (stagestatas != null && stagestatas.GetStageCrystal() == 0)
+        if ((!resultScene.BossStage || (resultScene.BossStage && GameObject.Find("BossEnemy").transform.childCount == 0 && resultScene.WaitFlame > 0.2f))
+            && stagestatas.GetStageCrystal() == 0)
         {
             Debug.Log("zoom");
             // ズーム後のカメラ描画サイズになるまで徐々にズームインしていく

@@ -9,9 +9,7 @@ using UnityEngine;
 public class StageStatas : MonoBehaviour
 {
     [SerializeField,Header("壊さないといけないクリスタル")]
-    private int StageCrystal;
-
-    private CameraZoom Zoom;
+    private int StageCrystal = 0;
 
     private void Start()
     {
@@ -19,12 +17,6 @@ public class StageStatas : MonoBehaviour
         //　ステージ上のクリスタルを取得
         GameObject Core = GameObject.Find("Core");
         StageCrystal = Core.transform.childCount;
-
-        if(StageCrystal == 0)
-        {
-            Zoom.stagestatas = null;
-        }
-
     }
 
     //--------------------------------

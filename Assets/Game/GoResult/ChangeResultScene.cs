@@ -20,7 +20,8 @@ public class ChangeResultScene : MonoBehaviour
     private GameObject Resultobj;   // リザルト演出用のオブジェクト
     private ResultManager resultmanager;
     private bool Firstcheck = false;
-    private bool BossStage = false; // ボスステージ用
+    public bool BossStage = false; // ボスステージ用
+    public float WaitFlame = 0.0f;
 
     //----追加者：中川直登----
     private Clear clear;// クリアしたかどうかをセレクトに持っていく
@@ -49,29 +50,37 @@ public class ChangeResultScene : MonoBehaviour
         if (!Firstcheck)
         {
             Stagestatus = Stage.transform.GetChild(0).GetComponent<StageStatas>();
-            BossStage = Stagestatus.GetStageCrystal() == 0 ? true : false;
+
+            if (GameObject.Find("BossEnemy")) {
+                BossStage = true;
+            }
             Firstcheck = true;
         }
 
-        // 全てクリスタルを壊したらリザルト画面に移動
-        if (Stagestatus.GetStageCrystal() == 0)
-        {
-            Result();
-        }
-        
         // ボスステージ用
         if (BossStage)
         {
             //ボスが見つからなくなったら
-            if (!GameObject.Find("BossEnemy"))
+            if (GameObject.Find("BossEnemy").transform.childCount == 0)
             {
                 //コアを破壊してリザルト
-                if(Stagestatus.GetStageCrystal() == 0)
-                {
+                if (Stagestatus.GetStageCrystal() == 0 && WaitFlame > 0.2f)
+                { 
                     Result();
                 }
+                //zoomしてしまうので待機
+                WaitFlame += Time.deltaTime;
             }
-            
+
+        }
+        else
+        {
+            // 全てクリスタルを壊したらリザルト画面に移動
+            if (Stagestatus.GetStageCrystal() == 0)
+            {
+                Result();
+            }
+
         }
     }
 
