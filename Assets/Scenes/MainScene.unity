@@ -801,6 +801,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b745c3c0b4ff29448984d1be582bbb3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Loop_Bgm:
+  - {fileID: 8300000, guid: 64d4adf7c14f00f4d8770e2e70011246, type: 3}
+  - {fileID: 8300000, guid: 9e7752401f56b124ca4fa42430dad1e0, type: 3}
+  - {fileID: 8300000, guid: fd76107837c40594ab20063c6cc4c586, type: 3}
+  - {fileID: 8300000, guid: 64d4adf7c14f00f4d8770e2e70011246, type: 3}
+  - {fileID: 8300000, guid: 64d4adf7c14f00f4d8770e2e70011246, type: 3}
   LoopStartTime: 11.5
 --- !u!114 &561533697
 MonoBehaviour:
@@ -1711,6 +1717,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TownBoss
       objectReference: {fileID: 0}
+    - target: {fileID: 3007114840224502459, guid: 9e1e0988d68abd84b802c0f1c3bc152c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e1e0988d68abd84b802c0f1c3bc152c, type: 3}
 --- !u!1 &1161311422 stripped
@@ -2336,6 +2346,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0
+  BossStage: 0
+  WaitFlame: 0
 --- !u!1001 &1577568362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2621,6 +2633,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1749737638}
   m_CullTransparentMesh: 1
+--- !u!1 &1798430736 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7911027452607527265, guid: 021891527e0f9ba41ba3d597b3eba8a7, type: 3}
+  m_PrefabInstance: {fileID: 7911027453622514380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1798430738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798430736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a73876d1df7b74eab0e6dc738fc141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Intro_Bgm:
+  - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
+  - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
+  - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
+  - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
+  - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
 --- !u!1 &1906644263
 GameObject:
   m_ObjectHideFlags: 0
@@ -4425,6 +4460,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7911027452607527266, guid: 021891527e0f9ba41ba3d597b3eba8a7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911027452607527267, guid: 021891527e0f9ba41ba3d597b3eba8a7, type: 3}
+      propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
