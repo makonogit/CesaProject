@@ -22501,9 +22501,9 @@ Tilemap:
   - m_RefCount: 5
     m_Data: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   - m_RefCount: 15
-    m_Data: {r: 0.96266705, g: 0.64843506, b: 0.7416482, a: 1}
+    m_Data: {r: 0.737136, g: 0.30720532, b: 0.36443463, a: 1}
   - m_RefCount: 0
-    m_Data: {r: 9.91e-41, g: 9.91e-41, b: 9.91e-41, a: 9.91e-41}
+    m_Data: {r: 8.77168e-40, g: 8.77168e-40, b: 8.77168e-40, a: 8.77168e-40}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -22635,6 +22635,7 @@ MonoBehaviour:
   ZoomCameraSize: 2.5
   DefaultCameraSize: 5
   NowCameraSize: 5
+  stagestatas: {fileID: 0}
   ZoomEnd: 0
 --- !u!114 &312794764586435863
 MonoBehaviour:
@@ -23234,7 +23235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7901739078190754667, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7901739078190754667, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_TagString
@@ -23242,7 +23243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8278269766777442172, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_Constraints
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8278269766777442172, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_GravityScale
@@ -24237,7 +24238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7901739078190754667, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7901739078190754667, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_TagString
@@ -24245,7 +24246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8278269766777442172, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_Constraints
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8278269766777442172, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_GravityScale
@@ -43382,7 +43383,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7901739078190754667, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7901739078190754667, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_TagString
@@ -43390,7 +43391,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8278269766777442172, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_Constraints
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8278269766777442172, guid: ab93cc702f3b6c74a80696bfcfde487d, type: 3}
       propertyPath: m_GravityScale
