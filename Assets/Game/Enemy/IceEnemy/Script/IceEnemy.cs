@@ -17,12 +17,12 @@ public class IceEnemy : MonoBehaviour
         FELL,       // 落ちた後
         CLING,      // 天井にくっつく
         DROP,       // 落ちる
-
+        DEATH,
     }
 
     //-----------------------------------------------------------------
     //―秘匿変数―(私)
-
+    [SerializeField]
     private StateID _state;// 状態変数
 
     [SerializeField,Header("チェッカー")]
@@ -103,6 +103,9 @@ public class IceEnemy : MonoBehaviour
             case StateID.DROP:
                 Drop();
                 break;
+            case StateID.DEATH:
+                Death();
+                break;
         }
     }
     //-----------------------------------------------------------------
@@ -112,6 +115,11 @@ public class IceEnemy : MonoBehaviour
         get 
         {
             return _state;
+        }
+        set 
+        {
+            if (value == StateID.DEATH)
+            { _state = value; }
         }
     }
     //-----------------------------------------------------------------
@@ -152,4 +160,13 @@ public class IceEnemy : MonoBehaviour
             _anim.SetBool("isFell", true);
         }
     }
+
+    private void Death() 
+    {
+        if(_rb.simulated == false) 
+        {
+            _rb.simulated = true;
+        }
+    }
+
 }
