@@ -131,6 +131,8 @@ public class EnemyMove : MonoBehaviour
 
             // 三平方の定理
             Distance = SubX * SubX + SubY * SubY; // プレイヤーとの距離が求まった
+            Debug.Log(Distance);
+            Debug.Log(attackDistance * attackDistance);
 
             if (death == false)
             {
@@ -309,7 +311,7 @@ public class EnemyMove : MonoBehaviour
         }
 
         // 一定距離内にプレイヤーがいる
-        if (Distance < senserDistance)
+        if (Distance < senserDistance * senserDistance)
         {
             // 追跡準備
             EnemyAI = AIState.INIT_TRACKING;
@@ -325,7 +327,7 @@ public class EnemyMove : MonoBehaviour
     void Tracking()
     {
         // 一定距離内にプレイヤーがいる
-        if (Distance < senserDistance)
+        if (Distance < senserDistance * senserDistance)
         {
             // パトロールの時から向きが変わるなら（敵の後ろから索敵範囲に入ったら）
             if (SubX < 0.0f)
@@ -401,7 +403,7 @@ public class EnemyMove : MonoBehaviour
             }
 
             // 近づきすぎたら
-            if (Distance < attackDistance)
+            if (Distance < attackDistance * attackDistance)
             {
                 // 攻撃状態に変化
                 EnemyAI = AIState.INIT_ATTACK;
@@ -502,9 +504,9 @@ public class EnemyMove : MonoBehaviour
             }
         }
 
-        if (Distance > attackDistance)
+        if (Distance > attackDistance * attackDistance)
         {
-            EnemyAI = AIState.TRACKING;
+            //EnemyAI = AIState.TRACKING;
         }
     }
 
@@ -522,12 +524,11 @@ public class EnemyMove : MonoBehaviour
             AttackWaitTimer = 0;
         }
 
-        if (Distance > attackDistance)
+        if (Distance > attackDistance * attackDistance)
         {
             EnemyAI = AIState.TRACKING;
 
             AttackWaitTimer = 0;
-
         }
     }
 
