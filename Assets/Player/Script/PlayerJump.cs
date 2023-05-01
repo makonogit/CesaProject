@@ -139,6 +139,11 @@ public class PlayerJump : MonoBehaviour
             // 天井の衝突判定を得る
             isOverhead = overhead.IsOverHead();
 
+            if(isJump == true)
+            {
+                isGround = false;
+            }
+
             //----------------------------------------------------------------------------------------------------------
             // 何も入力されていなければこのままの値をプレイヤーの座標に加算することになる
             float xSpeed = 0.0f; //プレイヤー座標に加算するときに必要な変数、横移動自体はPlayerMoveで実装

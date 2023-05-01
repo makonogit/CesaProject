@@ -39,9 +39,6 @@ public class FallPipe : MonoBehaviour
     private GameObject player;
     private Transform playerTransform;
 
-    // 子オブジェクト
-    private GameObject Child;
-    private EdgeCollider2D ChildEdge;
 
     // 親オブジェクト(PipeSet)
     private GameObject Parent;
@@ -68,12 +65,6 @@ public class FallPipe : MonoBehaviour
         // リジッドボディ取得
         rigid2D = GetComponent<Rigidbody2D>();
 
-        // 子オブジェクト取得
-        Child = transform.GetChild(1).gameObject;
-
-        //子オブジェクトのコライダー取得
-        ChildEdge = Child.GetComponent<EdgeCollider2D>();
-
         // 親取得
         Parent = transform.parent.gameObject;
 
@@ -92,21 +83,6 @@ public class FallPipe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (InPipe == false)
-        {
-            // プレイヤーがパイプより上にいたら
-            if (playerTransform.position.y > thisTransform.position.y)
-            {
-                // 判定あり
-                ChildEdge.isTrigger = false;
-            }
-            else
-            {
-                // 判定無し
-                ChildEdge.isTrigger = true;
-            }
-        }
-
         // ステータスによって異なる処理を行う
         switch (pipeStatus)
         {
@@ -153,7 +129,7 @@ public class FallPipe : MonoBehaviour
         }
 
         // いらなくなると思うけど例外を除くため
-        if(left && right)
+        if (left && right)
         {
             pipeStatus = pipeStatus = PIPESTATUS.AllBroken;
         }
@@ -171,7 +147,7 @@ public class FallPipe : MonoBehaviour
 
     private void RightBroken()
     {
-        bool left = UnionRight.GetBreak();
+        bool left = UnionLeft.GetBreak();
 
         if (left)
         {
@@ -212,14 +188,38 @@ public class FallPipe : MonoBehaviour
                 pipeStatus = PIPESTATUS.Fell;
             }
         }
+
+        // プレイヤーがパイプより上にいるときに当たったら
+        if(collision.gameObject.tag == PlayerTag)
+        {
+            // プレイヤーの脚の部分がパイプの上表面より上なら
+            if(playerTransform.position.y - playerTransform.localScale.y / 2.0f > thisTransform.position.y + thisTransform.localScale.y / 2.0f)
+            {
+                pipeStatus = PIPESTATUS.AllBroken;
+
+                
+            }
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // 地面かパイプに当たったら
+        if (collision.gameObject.tag == GroundTag ||
+            collision.gameObject.tag == PipeTag)
+        {
+            // パイプの状態が落下する状態なら
+            if (pipeStatus == PIPESTATUS.AllBroken || pipeStatus == PIPESTATUS.LeftBroken || pipeStatus == PIPESTATUS.RightBroken)
+            {
+                pipeStatus = PIPESTATUS.Fell;
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == PlayerTag)
         {
-            ChildEdge.isTrigger = true;
-
             InPipe = true;
         }
     }
@@ -228,8 +228,6 @@ public class FallPipe : MonoBehaviour
     {
         if (collision.gameObject.tag == PlayerTag)
         {
-            ChildEdge.isTrigger = false;
-
             InPipe = false;
         }
     }

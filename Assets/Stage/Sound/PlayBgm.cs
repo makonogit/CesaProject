@@ -39,7 +39,7 @@ public class PlayBgm : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Intro.time);
+        //Debug.Log(Intro.time);
 
         // ƒCƒ“ƒgƒ‚ªÄ¶‚ªI—¹‚µ‚½‚ç
         if (Intro.time > LoopStartTime && Intro.isPlaying)

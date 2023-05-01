@@ -1723,24 +1723,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e1e0988d68abd84b802c0f1c3bc152c, type: 3}
---- !u!1 &1161311422 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2103646556448133361, guid: 8daac7792c1bceb409d860e89a0916b8, type: 3}
-  m_PrefabInstance: {fileID: 1469203823115666046}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1161311427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1161311422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 538660ac73f176c40a0010075dc6cad9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pipeStatus: 0
 --- !u!1 &1249075789
 GameObject:
   m_ObjectHideFlags: 0
@@ -2933,7 +2915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stage:
   - stage:
-    - StageObj: {fileID: 2483160076854475445, guid: e14f2361a3d47c74baf5d36145069b3e, type: 3}
+    - StageObj: {fileID: 2483160076854475445, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
       PlayerPos: {x: -7.2, y: -1.7}
     - StageObj: {fileID: 2483160076854475445, guid: c90e1b17e96a23943b3f17332953afa1, type: 3}
       PlayerPos: {x: -7.2, y: -1.7}
@@ -3070,21 +3052,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: PipeSet
       objectReference: {fileID: 0}
-    - target: {fileID: 4013212215339117096, guid: 8daac7792c1bceb409d860e89a0916b8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4013212215339117097, guid: 8daac7792c1bceb409d860e89a0916b8, type: 3}
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4013212215339117097, guid: 8daac7792c1bceb409d860e89a0916b8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.11
+      value: 2.05
       objectReference: {fileID: 0}
     - target: {fileID: 4013212215339117097, guid: 8daac7792c1bceb409d860e89a0916b8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.09
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 4013212215339117097, guid: 8daac7792c1bceb409d860e89a0916b8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4612,8 +4590,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: c6d3b55f40520c74c9e2151ff3618b2e, type: 3}
     - target: {fileID: 6636130089559709833, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: JumpPower
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709833, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636130089559709833, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: JumpHeight
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709833, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: PlayerInputManager

@@ -19,12 +19,23 @@ public class BreakUnionCrystal : MonoBehaviour
     // このゲームオブジェクトのマテリアルを保持する変数
     private Material mat;
 
+    private Transform thisTransform;
+
     // 外部取得
     private CrackCreater order = null;
 
+    // クリスタル壊したときのパーティクルプレハブ
+    public GameObject PipeCrystalParticle;
+    // 生成したオブジェクトを持つ
+    private GameObject Obj;
+
     private void Start()
     {
+        // マテリアル取得
         mat = GetComponent<SpriteRenderer>().material;
+
+        // このオブジェクトの座標取得
+        thisTransform = GetComponent<Transform>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,12 +46,15 @@ public class BreakUnionCrystal : MonoBehaviour
             // 当たったひびのCrackOrderを取得
             order = collision.gameObject.GetComponent<CrackCreater>();
 
-            // ひび生成中なら
-            if (order.State == CrackCreater.CrackCreaterState.CREATING ||
-                order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+            if (order != null)
             {
-                // 壊れるブロックの処理用関数呼び出し
-                Func_BreakBlock();
+                // ひび生成中なら
+                if (order.State == CrackCreater.CrackCreaterState.CREATING ||
+                    order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                {
+                    // 壊れるブロックの処理用関数呼び出し
+                    Func_BreakBlock();
+                }
             }
         }
     }
@@ -50,8 +64,11 @@ public class BreakUnionCrystal : MonoBehaviour
         // 透明にする
         mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.0f);
 
+        Obj = Instantiate(PipeCrystalParticle);
+        Obj.transform.position = thisTransform.position;
+
         // 当たり判定を消す
-        GetComponent<CapsuleCollider2D>().enabled = false;
+        Destroy(GetComponent<CapsuleCollider2D>());
 
         Break = true;
     }
@@ -60,4 +77,11 @@ public class BreakUnionCrystal : MonoBehaviour
     {
         return Break;
     }
+
+    private void OnDestroy()
+    {
+        // パーティクルの再生が終わったら消す
+        Destroy(Obj);
+        Destroy(this.gameObject);
+;    }
 }
