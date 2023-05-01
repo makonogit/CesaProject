@@ -38,7 +38,8 @@ public class GiveScene : MonoBehaviour
     //private SetStage setStage;
     [SerializeField]
     private StateID _state;
-
+    [SerializeField]
+    private GameObject _crystal;
 
     private void Start()
     {
@@ -52,7 +53,18 @@ public class GiveScene : MonoBehaviour
         _Stagemanager = new SetStage();
 
         _state = StateID.UNPLAYABLE;
+
+        
+        if (_crystal == null) Debug.LogError("設定されていません。");
+        
         //setStage = _Stagemanager.GetComponent<SetStage>();
+    }
+    private void Update()
+    {
+        if (State == StateID.CLEAR)
+        {
+            _crystal.SetActive(false);
+        }
     }
 
     //-----------------------------------------------------------------
@@ -120,6 +132,7 @@ public class GiveScene : MonoBehaviour
         set 
         {
             _state = value;
+           
         }
     }
 
