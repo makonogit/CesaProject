@@ -26,7 +26,8 @@ public class GroundCheck : MonoBehaviour
     // 14 : Block
     // 17 : EnemyPipe
     // 18 : Pipe
-    private LayerMask layerMask = 1 << 10 | 1 << 14 | 1 << 17 | 1 << 18;
+    // 21 : Trolley
+    private LayerMask layerMask = 1 << 10 | 1 << 14 | 1 << 17 | 1 << 18 |1 << 21;
 
     // 外部取得
     private GameObject PlayerInputMana; // ゲームオブジェクトPlayerInputManagerを取得する変数
