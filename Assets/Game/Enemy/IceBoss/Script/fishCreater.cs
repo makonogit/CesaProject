@@ -27,7 +27,7 @@ public class fishCreater : MonoBehaviour
         {
             _crack = collision.GetComponent<CrackCreater>();
             // 生成中なら
-            if (_crack.State == CrackCreater.CrackCreaterState.CREATING)
+            if (_crack.State == CrackCreater.CrackCreaterState.CREATING || _crack.State == CrackCreater.CrackCreaterState.ADD_CREATING)
             {
                 if (boss.fish == null) 
                 {
