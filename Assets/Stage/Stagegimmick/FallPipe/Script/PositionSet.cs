@@ -84,27 +84,31 @@ public class PositionSet : MonoBehaviour
         // 一番左のパイプを基準に配置していく
 
         // 中央のパイプ配置
-        MiddlePipeTransform.localPosition = new Vector3(
-            LeftPipeTransform.localPosition.x + LeftPipeTransform.localScale.x,
-            LeftPipeTransform.localPosition.y,
-            LeftPipeTransform.localPosition.z);
+        MiddlePipeTransform.position = new Vector3(
+            LeftPipeTransform.position.x + LeftPipeTransform.localScale.x * 2.5f,
+            LeftPipeTransform.position.y,
+            LeftPipeTransform.position.z);
 
         // 右のパイプ配置
-        RightPipeTransform.localPosition = new Vector3(
-            MiddlePipeTransform.localPosition.x + MiddlePipeTransform.localScale.x,
-            MiddlePipeTransform.localPosition.y,
-            MiddlePipeTransform.localPosition.z);
+        RightPipeTransform.position = new Vector3(
+            MiddlePipeTransform.position.x + MiddlePipeTransform.localScale.x *2.5f + RightPipeTransform.localScale.x *2.5f,
+            MiddlePipeTransform.position.y,
+            MiddlePipeTransform.position.z);
 
         // 左のクリスタル配置
-        LeftUnionCrystalTransform.localPosition = new Vector3(
-            LeftPipeTransform.localPosition.x + LeftPipeTransform.localScale.x / 2,
-            LeftPipeTransform.localPosition.y,
-            LeftPipeTransform.localPosition.z);
+        LeftUnionCrystalTransform.position = new Vector3(
+            LeftPipeTransform.position.x + LeftPipeTransform.localScale.x / 2,
+            LeftPipeTransform.position.y,
+            LeftPipeTransform.position.z);
 
         // 右のクリスタル配置
-        RightUnionCrystalTransform.localPosition = new Vector3(
-            MiddlePipeTransform.localPosition.x + MiddlePipeTransform.localScale.x / 2,
-            MiddlePipeTransform.localPosition.y,
-            MiddlePipeTransform.localPosition.z);
+        RightUnionCrystalTransform.position = new Vector3(
+            MiddlePipeTransform.position.x + MiddlePipeTransform.localScale.x / 2,
+            MiddlePipeTransform.position.y,
+            MiddlePipeTransform.position.z);
+
+        Debug.Log(LeftPipeTransform.position);
+        Debug.Log(MiddlePipeTransform.position);
+        Debug.Log(RightPipeTransform.position);
     }
 }

@@ -13,26 +13,39 @@ public class EnemyMove : MonoBehaviour
 
     public bool Stop = false; // デバッグ用 敵がその場にとどまる
 
+    enum EnemyDirection
+    {
+        LEFT,
+        RIGHT
+    }
+
+    private EnemyDirection Direction = EnemyDirection.RIGHT;
+
+    // レイの衝突判定結果用変数
+    RaycastHit2D hit;
+    public bool test;
+    // レイ調整基準値：正　右にずらす,　負　左にずらす
+    private float Scale;
+    // レイの位置調整
+    public float AdjustX = 0f;
+    public float AdjustY = 0f;
+
     // 敵の巡回開始位置
     private Vector3 start;
     // 敵の移動先
     private Vector3 target;
-    // 敵の移動方向
-    private bool Outbound = true; // true:往路 false:復路
+    //// 敵の移動方向
+    //private bool Outbound = true; // true:往路 false:復路
     [Header("敵の移動範囲")]
     public float MoveArea = 5.0f; // 敵の移動範囲
     // 移動距離の割合を表す 0から1
     private float timer;
-    // レイの衝突判定結果用変数
-    RaycastHit2D hit;
-    // レイの位置調整
-    float AdjustX;
     private float sizeX; // ローカルサイズ保存
 
     // 敵のプレイヤーサーチ変数
     private float SubX;    // 求めたX座標の差を保持する変数
     private float SubY;    // 求めたY座標の差を保持する変数
-    private float Distance; // 求めた距離を保持する変数
+    public float Distance; // 求めた距離を保持する変数
     [Header("プレイヤーを感知する範囲")]
     public float senserDistance = 6.0f; // 判定をとる範囲
 
@@ -82,6 +95,7 @@ public class EnemyMove : MonoBehaviour
     public AIState EnemyAI = AIState.INIT_PATROL;
 
     private CircleCollider2D circleCol;
+    private float ColRadius;
 
     // 外部取得
     private Transform thisTransform; // このオブジェクトの座標を持つ変数
@@ -102,21 +116,19 @@ public class EnemyMove : MonoBehaviour
         player = GameObject.Find("player");
         playerTransform = player.GetComponent<Transform>();
 
-        AdjustX = thisTransform.localScale.x / 2.0f;
         sizeX = thisTransform.localScale.x;
 
         // Hammerスクリプト取得
         hammer = player.GetComponent<HammerNail>();
 
-        // 攻撃移行範囲と攻撃が届く範囲を同じにする
-        //AttackDistance = attackDistance;
 
         // 子オブジェクト取得
         Child = transform.Find("HitCollider").gameObject;
 
         // コライダー取得
         circleCol = GetComponent<CircleCollider2D>();
-        AdjustX = circleCol.radius;
+        ColRadius = circleCol.radius;
+        AdjustX = ColRadius;
     }
 
     // Update is called once per frame
@@ -126,13 +138,24 @@ public class EnemyMove : MonoBehaviour
         {
             // 一定範囲内にプレイヤーが侵入してきたらステータス変化
             // プレイヤーとの距離をもとめる
-            SubX = thisTransform.position.x - playerTransform.position.x; // x差
-            SubY = thisTransform.position.y - playerTransform.position.y; // y差
+            var Vec = thisTransform.position - playerTransform.position;
 
             // 三平方の定理
-            Distance = SubX * SubX + SubY * SubY; // プレイヤーとの距離が求まった
-            Debug.Log(Distance);
-            Debug.Log(attackDistance * attackDistance);
+            Distance = Vec.magnitude; // プレイヤーとの距離が求まった
+
+            if (gameObject.name == "Enemy")
+            {
+                //Debug.Log(Distance);
+                //Debug.Log(senserDistance);
+                //Debug.Log(playerTransform.position);
+                //Debug.Log(thisTransform.position);
+            }
+
+            // 向いている方向をセット
+            SetDirection();
+
+            // 進行方向にレイを飛ばす
+            CreateRay();
 
             if (death == false)
             {
@@ -171,7 +194,15 @@ public class EnemyMove : MonoBehaviour
                         break;
                 }
             }
-         }
+        }
+        else
+        {
+            // 向いている方向をセット
+            SetDirection();
+
+            // 進行方向にレイを飛ばす
+            CreateRay();
+        }
     }
 
     void Init_Patrol()
@@ -181,16 +212,20 @@ public class EnemyMove : MonoBehaviour
         {
             // 敵の開始位置決定
             start = thisTransform.position;
+
             // 敵の目的地
             target = new Vector3(thisTransform.position.x + MoveArea, thisTransform.position.y, 0.0f);
+
             // 初期化
             timer = 0;
+
+            Debug.Log("AAAAAAAAAAAAAAA");
         }
         // レイの衝突による再設定
         else
         {
             // 右壁との衝突後
-            if (Outbound)
+            if (Direction == EnemyDirection.RIGHT)
             {
                 // 敵の開始位置決定
                 start = new Vector3(thisTransform.position.x - MoveArea, thisTransform.position.y, 0.0f);
@@ -199,11 +234,8 @@ public class EnemyMove : MonoBehaviour
                 // 初期化
                 timer = 1.0f;
 
-                AdjustX = -1 * thisTransform.localScale.x / 2.0f;
-                thisTransform.localScale = new Vector3(-sizeX, thisTransform.localScale.y, thisTransform.localScale.z); // 左向き
-
-
-                Outbound = false;
+                // 左向きにする
+                Direction = EnemyDirection.LEFT;
             }
             // 左壁との衝突後
             else
@@ -215,11 +247,8 @@ public class EnemyMove : MonoBehaviour
                 // 初期化
                 timer = 0;
 
-                AdjustX = thisTransform.localScale.x / 2.0f;
-                thisTransform.localScale = new Vector3(sizeX, thisTransform.localScale.y, thisTransform.localScale.z); // 右向き
-
-
-                Outbound = true;
+                // 右向きにする
+                Direction = EnemyDirection.RIGHT;
             }
         }
 
@@ -230,16 +259,13 @@ public class EnemyMove : MonoBehaviour
         // 2秒で移動方向変更
 
         // 右に移動しているなら
-        if (Outbound)
+        if (Direction == EnemyDirection.RIGHT)
         {
             timer += Time.deltaTime / 2;
 
             if (timer >= 1.0f)
             {
-                Outbound = false;
-                AdjustX = -AdjustX;
-
-                thisTransform.localScale = new Vector3(-sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
+                Direction = EnemyDirection.LEFT;
             }
         }
         // 左に移動しているなら
@@ -249,50 +275,9 @@ public class EnemyMove : MonoBehaviour
 
             if (timer <= 0.0f)
             {
-                Outbound = true;
-                AdjustX = -AdjustX;
-
-                thisTransform.localScale = new Vector3(sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
-
+                Direction = EnemyDirection.RIGHT;
             }
         }
-
-        //---------------------------------------------------------------------
-        // 壁に向かってのレイ
-
-        // 進行方向にレイを飛ばして壁にぶつかったら進行方向を変える
-        Vector2 origin = new Vector2(
-            thisTransform.position.x + AdjustX,
-            thisTransform.position.y
-            );
-
-        // レイを飛ばす方向
-        Vector2 RayDirection;
-        if (Outbound)
-        {
-            RayDirection = new Vector2(1, 0); // 右向き
-        }
-        else
-        {
-            RayDirection = new Vector2(-1, 0); // 左向き
-        }
-
-        // 長さ
-        float length = 0.1f;
-        // 距離
-        Vector2 distance = RayDirection * length;
-        // 特定のレイヤーのモノとだけ衝突判定をとる
-        // レイヤーマスクは二進数を利用
-        // 例:layerMask = 1 << 2 は二進数表示で100。上から三つ目のレイヤーとだけという意味
-        LayerMask layerMask = 1 << 10; // 左シフト演算、1を<<の右の数だけ左にシフト
-
-        // レイ飛ばしてステージとぶつかったら生成やめる
-        hit = Physics2D.Raycast(origin, RayDirection, length, layerMask); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
-
-        Debug.DrawRay(origin, distance, Color.red);
-        //Debug.Log(transform.position);
-        //Debug.Log(origin);
-        //-----------------------------------------------------------------------------------------------
 
         // レイがステージに衝突してなければ移動処理
         if (!hit)
@@ -308,10 +293,12 @@ public class EnemyMove : MonoBehaviour
         {
             // 巡回再設定
             EnemyAI = AIState.INIT_PATROL;
+
+            Debug.Log("BBBBBBBBBBBBBB");
         }
 
         // 一定距離内にプレイヤーがいる
-        if (Distance < senserDistance * senserDistance)
+        if (Distance < senserDistance)
         {
             // 追跡準備
             EnemyAI = AIState.INIT_TRACKING;
@@ -327,83 +314,38 @@ public class EnemyMove : MonoBehaviour
     void Tracking()
     {
         // 一定距離内にプレイヤーがいる
-        if (Distance < senserDistance * senserDistance)
+        if (Distance < senserDistance)
         {
+
+            Debug.Log("CCCCCCCCCCCCCC");
             // パトロールの時から向きが変わるなら（敵の後ろから索敵範囲に入ったら）
-            if (SubX < 0.0f)
+            if (thisTransform.position.x < playerTransform.position.x)
             {
-                // 向きが変わるなら
-                if (Outbound == false)
-                {
-                    AdjustX = -AdjustX;
-                }
-                Outbound = true;
+                Direction = EnemyDirection.RIGHT;
             }
-            else if (SubX > 0.0f)
+            else if (thisTransform.position.x > playerTransform.position.x)
             {
-                if (Outbound == true)
-                {
-                    AdjustX = -AdjustX;
-                }
-                Outbound = false;
+                Direction = EnemyDirection.LEFT;
             }
-
-            //---------------------------------------------------------------------
-            // 壁に向かってのレイ
-
-            // 進行方向にレイを飛ばして壁にぶつかったら進行方向を変える
-            Vector2 origin = new Vector2(
-                thisTransform.localPosition.x + AdjustX,
-                thisTransform.localPosition.y
-                );
-
-            // レイを飛ばす方向
-            Vector2 RayDirection;
-            if (Outbound)
-            {
-                RayDirection = new Vector2(1, 0); // 右向き
-                // 右向く
-                thisTransform.localScale = new Vector3(sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
-            }
-            else
-            {
-                RayDirection = new Vector2(-1, 0); // 左向き
-                // 左向く
-                thisTransform.localScale = new Vector3(-sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
-            }
-
-            // 長さ
-            float length = 0.1f;
-            // 距離
-            Vector2 distance = RayDirection * length;
-            // 特定のレイヤーのモノとだけ衝突判定をとる
-            // レイヤーマスクは二進数を利用
-            // 例:layerMask = 1 << 2 は二進数表示で100。上から三つ目のレイヤーとだけという意味
-            LayerMask layerMask = 1 << 10; // 左シフト演算、1を<<の右の数だけ左にシフト
-
-            // レイ飛ばしてステージとぶつかったら生成やめる
-            hit = Physics2D.Raycast(origin, RayDirection, length, layerMask); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
-
-            Debug.DrawRay(origin, distance, Color.red);
 
             // 壁にレイが接触したら追わない
             if (!hit)
             {
                 // プレイヤーに向かって進む
                 // プレイヤーが敵自身より右にいるなら
-                if (SubX < 0.0f)
+                if (thisTransform.position.x < playerTransform.position.x)
                 {
                     thisTransform.Translate(TrackingSpeed * Time.deltaTime, 0.0f, 0.0f);
                 }
                 // プレイヤーが敵自身より左にいるなら
-                else if (SubX > 0.0f)
+                else if (thisTransform.position.x > playerTransform.position.x)
                 {
                     thisTransform.Translate(-1 * TrackingSpeed * Time.deltaTime, 0.0f, 0.0f);
                 }
             }
 
             // 近づきすぎたら
-            if (Distance < attackDistance * attackDistance)
+            if (Distance < attackDistance)
             {
                 // 攻撃状態に変化
                 EnemyAI = AIState.INIT_ATTACK;
@@ -420,16 +362,13 @@ public class EnemyMove : MonoBehaviour
         // 体当たり準備
 
         // プレイヤーが敵自身より右にいるなら
-        if (SubX < 0.0f)
+        if (thisTransform.position.x < playerTransform.position.x)
         {
-            thisTransform.localScale = new Vector3(sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
             AttackSign = 1f;
         }
         // プレイヤーが敵自身より左にいるなら
-        else if (SubX > 0.0f)
+        else if (thisTransform.position.x > playerTransform.position.x)
         {
-            thisTransform.localScale = new Vector3(-sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
-
             AttackSign = -1f;
         }
 
@@ -504,7 +443,7 @@ public class EnemyMove : MonoBehaviour
             }
         }
 
-        if (Distance > attackDistance * attackDistance)
+        if (Distance > attackDistance)
         {
             //EnemyAI = AIState.TRACKING;
         }
@@ -524,7 +463,7 @@ public class EnemyMove : MonoBehaviour
             AttackWaitTimer = 0;
         }
 
-        if (Distance > attackDistance * attackDistance)
+        if (Distance > attackDistance)
         {
             EnemyAI = AIState.TRACKING;
 
@@ -552,5 +491,62 @@ public class EnemyMove : MonoBehaviour
         yield return new WaitForSeconds(InCoroutineWaitTime);
 
         AttackStart = true;
+    }
+
+    private void CreateRay()
+    {
+        // 進行方向にレイを飛ばして壁にぶつかったら進行方向を変える
+        Vector2 origin = new Vector2(
+            thisTransform.position.x + AdjustX,
+            thisTransform.position.y + AdjustY
+            );
+
+        // レイを飛ばす方向
+        Vector2 RayDirection = Vector2.zero;
+
+        // ボスの向きによってレイをとばす方向が変化
+        switch (Direction)
+        {
+            case EnemyDirection.LEFT:
+                RayDirection = new Vector2(-1, 0); // 左向き
+                break;
+
+            case EnemyDirection.RIGHT:
+                RayDirection = new Vector2(1, 0); // 右向き
+                break;
+        }
+
+        // 長さ
+        float length = 0.1f;
+        // 距離
+        Vector2 distance = RayDirection * length;
+        // 特定のレイヤーのモノとだけ衝突判定をとる
+        // レイヤーマスクは二進数を利用
+        // 例:layerMask = 1 << 2 は二進数表示で100。上から三つ目のレイヤーとだけという意味
+        LayerMask layerMask = 1 << 10; // 左シフト演算、1を<<の右の数だけ左にシフト
+
+        // レイ飛ばしてステージとぶつかったら生成やめる
+        hit = Physics2D.Raycast(origin, RayDirection, length, layerMask); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
+        test = hit;
+
+        // 描画
+        Debug.DrawRay(origin, distance, Color.red);
+        //-----------------------------------------------------------------------------------------------
+    }
+
+    private void SetDirection()
+    {
+        if (Direction == EnemyDirection.LEFT)
+        {
+            // 左向き
+            thisTransform.localScale = new Vector3(-sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
+            AdjustX = -ColRadius * 0.5f;
+        }
+        else
+        {
+            // 右向き
+            thisTransform.localScale = new Vector3(sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
+            AdjustX = ColRadius * 0.5f;
+        }
     }
 }
