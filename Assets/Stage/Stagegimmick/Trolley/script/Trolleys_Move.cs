@@ -38,6 +38,12 @@ public class Trolleys_Move : MonoBehaviour
     private float _nowTime;     // 攻撃の経過時間
     private int _direction = 1; // X軸の進行方向
 
+    [Space(10)]
+    [SerializeField, Header("タイヤ設定")]
+    private GameObject _frontWheel;// タイヤ前
+    [SerializeField]
+    private GameObject _backWheel;// タイヤ後ろ
+
     //======================================================
     //
     // 関数：Start()
@@ -79,6 +85,10 @@ public class Trolleys_Move : MonoBehaviour
         if (_hitEnemy == null) Debug.LogError("_hitEnemyが設定されていません。");
         //_damageArea
         if (_damageArea == null) Debug.LogError("_damageAreaが設定されていません。");
+        // wheels
+        if (_frontWheel == null) Debug.LogError("タイヤが設定されていません。");
+        if (_backWheel == null) Debug.LogError("タイヤが設定されていません。");
+
         //-----------------------------------------------------
         // Rigidbody2Dのコンポーネントを取得
         _rb2d = GetComponent<Rigidbody2D>();
@@ -117,6 +127,7 @@ public class Trolleys_Move : MonoBehaviour
         AttackSetting();// 攻撃の設定
         DamageSystem(); // ダメージ処理
         Move();         // 移動処理
+        RotateWheel();  // タイヤの回転
         _oldState = _hammer.hammerstate;// 状態を保存
     }
 
@@ -217,6 +228,18 @@ public class Trolleys_Move : MonoBehaviour
             // 左なら 1
             return 1;
         }
+    }
+
+    //
+    // 関数：RotateWheel() 
+    //
+    // 目的：タイヤの回転
+    // 
+    private void RotateWheel() 
+    {
+        Vector3 rotate = new Vector3(0, 0,-_rb2d.velocity.x);
+        _frontWheel.transform.eulerAngles += rotate;
+        _backWheel.transform.eulerAngles += rotate;
     }
 
     //======================================================
