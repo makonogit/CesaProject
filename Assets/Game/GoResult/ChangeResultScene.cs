@@ -65,11 +65,12 @@ public class ChangeResultScene : MonoBehaviour
             {
                 //コアを破壊してリザルト
                 if (Stagestatus.GetStageCrystal() == 0 && WaitFlame > 0.2f)
-                { 
+                {
                     Result();
                 }
                 //zoomしてしまうので待機
                 WaitFlame += Time.deltaTime;
+
             }
 
         }
@@ -80,7 +81,6 @@ public class ChangeResultScene : MonoBehaviour
             {
                 Result();
             }
-
         }
     }
 

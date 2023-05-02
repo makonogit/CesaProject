@@ -143,14 +143,6 @@ public class EnemyMove : MonoBehaviour
             // 三平方の定理
             Distance = Vec.magnitude; // プレイヤーとの距離が求まった
 
-            if (gameObject.name == "Enemy")
-            {
-                //Debug.Log(Distance);
-                //Debug.Log(senserDistance);
-                //Debug.Log(playerTransform.position);
-                //Debug.Log(thisTransform.position);
-            }
-
             // 向いている方向をセット
             SetDirection();
 
@@ -218,8 +210,6 @@ public class EnemyMove : MonoBehaviour
 
             // 初期化
             timer = 0;
-
-            Debug.Log("AAAAAAAAAAAAAAA");
         }
         // レイの衝突による再設定
         else
@@ -293,8 +283,6 @@ public class EnemyMove : MonoBehaviour
         {
             // 巡回再設定
             EnemyAI = AIState.INIT_PATROL;
-
-            Debug.Log("BBBBBBBBBBBBBB");
         }
 
         // 一定距離内にプレイヤーがいる
@@ -316,8 +304,6 @@ public class EnemyMove : MonoBehaviour
         // 一定距離内にプレイヤーがいる
         if (Distance < senserDistance)
         {
-
-            Debug.Log("CCCCCCCCCCCCCC");
             // パトロールの時から向きが変わるなら（敵の後ろから索敵範囲に入ったら）
             if (thisTransform.position.x < playerTransform.position.x)
             {

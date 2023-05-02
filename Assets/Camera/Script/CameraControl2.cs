@@ -183,4 +183,16 @@ public class CameraControl2 : MonoBehaviour
         }
            
     }
+
+    // 追従するターゲットを設定する
+    public void SetTarget(GameObject _obj)
+    {
+        Target = _obj;
+        TargetTrans = _obj.GetComponent<Transform>();
+    }
+
+    public GameObject GetTarget()
+    {
+        return Target;
+    }
 }
