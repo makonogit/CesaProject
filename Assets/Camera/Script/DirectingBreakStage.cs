@@ -43,6 +43,9 @@ public class DirectingBreakStage : MonoBehaviour
 
     [Header("各ステージごとに用意されたBorderLineマテリアルをセット")]public Material Mat;
 
+    public GameObject particle; // 壊れた破片が落ちてくるパーティクル
+    private GameObject ParticleObj; // 作成したパーティクルを持つ変数
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +57,10 @@ public class DirectingBreakStage : MonoBehaviour
         InitPos = thisTransform.position;
 
         player = GameObject.Find("player");
+
+        startInit = false;
+        startBreak = false;
+        BreakStage = false;
     }
 
     // Update is called once per frame
@@ -80,7 +87,8 @@ public class DirectingBreakStage : MonoBehaviour
             Debug.Log(sc_cameraZoom);
 
             // 初期化
-            Mat.SetFloat("_Fader", 1f);
+            Mat.SetFloat("_Fader", 1f);  // 初期値
+            Mat.SetFloat("_Width", -9f); // 固定
 
             startInit = true;
         }
@@ -88,11 +96,14 @@ public class DirectingBreakStage : MonoBehaviour
         if(startBreak == true && BreakStage == false)
         {
             // カメラ追従ターゲットを変更
-            if(control.GetTarget() != CameraTarget_last)
+            if(control.GetTarget() != this.gameObject)
             {
                 // カメラ追従ターゲットをステージの最初の方にある自身に設定
                 control.SetTarget(this.gameObject);
                 Debug.Log(control.GetTarget());
+
+                // このスクリプトを持つオブジェクトの子オブジェクトに
+                ParticleObj = Instantiate(particle, this.gameObject.transform.GetChild(0).gameObject.transform);
             }
 
             // カメラ追従ターゲットの位置を目標地点まで加速しながら移動させる
@@ -131,6 +142,7 @@ public class DirectingBreakStage : MonoBehaviour
                 //BreakStage = true;
                 Debug.Log("ステージ破壊完了");
 
+                Destroy(ParticleObj);
             }
 
             // カウント
