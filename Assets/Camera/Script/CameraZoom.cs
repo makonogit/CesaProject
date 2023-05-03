@@ -41,7 +41,7 @@ public class CameraZoom : MonoBehaviour
     // ステージ破壊演出関係変数
     private GameObject lastCameraTarget;
     private DirectingBreakStage breakstage;
-    private bool SetBreak = false; // 破壊演出呼び出ししたか
+    public bool SetBreak = false; // 破壊演出呼び出ししたか
 
 
     // Start is called before the first frame update
@@ -60,6 +60,7 @@ public class CameraZoom : MonoBehaviour
 
         lastCameraTarget = GameObject.Find("CameraTarget_Start");
         breakstage = lastCameraTarget.GetComponent<DirectingBreakStage>();
+        SetBreak = false;
     }
 
     // Update is called once per frame
@@ -72,6 +73,7 @@ public class CameraZoom : MonoBehaviour
             // 演出開始させていなければ
             if(SetBreak == false)
             {
+                Debug.Log("背景クリスタル破壊開始");
                 // 破壊演出開始
                 breakstage.StartBreak();
 

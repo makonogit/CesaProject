@@ -17,7 +17,32 @@ public class PlayerStatas : MonoBehaviour
     // 二宮追加
     private int BreakCrystalNum = 0; // 壊したクリスタルの数
 
-    [SerializeField] private bool HitStop = false; // ヒットストップ中か
+    [SerializeField] private bool HitStop = false; // ヒットストップ中か]
+
+    private int NowRespawnNumber = 0; // 最新のリスポーン地点の座標を持つオブジェクトの固有番号
+    private Vector3 PlayerRespawnPos; // プレイヤーの最新リスポーン座標を保持
+
+    public void SetRespawnNum(int _num)
+    {
+        NowRespawnNumber = _num;
+    }
+
+    public int GetNowRespawnNum()
+    {
+        return NowRespawnNumber;
+    }
+
+    // リスポーン座標をかえす
+    public Vector3 GetRespawn()
+    {
+        return PlayerRespawnPos;
+    }
+
+    // リスポーン座標を設定
+    public void SetRespawn(Vector3 _respawn)
+    {
+        PlayerRespawnPos = _respawn;
+    }
 
     public void AddBreakCrystal()
     {

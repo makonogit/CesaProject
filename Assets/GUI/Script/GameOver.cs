@@ -21,26 +21,9 @@ public class GameOver : MonoBehaviour
     private GameObject health; // HPUIManagerオブジェクト
     private DrawHpUI drawHpUI; // HP描画スクリプト
 
-    //private float maxWallHp = 1.0f; // 壁の最大体力
-    //private float nowWallHp; // 現在の壁の最大体力
-    //private float Baseline1 = 0.2f / 3 * 2; // 壁のスプライトを変更する基準値
-    //private float Baseline2 = 0.2f / 3 * 1; // 壁のスプライトを変更する基準値
-
-    // 外部取得
-    //private GameObject wallSystem;
-    //private Wall_HP_System_Script wallHpSystem;
-
-    //// HPによって状態が変わる
-    //// 例：HPが5の時のHIGH、MIDDLE、LOW
-    //// 全15段階まで表記わけできる
-    //public enum SPRITESTATUS
-    //{
-    //    HIGH,   // 初期状態(0.2)～0.1333...
-    //    MIDDLE, // 0.13333....～0.06666...
-    //    LOW     // 0.06666....～0.0
-    //}
-
-    //private SPRITESTATUS spriteStatus = SPRITESTATUS.HIGH;
+    private GameObject player;
+    private Transform playerTransform;
+    private PlayerStatas playerStatus;
 
     //―追加担当者：中川直登―//
     [SerializeField, Header("パーティクル")]
@@ -105,6 +88,10 @@ public class GameOver : MonoBehaviour
         health = GameObject.Find("Health");
         drawHpUI = health.GetComponent<DrawHpUI>();
 
+        // リスポーン関係
+        player = GameObject.Find("player");
+        playerTransform = player.GetComponent<Transform>();
+        playerStatus = player.GetComponent<PlayerStatas>();
     }
 
     // Update is called once per frame
@@ -182,7 +169,11 @@ public class GameOver : MonoBehaviour
                 //---------------------------------------------------------
                 // "GameOver"シーンに遷移
                 //SceneManager.LoadScene("GameOver");
-                _scene.LoadScene("newSelectScene");
+                //_scene.LoadScene("newSelectScene");
+
+                // リスポーン
+                playerTransform.position = playerStatus.GetRespawn();
+                HP = maxHp;
             }
             _nowTime += Time.deltaTime;
             //――――――――――――//
@@ -193,7 +184,11 @@ public class GameOver : MonoBehaviour
         //　奈落に落ちたらリロード
         if(transform.position.y < -15)
         {
-            _scene.LoadScene("MainScene");
+            // リスポーン
+            playerTransform.position = playerStatus.GetRespawn();
+            HP = maxHp;
+
+            //_scene.LoadScene("MainScene");
         }
 
     }

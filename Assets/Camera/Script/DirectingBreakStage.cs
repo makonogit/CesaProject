@@ -139,7 +139,7 @@ public class DirectingBreakStage : MonoBehaviour
             if (FaderRate <= 1f - CrystalNum_X * 2f)
             {
                 // ステージ破壊完了フラグ
-                //BreakStage = true;
+                BreakStage = true;
                 Debug.Log("ステージ破壊完了");
 
                 Destroy(ParticleObj);

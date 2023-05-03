@@ -45,6 +45,10 @@ public class PauseGame : MonoBehaviour
     private GameObject black;
     private Image blackImage;
 
+    private GameObject player;
+    private Transform playerTransform;
+    private PlayerStatas playerStatus;
+
     // se関係
     private GameObject se;
     private SEManager_Pause seMana;
@@ -94,6 +98,10 @@ public class PauseGame : MonoBehaviour
         // Seコンポーネント取得
         seMana = se.GetComponent<SEManager_Pause>();
 
+        // リスポーン関係
+        player = GameObject.Find("player");
+        playerTransform = player.GetComponent<Transform>();
+        playerStatus = player.GetComponent<PlayerStatas>();
     }
 
     // Update is called once per frame
@@ -237,14 +245,18 @@ public class PauseGame : MonoBehaviour
                         // 続ける
                         case 0:
                             // ポーズ終了
-                            //TimeOperate();
                             reduction = true;
                             break;
 
                         // リトライ
                         case 1:
-                            //TimeOperate();
                             reduction = true;
+
+                            Debug.Log(playerStatus.GetRespawn());
+
+                            // 現在設定されているリスポーン地点まで移動
+                            //playerTransform.position = playerStatus.GetRespawn();
+                            //Debug.Log("リスポーン");
 
                             // 今いるシーンをロードしなおす
                             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

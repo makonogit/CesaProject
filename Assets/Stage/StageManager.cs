@@ -70,6 +70,18 @@ public class StageManager : MonoBehaviour
         PlayerTrans.localPosition = new Vector3(stage[StageData.AreaNum].stage[StageData.StageNum].PlayerPos.x,
             stage[StageData.AreaNum].stage[StageData.StageNum].PlayerPos.y, 1.0f);
     }
+
+    // 二宮追加
+    // 引数　：エリア番号とステージ番号
+    // 戻り値：プレイヤーの初期位置
+    public Vector3 GetInitPlayerPos(int _areaNum, int _stageNum)
+    {
+        Vector3 pos = new Vector3(stage[_areaNum].stage[_stageNum].PlayerPos.x,
+            stage[_areaNum].stage[_stageNum].PlayerPos.y,
+            1.0f);
+
+        return pos;
+    }
 }
 
 public static class StageData
@@ -112,4 +124,5 @@ public class SetStage {
         return StageData.AreaNum;
     }
 
+    
 }
