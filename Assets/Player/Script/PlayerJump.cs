@@ -53,6 +53,7 @@ public class PlayerJump : MonoBehaviour
     private Crack createcrack;      //ジャンプ中ひび生成できないようにする
     private GameObject LineObj;
     private PredictionLine Line;    //ジャンプ中の予測線も無効化
+    private bool Selected = false;  //セレクト画面用
 
     // SEの効果音-------担当：尾花--------
     [Header("効果音")]
@@ -126,7 +127,7 @@ public class PlayerJump : MonoBehaviour
         // ヒットストップ中でないなら実行
         if (!playerStatus.GetHitStop())
         {
-            if(thisRigidbody2d.gravityScale == 0.0f)
+            if(thisRigidbody2d.gravityScale == 0.0f && !Selected)
             {
                 thisRigidbody2d.gravityScale = 1.0f;
             }
@@ -277,7 +278,10 @@ public class PlayerJump : MonoBehaviour
 
             //----------------------------------------------------------------------------------------------------------
             // プレイヤーの座標に加算?
-            thisRigidbody2d.velocity = new Vector2(xSpeed, ySpeed);
+            if (!Selected)
+            {
+                thisRigidbody2d.velocity = new Vector2(xSpeed, ySpeed);
+            }
 
             //---------------------------------------------------------------
             // アニメーション関係
@@ -298,7 +302,11 @@ public class PlayerJump : MonoBehaviour
         }
     }
 
-
+    //　セレクト画面で選択しているか判断する関数
+    public void SetSelected(bool select)
+    {
+        Selected = select;
+    }
     private void RunDust ()
     {
         _runDust.IsJump = !isGround;
