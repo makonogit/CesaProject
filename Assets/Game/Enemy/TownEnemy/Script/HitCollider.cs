@@ -23,6 +23,9 @@ public class HitCollider : MonoBehaviour
     private KnockBack knocback; // ノックバックスクリプト取得用変数
     private RenderOnOff renderer; // 点滅スクリプト取得用変数
 
+    //追加菅
+    private PlayEnemySound enemyse; //敵のSE
+
     private void Start()
     {
         player = GameObject.Find("player");
@@ -36,6 +39,10 @@ public class HitCollider : MonoBehaviour
 
         // 点滅スクリプト取得
         renderer = player.GetComponent<RenderOnOff>();
+
+        // 敵のSE再生用スクリプト取得　追加:菅
+        enemyse = GameObject.Find("EnemySE").GetComponent<PlayEnemySound>();
+
     }
 
     void Update()
@@ -52,6 +59,10 @@ public class HitCollider : MonoBehaviour
             // 接触時間が無敵時間より大きいならHP減らす
             if (HitTime > NoDamageTime)
             {
+                //---------------------------------------------------------
+                //　SEを再生
+                enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Attack);
+
                 //---------------------------------------------------------
                 // HP減らすための処理
                 gameOver.StartHPUIAnimation();
@@ -78,6 +89,10 @@ public class HitCollider : MonoBehaviour
             // 接触時間が無敵時間より大きいならHP減らす
             if (HitTime > NoDamageTime)
             {
+                //---------------------------------------------------------
+                //　SEを再生
+                enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Attack);
+
                 //---------------------------------------------------------
                 // HP減らすための処理
                 gameOver.StartHPUIAnimation();

@@ -88,7 +88,7 @@ public class SEManager_Player : MonoBehaviour
     private void PlaySE_Move()
     {
         // ボリューム調整
-        audioSource.volume = 0.3f;
+        audioSource.volume = 0.1f;
 
         if (MoveFinish == false)
         {
@@ -196,15 +196,15 @@ public class SEManager_Player : MonoBehaviour
     public void PlaySE_Drop()
     {
         // ボリューム調整
-        audioSource.volume = 0.5f;
+        //audioSource.volume = 0.5f;
 
-        audioSource.PlayOneShot(se_drop);
+        //audioSource.PlayOneShot(se_drop);
     }
 
     public void PlaySE_Jump()
     {
         // ボリューム調整
-        audioSource.volume = 0.5f;
+        audioSource.volume = 0.1f;
 
         audioSource.PlayOneShot(se_jimp);
     }

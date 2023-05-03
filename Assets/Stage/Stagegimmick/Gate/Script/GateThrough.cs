@@ -11,30 +11,18 @@ public class GateThrough : MonoBehaviour
     [SerializeField, Header("生成するブロック")]
     private GameObject GateBlock;
 
-    [SerializeField, Header("ブロックのTransform")]
-    private Transform Blocktransform;
-
-    [SerializeReference, Header("BGM用AudioSorce")]
-    private AudioSource BGM;
-
-    [SerializeReference, Header("ボスBGM用AudioSorce")]
-    private AudioSource BossBGM;
-
-    private void Start()
-    {
-        BGM = GameObject.Find("BGM(Loop)").GetComponent<AudioSource>();
-        BossBGM = GameObject.Find("BossBGM").GetComponent<AudioSource>();
-    }
+    //[SerializeField, Header("ブロックのTransform")]
+    //private Transform Blocktransform;
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // プレイヤーがすり抜けたら生成
-        if(collision.tag == "Player")
+        // プレイヤーがすり抜けたら生成、BGMの再生
+        if(collision.tag == "Player" && GameObject.Find("player").transform.position.x > transform.position.x)
         {
             Destroy(GetComponent<BoxCollider2D>());
-            GameObject obj = Instantiate(GateBlock, Blocktransform);
-            BGM.Stop();
-            BossBGM.Play();
+            GameObject.Find("BGM(Loop)").GetComponent<AudioSource>().Stop();
+            GameObject.Find("BossBGM").GetComponent<AudioSource>().Play();
+            GameObject obj = Instantiate(GateBlock, transform);
             obj.transform.parent = null;
         }
     }
