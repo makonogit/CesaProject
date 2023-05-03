@@ -57,7 +57,7 @@ public class HitCollider : MonoBehaviour
                 gameOver.StartHPUIAnimation();
 
                 // ノックバック
-                knocback.KnockBack_Func();
+                knocback.KnockBack_Func(transform.parent.transform);
 
                 // 点滅
                 renderer.SetFlash(true);
@@ -83,7 +83,7 @@ public class HitCollider : MonoBehaviour
                 gameOver.StartHPUIAnimation();
 
                 // ノックバック
-                knocback.KnockBack_Func();
+                knocback.KnockBack_Func(transform.parent.transform);
 
                 // 点滅
                 renderer.SetFlash(true);

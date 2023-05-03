@@ -22,6 +22,7 @@ public class KnockBack : MonoBehaviour
     private Transform thisTransform; // Transform用変数
     private GameObject thisObj; // このスクリプトがコンポーネントされたオブジェクト用変数
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,16 +37,16 @@ public class KnockBack : MonoBehaviour
     {
         if(knockback == true)
         {
-            KnockBack_Func();
+            //KnockBack_Func();
 
             knockback = false;
         }
     }
 
-    public void KnockBack_Func()
+    public void KnockBack_Func(Transform hittrans)
     {
          // オブジェクトの向きを割り出す
-         direction = thisTransform.localScale.x / Mathf.Abs(thisTransform.localScale.x); // 現在の自分のスケールをその値の絶対値で割って符号を入手
+         direction = hittrans.localScale.x / Mathf.Abs(hittrans.localScale.x); // 現在の自分のスケールをその値の絶対値で割って符号を入手
 
         StartCoroutine(KnockBack_Coroutine());
     }
