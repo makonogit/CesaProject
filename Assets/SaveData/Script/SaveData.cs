@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class SaveData : MonoBehaviour
+public class SaveData
 {
     [HideInInspector]
     public StatusData _data;                          // json変換するデータのクラス

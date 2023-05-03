@@ -64,7 +64,7 @@ public class SelectedScene : MonoBehaviour
         se = GameObject.Find("SE");
         Audio = se.GetComponent<AudioSource>();
 
-        main = GameObject.Find("MainCamera").GetComponent<VibrationCamera>();
+        main = GameObject.Find("Main Camera").GetComponent<VibrationCamera>();
 
     }
 

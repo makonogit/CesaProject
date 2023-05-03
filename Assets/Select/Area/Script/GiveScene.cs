@@ -43,7 +43,7 @@ public class GiveScene : MonoBehaviour
 
     private void Start()
     {
-        _player = GameObject.Find("Player(SelectScene)");
+        _player = GameObject.Find("player");
         if(_player == null) Debug.LogError("not found");
         //_selectMove = _player.GetComponent<SelectMove>();
         //if (_selectMove == null) Debug.LogError("SelectMoveのコンポーネントを取得できませんでした。旧SelectScene用です。");

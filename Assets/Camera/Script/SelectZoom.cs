@@ -43,13 +43,13 @@ public class SelectZoom : MonoBehaviour
     void Start()
     {
         // MainCamera探す
-        Camera = GameObject.Find("MainCamera");
+        Camera = GameObject.Find("Main Camera");
         // カメラスクリプトを取得
         Cam = Camera.GetComponent<Camera>();
 
         cameraTransform = Camera.transform;
 
-        player = GameObject.Find("Player(SelectScene)");
+        player = GameObject.Find("player");
         playertans = player.transform;
 
         //　初期カメラのサイズを取得

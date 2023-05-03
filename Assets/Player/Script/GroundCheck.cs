@@ -20,6 +20,11 @@ public class GroundCheck : MonoBehaviour
     public float AdjustCenter = 0.15f; // 中央ぞろえ用変数
     public int touch; // 地面と触れているレイの本数
 
+    //-----------追加担当：中川-----------
+    [SerializeField, Tooltip("レイの長さを調整します。")]
+    private float _length = 0.01f;
+    //------------------------------------
+
     PlayerInputManager.DIRECTION oldDire; // 前フレームの向きを入れておくための変数
 
     // 10 : Ground
@@ -86,7 +91,7 @@ public class GroundCheck : MonoBehaviour
         // 向き
         Vector2 direction = new Vector2(0, -1);
         // 長さ
-        float length = 0.01f;
+        float length = _length;// 変更者：中川
         // 距離
         Vector2 distance = direction * length;
 

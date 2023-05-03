@@ -225,15 +225,15 @@ public class SelectArea : MonoBehaviour
                 HorizonLimit.SetPoints(point);
                 if (_nowArea > 0)
                 {
-                    if(HorizonLimit.points[1].x < GameObject.Find("Player(SelectScene)").transform.position.x)
+                    if(HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
                     //プレイヤーの座標変更
-                    GameObject.Find("Player(SelectScene)").transform.position = new Vector3(HorizonLimit.points[1].x + 1.5f, HorizonLimit.points[0].y, 1.0f);
+                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[1].x + 1.5f, HorizonLimit.points[0].y, 1.0f);
                 }
                 else
                 {
-                    if (HorizonLimit.points[1].x < GameObject.Find("Player(SelectScene)").transform.position.x)
+                    if (HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
                         //プレイヤーの座標変更
-                        GameObject.Find("Player(SelectScene)").transform.position = new Vector3(HorizonLimit.points[0].x + 1.5f, HorizonLimit.points[1].y - 0.5f, 1.0f);
+                        GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 1.5f, HorizonLimit.points[1].y - 0.5f, 1.0f);
                 }
                 LeftMove = false;
             }
@@ -245,10 +245,10 @@ public class SelectArea : MonoBehaviour
                 HorizonLimit.SetPoints(point);
                 OldLimitpoint = Vector2.zero;
 
-                if (HorizonLimit.points[0].x > GameObject.Find("Player(SelectScene)").transform.position.x)
+                if (HorizonLimit.points[0].x > GameObject.Find("player").transform.position.x)
                 {
                     //プレイヤーの座標変更
-                    GameObject.Find("Player(SelectScene)").transform.position = new Vector3(HorizonLimit.points[0].x - 1.0f, HorizonLimit.points[0].y, 1.0f);
+                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x - 1.0f, HorizonLimit.points[0].y, 1.0f);
                 }
                 RightMove = false;
             }
