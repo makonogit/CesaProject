@@ -22,9 +22,10 @@ public class NeedleEnemy : MonoBehaviour
         MOVE,          // 移動状態
         ATTACK_STANDBY,// 攻撃待機状態
         ATTACK,        // 攻撃状態
+        DEATH,         // 戦闘不能状態
     }
     StateID oldState = StateID.NULL; // 前の状態
-    StateID nowState = StateID.MOVE; // 現在の状態
+    StateID nowState = StateID.NULL; // 現在の状態
     StateID nextState = StateID.NULL;// 次の状態
 
     // 移動関連
@@ -47,6 +48,9 @@ public class NeedleEnemy : MonoBehaviour
     public Animator animator;// アニメーションコントローラー
     float animSpeed = 1.0f;  // アニメーションの速さ
 
+    // マテリアル関連
+    SpriteRenderer sr;// 色
+
     //=====================================
     // 初期化処理
 
@@ -54,6 +58,12 @@ public class NeedleEnemy : MonoBehaviour
     {
         //--------------------------------
         // 変数の初期化
+
+        // スタート時の状態を設定
+        nextState = StateID.MOVE;
+
+        // 色を取得
+        sr = GetComponent<SpriteRenderer>();
 
         // 初期位置を保存
         startPos = transform.position;
@@ -92,6 +102,11 @@ public class NeedleEnemy : MonoBehaviour
             case StateID.ATTACK:
                 Attack();
                 break;
+            // 戦闘不能状態
+            case StateID.DEATH:
+                Death();
+                break;
+
         }
 
         //---------------------------------
@@ -100,6 +115,23 @@ public class NeedleEnemy : MonoBehaviour
         animator.SetFloat("Horizontal", moveVector.x);// 横
         animator.SetFloat("Vertical", moveVector.y);  // 縦
         animator.SetFloat("Speed", animSpeed);        // 再生速度
+    }
+
+    //============================================================
+    // *** 衝突判定 ***
+    //============================================================
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        //--------------------------------------------------------
+        // ひびとぶつかったら戦闘不能状態に遷移
+        //--------------------------------------------------------
+
+        if (collision.gameObject.tag == "Crack")
+        {
+            nextState = StateID.DEATH;
+        }
+
     }
 
     //=====================================
@@ -216,8 +248,8 @@ public class NeedleEnemy : MonoBehaviour
 
             // 大きさの指定
             Vector3 scale = objTransform.localScale;
-            scale.x += 1.0f;
-            scale.y += 1.0f;
+            scale.x *= 2;
+            scale.y *= 2;
 
             // 大きさを敵用
             objTransform.localScale = scale;
@@ -235,11 +267,29 @@ public class NeedleEnemy : MonoBehaviour
 
             // 大きさの指定
             Vector3 scale = objTransform.localScale;
-            scale.x -= 1.0f;
-            scale.y -= 1.0f;
+            scale.x /= 2;
+            scale.y /= 2;
 
             // 大きさを敵用
             objTransform.localScale = scale;
+        }
+    }
+
+    //===========================================
+    // *** 戦闘不能状態の処理
+    //===========================================
+
+    void Death()
+    {
+        //-------------------------------------------------------------------
+        // 徐々に透明にする。完全に透明になったらこのオブジェクトを破棄する
+        //-------------------------------------------------------------------
+        
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a - 0.005f);
+
+        if (sr.color.a < 0.0f)
+        {
+            Destroy(gameObject);
         }
     }
 }
