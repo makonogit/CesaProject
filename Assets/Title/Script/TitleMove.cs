@@ -16,6 +16,14 @@ public class TitleMove : MonoBehaviour
     private GameObject BreakObj;     //ScreenBreakを所持しているオブジェクト
     private ScreenBreak _ScreenBreak; //ScreenBreakを取得する変数
 
+    [SerializeField, Header("TitleLogo")]
+    private SpriteRenderer TitleLogo;
+
+    [SerializeField, Header("Button")]
+    private SpriteRenderer _Button;
+
+    private float a = 1.0f;
+
     SpriteRenderer MainSpriteRenderer;
 
     public List<Sprite> TitleBackSprite;
@@ -34,6 +42,9 @@ public class TitleMove : MonoBehaviour
 
     GameObject SE;          // SE用オブジェクト   
     AudioSource Sesource;   // SE
+
+    GameObject player;      // 演出用主人公
+    Animator anim;          // アニメーション
 
     // 二宮追加
     public AudioClip se_start1; // 一回目
@@ -64,6 +75,12 @@ public class TitleMove : MonoBehaviour
         CrystalAlpha = CrystalRenderer.color.a;
         //タイトルのSptiteRenderereを取得
         //MainSpriteRenderer = .GetComponent<SpriteRenderer>();
+
+        //--------------------------------------------
+        // 演出用Animatorを取得
+        player = GameObject.Find("UIPlayerWalk");
+        anim = player.GetComponent<Animator>();
+        anim.SetInteger("Select", -1);
 
         //--------------------------------------------
         //　SEの情報を取得
@@ -116,16 +133,34 @@ public class TitleMove : MonoBehaviour
 
         if (_ScreenBreak.enabled)
         {
-            BreakTime += Time.deltaTime;
+            a -= 1.0f * Time.deltaTime;
 
-            // BGMをフェードアウトさせる
-            //Bgmsource.volume -= 0.5f * Time.deltaTime;
-            Bgmsource.volume = 0;
-            
-            //3秒経過したらscene移動
-            if (BreakTime > 3.0f)
+            _Button.color = new Color(1.0f, 1.0f, 1.0f, a);
+            TitleLogo.color = new Color(1.0f, 1.0f, 1.0f, a);
+
+            if (a < 0.0f)
             {
-                SceneManager.LoadScene("newSelectScene");//―変更担当者：中川直登―//SelectSceneからnewSelectSceneに変更
+                anim.SetInteger("Select", 4);
+
+                player.transform.position = Vector3.MoveTowards(player.transform.position,
+                    new Vector3(11.0f, player.transform.position.y, player.transform.position.z), 6.0f * Time.deltaTime);
+            }
+
+            if (player.transform.position.x > 10.7f)
+            {
+                BreakTime += Time.deltaTime;
+
+                // BGMをフェードアウトさせる
+                Bgmsource.volume -= 0.5f * Time.deltaTime;
+                //Bgmsource.volume = 0;
+
+                GameObject.Find("SceneManager").GetComponent<SceneChange>().LoadScene("newSelectScene");
+
+                ////3秒経過したらscene移動
+                //if (BreakTime > 3.0f)
+                //{
+                //    SceneManager.LoadScene("newSelectScene");//―変更担当者：中川直登―//SelectSceneからnewSelectSceneに変更
+                //}
             }
         }
 
