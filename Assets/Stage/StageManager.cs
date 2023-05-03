@@ -82,6 +82,7 @@ public class StageManager : MonoBehaviour
 
         return pos;
     }
+
 }
 
 public static class StageData
@@ -124,5 +125,4 @@ public class SetStage {
         return StageData.AreaNum;
     }
 
-    
 }
