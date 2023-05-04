@@ -200,7 +200,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 80b118daa700745488f7c6b0216681da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -770,7 +770,7 @@ GameObject:
   m_Component:
   - component: {fileID: 154716636}
   - component: {fileID: 154716637}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: 'DesertUI '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -832,7 +832,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 7778c351099160a4cb84330002fdb3ea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -926,7 +926,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 80b118daa700745488f7c6b0216681da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1087,7 +1087,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 80b118daa700745488f7c6b0216681da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1524,7 +1524,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 20
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: f7e5e16162957254d8d3c8b68d6da42a, type: 3}
@@ -1637,7 +1637,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4381781425329306556, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4472440899312541329, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_RootOrder
@@ -1844,7 +1844,7 @@ GameObject:
   m_Component:
   - component: {fileID: 392549291}
   - component: {fileID: 392549292}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: 'IceUI '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1906,7 +1906,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 973e53e245aa86546b941326b14e7cbc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1990,7 +1990,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 80b118daa700745488f7c6b0216681da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2284,7 +2284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 480864484}
   - component: {fileID: 480864485}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DecideText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2346,7 +2346,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 7c417ae4c70ef3240bccd3fe4afade01, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3407,6 +3407,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8303352847904300614, guid: 404ef7234e5d1044e9e4c59c72067986, type: 3}
+      propertyPath: orthographic size
+      value: 5.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8303352847904300614, guid: 404ef7234e5d1044e9e4c59c72067986, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 8388567
+      objectReference: {fileID: 0}
     - target: {fileID: 8303352847904300615, guid: 404ef7234e5d1044e9e4c59c72067986, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -3499,7 +3507,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 584370533}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3610,6 +3618,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2834081242466409023, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3170658148879540101, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -3664,7 +3676,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4381781425329306556, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4472440899312541329, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_RootOrder
@@ -4563,7 +4575,7 @@ GameObject:
   - component: {fileID: 775858033}
   - component: {fileID: 775858035}
   - component: {fileID: 775858034}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: NextUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4879,7 +4891,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1126510816419429791, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
       propertyPath: m_SortingOrder
-      value: 14
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 3711990633015512964, guid: d4db140f995130241884b1fe5cad9d1e, type: 3}
       propertyPath: NoiseModule.enabled
@@ -5165,7 +5177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 886259295}
   - component: {fileID: 886259296}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: MoveText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5227,7 +5239,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 2a3a87a4080fe5f41899f89d19b0cc1c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5948,7 +5960,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 40
   m_Sprite: {fileID: 1032655654, guid: 855c3087feb87eb45b627356acedb7f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -6390,7 +6402,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 80b118daa700745488f7c6b0216681da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -6489,7 +6501,7 @@ GameObject:
   - component: {fileID: 1030953090}
   - component: {fileID: 1030953092}
   - component: {fileID: 1030953091}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PrevUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6736,7 +6748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7089043790197639368, guid: f5bb705bb9d567842982bd6f4ef8b2bd, type: 3}
       propertyPath: m_SortingOrder
-      value: 4
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7089043790197639368, guid: f5bb705bb9d567842982bd6f4ef8b2bd, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -7052,7 +7064,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7089043790197639368, guid: f5bb705bb9d567842982bd6f4ef8b2bd, type: 3}
       propertyPath: m_SortingOrder
-      value: 4
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7487576294893995187, guid: f5bb705bb9d567842982bd6f4ef8b2bd, type: 3}
       propertyPath: ShapeModule.m_Scale.y
@@ -8500,7 +8512,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 20
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: 108e21bd92365e94b8ec49cf19341e53, type: 3}
@@ -9019,6 +9031,10 @@ PrefabInstance:
     - target: {fileID: 2778074668393124759, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2834081242466409023, guid: dbd0563a71e430a46b055865c9129522, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3170658148879540101, guid: dbd0563a71e430a46b055865c9129522, type: 3}
       propertyPath: m_Sprite
@@ -9744,7 +9760,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 80b118daa700745488f7c6b0216681da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -9868,7 +9884,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1431700960}
   - component: {fileID: 1431700961}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PlantUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9930,7 +9946,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 2f718bcbcf3513843b8ce627570e8c9a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -10146,7 +10162,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 80b118daa700745488f7c6b0216681da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -10436,7 +10452,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 80b118daa700745488f7c6b0216681da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -10682,7 +10698,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 21
+  m_SortingOrder: 39
   m_RenderMode: 4
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -15690,7 +15706,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 20
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: f093a660fc3f4004dbeabbca75dccaec, type: 3}
@@ -15748,7 +15764,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1602355105}
   - component: {fileID: 1602355106}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CaveUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15810,7 +15826,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 09308a7c2b811d14f94c17df1221ea66, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -16266,7 +16282,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6985662150708072973, guid: f5bb705bb9d567842982bd6f4ef8b2bd, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6985662150708072973, guid: f5bb705bb9d567842982bd6f4ef8b2bd, type: 3}
       propertyPath: m_LocalScale.x
@@ -16334,7 +16350,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7089043790197639368, guid: f5bb705bb9d567842982bd6f4ef8b2bd, type: 3}
       propertyPath: m_SortingOrder
-      value: 4
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7089043790197639368, guid: f5bb705bb9d567842982bd6f4ef8b2bd, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -16923,7 +16939,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1792044008}
   - component: {fileID: 1792044007}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Abutton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16970,7 +16986,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 04893b2da054ab94eb3e21cabde94b04, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -17480,7 +17496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1844296437}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17648,7 +17664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1928877157}
   - component: {fileID: 1928877158}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CityUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17710,7 +17726,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 3a5792ebf8cc6874a96d3395e81f3a8f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.85882354}
   m_FlipX: 0
@@ -17794,7 +17810,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 80b118daa700745488f7c6b0216681da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -17868,7 +17884,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1976892584}
   - component: {fileID: 1976892583}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: houkoubutton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17915,7 +17931,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 6fc4aaf434101a44ca9ad0ea3eaf0d90, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -18014,7 +18030,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 80b118daa700745488f7c6b0216681da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -18036,7 +18052,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2002707593}
   - component: {fileID: 2002707594}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18098,7 +18114,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: fce421348a26200489f31a1d5ce29f89, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -18182,7 +18198,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 80b118daa700745488f7c6b0216681da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -18271,7 +18287,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 900202214142705799, guid: c27c3e1ad3735e049b5399a35e9d7869, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 2803034371399693844, guid: c27c3e1ad3735e049b5399a35e9d7869, type: 3}
       propertyPath: m_RootOrder
@@ -18799,7 +18815,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 20
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: 0ad4cdbaeb18fbd4e908b75d1bbcf041, type: 3}
@@ -19021,7 +19037,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 20
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: 5fbce6a195e708c4ca8c433387e1a058, type: 3}
@@ -19342,6 +19358,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1416272377}
     m_Modifications:
+    - target: {fileID: 6310386826468962588, guid: d761ac3391bd8ad4e80f10f9266a454f, type: 3}
+      propertyPath: m_SortingOrder
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6310386826468962589, guid: d761ac3391bd8ad4e80f10f9266a454f, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -19406,6 +19426,10 @@ PrefabInstance:
     - target: {fileID: 1983058115021015630, guid: 127f606d8f125c145bd543faf1dbc8a1, type: 3}
       propertyPath: m_Name
       value: SteamParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769213967875432128, guid: 127f606d8f125c145bd543faf1dbc8a1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3819804591352012437, guid: 127f606d8f125c145bd543faf1dbc8a1, type: 3}
       propertyPath: m_RootOrder
