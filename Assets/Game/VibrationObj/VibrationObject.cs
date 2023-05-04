@@ -121,8 +121,8 @@ public class VibrationObject : MonoBehaviour
             // パーリンノイズの値を時刻から取得
             var noisePos = _noisePosition.GetValue(time);
 
-            Debug.Log(initLocalPosition);
-            Debug.Log(noisePos);
+            //Debug.Log(initLocalPosition);
+            //Debug.Log(noisePos);
 
             // 各Transformにパーリンノイズの値を加算
             thisTransform.localPosition = new Vector3(initLocalPosition.x + noisePos.x, initLocalPosition.y + noisePos.y, initLocalPosition.z);

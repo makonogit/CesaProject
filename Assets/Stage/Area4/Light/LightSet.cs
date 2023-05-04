@@ -11,6 +11,7 @@ public class LightSet : MonoBehaviour
 {
     private SpriteRenderer thisrenderer;
     private Light2D thislight;
+    private int Area;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,13 @@ public class LightSet : MonoBehaviour
         SetStage stage = new SetStage();
         if(stage.GetAreaNum() == 3)
         {
+            Area = 3;
             thislight.intensity = 1.0f;
+        }
+        else
+        {
+            Area = -1;
+            thislight.intensity = 0.0f;
         }
 
         thisrenderer = transform.parent.GetComponent<SpriteRenderer>();
@@ -29,13 +36,16 @@ public class LightSet : MonoBehaviour
     private void Update()
     {
         //　オブジェクトが消えたらライトも消す
-        if(thisrenderer.color.a == 0.0f)
+        if (Area == 3)
         {
-            thislight.intensity = 0.0f;
-        }
-        else
-        {
-            thislight.intensity = 1.0f;
+            if (thisrenderer.color.a == 0.0f)
+            {
+                thislight.intensity = 0.0f;
+            }
+            else
+            {
+                thislight.intensity = 1.0f;
+            }
         }
     }
 

@@ -16,8 +16,9 @@ public class GateThrough : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        
         // プレイヤーがすり抜けたら生成、BGMの再生
-        if(collision.tag == "Player" && GameObject.Find("player").transform.position.x > transform.position.x)
+        if(collision.tag == "Player" && collision.gameObject.transform.position.x > transform.position.x)
         {
             Destroy(GetComponent<BoxCollider2D>());
             GameObject.Find("BGM(Loop)").GetComponent<AudioSource>().Stop();
