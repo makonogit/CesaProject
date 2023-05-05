@@ -20,7 +20,7 @@ public class SpottedPlayer : MonoBehaviour
     void Start()
     {
         // 親オブジェクト取得
-        Parent = transform.root.gameObject;
+        Parent = transform.parent.gameObject;
 
         // 子オブジェクト取得
         PlantEnemy = Parent.transform.GetChild(2).gameObject;
