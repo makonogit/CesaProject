@@ -61,13 +61,13 @@ public class IceEnemy : MonoBehaviour
         float distance = 10000.0f;
 
         // レイヤーマスク( 0:Default だけ反応させる)
-        int LayerMask = 1<<10;
+        int LayerMask = 1 << 10;
 
         RaycastHit2D _hit = Physics2D.Raycast(transform.position, direction,distance, LayerMask);
         // 当たった場所に設定する
-        if (_hit&&_hit.transform.tag == "Ground") 
+        if (_hit&&(_hit.transform.tag == "Ground" || _hit.transform.tag == "Ice")) 
         {
-            //Debug.Log(_hit.transform.name);
+            Debug.Log(_hit.transform.name);
             // めり込み防止用
             Vector2 _offset = new Vector2(0, -1.25f * 0.25f);
             _pos = _hit.point + _offset;
