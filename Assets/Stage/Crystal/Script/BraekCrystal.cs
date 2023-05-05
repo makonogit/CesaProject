@@ -33,6 +33,8 @@ public class BraekCrystal : MonoBehaviour
 
     private BreakBlock breakblock; // スクリプト取得用変数
 
+    private bool firstCheck = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,10 +50,6 @@ public class BraekCrystal : MonoBehaviour
         //　このオブジェクトのspriterenderer
         render = GetComponent<SpriteRenderer>();
 
-        // 背景の情報取得
-        BackGround = GameObject.Find("BackGround");
-        BreakBack = BackGround.GetComponent<BreakBackGround>();
-
         //Debug.Log(transform.parent.gameObject);
         // 親オブジェクトのレイヤーがBlock
         if (transform.parent.gameObject.layer == BlockLayer)
@@ -62,6 +60,15 @@ public class BraekCrystal : MonoBehaviour
 
     private void Update()
     {
+        if (!firstCheck)
+        {
+            // 背景の情報取得
+            BackGround = GameObject.Find("BackGround");
+            BreakBack = BackGround.GetComponent<BreakBackGround>();
+
+            firstCheck = true;
+        }
+
         if (breakblock != null)
         {
             if (breakblock.Break == true && Add == false)
@@ -83,7 +90,7 @@ public class BraekCrystal : MonoBehaviour
         // ひびに当たったら
         if (collision.tag == "Crack" && !Break)
         {
-
+          
             if (Time.time > ParentBreakTime)
             {
                 render.sprite = Crack;  //　スプライトの変更
