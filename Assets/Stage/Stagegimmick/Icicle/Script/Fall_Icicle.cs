@@ -15,6 +15,7 @@ public class Fall_Icicle : MonoBehaviour
     private string CrackTag = "Crack"; // ひびオブジェクトのタグ名
     private string EnemyTag = "Enemy"; // 敵オブジェクトのタグ名
     private string IceTag = "Ice"; // 氷ブロックのタグ名
+    private string PlayerTag = "Player"; // プレイヤーのタグ名
 
     // 落ちているか
     public bool isFall = false;
@@ -28,7 +29,11 @@ public class Fall_Icicle : MonoBehaviour
 
     // 外部取得
     private BreakBlock breakBlock = null;
-    private VibrationObject vibration; 
+    private VibrationObject vibration;
+    private GameObject player;
+    private GameOver gameOver; // ゲームオーバー画面遷移用スクリプト取得用変数
+    private KnockBack knocback; // ノックバックスクリプト取得用変数
+    private RenderOnOff renderer; // 点滅スクリプト取得用変数
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +46,18 @@ public class Fall_Icicle : MonoBehaviour
 
         // 振動用スクリプト取得
         vibration = GetComponent<VibrationObject>();
+
+        // プレイヤー取得
+        player = GameObject.Find("player");
+
+        // プレイヤーの被ダメージ処理用
+        gameOver = player.GetComponent<GameOver>();
+
+        // ノックバックスクリプト取得
+        knocback = player.GetComponent<KnockBack>();
+
+        // 点滅スクリプト取得
+        renderer = player.GetComponent<RenderOnOff>();
     }
 
     private void Update()
@@ -78,6 +95,9 @@ public class Fall_Icicle : MonoBehaviour
                 // 落下
                 rigid2D.gravityScale = 1.0f;
                 isFall = true;
+
+                // レイヤー変更
+                this.gameObject.layer = 11;
             }
         }
 
@@ -131,6 +151,22 @@ public class Fall_Icicle : MonoBehaviour
 
                 // 氷われる
                 breakBlock.Func_BreakBlock();
+            }
+
+            // プレイヤーに当たる
+            if(collision.gameObject.tag == PlayerTag)
+            {
+                // つらら消滅
+                Destroy(this.gameObject);
+
+                // HP減らすための処理
+                gameOver.StartHPUIAnimation();
+
+                // ノックバック
+                knocback.KnockBack_Func(transform);
+
+                // 点滅
+                renderer.SetFlash(true);
             }
         }
     }

@@ -28,7 +28,9 @@ public class FallPipe : MonoBehaviour
     // 現在のパイプの状態：初期NotBroken
     [SerializeField]public PIPESTATUS pipeStatus = PIPESTATUS.NotBroken;
 
-    private bool InPipe = false;
+    public float WaitFallTimer = 0f;
+    [Header("プレイヤーが上に乗ってから落ちるまでの待ち時間")]public float WaitFallTime = 0f;
+    private bool OnThePipe = false; // 特定の条件の時にパイプの上にのったか
 
     // 自身のコンポーネント変数
     private Transform thisTransform;
@@ -106,6 +108,11 @@ public class FallPipe : MonoBehaviour
                 Fell();
                 break;
         }
+
+        if(OnThePipe == true)
+        {
+            WaitTimeOnPipe();
+        }
     }
 
     private void NotBroken()
@@ -137,21 +144,28 @@ public class FallPipe : MonoBehaviour
 
     private void LeftBroken()
     {
-        bool right = UnionRight.GetBreak();
-
-        if (right)
+        if (OnThePipe == false)
         {
-            pipeStatus = PIPESTATUS.AllBroken;
+            // 壊れてない方が壊れたら
+            bool right = UnionRight.GetBreak();
+
+            if (right)
+            {
+                pipeStatus = PIPESTATUS.AllBroken;
+            }
         }
     }
 
     private void RightBroken()
     {
-        bool left = UnionLeft.GetBreak();
-
-        if (left)
+        if (OnThePipe == false)
         {
-            pipeStatus = PIPESTATUS.AllBroken;
+            bool left = UnionLeft.GetBreak();
+
+            if (left)
+            {
+                pipeStatus = PIPESTATUS.AllBroken;
+            }
         }
     }
 
@@ -176,7 +190,31 @@ public class FallPipe : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void WaitTimeOnPipe()
+    {
+        // 初めの一回のみ
+        if(WaitFallTimer == 0f)
+        {
+            // 消えてない方のクリスタルを破壊
+            if (UnionLeft.GetBreak() == false)
+            {
+                UnionLeft.Func_BreakBlock();
+            }
+            if (UnionRight.GetBreak() == false)
+            {
+                UnionRight.Func_BreakBlock();
+            }
+        }
+
+        WaitFallTimer += Time.deltaTime;
+
+        if (WaitFallTimer > WaitFallTime)
+        {
+            pipeStatus = PIPESTATUS.AllBroken;
+        }
+    }
+
+        private void OnCollisionEnter2D(Collision2D collision)
     {
         // 地面かパイプに当たったら
         if(collision.gameObject.tag == GroundTag || 
@@ -192,12 +230,14 @@ public class FallPipe : MonoBehaviour
         // プレイヤーがパイプより上にいるときに当たったら
         if(collision.gameObject.tag == PlayerTag)
         {
-            // プレイヤーの脚の部分がパイプの上表面より上なら
-            if(playerTransform.position.y - playerTransform.localScale.y / 2.0f > thisTransform.position.y + thisTransform.localScale.y / 2.0f)
+            if (pipeStatus == PIPESTATUS.LeftBroken || pipeStatus == PIPESTATUS.RightBroken)
             {
-                pipeStatus = PIPESTATUS.AllBroken;
-
-                
+                // プレイヤーの脚の部分がパイプの上表面より上なら
+                if (playerTransform.position.y - playerTransform.localScale.y / 2.0f > thisTransform.position.y + thisTransform.localScale.y / 2.0f)
+                {
+                    // 待ち時間を設けるためフラグ立てるだけ
+                    OnThePipe = true;
+                }
             }
         }
     }
@@ -214,21 +254,19 @@ public class FallPipe : MonoBehaviour
                 pipeStatus = PIPESTATUS.Fell;
             }
         }
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+        // プレイヤーがパイプより上にいるときに当たったら
         if (collision.gameObject.tag == PlayerTag)
         {
-            InPipe = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == PlayerTag)
-        {
-            InPipe = false;
+            if (pipeStatus == PIPESTATUS.LeftBroken || pipeStatus == PIPESTATUS.RightBroken)
+            {
+                // プレイヤーの脚の部分がパイプの上表面より上なら
+                if (playerTransform.position.y - playerTransform.localScale.y / 2.0f > thisTransform.position.y + thisTransform.localScale.y / 2.0f)
+                {
+                    // 待ち時間を設けるためフラグ立てるだけ
+                    OnThePipe = true;
+                }
+            }
         }
     }
 }
