@@ -31,8 +31,14 @@ public class BreakBlock : MonoBehaviour
     private ParticleSystem CrystalParticle; //クリスタルをゲットしたパーティクル
     private GameObject CrystalPoint;        //クリスタルが集まる座標
 
+    private GameObject SEObj;               //SE再生用オブジェクト
+    private AudioSource PlaySound;     //SE再生用スクリプト
+
     private void Start()
     {
+        SEObj = GameObject.Find("BlockSE");
+        PlaySound = SEObj.GetComponent<AudioSource>();
+
         mat = GetComponent<SpriteRenderer>().material;
 
         Player = GameObject.Find("player");
@@ -86,6 +92,7 @@ public class BreakBlock : MonoBehaviour
                             CrystalPoint.transform.position = Player.transform.position;
                             CrystalParticle.Play();
                         }
+
                         // 壊れるブロックの処理用関数呼び出し
                         Func_BreakBlock();
 
@@ -99,6 +106,7 @@ public class BreakBlock : MonoBehaviour
     
     public void Func_BreakBlock()
     {
+        PlaySound.Play();
         // 透明にする
         mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.0f);
         if (Crystal != null)
