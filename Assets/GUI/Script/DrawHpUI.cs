@@ -24,7 +24,7 @@ public class DrawHpUI : MonoBehaviour
     // アニメーション用
     private Image img; // 画像を変更するための変数
     [SerializeField] Sprite[] sprites; // 画像名を入れておく
-    private int NowHPAnimationNumber = 0; // spritesの添え字用変数
+    [System.NonSerialized]public int NowHPAnimationNumber = 0; // spritesの添え字用変数
     private bool isHPUIAnimation = false; // HPUIのアニメーションをするか
     public float NextImageTime = 0.1f; // 次の画像に変わるまでのタイマー
     private float ChangeImageTimer = 0f; // 前の画像に変わってからの経過時間
