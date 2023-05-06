@@ -71,20 +71,20 @@ public class DirectingBreakStage : MonoBehaviour
             // 目標オブジェクト取得
             CameraTarget_last = GameObject.Find("CameraTarget_Last");
             Last_Transform = CameraTarget_last.GetComponent<Transform>();
-            Debug.Log(CameraTarget_last);
-            Debug.Log(Last_Transform);
+            //Debug.Log(CameraTarget_last);
+            //Debug.Log(Last_Transform);
 
             // ステージの情報を持つオブジェクト取得
             StageData = GameObject.Find("StageData");
-            Debug.Log(StageData);
+            //Debug.Log(StageData);
 
             // ステージプレハブ　例)Stage1-1,Stage2-1
             StagePrefab = StageData.transform.GetChild(0).gameObject;
-            Debug.Log(StagePrefab);
+            //Debug.Log(StagePrefab);
 
             // カメラズームスクリプト取得
             sc_cameraZoom = StagePrefab.GetComponent<CameraZoom>();
-            Debug.Log(sc_cameraZoom);
+            //Debug.Log(sc_cameraZoom);
 
             // 初期化
             Mat.SetFloat("_Fader", 1f);  // 初期値
@@ -100,7 +100,7 @@ public class DirectingBreakStage : MonoBehaviour
             {
                 // カメラ追従ターゲットをステージの最初の方にある自身に設定
                 control.SetTarget(this.gameObject);
-                Debug.Log(control.GetTarget());
+                //Debug.Log(control.GetTarget());
 
                 // このスクリプトを持つオブジェクトの子オブジェクトに
                 ParticleObj = Instantiate(particle, this.gameObject.transform.GetChild(0).gameObject.transform);

@@ -12,7 +12,7 @@ public class GameOverCameraEvent : MonoBehaviour
     private GameObject _player;
     //private float _nowSize;
     private float _endSize;
-    //private float _normalSize;// 通常サイズ
+    private float _normalSize;// 通常サイズ
 
     [SerializeField, Header("アニメーション時間")]
     private float _maxTime = 1.0f;
@@ -41,6 +41,7 @@ public class GameOverCameraEvent : MonoBehaviour
         _end = false;
         n = 0.0f;
         _posZ = transform.position.z;
+        _normalSize = 5f;
     }
 
     // Update is called once per frame
@@ -55,6 +56,11 @@ public class GameOverCameraEvent : MonoBehaviour
         if (_end) 
         {
             _camera.orthographicSize = _endSize;
+        }
+
+        if (_playerGO.IsGameOver == false)
+        {
+            _camera.orthographicSize = _normalSize;
         }
     }
     

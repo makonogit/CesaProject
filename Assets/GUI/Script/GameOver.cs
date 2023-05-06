@@ -21,9 +21,18 @@ public class GameOver : MonoBehaviour
     private GameObject health; // HPUIManagerオブジェクト
     private DrawHpUI drawHpUI; // HP描画スクリプト
 
+    // フェード関係
+    [Header("フェードアウトとフェードインの間隔")]public float OutInTime = 0.5f;
+    private float OutInTimer = 0; // タイマー
+    private bool _fadeout = false; // フェードアウト中
+    private bool WaitTime = false; // フェードインとアウトの待ち時間中
+    private bool hell = false; // 奈落
+    private bool death = false; // 死亡
+
     private GameObject player;
     private Transform playerTransform;
     private PlayerStatas playerStatus;
+    private Fade fade;
 
     //―追加担当者：中川直登―//
     [SerializeField, Header("パーティクル")]
@@ -31,6 +40,7 @@ public class GameOver : MonoBehaviour
     [SerializeField]
     private float _creatTime;
     private ParticleSystem _createdParticle;
+    private bool Create = false;
 
     private bool _isGameOver;// フラグ
     [SerializeField, Header("終わり待ち時間")]
@@ -92,6 +102,9 @@ public class GameOver : MonoBehaviour
         player = GameObject.Find("player");
         playerTransform = player.GetComponent<Transform>();
         playerStatus = player.GetComponent<PlayerStatas>();
+
+        // フェード関係
+        fade = GameObject.Find("SceneManager").GetComponent<Fade>();
     }
 
     // Update is called once per frame
@@ -143,24 +156,36 @@ public class GameOver : MonoBehaviour
         //    }
         //}
 
+        //------------------------------------------
+        //奈落に落ちた
+        if (transform.position.y < -15)
+        {
+            hell = true;
 
+        }
+        // HPがなくなった
+        if(HP <= 0)
+        {
+            death = true;
+        }
 
         //---------------------------------------------------------
-        //HPが0以下になったら
-        if (HP <= 0)
+        //HPが0か奈落に落ちたらリスポーン
+        if (death || hell)
         {
             //―追加担当者：中川直登―//
 
-            Deactivate();
+            //Deactivate();
             _isGameOver = true;
 
             // パーティクルが生成されていないなら
-            if (_createdParticle == null && _nowTime>_creatTime) 
+            if (_createdParticle == null && _nowTime>_creatTime && Create == false) 
             {
                 Vector3 pos = cam.transform.position;
                 pos = new Vector3(pos.x, pos.y, 0);
                 _createdParticle = Instantiate(_particle, pos, Quaternion.Euler(-90, 0, 0), cam.transform);
                 _createdParticle.Play();
+                Create = true;
             }
            
             // 一定時間経過したら
@@ -171,26 +196,61 @@ public class GameOver : MonoBehaviour
                 //SceneManager.LoadScene("GameOver");
                 //_scene.LoadScene("newSelectScene");
 
-                // リスポーン
-                playerTransform.position = playerStatus.GetRespawn();
-                HP = maxHp;
+                // フェードの状態取得
+                Fade.FadeState fadestate = fade.GetFadeState();
+
+                // フェードアウト
+                if (fadestate != Fade.FadeState.FadeOut && _fadeout == false)
+                {
+                    // フェードアウト開始
+                    fade.FadeOut();
+
+                    _fadeout = true;
+                }
+
+                // 待ち時間中にリスポーンと巻き戻し処理(未実装)
+                if(fadestate == Fade.FadeState.FadeOut_Finish || WaitTime)
+                {
+                    // 初回のみ
+                    if(OutInTimer == 0f)
+                    {
+                        // リスポーン
+                        playerTransform.position = playerStatus.GetRespawn();
+
+                        drawHpUI.NowHPAnimationNumber = 0;
+
+                        // HP回復
+                        HP = maxHp;
+
+                        WaitTime = true;
+                        _isGameOver = false;
+                    }
+
+                    OutInTimer += Time.deltaTime;
+                    if(OutInTimer > OutInTime)
+                    {
+                        // フェードイン開始
+                        fade.FadeIn();
+
+                        // 生成したパーティクル削除
+                        Destroy(_createdParticle);
+
+
+                        // 初期化
+                        OutInTimer = 0f;
+                        _fadeout = false;
+                        WaitTime = false;
+                        Create = false;
+                        hell = false;
+                        death = false;
+                    }
+                }
+
             }
             _nowTime += Time.deltaTime;
             //――――――――――――//
            
         }
-
-        //------------------------------------------
-        //　奈落に落ちたらリロード
-        if(transform.position.y < -15)
-        {
-            // リスポーン
-            playerTransform.position = playerStatus.GetRespawn();
-            HP = maxHp;
-
-            //_scene.LoadScene("MainScene");
-        }
-
     }
 
     public void StartHPUIAnimation()
@@ -226,6 +286,17 @@ public class GameOver : MonoBehaviour
         _goalArea.SetActive(false);
         _cameraZoom.enabled = false;
         _cameraControl2.enabled = false;
+    }
+
+    private void activate()
+    {
+        _playerMove.enabled = true;
+        _playerJump.enabled = true;
+        _crackAuto.enabled = true;
+        _smashScript.enabled = true;
+        _goalArea.SetActive(true);
+        _cameraZoom.enabled = true;
+        _cameraControl2.enabled = true;
     }
     //――――――――――――//
     //public SPRITESTATUS GetSpriteStatus()
