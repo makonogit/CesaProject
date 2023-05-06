@@ -25,16 +25,41 @@ public class SandControl : MonoBehaviour
     private CrackCreater HitCrackCreater;   //　当たったひびのCreater
     private EdgeCollider2D Edge;            //　衝突したEdgeを保存
 
+    private float SEDistance;               //　SEを再生する距離
+    private Transform thistrans;
+
+    private GameObject SEobj;           //SE再生用オブジェクト
+    private GimmickPlaySound PlaySE;    //SE再生用スクリプト
+
     private void Start()
     {
         //　砂の管理スクリプト
         sandmanagerobj = GameObject.Find("SandManager");
         sandmanager = sandmanagerobj.GetComponent<SandManager>();
+
+        thistrans = transform;
+
+        SEobj = GameObject.Find("GimmickSE");
+        PlaySE = SEobj.GetComponent<GimmickPlaySound>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(30.0f, 30.0f), 0.0f, Vector2.up,0.0f);
+
+        //プレイヤーが範囲内に入ったらSE再生
+        if(hit.collider.tag == "Player")
+        {
+            PlaySE.PlayerGimmickSE(GimmickPlaySound.GimmickSEList.SAND_LOOP);
+        }
+        else
+        {
+            PlaySE.Stop();
+        }
+
         // 砂が生成されたら放出したようにアニメーションする
         if(ReleasedSand != null)
         {
@@ -47,7 +72,6 @@ public class SandControl : MonoBehaviour
             //　ひびがのばされたら破棄して再度生成
             if (HitCrackCreater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATEBACK)
             {
-                Debug.Log("のびた");
                 Destroy(ReleasedSand);
                 HitTrigger = false;
             }

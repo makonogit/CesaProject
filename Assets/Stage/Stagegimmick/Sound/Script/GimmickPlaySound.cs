@@ -44,6 +44,17 @@ public class GimmickPlaySound : MonoBehaviour
         source.Play();
     }
 
+    public bool IsPlay()
+    {
+        return source.isPlaying;
+    }
+
+    public void Stop()
+    {
+        source.Stop();
+    }
+
+
 }
 
 
