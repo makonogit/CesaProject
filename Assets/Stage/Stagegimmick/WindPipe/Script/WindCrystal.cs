@@ -39,6 +39,11 @@ public class WindCrystal : MonoBehaviour
 
     GameObject player;// レイが衝突したプレイヤー
 
+    PlayerJump Jump;
+    Rigidbody2D rigid;
+
+    int LayerMask;    // LayerMask
+
     //----------------------------------
     // 発生させる風関連
     //----------------------------------
@@ -69,7 +74,10 @@ public class WindCrystal : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
 
         player = GameObject.Find("player");
+        Jump = player.GetComponent<PlayerJump>();
+        rigid = player.GetComponent<Rigidbody2D>();
 
+        LayerMask = 1 << 12;    //プレイヤーとだけ判定
     }
 
     //==================================
@@ -149,6 +157,7 @@ public class WindCrystal : MonoBehaviour
             0.0f,
             Vector2.up,
             0.0f
+            //LayerMask
             );
 
         // 無重力状態を判定するRay
@@ -158,6 +167,7 @@ public class WindCrystal : MonoBehaviour
            0.0f,
            Vector2.up,
            0.0f
+           //LayerMask
            );
 
         //--------------------------------------------------------
@@ -180,24 +190,24 @@ public class WindCrystal : MonoBehaviour
         if (raycastHit.collider.tag == "Player")
         {
             // OFF
-            PlayerJump playerJump;
-            playerJump = raycastHit.collider.gameObject.GetComponent<PlayerJump>();
-            playerJump.enabled = false;
+            //PlayerJump playerJump;
+            //playerJump = raycastHit.collider.gameObject.GetComponent<PlayerJump>();
+            Jump.enabled = false;
 
-            Rigidbody2D rb;
-            rb = raycastHit.collider.gameObject.GetComponent<Rigidbody2D>();
-            rb.isKinematic = true;
+            //Rigidbody2D rb;
+            //rb = raycastHit.collider.gameObject.GetComponent<Rigidbody2D>();
+            rigid.isKinematic = true;
         }
         else
         {
             // ON
-            PlayerJump playerJump;
-            playerJump = player.GetComponent<PlayerJump>();
-            playerJump.enabled = true;
+            //PlayerJump playerJump;
+            //playerJump = player.GetComponent<PlayerJump>();
+            Jump.enabled = true;
 
-            Rigidbody2D rb;
-            rb = player.GetComponent<Rigidbody2D>();
-            rb.isKinematic = false;
+            //Rigidbody2D rb;
+            //rb = player.GetComponent<Rigidbody2D>();
+            rigid.isKinematic = false;
         }
        
     }
