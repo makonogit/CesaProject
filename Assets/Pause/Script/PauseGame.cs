@@ -16,10 +16,18 @@ public class PauseGame : MonoBehaviour
     public bool IsPause = false; // ポーズ状態かどうか
     public int CursorY = 0; // Y方向の移動をするカーソルの番号
     const int CursorMax = 3; // カーソルの一番下
-    private bool magnification = false; // 拡大用変数
-    private bool reduction = false;     // 縮小用変数
+    public bool magnification = false; // 拡大用変数
+    public bool reduction = false;     // 縮小用変数
     [Header("1 / ChangeSpeed 秒でサイズが変わりきる")]public float ChangeSpeed = 1.0f; // 
     private bool manual = false;
+
+    private bool retry_Out = false; // リトライが選択されたらtrue
+    private bool retry_In = false;  // シーンが読み込まれたらtrue
+
+    [Header("フェードアウトとフェードインの間隔")] public float OutInTime = 0.5f;
+    private float WaitTimer = 0f;
+    private bool fadeout = false;
+    private bool fadein = false;
 
     // メニューの数が増えるたびに追加
     private string[] PauseObj = {
@@ -52,6 +60,10 @@ public class PauseGame : MonoBehaviour
     // se関係
     private GameObject se;
     private SEManager_Pause seMana;
+
+    // フェード関係
+    [Header("SceneManager"),SerializeField]private GameObject sceneManager;
+    private Fade fade;
 
     // Start is called before the first frame update
     void Start()
@@ -102,6 +114,14 @@ public class PauseGame : MonoBehaviour
         player = GameObject.Find("player");
         playerTransform = player.GetComponent<Transform>();
         playerStatus = player.GetComponent<PlayerStatas>();
+
+        // フェード関係
+        fade = sceneManager.GetComponent<Fade>();
+
+        if(FadeAlpha.black == true)
+        {
+            retry_In = true;
+        }
     }
 
     // Update is called once per frame
@@ -144,6 +164,18 @@ public class PauseGame : MonoBehaviour
         {
             // ポーズメニューを縮小
             Reduction();
+        }
+
+        // リトライフェードアウト込み
+        if(retry_Out)
+        {
+            Retry_FadeOut();
+        }
+
+        // リトライフェードイン
+        if (retry_In)
+        {
+            Retry_FadeIn();
         }
 
         // ポーズ状態の時の処理
@@ -250,16 +282,10 @@ public class PauseGame : MonoBehaviour
 
                         // リトライ
                         case 1:
-                            reduction = true;
+                            //reduction = true;
 
-                            Debug.Log(playerStatus.GetRespawn());
-
-                            // 現在設定されているリスポーン地点まで移動
-                            //playerTransform.position = playerStatus.GetRespawn();
-                            //Debug.Log("リスポーン");
-
-                            // 今いるシーンをロードしなおす
-                            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                            retry_Out = true;
+                            
                             break;
 
                         // 操作方法へ
@@ -339,7 +365,7 @@ public class PauseGame : MonoBehaviour
     void Magnification()
     {
         // スケールを徐々に大きくしていく
-        float scale = transform.localScale.x + ChangeSpeed * Time.deltaTime;
+        float scale = transform.localScale.x + ChangeSpeed * Time.unscaledDeltaTime;
 
         // 上限
         if(scale > 1f)
@@ -365,7 +391,7 @@ public class PauseGame : MonoBehaviour
     void Reduction()
     {
         // スケールを徐々に小さくしていく
-        float scale = transform.localScale.x - ChangeSpeed * Time.deltaTime;
+        float scale = transform.localScale.x - ChangeSpeed * Time.unscaledDeltaTime;
 
         // 下限
         if (scale < 0f)
@@ -385,5 +411,41 @@ public class PauseGame : MonoBehaviour
 
             TimeOperate();
         }
+    }
+
+    private void Retry_FadeOut()
+    {
+        Fade.FadeState fadestate = fade.GetFadeState();
+
+        // フェードアウトする初回のみ入る
+        if (fadestate != Fade.FadeState.FadeOut && fadeout == false)
+        {
+            // フェードアウト開始
+            fade.FadeOut();
+
+            fadeout = true;
+        }
+
+        if(fadestate == Fade.FadeState.FadeOut_Finish)
+        {
+            WaitTimer += Time.unscaledDeltaTime;
+
+            if(WaitTimer > OutInTime)
+            {
+                FadeAlpha.black = true;
+
+                // 今いるシーンをロードしなおす
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
+    }
+
+    private void Retry_FadeIn()
+    {
+        fade.FadeIn();
+        retry_In = false;
+
+        // 通常再生にする
+        Time.timeScale = 1f;
     }
 }

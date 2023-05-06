@@ -134,66 +134,69 @@ public class EnemyMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Stop == false)
+        if (Time.timeScale != 0)
         {
-            // 一定範囲内にプレイヤーが侵入してきたらステータス変化
-            // プレイヤーとの距離をもとめる
-            var Vec = thisTransform.position - playerTransform.position;
-
-            // 三平方の定理
-            Distance = Vec.magnitude; // プレイヤーとの距離が求まった
-
-            // 向いている方向をセット
-            SetDirection();
-
-            // 進行方向にレイを飛ばす
-            CreateRay();
-
-            if (death == false)
+            if (Stop == false)
             {
-                switch (EnemyAI)
+                // 一定範囲内にプレイヤーが侵入してきたらステータス変化
+                // プレイヤーとの距離をもとめる
+                var Vec = thisTransform.position - playerTransform.position;
+
+                // 三平方の定理
+                Distance = Vec.magnitude; // プレイヤーとの距離が求まった
+
+                // 向いている方向をセット
+                SetDirection();
+
+                // 進行方向にレイを飛ばす
+                CreateRay();
+
+                if (death == false)
                 {
-                    case AIState.INIT_PATROL:
-                        Init_Patrol();
-                        break;
+                    switch (EnemyAI)
+                    {
+                        case AIState.INIT_PATROL:
+                            Init_Patrol();
+                            break;
 
-                    case AIState.PATROL:
-                        Patrol();
-                        break;
+                        case AIState.PATROL:
+                            Patrol();
+                            break;
 
-                    case AIState.TRACKING:
-                        Tracking();
-                        break;
+                        case AIState.TRACKING:
+                            Tracking();
+                            break;
 
-                    case AIState.INIT_TRACKING:
-                        Init_Tracking();
-                        break;
+                        case AIState.INIT_TRACKING:
+                            Init_Tracking();
+                            break;
 
-                    case AIState.INIT_ATTACK:
-                        Init_Attack();
-                        break;
+                        case AIState.INIT_ATTACK:
+                            Init_Attack();
+                            break;
 
-                    case AIState.ATTACK:
-                        Attack();
-                        break;
+                        case AIState.ATTACK:
+                            Attack();
+                            break;
 
-                    case AIState.ATTACK_WAIT:
-                        Attack_Wait();
-                        break;
+                        case AIState.ATTACK_WAIT:
+                            Attack_Wait();
+                            break;
 
-                    case AIState.DEATH:
-                        Death();
-                        break;
+                        case AIState.DEATH:
+                            Death();
+                            break;
+                    }
                 }
             }
-        }
-        else
-        {
-            // 向いている方向をセット
-            SetDirection();
+            else
+            {
+                // 向いている方向をセット
+                SetDirection();
 
-            // 進行方向にレイを飛ばす
-            CreateRay();
+                // 進行方向にレイを飛ばす
+                CreateRay();
+            }
         }
     }
 
@@ -351,11 +354,13 @@ public class EnemyMove : MonoBehaviour
         if (thisTransform.position.x < playerTransform.position.x)
         {
             AttackSign = 1f;
+            Direction = EnemyDirection.RIGHT;
         }
         // プレイヤーが敵自身より左にいるなら
         else if (thisTransform.position.x > playerTransform.position.x)
         {
             AttackSign = -1f;
+            Direction = EnemyDirection.LEFT;
         }
 
         // 攻撃になった時のX座標を取得

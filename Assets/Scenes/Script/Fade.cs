@@ -6,6 +6,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public static class FadeAlpha
+{
+    public static bool black = false;
+};
+
 public class Fade : MonoBehaviour
 {
     // 変数宣言
@@ -44,7 +49,14 @@ public class Fade : MonoBehaviour
         _fadeIn = false;
 
         _panelObj.SetActive(true);
-        _panel.SetAlpha(0.0f);
+        if (FadeAlpha.black == false)
+        {
+            _panel.SetAlpha(0.0f);
+        }
+        else
+        {
+            _panel.SetAlpha(1.0f);
+        }
     }
 
     // Update is called once per frame
@@ -54,7 +66,7 @@ public class Fade : MonoBehaviour
         if (_fadeIn)
         {
             // _nowTime が0に近づくとフェードパネルのalphaの割合も0に近づく
-            _nowTime -= Time.deltaTime;
+            _nowTime -= Time.unscaledDeltaTime;
 
             // フェードイン終了
             if(_nowTime <= 0f)
@@ -65,12 +77,14 @@ public class Fade : MonoBehaviour
                 RunTime = false;
 
                 _fadeState = FadeState.FadeIn_Finish;
+
+                FadeAlpha.black = false;
             }
         }
         // 画面が暗くなっていく
         else if (_fadeOut)
         {
-            _nowTime += Time.deltaTime;
+            _nowTime += Time.unscaledDeltaTime;
         
             // フェードアウト終了
             if(_nowTime >= _fadeTime)
@@ -81,6 +95,8 @@ public class Fade : MonoBehaviour
                 _fadeOut = false;
 
                 _fadeState = FadeState.FadeOut_Finish;
+
+                FadeAlpha.black = true;
             }
         }
 
@@ -99,6 +115,7 @@ public class Fade : MonoBehaviour
 
             _fadeIn = true;
             RunTime = true;
+            _nowTime = 1f;
 
             _fadeState = FadeState.FadeIn;
         }
@@ -112,7 +129,8 @@ public class Fade : MonoBehaviour
 
             _fadeOut = true;
             RunTime = true;
-            
+            _nowTime = 0f;
+
             _fadeState = FadeState.FadeOut;
         }
     }

@@ -100,11 +100,11 @@ public class PlayerMove : MonoBehaviour
         // スローモーション
         if(debug == false)
         {
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
         else
         {
-            Time.timeScale = 0.2f;
+            //Time.timeScale = 0.2f;
         }
 
         if (Moveflg && !playerStatus.GetHitStop()) // 移動フラグがたっているか、ヒットストップ中じゃない
