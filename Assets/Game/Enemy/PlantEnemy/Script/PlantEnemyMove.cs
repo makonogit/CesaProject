@@ -178,9 +178,9 @@ public class PlantEnemyMove : MonoBehaviour
         }
 
 
-        Debug.Log(Pipe_1.transform.localPosition);
-        Debug.Log(Pipe_2.transform.localPosition);
-        Debug.Log(CenterBetweenPipes);
+        //Debug.Log(Pipe_1.transform.localPosition);
+        //Debug.Log(Pipe_2.transform.localPosition);
+        //Debug.Log(CenterBetweenPipes);
     }
 
     private void Idle()
