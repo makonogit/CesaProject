@@ -161,12 +161,14 @@ public class GameOver : MonoBehaviour
         if (transform.position.y < -15)
         {
             hell = true;
+            _isGameOver = true;
 
         }
         // HPがなくなった
         if(HP <= 0)
         {
             death = true;
+            _isGameOver = true;
         }
 
         //---------------------------------------------------------
@@ -176,7 +178,6 @@ public class GameOver : MonoBehaviour
             //―追加担当者：中川直登―//
 
             //Deactivate();
-            _isGameOver = true;
 
             // パーティクルが生成されていないなら
             if (_createdParticle == null && _nowTime>_creatTime && Create == false) 
@@ -217,7 +218,7 @@ public class GameOver : MonoBehaviour
                         // リスポーン
                         playerTransform.position = playerStatus.GetRespawn();
 
-                        drawHpUI.NowHPAnimationNumber = 0;
+                        //drawHpUI.NowHPAnimationNumber = 0;
 
                         // HP回復
                         HP = maxHp;
