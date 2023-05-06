@@ -68,6 +68,8 @@ public class WindCrystal : MonoBehaviour
         // このオブジェクトの色を取得
         sr = GetComponent<SpriteRenderer>();
 
+        player = GameObject.Find("player");
+
     }
 
     //==================================
@@ -167,7 +169,7 @@ public class WindCrystal : MonoBehaviour
             player = raycastHit.collider.gameObject;
 
             Vector3 pos = player.transform.position;
-            pos.y += rise_speed;
+            pos.y += rise_speed * Time.deltaTime;
             player.transform.position = pos;
         }
 
