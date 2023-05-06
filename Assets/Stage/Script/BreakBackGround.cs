@@ -11,13 +11,17 @@ public class BreakBackGround : MonoBehaviour
     //-------------------------
     // 変数宣言
 
-    [SerializeField]
     private List<GameObject> BackCrystal = new List<GameObject>();   // 背景のクリスタル
     private float Alpha;                    // 背景クリスタルのα値
 
     // Start is called before the first frame update
     void Start()
     {
+
+        if(BackCrystal.Count > 0)
+        {
+            BackCrystal.Clear();
+        }
 
         // 背景クリスタルを取得
         for (int i = 0; i < transform.childCount; i++)
