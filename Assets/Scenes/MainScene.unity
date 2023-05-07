@@ -1225,16 +1225,16 @@ MonoBehaviour:
   list: 0
   se:
   - _SE: {fileID: 8300000, guid: 4b60394e22505f446935c4c85da8ea34, type: 3}
-    Volume: 0
+    Volume: 0.5
     Loop: 1
   - _SE: {fileID: 8300000, guid: 4208f830b1926ae4c90f11b7ab3efa7d, type: 3}
-    Volume: 0
+    Volume: 0.5
     Loop: 1
   - _SE: {fileID: 8300000, guid: a748ad9fa26ee8143b90e3b97ca1ac47, type: 3}
-    Volume: 0
+    Volume: 0.5
     Loop: 0
   - _SE: {fileID: 8300000, guid: dca285194219f0c45a554d55b617eddb, type: 3}
-    Volume: 0
+    Volume: 0.5
     Loop: 1
 --- !u!1 &771708493 stripped
 GameObject:
@@ -4543,6 +4543,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6567954735427984553, guid: 38090240b179ff44fb3cd7c6869a1378, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6567954735427984554, guid: 38090240b179ff44fb3cd7c6869a1378, type: 3}
+      propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

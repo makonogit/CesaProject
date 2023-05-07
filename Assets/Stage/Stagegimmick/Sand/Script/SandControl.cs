@@ -48,18 +48,7 @@ public class SandControl : MonoBehaviour
     void Update()
     {
 
-        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(30.0f, 30.0f), 0.0f, Vector2.up,0.0f);
-
-        //プレイヤーが範囲内に入ったらSE再生
-        if(hit.collider.tag == "Player")
-        {
-            PlaySE.PlayerGimmickSE(GimmickPlaySound.GimmickSEList.SAND_LOOP);
-        }
-        else
-        {
-            PlaySE.Stop();
-        }
-
+       
         // 砂が生成されたら放出したようにアニメーションする
         if(ReleasedSand != null)
         {
