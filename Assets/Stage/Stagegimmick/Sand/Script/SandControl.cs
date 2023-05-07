@@ -25,22 +25,11 @@ public class SandControl : MonoBehaviour
     private CrackCreater HitCrackCreater;   //　当たったひびのCreater
     private EdgeCollider2D Edge;            //　衝突したEdgeを保存
 
-    private float SEDistance;               //　SEを再生する距離
-    private Transform thistrans;
-
-    private GameObject SEobj;           //SE再生用オブジェクト
-    private GimmickPlaySound PlaySE;    //SE再生用スクリプト
-
     private void Start()
     {
         //　砂の管理スクリプト
         sandmanagerobj = GameObject.Find("SandManager");
         sandmanager = sandmanagerobj.GetComponent<SandManager>();
-
-        thistrans = transform;
-
-        SEobj = GameObject.Find("GimmickSE");
-        PlaySE = SEobj.GetComponent<GimmickPlaySound>();
 
     }
 

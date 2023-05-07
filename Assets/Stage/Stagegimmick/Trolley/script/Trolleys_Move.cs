@@ -44,6 +44,10 @@ public class Trolleys_Move : MonoBehaviour
     [SerializeField]
     private GameObject _backWheel;// タイヤ後ろ
 
+    private Vector3 _oldpos;            //前回の位置
+    private float _movetime = 0.0f;     //移動時間
+    TrolleyManager trolleyManager = null;
+
     //======================================================
     //
     // 関数：Start()
@@ -114,6 +118,7 @@ public class Trolleys_Move : MonoBehaviour
         // コンポーネントを取得
         _inputManager =playerInputManager.GetComponent<PlayerInputManager>();
         if (_inputManager == null) Debug.LogError("PlayerInputManagerのコンポーネントを取得できませんでした。");
+
     }
 
     //======================================================
@@ -122,13 +127,25 @@ public class Trolleys_Move : MonoBehaviour
     //
     void Update()
     {
+        _movetime += Time.deltaTime;
+
+        if (isStop && trolleyManager != null) trolleyManager.SetStop(true); trolleyManager = null;
+
         SetDirection(); // 進行方向の設定
         DashSetting();  // ダッシュの設定
         AttackSetting();// 攻撃の設定
         DamageSystem(); // ダメージ処理
         Move();         // 移動処理
         RotateWheel();  // タイヤの回転
+        
+        if (_movetime > 0.3f)
+        {
+            _oldpos = transform.position;
+            _movetime = 0.0f;
+        }
         _oldState = _hammer.hammerstate;// 状態を保存
+       
+
     }
 
     
@@ -140,7 +157,12 @@ public class Trolleys_Move : MonoBehaviour
     private void SetDirection()
     {
         // 動き始める瞬間に進行方向を設定
-        if (isMoveTrigger) _direction = GetDirection;
+        if (isMoveTrigger)
+        {
+           _direction = GetDirection;
+            trolleyManager = transform.parent.GetComponent<TrolleyManager>();
+            trolleyManager.SetMoveTrolley(this);
+        }
     }
 
     //
@@ -265,7 +287,7 @@ public class Trolleys_Move : MonoBehaviour
     //
     // 目的：動き始める瞬間の判断をする
     // 
-    private bool isMoveTrigger 
+    public bool isMoveTrigger 
     {
         get 
         {
@@ -359,6 +381,15 @@ public class Trolleys_Move : MonoBehaviour
             if (_dashFlag) return false;            
             // 敵に当たってないなら
             if (!_hitEnemy.IsEnter) return false;
+            return true;
+        }
+    }
+
+    public bool isStop
+    {
+        get
+        {
+            if (_oldpos != transform.position) return false;
             return true;
         }
     }

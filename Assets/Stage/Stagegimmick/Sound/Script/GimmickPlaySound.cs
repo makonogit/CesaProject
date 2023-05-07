@@ -36,6 +36,8 @@ public class GimmickPlaySound : MonoBehaviour
     //---------------------------------------------------------
     public void PlayerGimmickSE(GimmickSEList _list)
     {
+        list = _list;
+
         //@ˆø”‚Å‚à‚ç‚Á‚½î•ñ‚ğİ’è
         source.clip = se[(int)_list]._SE;
         source.volume = se[(int)_list].Volume;
@@ -54,6 +56,10 @@ public class GimmickPlaySound : MonoBehaviour
         source.Stop();
     }
 
+    public GimmickSEList NowSE()
+    {
+        return list;
+    }
 
 }
 
