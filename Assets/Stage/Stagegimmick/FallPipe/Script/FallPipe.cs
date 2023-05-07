@@ -54,6 +54,10 @@ public class FallPipe : MonoBehaviour
     private BreakUnionCrystal UnionLeft;
     private BreakUnionCrystal UnionRight;
 
+    private GameObject SEObj;               //SE再生用オブジェクト
+    private GimmickPlay_2 PlaySound;     //SE再生用スクリプト
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,6 +84,9 @@ public class FallPipe : MonoBehaviour
         // スクリプト取得
         UnionLeft = LeftUnionCrystal.GetComponent<BreakUnionCrystal>();
         UnionRight = RightUnionCrystal.GetComponent<BreakUnionCrystal>();
+
+        SEObj = GameObject.Find("BlockSE");
+        PlaySound = SEObj.GetComponent<GimmickPlay_2>();
     }
 
     // Update is called once per frame
@@ -187,6 +194,12 @@ public class FallPipe : MonoBehaviour
             // 動かなくする
             rigid2D.gravityScale = 0f;
             rigid2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            
+            if (!PlaySound.IsPlay())
+            {
+                PlaySound.PlayerGimmickSE(GimmickPlay_2.GimmickSE2List.PIPEFALL);
+            }
+
         }
     }
 
@@ -210,6 +223,7 @@ public class FallPipe : MonoBehaviour
 
         if (WaitFallTimer > WaitFallTime)
         {
+            OnThePipe = false;
             pipeStatus = PIPESTATUS.AllBroken;
         }
     }

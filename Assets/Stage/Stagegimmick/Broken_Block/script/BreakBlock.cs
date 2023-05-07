@@ -32,12 +32,12 @@ public class BreakBlock : MonoBehaviour
     private GameObject CrystalPoint;        //クリスタルが集まる座標
 
     private GameObject SEObj;               //SE再生用オブジェクト
-    private AudioSource PlaySound;     //SE再生用スクリプト
+    private GimmickPlay_2 PlaySound;     //SE再生用スクリプト
 
     private void Start()
     {
         SEObj = GameObject.Find("BlockSE");
-        PlaySound = SEObj.GetComponent<AudioSource>();
+        PlaySound = SEObj.GetComponent<GimmickPlay_2>();
 
         mat = GetComponent<SpriteRenderer>().material;
 
@@ -106,7 +106,14 @@ public class BreakBlock : MonoBehaviour
     
     public void Func_BreakBlock()
     {
-        PlaySound.Play();
+        if(tag == "Ice")
+        {
+            PlaySound.PlayerGimmickSE(GimmickPlay_2.GimmickSE2List.ICEBLOCK);
+        }
+        else
+        {
+            PlaySound.PlayerGimmickSE(GimmickPlay_2.GimmickSE2List.ROCKBLOCK);
+        }
         // 透明にする
         mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.0f);
         if (Crystal != null)

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6706696858420147823}
   - component: {fileID: 3319488887701674757}
+  - component: {fileID: 4057957821121703634}
   m_Layer: 0
   m_Name: BlockSE
   m_TagString: Untagged
@@ -128,3 +129,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4057957821121703634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5149840139670930394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a06f4f48249374a9f7a7f2137b1de5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list: 0
+  se:
+  - _SE: {fileID: 8300000, guid: d9e819b9eb8ab184cb4789715018f6fe, type: 3}
+    Volume: 0.5
+    Loop: 0
+  - _SE: {fileID: 8300000, guid: 0f91fdfea0cb5104698932f8f085902f, type: 3}
+    Volume: 0.5
+    Loop: 0
+  - _SE: {fileID: 8300000, guid: b41ea2dc0882ef04db4a5e8e872329cd, type: 3}
+    Volume: 0.5
+    Loop: 0
