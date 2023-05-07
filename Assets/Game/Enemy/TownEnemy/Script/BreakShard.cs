@@ -23,6 +23,8 @@ public class BreakShard : MonoBehaviour
         // 当たったのがGroundタグだったら
         if(collision.gameObject.tag == GroundTag)
         {
+            Debug.Log("あたった");
+
             // かけらオブジェクト（自身）を消す
             Destroy(this.gameObject);
         }

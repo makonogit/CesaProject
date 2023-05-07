@@ -64,6 +64,7 @@ public class TownBossMove : MonoBehaviour
     private float ShardThrowTimer = 0f; // かけらをとばしてからの経過時間
     private int ShardWaveNum = 0; // なんかいのウェーブがあるか
     private int NowShardWave = 0; // 今何ウェーブ目か
+    [Header("1ウェーブに何個飛ばすか(最大6個)"),SerializeField] private int CreateShardNum = 6;
     // 欠片生成時のエフェクト
     public GameObject ChargeEffect;
 
@@ -76,6 +77,7 @@ public class TownBossMove : MonoBehaviour
 
     //無敵
     [System.NonSerialized]public bool invincibility = false;
+    [System.NonSerialized] public bool Damaged = false;
     private GameObject Barrier; // バリアオブジェクト
     private Material BariMat;   // マテリアル
 
@@ -221,6 +223,7 @@ public class TownBossMove : MonoBehaviour
                 break;
         }
 
+        Debug.Log(invincibility);
         // バリア描画
         DrawBarrier();
     }
@@ -243,6 +246,7 @@ public class TownBossMove : MonoBehaviour
                 break;
         }
 
+        Damaged = false;
         invincibility = false;
     }
 
@@ -337,8 +341,11 @@ public class TownBossMove : MonoBehaviour
     private void RammingWait()
     {
         // 隙（ぴよってる）
-        // 無敵解除
-        invincibility = false;
+        if (Damaged == false)
+        {
+            // 無敵解除
+            invincibility = false;
+        }
 
         float vibTime = 1f;
         if(RammingWaitTimer == 0)
@@ -390,7 +397,7 @@ public class TownBossMove : MonoBehaviour
         if(ShardCreateTimer == 0)
         {
             // 角度degからラジアンを作成
-            var rad = (shardDeg + (CreatedNum % 6) * SpacingDeg) * Mathf.Deg2Rad;
+            var rad = (shardDeg + (CreatedNum % CreateShardNum) * SpacingDeg) * Mathf.Deg2Rad;
 
             // ラジアンを用いてsinとcosを求める
             var sin = Mathf.Sin(rad);
@@ -417,7 +424,7 @@ public class TownBossMove : MonoBehaviour
                 (sign *               // 符号（どちら向きに飛ばすのか）
                 (90f +                // 呼び出す欠片を飛ばす方向にむかせるための角度
                 SpacingDeg *          // 何度間隔で配置するのか
-                (CreatedNum % 6)))    // そのウェーブの中で何番目に生成されるモノか(1ウェーブ6個)
+                (CreatedNum % CreateShardNum)))    // そのウェーブの中で何番目に生成されるモノか(1ウェーブ6個)
                 , Vector3.forward);   // z軸回転させたい
 
             // 中心に集まってくるエフェクト生成
@@ -458,7 +465,7 @@ public class TownBossMove : MonoBehaviour
         }
 
         // かけらを作り終えたら
-        if (CreatedNum >= 6 + NowShardWave * 6)
+        if (CreatedNum >= CreateShardNum + NowShardWave * CreateShardNum)
         {
             // かけら飛ばしへ
             EnemyAI = AIState.ThrowShards;
@@ -471,14 +478,18 @@ public class TownBossMove : MonoBehaviour
     private void ThrowShards()
     {
         // かけら飛ばし
-        // 無敵解除
-        invincibility = false;
+
+        if (Damaged == false)
+        {
+            // 無敵解除
+            invincibility = false;
+        }
 
         // このAIStateになった最初のフレームのみ入る
         if (AllAddVelocity == false)
         {
             // リジッドボディのvelocityに対応した値を加算
-            for (int i = 0 + 6 * NowShardWave; i < CreatedNum; i++)
+            for (int i = 0 + CreateShardNum * NowShardWave; i < CreatedNum; i++)
             {
                 if (shardObj[i] != null)
                 {
@@ -636,6 +647,11 @@ public class TownBossMove : MonoBehaviour
 
     private void Walk()
     {
+        if(Damaged == true)
+        {
+            invincibility = true;
+        }
+
         // 指定時間横に歩く
         if(Direction == EnemyDirection.LEFT)
         {

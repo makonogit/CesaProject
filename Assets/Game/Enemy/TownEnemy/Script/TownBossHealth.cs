@@ -21,6 +21,10 @@ public class TownBossHealth : MonoBehaviour
     private GameObject Boss;
     private TownBossMove bossMove;
 
+    // SEŠÖŒW
+    private GameObject SE;
+    private PlayEnemySound enemySE; 
+
     private void Start()
     {
         // ƒ{ƒX’T‚·
@@ -31,6 +35,9 @@ public class TownBossHealth : MonoBehaviour
         BossHealth = MaxBossHealth;
         //BossHealth = 2;
         //BossHealth = 1;
+
+        SE = GameObject.Find("EnemySE");
+        enemySE = SE.GetComponent<PlayEnemySound>();
     }
 
     private void Update()
@@ -66,10 +73,16 @@ public class TownBossHealth : MonoBehaviour
                         {
                             // AI‚Ìó‘Ô‚ğ•Ï‰»
                             bossMove.EnemyAI = TownBossMove.AIState.Death; // Œ‚”jó‘Ô
+                            enemySE.KillBossSet();
+                        }
+                        else
+                        {
+                            // SE‚È‚ç‚·
+                            enemySE.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
                         }
 
                         // ˜A‘±”í’e‚ğ–h‚®‚½‚ßŸ‚Ìs“®‚Ü‚Å–³“G
-                        bossMove.invincibility = true;
+                        bossMove.Damaged = true;
                     }
                 }
             }
