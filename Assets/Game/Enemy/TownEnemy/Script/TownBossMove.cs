@@ -346,6 +346,11 @@ public class TownBossMove : MonoBehaviour
             // –³“G‰ğœ
             invincibility = false;
         }
+        else
+        {
+            // ƒ_ƒ[ƒW‚ğ‚­‚ç‚Á‚½‚ç–³“G
+            invincibility = true;
+        }
 
         float vibTime = 1f;
         if(RammingWaitTimer == 0)

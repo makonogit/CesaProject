@@ -11,7 +11,7 @@ public class HitCollider : MonoBehaviour
     private string playerTag = "Player"; // •¶š—ñEnemy‚ğ‚Â•Ï”
     private string BossEnemyTag = "BossEnemy";
 
-    public float NoDamageTime = 1.0f; //–³“GŠÔ
+    private float NoDamageTime = 1.5f; //–³“GŠÔ
     [SerializeField] float HitTime = 0.0f; // “G‚ÆÚG‚µ‚Ä‚¢‚éŠÔ
 
     [Header("“G‚É‚æ‚éƒ_ƒ[ƒW")]
