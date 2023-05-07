@@ -77,4 +77,25 @@ public class UpdateRespawn : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        // 当たったのがプレイヤーなら
+        if (collision.gameObject.tag == PlayerTag)
+        {
+            // 一度もリス設定していない
+            if (Used == false)
+            {
+                // 自身より先にあるリスポーン座標を設定していなければ
+                if (RespawnNumber > playerStatus.GetNowRespawnNum())
+                {
+                    // リスポーン設定
+                    playerStatus.SetRespawnNum(RespawnNumber);
+                    playerStatus.SetRespawn(RespawnPos);
+
+                    Used = true;
+                }
+            }
+        }
+    }
 }

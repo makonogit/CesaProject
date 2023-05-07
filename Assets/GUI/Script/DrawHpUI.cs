@@ -135,8 +135,12 @@ public class DrawHpUI : MonoBehaviour
             // HP減らす
             gameover.DecreaseHP(1f);
 
-            // 次のアニメーション対象設定
-            //img = objs[gameover.HP - 1].GetComponent<Image>();
+            // しんでないなら
+            if (gameover.HP != 0)
+            {
+                // 次のアニメーション対象設定
+                img = objs[gameover.HP - 1].GetComponent<Image>();
+            }
 
             // アニメーション終了
             isHPUIAnimation = false;
@@ -151,6 +155,17 @@ public class DrawHpUI : MonoBehaviour
     public void Set_HPAnim(bool _set)
     {
         isHPUIAnimation = _set;
+    }
+
+    public void InitImage()
+    {
+        // 死んだときに呼び出す
+        // HPの画像を最初の一枚目にする
+        for(int i = 0;i < gameover.maxHp; i++)
+        {
+            img = objs[i].GetComponent<Image>();
+            img.sprite = sprites[0];
+        }
     }
 }
 

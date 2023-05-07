@@ -19,8 +19,8 @@ public class PlayerStatas : MonoBehaviour
 
     [SerializeField] private bool HitStop = false; // ヒットストップ中か]
 
-    private int NowRespawnNumber = 0; // 最新のリスポーン地点の座標を持つオブジェクトの固有番号
-    private Vector3 PlayerRespawnPos; // プレイヤーの最新リスポーン座標を保持
+    [SerializeField]private int NowRespawnNumber = 0; // 最新のリスポーン地点の座標を持つオブジェクトの固有番号
+    [SerializeField]private Vector3 PlayerRespawnPos; // プレイヤーの最新リスポーン座標を保持
 
     public void SetRespawnNum(int _num)
     {

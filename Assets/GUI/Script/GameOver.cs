@@ -218,7 +218,9 @@ public class GameOver : MonoBehaviour
                         // ƒŠƒXƒ|[ƒ“
                         playerTransform.position = playerStatus.GetRespawn();
 
-                        //drawHpUI.NowHPAnimationNumber = 0;
+                        // HPUI‰Šú‰»
+                        drawHpUI.NowHPAnimationNumber = 0;
+                        drawHpUI.InitImage();
 
                         // HP‰ñ•œ
                         HP = maxHp;
