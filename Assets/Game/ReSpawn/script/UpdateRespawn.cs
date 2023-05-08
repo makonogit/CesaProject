@@ -21,6 +21,8 @@ public class UpdateRespawn : MonoBehaviour
 
     SetStage setstage = new SetStage();
 
+    private bool Init = false;
+
     // 外部取得
 
     private StageManager stageManager;
@@ -37,12 +39,18 @@ public class UpdateRespawn : MonoBehaviour
 
         // リスポーンさせる座標
         RespawnPos = Child.transform.position;
+    }
 
-
-        stageManager = GameObject.Find("StageData").GetComponent<StageManager>();
-        if(this.gameObject.name == "RespawnArea")
+    private void Update()
+    {
+        if(Init == false)
         {
-            RespawnPos = stageManager.GetInitPlayerPos(setstage.GetAreaNum(), setstage.GetStageNum());
+            // 初期リスポーン地点オブジェクトならステージデータのステージプレハブの初期位置を取得
+            stageManager = GameObject.Find("StageData").GetComponent<StageManager>();
+            if (this.gameObject.name == "RespawnArea")
+            {
+                RespawnPos = stageManager.GetInitPlayerPos(setstage.GetAreaNum(), setstage.GetStageNum());
+            }
         }
     }
 

@@ -38,12 +38,17 @@ public class HaveCrystal : MonoBehaviour
         if (collision.tag == CrystalTag)
         {
             Crystal = collision.GetComponent<CrystalNum>();
-            if (Crystal != null)
+            Debug.Log(Crystal.Get);
+
+            // 取得済みでないなら
+            if (Crystal.Get == false)
             {
                 // クリスタル所持数を増やす
                 status.SetCrystal(status.GetCrystal() + Crystal.crystalNum);
-                // アイテムとしてのクリスタルは消す
-                Destroy(collision.gameObject);
+                // 取得済みフラグ
+                collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
+                Crystal.Get = true;
             }
         }
     }

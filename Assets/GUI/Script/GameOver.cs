@@ -34,6 +34,11 @@ public class GameOver : MonoBehaviour
     private PlayerStatas playerStatus;
     private Fade fade;
 
+    // 二宮追加
+    private GameObject StageData;
+    private GameObject StagePrefab;
+    private RespawnObjManager _respawnObjManager;
+
     //―追加担当者：中川直登―//
     [SerializeField, Header("パーティクル")]
     private ParticleSystem _particle;
@@ -69,6 +74,9 @@ public class GameOver : MonoBehaviour
         _isGameOver = false;
         _nowTime = 0.0f;
         //--------------------------------------
+
+        StageData = GameObject.Find("StageData");
+
         //SceneChangeの取得
         _scene = GameObject.Find("SceneManager").GetComponent<SceneChange>();
         if (_scene == null) Debug.LogError("SceneChangeのコンポーネントを取得できませんでした。");
@@ -99,9 +107,12 @@ public class GameOver : MonoBehaviour
         drawHpUI = health.GetComponent<DrawHpUI>();
 
         // リスポーン関係
-        player = GameObject.Find("player");
-        playerTransform = player.GetComponent<Transform>();
-        playerStatus = player.GetComponent<PlayerStatas>();
+        playerTransform = GetComponent<Transform>();
+        playerStatus = GetComponent<PlayerStatas>();
+        StagePrefab = StageData.transform.GetChild(0).gameObject;
+        Debug.Log(StagePrefab);
+        _respawnObjManager = StagePrefab.GetComponent<RespawnObjManager>();
+        Debug.Log(_respawnObjManager);
 
         // フェード関係
         fade = GameObject.Find("SceneManager").GetComponent<Fade>();
@@ -221,6 +232,9 @@ public class GameOver : MonoBehaviour
                         // HPUI初期化
                         drawHpUI.NowHPAnimationNumber = 0;
                         drawHpUI.InitImage();
+
+                        // 巻き戻し処理
+                        _respawnObjManager.RespawnInit();
 
                         // HP回復
                         HP = maxHp;
