@@ -33,6 +33,7 @@ public class BossDefeat : MonoBehaviour
         {
             //　ひび生成
             GameObject obj = Instantiate(CoreCrack, CrackTrans);
+            obj.GetComponent<SpriteRenderer>().sortingOrder = 2;
             obj.transform.parent = CoreManager.transform;   // Coreオブジェクトの子オブジェクトにする
             statas.SetStageCrystal(1);
         }
