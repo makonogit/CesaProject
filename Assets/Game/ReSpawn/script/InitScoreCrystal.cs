@@ -43,9 +43,6 @@ public class InitScoreCrystal : MonoBehaviour
             // 順に子を取得、追加
             CrystalList.Add(cryObj);
 
-            //Debug.Log(CrystalList[i]._CrystalPos);
-            //Debug.Log(CrystalList[i]._CrystalObj);
-
         }
 
         // プレイヤー関係

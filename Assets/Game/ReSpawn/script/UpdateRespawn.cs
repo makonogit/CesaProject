@@ -50,6 +50,8 @@ public class UpdateRespawn : MonoBehaviour
             if (this.gameObject.name == "RespawnArea")
             {
                 RespawnPos = stageManager.GetInitPlayerPos(setstage.GetAreaNum(), setstage.GetStageNum());
+
+                //Debug.Log(RespawnPos);
             }
         }
     }
@@ -62,26 +64,29 @@ public class UpdateRespawn : MonoBehaviour
             // 一度もリス設定していない
             if(Used == false)
             {
-                // 自身より先にあるリスポーン座標を設定していなければ
-                if(RespawnNumber > playerStatus.GetNowRespawnNum())
+                if (playerStatus != null)
                 {
-                    // リスポーン設定
-                    playerStatus.SetRespawnNum(RespawnNumber);
-                    playerStatus.SetRespawn(RespawnPos);
+                    // 自身より先にあるリスポーン座標を設定していなければ
+                    if (RespawnNumber > playerStatus.GetNowRespawnNum())
+                    {
+                        // リスポーン設定
+                        playerStatus.SetRespawnNum(RespawnNumber);
+                        playerStatus.SetRespawn(RespawnPos);
 
-                    Debug.Log("リスポーン地点更新");
-                    Debug.Log(playerStatus.GetRespawn());
+                        //Debug.Log("リスポーン地点更新");
+                        Debug.Log(playerStatus.GetRespawn());
 
-                    Used = true;
-                }
-                else
-                {
-                    Debug.Log("先のリスポーン地点が設定されています");
+                        Used = true;
+                    }
+                    else
+                    {
+                        //Debug.Log("先のリスポーン地点が設定されています");
+                    }
                 }
             }
             else
             {
-                Debug.Log("使用済み");
+                //Debug.Log("使用済み");
             }
         }
     }

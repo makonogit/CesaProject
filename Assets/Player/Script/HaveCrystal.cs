@@ -38,7 +38,7 @@ public class HaveCrystal : MonoBehaviour
         if (collision.tag == CrystalTag)
         {
             Crystal = collision.GetComponent<CrystalNum>();
-            Debug.Log(Crystal.Get);
+            //Debug.Log(Crystal.Get);
 
             // éÊìæçœÇ›Ç≈Ç»Ç¢Ç»ÇÁ
             if (Crystal.Get == false)

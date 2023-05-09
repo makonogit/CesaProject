@@ -29,7 +29,6 @@ public class GameOver : MonoBehaviour
     private bool hell = false; // 奈落
     private bool death = false; // 死亡
 
-    private GameObject player;
     private Transform playerTransform;
     private PlayerStatas playerStatus;
     private Fade fade;
@@ -110,9 +109,9 @@ public class GameOver : MonoBehaviour
         playerTransform = GetComponent<Transform>();
         playerStatus = GetComponent<PlayerStatas>();
         StagePrefab = StageData.transform.GetChild(0).gameObject;
-        Debug.Log(StagePrefab);
+        //Debug.Log(StagePrefab);
         _respawnObjManager = StagePrefab.GetComponent<RespawnObjManager>();
-        Debug.Log(_respawnObjManager);
+        //Debug.Log(_respawnObjManager);
 
         // フェード関係
         fade = GameObject.Find("SceneManager").GetComponent<Fade>();
@@ -227,7 +226,11 @@ public class GameOver : MonoBehaviour
                     if(OutInTimer == 0f)
                     {
                         // リスポーン
+                        //Debug.Log("リスポーン");
+                        //Debug.Log(playerStatus.GetRespawn());
                         playerTransform.position = playerStatus.GetRespawn();
+                        // 落下速度があがりすぎて床を貫通しないようにするため
+                        _playerJump.FallTime = 0f;
 
                         // HPUI初期化
                         drawHpUI.NowHPAnimationNumber = 0;
