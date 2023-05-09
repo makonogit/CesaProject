@@ -104,7 +104,7 @@ public class CameraControl2 : MonoBehaviour
         // Ç–Ç—ÇÃà⁄ìÆíÜÇÕÉJÉÅÉâÇÃí«è]Çä…Ç‚Ç©Ç…Ç∑ÇÈ
         if (_AutoMove.movestate == CrackAutoMove.MoveState.CrackMove)
         {
-            transform.position = Vector3.Lerp(transform.position, NowPos, 2.0f * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, NowPos, 1.0f * Time.deltaTime);
         }
         else
         {
@@ -174,7 +174,7 @@ public class CameraControl2 : MonoBehaviour
 
         if (_AutoMove.movestate == CrackAutoMove.MoveState.CrackMove)
         {
-            transform.position = Vector3.Lerp(transform.position, NowPos, 2.0f * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, NowPos, 1.0f * Time.deltaTime);
         }
         else
         {
