@@ -19,6 +19,9 @@ public class DesertBossMove : MonoBehaviour
     [SerializeField, Header("ピラミッドの数")]
     private int PyramidNum;
 
+    [SerializeField, Header("ピラミッドの生成位置オブジェクト")]
+    private List<Transform> PyramidPos;
+
     private GameObject[] Pyramid_parent;  // ピラミッド生成親オブジェクト
 
     private int CoreNum;            // コアの番号
@@ -96,6 +99,19 @@ public class DesertBossMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 生成中ピラミッドが存在しているか
+        if(PyramidPos[0].childCount > 0 && PyramidPos[1].childCount > 0 && PyramidPos[2].childCount > 0)
+        {
+            //　あれば生成中か取得
+            bool Pyramid1 = PyramidPos[0].GetChild(0).GetComponent<PyramidData>().MoveFlg;
+            bool Pyramid2 = PyramidPos[1].GetChild(0).GetComponent<PyramidData>().MoveFlg;
+            bool Pyramid3 = PyramidPos[2].GetChild(0).GetComponent<PyramidData>().MoveFlg;
+
+            //　全て生成中だったら攻撃アニメーションにする
+            anim.SetBool("Attack", Pyramid1 && Pyramid2 && Pyramid3);
+        }
+
+
         if (BossState == DesertBossState.IDLE)
         {
             if (PyramidList.transform.childCount == PyramidNum)
@@ -148,7 +164,7 @@ public class DesertBossMove : MonoBehaviour
                 Pyramid_parent[0].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
                 Pyramid_parent[1].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
                 Pyramid_parent[2].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
             else
             {
@@ -156,9 +172,6 @@ public class DesertBossMove : MonoBehaviour
             }
 
         }
-
-        //anim.SetBool("Attack", BossState == DesertBossState.ATTACK);   //攻撃アニメーションに入る
-
     }
 
     //------------------------------------

@@ -36,7 +36,7 @@ public class PyramidData : MonoBehaviour
     public bool Clean = false;     // 片付けるフラグ
     
     private bool HitTrigger = false;    // 1回あたり判定
-    private bool MoveFlg = false;   // 移動中かどうか
+    public bool MoveFlg = false;   // 移動中かどうか
     [SerializeField]
     private float Ypos;     // Y座標
 
@@ -56,7 +56,7 @@ public class PyramidData : MonoBehaviour
         PyramidList = GameObject.Find("PyramidList"); // ピラミッド管理オブジェクトの取得
 
         Ypos = transform.localPosition.y;
-       
+
     }
 
     // Update is called once per frame
@@ -66,8 +66,7 @@ public class PyramidData : MonoBehaviour
         // 移動中
         if (MoveFlg)
         {
-            Ypos += MoveSpeed * Time.deltaTime;
-           
+            Ypos += MoveSpeed * Time.deltaTime;  
         }
 
         //---------------------
