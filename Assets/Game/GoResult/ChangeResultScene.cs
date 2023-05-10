@@ -63,41 +63,44 @@ public class ChangeResultScene : MonoBehaviour
     {
         
 
-        if (!Firstcheck)
+        if (Firstcheck)
         {
-            Stagestatus = Stage.transform.GetChild(0).GetComponent<StageStatas>();
 
-            if (GameObject.Find("BossEnemy")) {
-                BossStage = true;
-            }
-            Firstcheck = true;
-        }
-
-        // ボスステージ用
-        if (BossStage)
-        {
-            //ボスが見つからなくなったら
-            if (GameObject.Find("BossEnemy").transform.childCount == 0)
+            // ボスステージ用
+            if (BossStage)
             {
-                //コアを破壊してリザルト
-                if (Stagestatus.GetStageCrystal() == 0 && WaitFlame > 0.2f)
+                //ボスが見つからなくなったら
+                if (GameObject.Find("BossEnemy").transform.childCount == 0)
                 {
+                    //コアを破壊してリザルト
+                    if (Stagestatus.GetStageCrystal() == 0 && WaitFlame > 0.2f)
+                    {
+                        Result();
+                    }
+                    //zoomしてしまうので待機
+                    WaitFlame += Time.deltaTime;
 
+                }
+
+            }
+            else
+            {
+                // 全てクリスタルを壊したらリザルト画面に移動
+                if (Stagestatus.GetStageCrystal() == 0)
+                {
                     Result();
                 }
-                //zoomしてしまうので待機
-                WaitFlame += Time.deltaTime;
-
             }
-
         }
         else
         {
-            // 全てクリスタルを壊したらリザルト画面に移動
-            if (Stagestatus.GetStageCrystal() == 0)
+            Stagestatus = Stage.transform.GetChild(0).GetComponent<StageStatas>();
+
+            if (GameObject.Find("BossEnemy"))
             {
-                Result();
+                BossStage = true;
             }
+            Firstcheck = true;
         }
     }
 
