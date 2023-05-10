@@ -47,6 +47,7 @@ public class Hammer : MonoBehaviour
     private bool AddPowerFlg = false;
 
     public List<Vector2> CrackPointList;       //ひびのリスト
+    private List<Vector2> BranchCrackList = new List<Vector2>();     //分岐用
 
     //状態管理
     public enum HammerState
@@ -64,8 +65,9 @@ public class Hammer : MonoBehaviour
     public GameObject _crackCreaterObj;
     [System.NonSerialized]
     public GameObject NewCrackObj;  //新しいヒビのオブジェクト
+   
     CrackCreater _creater;
-
+   
     private bool _isStartHaloAnimation;// エフェクト開始フラグ
     private haloEffect _haloEffect;// エフェクト
     //――――――――――――//
@@ -101,11 +103,13 @@ public class Hammer : MonoBehaviour
         // ひびのポイントに自分の座標を指定
         CrackPointList.Add(transform.position);
         CrackPointList.Add(Vector2.zero);       //Listの1番目を確保
+        BranchCrackList.Add(transform.position);
+        BranchCrackList.Add(Vector2.zero);
 
         //--------------------------------------------
         //CrackCreaterを取得  //―追加担当者：中川直登―//
         _creater = _crackCreaterObj.GetComponent<CrackCreater>();
-
+      
         // 移動スクリプトを取得する
         Move = GetComponent<PlayerMove>();
         crackmove = GetComponent<CrackAutoMove>();
@@ -140,7 +144,7 @@ public class Hammer : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-         //　ひびの始点を常に自分の座標に指定
+        //　ひびの始点を常に自分の座標に指定
         CrackPointList[0] = transform.position;
 
         if (crackmove.movestate == CrackAutoMove.MoveState.Walk)
@@ -234,7 +238,7 @@ public class Hammer : MonoBehaviour
                             }
 
                             //　角度を45度ずつで管理
-                            angle = (((int)angle / 20)) * 20.0f;
+                            //angle = (((int)angle / 20)) * 20.0f;
 
                         }
                         else
@@ -346,7 +350,7 @@ public class Hammer : MonoBehaviour
                             }
 
                             //　角度を45度ずつで管理
-                            angle = (((int)angle / 20)) * 20.0f;
+                            //angle = (((int)angle / 20)) * 20.0f;
 
                         }
                         else
@@ -502,6 +506,9 @@ public class Hammer : MonoBehaviour
                 playerStatus.SetHitStop(false);
             }
 
+            //Debug.Log(NewCrackObj.GetComponent<CrackCreater>().GetState());
+
+
             // アニメーション関係
 
             // ためアニメーション
@@ -513,10 +520,10 @@ public class Hammer : MonoBehaviour
 
         }
         //Debug.Log(hammerstate);
-
         //----------------------------------------
         //　生成終了したら移動解除
     }
+
 
 
     //-----------------------------------------------------------------
@@ -525,11 +532,13 @@ public class Hammer : MonoBehaviour
     {
         // ネイル座標リストを渡す
         _creater.SetPointList(CrackPointList);
+        
         // CrackCreaterを作る
         NewCrackObj = Instantiate(_crackCreaterObj);
 
         // CrackManagerの子オブジェクトにする
         NewCrackObj.transform.parent = CrackManager.transform;
+        //Destroy(obj.GetComponent<EdgeCollider2D>());
 
         // ネイル座標リストを初期化
         for (int i = 1; i < 2; i++)
@@ -571,6 +580,72 @@ public class Hammer : MonoBehaviour
             _haloEffect.End();
             _isStartHaloAnimation = false;
         }
+    }
+
+    //----------------------
+    //　分岐の生成関数
+    //　担当:菅眞心
+    public int CreateBranch(GameObject _Branchobj, GameObject creater, CrackCreater _crackCreater, int StartBranch)
+    {
+        int OldBranchNum = 0;
+        int RandomBranch = 0;
+        //　生成する数をランダムで設定
+        int[] RandomCreate = new int[Random.Range(1, 3)];
+
+        for (int i = 0; i < RandomCreate.Length;i++)
+        {
+            RandomCreate[i] = Random.Range(1, 3);   //生成する向きを決める　1:右　2:左
+
+            //--------------------------------------
+            //　分岐用Listを設定、生成
+            if (RandomCreate[i] == 1)
+            {
+                //右側
+                {
+                    while (RandomBranch == OldBranchNum)
+                    {
+                        RandomBranch = Random.Range(StartBranch, creater.transform.childCount - 1);
+                    }
+                    OldBranchNum = RandomBranch;
+                    BranchCrackList[0] = new Vector2(creater.transform.GetChild(RandomBranch).gameObject.transform.position.x,
+                        creater.transform.GetChild(RandomBranch).gameObject.transform.position.y);
+
+                    //Debug.Log();
+
+                    BranchCrackList[1] =
+                    new Vector2(BranchCrackList[0].x + ((CrackLength / 2) * Mathf.Cos(Random.Range(angle + 40.0f, angle + 90.0f) * (Mathf.PI / 180))),
+                    BranchCrackList[0].y + ((CrackLength / 2) * Mathf.Sin(Random.Range(angle + 40.0f, angle + 90.0f) * (Mathf.PI / 180))));
+
+                    _crackCreater.SetPointList(BranchCrackList);
+                    GameObject obj = Instantiate(_Branchobj);
+                    obj.transform.parent = creater.transform;
+                   
+                }
+            }
+            if (RandomCreate[i] == 2)
+            {
+                //左側
+                {
+                    while (RandomBranch == OldBranchNum)
+                    {
+                        RandomBranch = Random.Range(StartBranch, creater.transform.childCount - 1);
+                    }
+                    OldBranchNum = RandomBranch;
+                    BranchCrackList[0] = new Vector2(creater.transform.GetChild(RandomBranch).gameObject.transform.position.x,
+                        creater.transform.GetChild(RandomBranch).gameObject.transform.position.y);
+                    BranchCrackList[1] =
+                    new Vector2(BranchCrackList[0].x + ((CrackLength / 2) * Mathf.Cos(Random.Range(angle - 90.0f, angle - 40.0f) * (Mathf.PI / 180))),
+                    BranchCrackList[0].y + ((CrackLength / 2) * Mathf.Sin(Random.Range(angle - 90.0f, angle - 40.0f) * (Mathf.PI / 180))));
+
+                    _crackCreater.SetPointList(BranchCrackList);
+                    GameObject obj = Instantiate(_Branchobj);
+                    obj.transform.parent = creater.transform;
+
+                }
+            }
+        }
+
+        return StartBranch = creater.transform.childCount - 1; //　末尾の要素を返却
     }
 
 }
