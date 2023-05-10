@@ -27,6 +27,9 @@ public class PlayerJump : MonoBehaviour
     public float FallTime = 0.0f; // 落ち始めてからの時間
     public int RayNum; // 当たっているレイの本数
 
+    // ブロックの上にいる状態でのFallTime増加を防ぐ
+    private float oldPosY; // 前フレームのY座標
+
     // 外部取得
     private GameObject PlayerInputManager; // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager; // PlayerInputManagerを取得する変数
@@ -244,9 +247,12 @@ public class PlayerJump : MonoBehaviour
                     // 自由落下、落下状態の時間が経てばたつほど落下速度上昇
                     ySpeed = -Gravity - (axel * FallTime);
 
-                    //----------------------------------------------------------------------------------------------------------
-                    // 落下状態での経過時間を加算
-                    FallTime += Time.deltaTime;
+                    if (thisTransform.position.y != oldPosY)
+                    {
+                        //----------------------------------------------------------------------------------------------------------
+                        // 落下状態での経過時間を加算
+                        FallTime += Time.deltaTime;
+                    }
                 }
             }
             else
@@ -300,6 +306,9 @@ public class PlayerJump : MonoBehaviour
             // その場でストップさせる
             thisRigidbody2d.velocity = new Vector2(0, 0);
         }
+
+        // 前フレームのy座標として保持
+        oldPosY = thisTransform.position.y;
     }
 
     //　セレクト画面で選択しているか判断する関数
