@@ -23,6 +23,15 @@ public class ChangeResultScene : MonoBehaviour
     public bool BossStage = false; // ボスステージ用
     public float WaitFlame = 0.0f;
 
+    [SerializeField,Header("プレイヤー")]
+    private GameObject Player;
+
+    // クリア時に停止するプレイヤーのコンポーネント
+    private PlayerJump jump;
+    private PlayerMove move;
+    private Hammer hammer;
+    private CrackAutoMove crackmove;
+
     //----追加者：中川直登----
     private Clear clear;// クリアしたかどうかをセレクトに持っていく
     //------------------------
@@ -40,6 +49,13 @@ public class ChangeResultScene : MonoBehaviour
         //----追加者：中川直登----
         clear = new Clear();
         //------------------------
+
+        // プレイヤーを動かすコンポーネントの取得
+        jump = Player.GetComponent<PlayerJump>();
+        move = Player.GetComponent<PlayerMove>();
+        hammer = Player.GetComponent<Hammer>();
+        crackmove = Player.GetComponent<CrackAutoMove>();
+
     }
 
     // Update is called once per frame
@@ -66,6 +82,7 @@ public class ChangeResultScene : MonoBehaviour
                 //コアを破壊してリザルト
                 if (Stagestatus.GetStageCrystal() == 0 && WaitFlame > 0.2f)
                 {
+
                     Result();
                 }
                 //zoomしてしまうので待機
@@ -89,7 +106,11 @@ public class ChangeResultScene : MonoBehaviour
         var gamepad = Gamepad.current;
         GameObject stage = GameObject.Find("StageData").transform.GetChild(0).gameObject;
         CameraZoom zoom = stage.GetComponent<CameraZoom>();
-        GameObject.Find("player").GetComponent<PlayerMove>().SetMovement(false);
+        move.SetMovement(false);
+        jump.enabled = false;
+        crackmove.enabled = false;
+        hammer.enabled = false;
+
         //playerStatus.AddBreakCrystal();
         //演出開始
         //result.SetFadeFlg(true);
