@@ -42,7 +42,8 @@ public class WindCrystal : MonoBehaviour
     PlayerJump Jump;
     Rigidbody2D rigid;
 
-    int LayerMask;    // LayerMask
+    // Ray関連
+    [SerializeField] private LayerMask rayLayer;// Rayのレンダー
 
     //----------------------------------
     // 発生させる風関連
@@ -77,7 +78,6 @@ public class WindCrystal : MonoBehaviour
         Jump = player.GetComponent<PlayerJump>();
         rigid = player.GetComponent<Rigidbody2D>();
 
-        LayerMask = 1 << 12;    //プレイヤーとだけ判定
     }
 
     //==================================
@@ -153,28 +153,47 @@ public class WindCrystal : MonoBehaviour
         // 風に当たっているかを判定するRay
         RaycastHit2D raycastHit = Physics2D.BoxCast(
             transform.position,
-            new Vector2(1.0f, rise),
+            new Vector2(1.0f, rise - 1.0f),
             0.0f,
             Vector2.up,
-            0.0f
-            //LayerMask
+            0.0f,
+            rayLayer
             );
 
-        // 無重力状態を判定するRay
+        // 無重力状態にするかを判定するRay
         RaycastHit2D raycastHit01 = Physics2D.BoxCast(
            transform.position,
-           new Vector2(1.0f, rise - 1.0f),
+           new Vector2(1.0f, rise),
            0.0f,
            Vector2.up,
-           0.0f
-           //LayerMask
+           0.0f,
+           rayLayer
+           );
+
+        // 重力をONにするか判定するRay
+        RaycastHit2D raycastHit02 = Physics2D.BoxCast(
+           transform.position + new Vector3(1.0f,0.0f,0.0f),
+           new Vector2(1.0f, rise + 1.0f),
+           0.0f,
+           Vector2.up,
+           0.0f,
+           rayLayer
+           );
+
+        RaycastHit2D raycastHit03 = Physics2D.BoxCast(
+           transform.position - new Vector3(1.0f, 0.0f, 0.0f),
+           new Vector2(1.0f, rise + 1.0f),
+           0.0f,
+           Vector2.up,
+           0.0f,
+           rayLayer
            );
 
         //--------------------------------------------------------
         // 風で上昇する処理
         //--------------------------------------------------------
 
-        if (raycastHit01.collider.tag == "Player")
+        if (raycastHit.collider.tag == "Player")
         {
             player = raycastHit.collider.gameObject;
 
@@ -187,28 +206,22 @@ public class WindCrystal : MonoBehaviour
         // 重力をOFFにする処理
         //--------------------------------------------------------
 
-        if (raycastHit.collider.tag == "Player")
+        if (raycastHit01.collider.tag == "Player")
         {
             // OFF
-            //PlayerJump playerJump;
-            //playerJump = raycastHit.collider.gameObject.GetComponent<PlayerJump>();
             Jump.enabled = false;
-
-            //Rigidbody2D rb;
-            //rb = raycastHit.collider.gameObject.GetComponent<Rigidbody2D>();
             rigid.isKinematic = true;
         }
-        else
+
+        //--------------------------------------------------------
+        // 重力をONにする処理
+        //--------------------------------------------------------
+
+        if ((raycastHit02)||(raycastHit03))
         {
             // ON
-            //PlayerJump playerJump;
-            //playerJump = player.GetComponent<PlayerJump>();
             Jump.enabled = true;
-
-            //Rigidbody2D rb;
-            //rb = player.GetComponent<Rigidbody2D>();
             rigid.isKinematic = false;
         }
-       
     }
 }

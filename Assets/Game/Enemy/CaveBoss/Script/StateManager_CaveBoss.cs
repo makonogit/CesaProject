@@ -14,11 +14,6 @@ public class StateManager_CaveBoss : MonoBehaviour
     //=====================================
 
     //-------------------------------------
-    // *** Ray関連 ***
-
-    [SerializeField] private LayerMask rayLayer;// Rayのレンダー
-
-    //-------------------------------------
     // *** 行動制御関連 ***
 
     enum MainStateID   // メイン状態ID
@@ -26,6 +21,7 @@ public class StateManager_CaveBoss : MonoBehaviour
         NULL,          // 状態なし
         MOVE,          // 移動状態
         ATTACK,        // 攻撃状態
+        DEATH,         // 戦闘不能
     }
     MainStateID oldMainState = MainStateID.NULL; // 前の状態
     MainStateID nowMainState = MainStateID.MOVE; // 現在の状態
@@ -37,15 +33,33 @@ public class StateManager_CaveBoss : MonoBehaviour
         ENEMY_DROP,   // 敵を降らせる
         GRIP_PLAYER   // プレイヤーを捕まえる
     }
-    AttackStateID oldAttackState = AttackStateID.NULL;       // 前の状態
-    AttackStateID nowAttackState = AttackStateID.GRIP_PLAYER;// 現在の状態
-    AttackStateID nextAttackState = AttackStateID.NULL;      // 次の状態
+    AttackStateID oldAttackState = AttackStateID.NULL;  // 前の状態
+    AttackStateID nowAttackState = AttackStateID.NULL;  // 現在の状態
+    AttackStateID nextAttackState = AttackStateID.NULL; // 次の状態
 
     //-------------------------------------
     // *** 行動決定関連 ***
 
     int mainStateDelay;                  // 行動間の間隔
     bool isEndState;                     // 行動終了フラグ
+
+    // マテリアル関連
+    SpriteRenderer sr;// 色
+
+    // ステータス関連
+    int hp = 3;// 体力
+
+    //=====================================
+    // *** 初期化 ***
+    //=====================================
+
+    void Start()
+    {
+        nowMainState = MainStateID.MOVE;
+
+        // マテリアル関連
+        SpriteRenderer sr;// 色
+    }
 
     //=====================================
     // *** 更新処理 ***
@@ -73,6 +87,10 @@ public class StateManager_CaveBoss : MonoBehaviour
             // 攻撃状態
             case MainStateID.ATTACK:
                 Attack();
+                break;
+            // 戦闘不能
+            case MainStateID.DEATH:
+                Death();
                 break;
         }
     }
@@ -149,6 +167,48 @@ public class StateManager_CaveBoss : MonoBehaviour
             }
 
             mainStateDelay = 0;
+        }
+    }
+
+    //============================================================
+    // *** 衝突判定 ***
+    //============================================================
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        //--------------------------------------------------------
+        // ひびとぶつかったら戦闘不能状態に遷移
+        //--------------------------------------------------------
+
+        if (collision.gameObject.tag == "Crack")
+        {
+            hp--;
+
+            if(hp <= 0)
+            {
+                nextMainState = MainStateID.DEATH;
+
+            }
+
+        }
+
+    }
+
+    //===========================================
+    // *** 戦闘不能状態の処理 ***
+    //===========================================
+
+    void Death()
+    {
+        //-------------------------------------------------------------------
+        // 徐々に透明にする。完全に透明になったらこのオブジェクトを破棄する
+        //-------------------------------------------------------------------
+
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a - 0.005f);
+
+        if (sr.color.a < 0.0f)
+        {
+            Destroy(gameObject);
         }
     }
 }

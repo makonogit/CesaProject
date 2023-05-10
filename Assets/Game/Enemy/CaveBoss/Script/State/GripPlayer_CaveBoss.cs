@@ -38,7 +38,7 @@ public class GripPlayer_CaveBoss : MonoBehaviour
     //-------------------------------------
     // *** 攻撃関連 ***
 
-   
+    [Header("右手")]
     public GameObject rightHand;// 右手
     [Header("左手")]
     public GameObject leftHand; // 左手
@@ -214,10 +214,14 @@ public class GripPlayer_CaveBoss : MonoBehaviour
         //--------------------------------------------------
         // *** プレイヤーを捕まえたかをRayで判定 ***
 
-        if ((objPlayer.transform.position.x < position_L.x)||(objPlayer.transform.position.x > position_R.x))
+        if ((objPlayer.transform.position.x < position_L.x + 1.0f) || (objPlayer.transform.position.x > position_R.x + 1.0f))
         {
-            foreach (RaycastHit2D hit_view in Physics2D.RaycastAll(leftHand.transform.position, Vector2.left, position_L.x - position_R.x))
+
+            nextGripPlayerState = GripPlayerStateID.RETURN;
+
+            foreach (RaycastHit2D hit_view in Physics2D.RaycastAll(leftHand.transform.position, Vector2.right, 2.0f))
             {
+             
                 if (hit_view)
                 {
                     //---------------------------------------------
@@ -228,15 +232,13 @@ public class GripPlayer_CaveBoss : MonoBehaviour
                         nextGripPlayerState = GripPlayerStateID.GRIP;
                     }
                 }
-                else
-                {
-                    //---------------------------------------------
-                    // 捕まえられなかったらRETURN状態にする
-
-                    nextGripPlayerState = GripPlayerStateID.RETURN;
-                }
+               
             }
         }
+          
+        
+
+
     }
 
     //=====================================
@@ -245,6 +247,8 @@ public class GripPlayer_CaveBoss : MonoBehaviour
 
     void Grip()
     {
+        
+
         //---------------------------------
         // *** プレイヤーを捕まえる ***
 
@@ -280,6 +284,7 @@ public class GripPlayer_CaveBoss : MonoBehaviour
 
     void Return()
     {
+       
         //---------------------------------------
         // *** 手を元の座標に移動 ***
 
