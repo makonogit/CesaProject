@@ -15494,15 +15494,15 @@ Tilemap:
       e33: 1
   m_TileColorArray:
   - m_RefCount: 20
-    m_Data: {r: 0.9907191, g: 0.5906598, b: 0.6221064, a: 1}
+    m_Data: {r: 0.9577701, g: 0.62082946, b: 0.7116376, a: 1}
   - m_RefCount: 1284
     m_Data: {r: 0.20000002, g: 0.20000002, b: 0.20000002, a: 1}
   - m_RefCount: 0
-    m_Data: {r: 1.15075e-40, g: 1.15075e-40, b: 1.15075e-40, a: 1.15075e-40}
+    m_Data: {r: 1.02438e-40, g: 1.02438e-40, b: 1.02438e-40, a: 1.02438e-40}
   - m_RefCount: 86
-    m_Data: {r: 0.96933186, g: 0.45942172, b: 0.4671024, a: 1}
+    m_Data: {r: 0.89809465, g: 0.4282955, b: 0.4845692, a: 1}
   - m_RefCount: 0
-    m_Data: {r: 1.15075e-40, g: 1.15075e-40, b: 1.15075e-40, a: 1.15075e-40}
+    m_Data: {r: 1.02438e-40, g: 1.02438e-40, b: 1.02438e-40, a: 1.02438e-40}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -18035,6 +18035,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoreCrack (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3402843919605688538, guid: 047ca8f9dcb14e445be8c4c239cdc5b7, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6372227915882059934, guid: 047ca8f9dcb14e445be8c4c239cdc5b7, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -18564,7 +18568,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 511840065409563812, guid: 2c717524cf12bd849899433b3c3d297d, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 511840065409563813, guid: 2c717524cf12bd849899433b3c3d297d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 511840065409563815, guid: 2c717524cf12bd849899433b3c3d297d, type: 3}
       propertyPath: m_Size.x
@@ -44937,6 +44945,159 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 511840065229284468, guid: 2c717524cf12bd849899433b3c3d297d, type: 3}
   m_PrefabInstance: {fileID: 5032155647328894679}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4814248176771859060 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 511840065409563811, guid: 2c717524cf12bd849899433b3c3d297d, type: 3}
+  m_PrefabInstance: {fileID: 5032155647328894679}
+  m_PrefabAsset: {fileID: 0}
+--- !u!68 &1466935758763478871
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4814248176771859060}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 68.5, y: -6}
+  - {x: 68.5, y: -2.5}
+  - {x: 75.8, y: -2.5}
+  - {x: 75.8, y: 2.3}
+  - {x: 77.9, y: 2.3}
+  - {x: 77.9, y: -1.3}
+  - {x: 79.2, y: -1.3}
+  - {x: 79.2, y: -2.3}
+  - {x: 77.9, y: -2.3}
+  - {x: 77.9, y: -6}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
+--- !u!68 &5540992178750093468
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4814248176771859060}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 61.2, y: 1.3}
+  - {x: 61.2, y: 2.3}
+  - {x: 70.9, y: 2.3}
+  - {x: 70.9, y: 4.6}
+  - {x: 74.3, y: 4.6}
+  - {x: 74.3, y: 0.2}
+  - {x: 70.9, y: 0.2}
+  - {x: 70.9, y: 1.3}
+  - {x: 65.9, y: 1.3}
+  - {x: 65.9, y: 0}
+  - {x: 64.9, y: 0}
+  - {x: 64.9, y: 1.3}
+  - {x: 61.2, y: 1.3}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
+--- !u!68 &7755325844083357966
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4814248176771859060}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 64.8, y: -3.6}
+  - {x: 64.8, y: -2.4}
+  - {x: 66, y: -2.4}
+  - {x: 66, y: -3.6}
+  - {x: 64.8, y: -3.6}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
+--- !u!68 &8578408710010897518
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4814248176771859060}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 62.3, y: -6}
+  - {x: 62.3, y: -2.5}
+  - {x: 56.3, y: -2.5}
+  - {x: 56.3, y: 2.3}
+  - {x: 52.9, y: 2.3}
+  - {x: 52.9, y: -2.5}
+  - {x: 32.3, y: -2.5}
+  - {x: 32.3, y: 3.5}
+  - {x: 28.8, y: 3.5}
+  - {x: 28.8, y: -1.3}
+  - {x: 22.6, y: -1.3}
+  - {x: 22.6, y: 3.5}
+  - {x: 21.7, y: 3.5}
+  - {x: 21.7, y: -2.5}
+  - {x: -0.1, y: -2.5}
+  - {x: -0.1, y: 1.1}
+  - {x: -8.6, y: 1.1}
+  - {x: -8.6, y: 19}
+  - {x: 14.5, y: 19}
+  - {x: 14.5, y: 2.5}
+  - {x: 15.6, y: 2.5}
+  - {x: 15.6, y: 19}
+  - {x: 38.5, y: 19}
+  - {x: 38.5, y: 1.2}
+  - {x: 41, y: 1.2}
+  - {x: 41, y: 19}
+  - {x: 46.9, y: 19}
+  - {x: 46.9, y: 1.2}
+  - {x: 49.2, y: 1.2}
+  - {x: 49.2, y: 19}
+  - {x: 80.5, y: 19}
+  - {x: 80.5, y: 1.2}
+  - {x: 85.1, y: 1.2}
+  - {x: 85.1, y: 2.3}
+  - {x: 81.5, y: 2.3}
+  - {x: 81.5, y: 19}
+  - {x: 87.8, y: 19}
+  - {x: 87.8, y: -2.5}
+  - {x: 84, y: -2.5}
+  - {x: 84, y: -6}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1001 &5274562853394459426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45996,6 +46157,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoreCrack (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3402843919605688538, guid: 047ca8f9dcb14e445be8c4c239cdc5b7, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6372227915882059934, guid: 047ca8f9dcb14e445be8c4c239cdc5b7, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -47012,6 +47177,10 @@ PrefabInstance:
     - target: {fileID: 302166250277015689, guid: 047ca8f9dcb14e445be8c4c239cdc5b7, type: 3}
       propertyPath: m_Name
       value: CoreCrack
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402843919605688538, guid: 047ca8f9dcb14e445be8c4c239cdc5b7, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6372227915882059934, guid: 047ca8f9dcb14e445be8c4c239cdc5b7, type: 3}
       propertyPath: m_RootOrder
