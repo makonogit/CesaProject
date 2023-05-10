@@ -35,8 +35,10 @@ public class CameraZoom : MonoBehaviour
     private ChangeResultScene resultScene;
 
     private bool First = false;
-
+  
     public bool ZoomEnd = false;
+
+    private float Wait = 0.0f;
 
     // ステージ破壊演出関係変数
     private GameObject lastCameraTarget;
@@ -66,43 +68,50 @@ public class CameraZoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //　全て破壊されたら
-        if (((!resultScene.BossStage || (resultScene.BossStage && GameObject.Find("BossEnemy").transform.childCount == 0 && resultScene.WaitFlame > 0.2f)))
-            && stagestatas.GetStageCrystal() == 0)
+      
+        if (Wait > 0.5f)
         {
-            // 演出開始させていなければ
-            if(SetBreak == false)
+            //　全て破壊されたら
+            if (((!resultScene.BossStage || (resultScene.BossStage && GameObject.Find("BossEnemy").transform.childCount == 0 && resultScene.WaitFlame > 0.2f)))
+                && stagestatas.GetStageCrystal() == 0)
             {
-                Debug.Log("背景クリスタル破壊開始");
-                // 破壊演出開始
-                breakstage.StartBreak();
-
-                // フラグ
-                SetBreak = true;
-            }
-
-            if (breakstage.GetBreakStage() == true)
-            {
-                Debug.Log("zoom");
-                // ズーム後のカメラ描画サイズになるまで徐々にズームインしていく
-                if (NowCameraSize > ZoomCameraSize)
+                // 演出開始させていなければ
+                if (SetBreak == false)
                 {
-                    // 描画サイズ計算
-                    NowCameraSize -= ChangeVolume * Time.deltaTime;
-                }
-                else
-                {
-                    NowCameraSize = ZoomCameraSize;
-                    ZoomEnd = true;
+                    Debug.Log("背景クリスタル破壊開始");
+                    // 破壊演出開始
+                    breakstage.StartBreak();
+
+                    // フラグ
+                    SetBreak = true;
                 }
 
-                // カメラの位置はプレイヤーの中心に固定
-                //cameraTransform.position = playertans.position;
+                if (breakstage.GetBreakStage() == true)
+                {
+                    Debug.Log("zoom");
+                    // ズーム後のカメラ描画サイズになるまで徐々にズームインしていく
+                    if (NowCameraSize > ZoomCameraSize)
+                    {
+                        // 描画サイズ計算
+                        NowCameraSize -= ChangeVolume * Time.deltaTime;
+                    }
+                    else
+                    {
+                        NowCameraSize = ZoomCameraSize;
+                        ZoomEnd = true;
+                    }
 
-                //カメラサイズ変更
-                Cam.orthographicSize = NowCameraSize;
+                    // カメラの位置はプレイヤーの中心に固定
+                    //cameraTransform.position = playertans.position;
+
+                    //カメラサイズ変更
+                    Cam.orthographicSize = NowCameraSize;
+                }
             }
         }
-      
+        else
+        {
+            Wait += Time.deltaTime; //なぜかステージ開始時に始まってしまう
+        }
     }
 }

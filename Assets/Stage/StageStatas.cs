@@ -16,7 +16,9 @@ public class StageStatas : MonoBehaviour
         //-------------------------------------
         //　ステージ上のクリスタルを取得
         GameObject Core = GameObject.Find("Core");
+
         StageCrystal = Core.transform.childCount;
+
     }
 
     //--------------------------------
