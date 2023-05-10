@@ -9,6 +9,7 @@ public class fishCreater : MonoBehaviour
 {
     [SerializeField,Header("魚のプレハブ")]
     private GameObject fishObj;
+    [SerializeField]
     private IceBoss boss;
     private CrackCreater _crack;
     private string _tag = "Crack";
@@ -16,7 +17,6 @@ public class fishCreater : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        boss = GameObject.Find("IceBoss").GetComponent<IceBoss>();
         if (boss == null) Debug.LogError("IceBossのコンポーネントを取得できませんでした。");
     }
 

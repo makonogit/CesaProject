@@ -17,6 +17,7 @@ public class IceBoss : MonoBehaviour
         RUN,        // 突進
         CONFUSE,    // 混乱
         EATING,     // 食事
+        ATTACK,     // 攻撃
         DEATH,      // 死
     }
 
@@ -117,9 +118,15 @@ public class IceBoss : MonoBehaviour
             return _state;
         }
     }
+
     //-----------------------------------------------------------------
     //☆☆秘匿関数☆☆(私)
 
+    //
+    // 関数：Walk() 
+    //
+    // 内容：歩いてる状態の処理
+    //
     private void Walk() 
     {
         // プレイヤーが攻撃範囲に入ったら
@@ -156,19 +163,21 @@ public class IceBoss : MonoBehaviour
         _nowTime += Time.deltaTime;
     }
 
+    //
+    // 関数：Run() 
+    //
+    // 内容：走っている状態の処理
+    //
     private void Run() 
     {
         // プレイヤーに当たったら
         if (_isAttcked.IsEnter) 
         {
-            // 状態変更：歩く
-            _state = StateID.WALK;
+            // 状態変更：攻撃
+            _state = StateID.ATTACK;
             
-            // 方向転換
-            _direction = !_direction;
-
             // 走るアニメーションフラグ
-            _anim.SetBool("isRun", false);
+            _anim.SetBool("isAttack", true);
         }
 
         // 壁に当たったら
@@ -187,6 +196,11 @@ public class IceBoss : MonoBehaviour
         transform.Translate(move, 0, 0);
     }
 
+    //
+    // 関数：Confuse() 
+    //
+    // 内容：混乱時の処理
+    //
     private void Confuse() 
     {
         // 時間経過したら
@@ -264,9 +278,20 @@ public class IceBoss : MonoBehaviour
             }
         }
     }
+    private void AttackIsEnd() 
+    {
+        // 状態変更：歩く
+        _state = StateID.WALK;
+        // 方向転換
+        _direction = !_direction;
+        // 走るアニメーションフラグ
+        _anim.SetBool("isRun", false);
+        _anim.SetBool("isAttack", false);
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         _isFish = (collision.gameObject == fish);
+        if (_isFish) fish.SetActive(false);
     }
 }

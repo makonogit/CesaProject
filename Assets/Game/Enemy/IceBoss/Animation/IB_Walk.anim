@@ -55,18 +55,39 @@ AnimationClip:
     path: Hitbox
     classID: 61
     script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: InitialModule.startColor.maxColor.a
+    path: StarParticle
+    classID: 198
+    script: {fileID: 0}
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 1784886307, guid: e32fd7fada835c944bf93a40de5b876a, type: 3}
-    - time: 0.28333333
-      value: {fileID: 1039934317, guid: e32fd7fada835c944bf93a40de5b876a, type: 3}
+      value: {fileID: 1411976490, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
+    - time: 0.16666667
+      value: {fileID: 1910125903, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
+    - time: 0.33333334
+      value: {fileID: -164916223, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
     - time: 0.5
-      value: {fileID: 1784886307, guid: e32fd7fada835c944bf93a40de5b876a, type: 3}
-    - time: 0.78333336
-      value: {fileID: 1073743832, guid: e32fd7fada835c944bf93a40de5b876a, type: 3}
-    - time: 1
-      value: {fileID: 1784886307, guid: e32fd7fada835c944bf93a40de5b876a, type: 3}
+      value: {fileID: 1877628909, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
+    - time: 0.6666667
+      value: {fileID: 965295860, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
+    - time: 0.8333333
+      value: {fileID: 1411976490, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -99,18 +120,26 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 1422641441
+      attribute: 2007035361
+      script: {fileID: 0}
+      typeID: 198
+      customType: 27
+      isPPtrCurve: 0
     pptrCurveMapping:
-    - {fileID: 1784886307, guid: e32fd7fada835c944bf93a40de5b876a, type: 3}
-    - {fileID: 1039934317, guid: e32fd7fada835c944bf93a40de5b876a, type: 3}
-    - {fileID: 1784886307, guid: e32fd7fada835c944bf93a40de5b876a, type: 3}
-    - {fileID: 1073743832, guid: e32fd7fada835c944bf93a40de5b876a, type: 3}
-    - {fileID: 1784886307, guid: e32fd7fada835c944bf93a40de5b876a, type: 3}
+    - {fileID: 1411976490, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
+    - {fileID: 1910125903, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
+    - {fileID: -164916223, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
+    - {fileID: 1877628909, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
+    - {fileID: 965295860, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
+    - {fileID: 1411976490, guid: d433fbb2bf6f3d54b8b8b3a895586756, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.0166667
+    m_StopTime: 0.84999996
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -163,6 +192,25 @@ AnimationClip:
     attribute: m_Enabled
     path: Hitbox
     classID: 61
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: InitialModule.startColor.maxColor.a
+    path: StarParticle
+    classID: 198
     script: {fileID: 0}
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
