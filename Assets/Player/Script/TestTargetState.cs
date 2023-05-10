@@ -10,14 +10,41 @@ public class TestTargetState : MonoBehaviour
 {
     public bool CheeckGround = false;
 
+    Transform thistrans;
+    LayerMask layerMask = 1 << 10;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        //thistrans = transform;
+        //layerMask = 1 << 10;
+        //layerMask = ~layerMask;
+
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void Update()
+    {
+        //RaycastHit2D hit = Physics2D.Raycast(thistrans.position, Vector2.down,0.3f,layerMask);
+        
+        //Debug.DrawRay(thistrans.position,Vector2.down * 0.3f,Color.red);
+
+        //if (hit)
+        //{
+        //    Debug.Log(hit.collider.gameObject);
+        //}
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if(collision.tag == "Ground")
+        {
+            CheeckGround = true;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Ground")
         {
             CheeckGround = true;
         }

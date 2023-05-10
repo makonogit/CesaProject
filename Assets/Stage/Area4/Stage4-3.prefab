@@ -54655,41 +54655,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 511840065409563811, guid: 2c717524cf12bd849899433b3c3d297d, type: 3}
   m_PrefabInstance: {fileID: 7242877350579443255}
   m_PrefabAsset: {fileID: 0}
---- !u!68 &4414514402885285464
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7176966770116143764}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -8.5, y: 9.6}
-  - {x: -8.5, y: -2.5}
-  - {x: 23, y: -2.5}
-  - {x: 23, y: -1.4}
-  - {x: 33.5, y: -1.4}
-  - {x: 33.5, y: -2.5}
-  - {x: 56.6, y: -2.5}
-  - {x: 56.6, y: 3.4}
-  - {x: 74.2, y: 3.4}
-  - {x: 74.2, y: 1.2}
-  - {x: 68.3, y: 1.2}
-  - {x: 68.3, y: -2.5}
-  - {x: 87.8, y: -2.5}
-  - {x: 87.8, y: 9.6}
-  - {x: -8.5, y: 9.6}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
 --- !u!50 &4644087659024964097
 Rigidbody2D:
   serializedVersion: 4
@@ -54725,7 +54690,7 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -56622,6 +56587,41 @@ CompositeCollider2D:
       - {x: -88.65, y: -8.400004}
   m_VertexDistance: 0.03
   m_OffsetDistance: 0.00005
+--- !u!68 &4414514402885285464
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7176966770116143764}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -8.5, y: 9.6}
+  - {x: -8.5, y: -2.5}
+  - {x: 23, y: -2.5}
+  - {x: 23, y: -1.4}
+  - {x: 33.5, y: -1.4}
+  - {x: 33.5, y: -2.5}
+  - {x: 56.6, y: -2.5}
+  - {x: 56.6, y: 3.4}
+  - {x: 74.2, y: 3.4}
+  - {x: 74.2, y: 1.2}
+  - {x: 68.3, y: 1.2}
+  - {x: 68.3, y: -2.5}
+  - {x: 87.8, y: -2.5}
+  - {x: 87.8, y: 9.6}
+  - {x: -8.5, y: 9.6}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!4 &7176966770439189059 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 511840065229284468, guid: 2c717524cf12bd849899433b3c3d297d, type: 3}

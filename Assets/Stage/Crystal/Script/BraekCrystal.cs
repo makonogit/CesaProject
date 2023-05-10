@@ -97,7 +97,7 @@ public class BraekCrystal : MonoBehaviour
 
                 BreakBack.BreakBack();  //@”wŒi‚Ì•ö‰ó
 
-                //Destroy(this.gameObject);
+                Destroy(collision.gameObject);
                 stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
 
                 // ƒNƒŠƒXƒ^ƒ‹”j‰ó”‘‰Á
