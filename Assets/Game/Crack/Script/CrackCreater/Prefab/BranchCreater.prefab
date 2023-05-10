@@ -1,59 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2337758294022578710
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6185657715695677144}
-  - component: {fileID: 5385810276206094856}
-  m_Layer: 16
-  m_Name: SandHit
-  m_TagString: Crack
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6185657715695677144
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2337758294022578710}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5637831958228747137}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!68 &5385810276206094856
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2337758294022578710}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.5, y: 0}
-  - {x: 0.5, y: 0}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
 --- !u!1 &7869875550553585627
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,9 +12,9 @@ GameObject:
   - component: {fileID: -5353853151192223698}
   - component: {fileID: 4912640675679485336}
   - component: {fileID: 8503728227713562137}
-  - component: {fileID: 596461841176062373}
+  - component: {fileID: -6938335928497470606}
   m_Layer: 8
-  m_Name: CrackCreaterObject
+  m_Name: BranchCreater
   m_TagString: Crack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +31,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6185657715695677144}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -103,17 +48,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nowState: 0
-  _crackObject: {fileID: 4499913470512213667, guid: 1d4da18c1074cef45975fb088f8b86f4, type: 3}
-  _divisionNum: {x: 5, y: 9}
-  _rangeNum: {x: 0.08, y: 0.2}
+  _crackObject: {fileID: 4499913470512213667, guid: 61caa9f257d61ca4e848bbe34a68d230, type: 3}
+  _divisionNum: {x: 4, y: 7}
+  _rangeNum: {x: 0.02, y: 0.1}
   _createTime: 0.0625
   _nailPoints:
-  - {x: 39.994335, y: -0.39543033}
-  - {x: 0, y: 0}
+  - {x: 40.65968, y: 3.0095356}
+  - {x: 41.510403, y: 2.4823275}
   _edgePoints: []
   _nailPointCount: 
   _cracks: []
-  AddLength: 1.5
+  AddLength: 0.5
 --- !u!68 &4912640675679485336
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -320,7 +265,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!114 &596461841176062373
+--- !u!114 &-6938335928497470606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,9 +274,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7869875550553585627}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9eeba83b074d4d14b8512f47c148f6ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 60a516cbffd80584baf50d2e62f4087f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BranchObj: {fileID: 7869875550553585627, guid: d41d8105e8595ea4380473d1a5f184d6, type: 3}
-  CrackSprite: {fileID: 21300000, guid: faf759e88e5cdc24896ffcbd7b171d74, type: 3}
-  CrackEndSprite: {fileID: 21300000, guid: 6ec53a651706e6546bd11bb059eb6b31, type: 3}
+  BranchObj: {fileID: 7869875550553585627}
+  Crack: {fileID: 21300000, guid: faf759e88e5cdc24896ffcbd7b171d74, type: 3}
+  Crackend: {fileID: 21300000, guid: 6ec53a651706e6546bd11bb059eb6b31, type: 3}

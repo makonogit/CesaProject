@@ -71,6 +71,9 @@ public class CrackCreater : MonoBehaviour
 
     int layerMask;      //Rayのレイヤーマスク
 
+    [SerializeField, Header("追加するひびの長さ")]
+    private float AddLength;
+
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -84,8 +87,11 @@ public class CrackCreater : MonoBehaviour
         }
 
         //　砂用コライダー　担当：菅
-        SandEdge = transform.GetChild(0).GetComponent<EdgeCollider2D>();
-        if(SandEdge == null) Debug.LogError("Sand用EdgeCollider2Dがコンポーネントされてません。");
+        if (transform.childCount > 0)
+        {
+            SandEdge = transform.GetChild(0).GetComponent<EdgeCollider2D>();
+        }
+        //if(SandEdge == null) Debug.LogError("Sand用EdgeCollider2Dがコンポーネントされてません。");
 
 
         //--------------------------------------
@@ -112,7 +118,7 @@ public class CrackCreater : MonoBehaviour
 
         //---------------------------------
         //　layermaskでGroundだけ判定する
-        layerMask = 1 << 10 | 1 << 18;
+        layerMask = 1 << 10 | 1 << 18 | 1 << 8;
         //layerMask = ~layerMask;
 
         //---------------------------------
@@ -121,6 +127,7 @@ public class CrackCreater : MonoBehaviour
         if (_light2D == null) Debug.LogError("Light2Dのコンポーネントを取得できませんでした。");
         // 非表示
         _light2D.enabled = false;
+        
     }
 
 
@@ -134,6 +141,7 @@ public class CrackCreater : MonoBehaviour
         {
             EdgeSetting();//エッジの設定
             _createCount = 0;
+            
             //_nowState = CrackCreaterState.CREATING;// 確認用
         }
 
@@ -180,9 +188,6 @@ public class CrackCreater : MonoBehaviour
         {
             AddCreating();
         }
-
-
-
         // 状態を共有する
         State = _nowState;
     }
@@ -226,8 +231,9 @@ public class CrackCreater : MonoBehaviour
             {
                 // 方向決定
                 Vector2 _vNailVec = _nailPoints[i] - _nailPoints[i + 1];
+
                 // 方向と距離でレイであたり判定
-                RaycastHit2D hit = Physics2D.Raycast(_nailPoints[i], _vNailVec.normalized * -1 , _vNailVec.magnitude, layerMask);
+                RaycastHit2D hit = Physics2D.Raycast(_nailPoints[i] + new Vector2(0.1f, 0.1f), _vNailVec.normalized * -1 , _vNailVec.magnitude, layerMask);
                 //Debug.DrawRay(_nailPoints[i], _vNailVec * -1, Color.red, 1000, false);
                 //Debug.Log("当たりました" +hit.collider.gameObject.name);
                 
@@ -253,6 +259,7 @@ public class CrackCreater : MonoBehaviour
             // リストに追加
             // 呼び出し
             _cracks.Add(Instantiate(_crackObject, _point, Quaternion.identity, transform));
+
             // 非表示
             _cracks[i].SetActive(false);
 
@@ -265,9 +272,10 @@ public class CrackCreater : MonoBehaviour
             _cracks[i].transform.localScale = new Vector3(_vec.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
 
         }
+
         // 頂点を設定する
         Edge2D.SetPoints(_edgePoints);
-        SandEdge.SetPoints(_edgePoints);
+        if(SandEdge != null) SandEdge.SetPoints(_edgePoints);
 
         _nowState = CrackCreaterState.CREATING;
     }
@@ -353,7 +361,7 @@ public class CrackCreater : MonoBehaviour
         AddBack();
         // 頂点を再設定する
         Edge2D.SetPoints(_edgePoints);
-        SandEdge.SetPoints(_edgePoints);
+        if (SandEdge != null) SandEdge.SetPoints(_edgePoints);
     }
 
     //-------------------------------------------------------------------
@@ -384,7 +392,7 @@ public class CrackCreater : MonoBehaviour
 
         // 頂点を再設定する
         Edge2D.SetPoints(_edgePoints);
-        SandEdge.SetPoints(_edgePoints);
+        if (SandEdge != null)  SandEdge.SetPoints(_edgePoints);
 
     }
 
@@ -393,10 +401,11 @@ public class CrackCreater : MonoBehaviour
     //―ひびの前方追加関数―(私)
     private void AddForward()
     {
+
         // 方向決定(仮想釘の設定)
         Vector2 _vNailVec = _edgePoints[0] - _edgePoints[1];
         // 方向と距離でレイであたり判定
-        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[0], _vNailVec.normalized, 1.5f, layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[0], _vNailVec.normalized, AddLength, layerMask);
         //if (hit) Debug.Log("前" + hit.collider.gameObject.name);
         if (hit) 
         {
@@ -405,7 +414,7 @@ public class CrackCreater : MonoBehaviour
         }
         else 
         {
-            _vNailVec = _edgePoints[0] + (_vNailVec.normalized * 1.5f);
+            _vNailVec = _edgePoints[0] + (_vNailVec.normalized * AddLength);
             // 設定
             _edgePoints.Insert(0, _vNailVec);
             _nailPointCount[0]++;
@@ -454,6 +463,7 @@ public class CrackCreater : MonoBehaviour
                 // リストに追加
                 // 呼び出し
                 _cracks.Insert(i, Instantiate(_crackObject, _point, Quaternion.identity, transform));
+
                 // 非表示
                 _cracks[i].SetActive(false);
 
@@ -479,7 +489,7 @@ public class CrackCreater : MonoBehaviour
         // 方向決定(仮想釘の設定)
         Vector2 _vNailVec = _edgePoints[Last] - _edgePoints[_edgePoints.Count - 2];
         // 方向と距離でレイであたり判定
-        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last], _vNailVec.normalized , 1.5f, layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last] + new Vector2(0.1f,0.1f), _vNailVec.normalized , AddLength, layerMask);
         //if (hit) Debug.Log("後" + hit.collider.gameObject.tag);
         if (hit)
         {
@@ -488,7 +498,7 @@ public class CrackCreater : MonoBehaviour
         }
         else
         {
-            _vNailVec = _edgePoints[_edgePoints.Count - 1] + (_vNailVec.normalized * 1.5f);
+            _vNailVec = _edgePoints[_edgePoints.Count - 1] + (_vNailVec.normalized * AddLength);
 
             // 設定
             _edgePoints.Add(_vNailVec);
@@ -530,6 +540,7 @@ public class CrackCreater : MonoBehaviour
                 // リストに追加
                 // 呼び出し
                 _cracks.Add(Instantiate(_crackObject, _point, Quaternion.identity, transform));
+
                 // 非表示
                 _cracks[i].SetActive(false);
 
@@ -545,8 +556,6 @@ public class CrackCreater : MonoBehaviour
             // 非表示の場所を記録
             _addCrackNow = new Vector2Int(_addCrackNow.x, Last);
         }
-        
-
     }
     //-------------------------------------------------------
     //―ひびの追加作成関数―(私)
@@ -555,14 +564,13 @@ public class CrackCreater : MonoBehaviour
         // 時間計算
         _nowTime += Time.deltaTime;
         // 生成時間を越えたら
-        if (_nowTime >= _createTime&& _addCrackCount>0)
+        if (_nowTime >= _createTime && _addCrackCount>0)
         {
             // 前表示
             if (_addCrackNow.x >= 0) 
             {
                 _cracks[_addCrackNow.x].SetActive(true);// 表示
                 _addCrackCount --;// カウントを減らす
-                _WHPSS.SubHp(_cracks[_addCrackNow.x].transform.localScale.x);// WHPSSのHPを減らす-追加
                 _addCrackNow = new Vector2Int(_addCrackNow.x -1 , _addCrackNow.y);// カウントを減らす
             }
             // 後ろ表示
@@ -570,7 +578,6 @@ public class CrackCreater : MonoBehaviour
             {
                 _cracks[_addCrackNow.y].SetActive(true);// 表示
                 _addCrackCount--;// カウントを減らす
-                _WHPSS.SubHp(_cracks[_addCrackNow.y].transform.localScale.x);// WHPSSのHPを減らす-追加
                 _addCrackNow = new Vector2Int(_addCrackNow.x , _addCrackNow.y + 1);// カウントを減らす
             }
             // リセット
@@ -694,6 +701,15 @@ public class CrackCreater : MonoBehaviour
 
         // 形を設定
         _light2D.SetShapePath(_shape);
+    }
+
+    //-------------------------------------
+    // ひびの分岐関数
+    // 引数：なし
+    // 戻り値なし
+    private void CrackRandomBranch()
+    {
+
     }
 
 }
