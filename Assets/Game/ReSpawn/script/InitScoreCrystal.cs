@@ -15,10 +15,14 @@ public class InitScoreCrystal : MonoBehaviour
 
     private int ChildNum; // 子オブジェクトの数
 
+    private int GetCrystalNum = 0;
+
     private bool Init = false;
 
     private GameObject player;
     private PlayerStatas playerStatus;
+
+    RespawnStatus _respawnSta;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +46,6 @@ public class InitScoreCrystal : MonoBehaviour
 
             // 順に子を取得、追加
             CrystalList.Add(cryObj);
-
         }
 
         // プレイヤー関係
@@ -56,17 +59,23 @@ public class InitScoreCrystal : MonoBehaviour
         // 初期化命令があった時だけ実行
         if(Init == true)
         {
+            // リスポーン時のステータスを取得
+            //_respawnSta = playerStatus.GetRespawnStatus();
+
+            GetCrystalNum = 0;
+
             for (int i = 0;i < ChildNum; i++)
             {
                 // リスポーン座標より左ならfalse
-                if (CrystalList[i]._CrystalPos.x < playerStatus.GetRespawn().x)
+                if (CrystalList[i]._CrystalPos.x < playerStatus.respawnStatus.PlayerRespawnPos.x)
                 {
                     // リスポーンより手前で取得済みなら
                     if (CrystalList[i]._CrystalNum.Get == true)
                     {
                         // 非表示
                         CrystalList[i]._renderer.enabled = false;
-                        //Debug.Log("falseにした");
+                        GetCrystalNum++;
+                        //Debug.Log(i + "番目のクリスタルfalseにした");
                     }
                 }
                 else
@@ -82,6 +91,11 @@ public class InitScoreCrystal : MonoBehaviour
                     }
                 }
             }
+
+            //Debug.Log(GetCrystalNum);
+
+         
+            playerStatus.SetRespawnCrystalNum(GetCrystalNum);
 
             Init = false;
         }

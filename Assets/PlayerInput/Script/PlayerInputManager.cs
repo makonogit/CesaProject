@@ -67,8 +67,9 @@ public class PlayerInputManager : MonoBehaviour
     // プレイヤーの向き
     public enum DIRECTION
     {
+        RIGHT,
         LEFT,
-        RIGHT
+        
     }
 
     // オートプロパティ

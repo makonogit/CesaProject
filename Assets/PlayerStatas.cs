@@ -6,6 +6,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class RespawnStatus
+{
+    public int NowRespawnNumber = 0;  // 最新のリスポーン地点の座標を持つオブジェクトの固有番号
+    public Vector3 PlayerRespawnPos;  // プレイヤーの最新リスポーン座標を保持
+    public int RespawnCrystalNum = 0; // 最新リスポーンでのクリスタル所持数
+}
+
 public class PlayerStatas : MonoBehaviour
 {
     [SerializeField,Header("釘所持数")]
@@ -14,34 +21,50 @@ public class PlayerStatas : MonoBehaviour
     [SerializeField, Header("クリスタル所持数")]
     private int HaveCrystal;
 
+    public bool UpdateCrystalNum = false;
+
     // 二宮追加
     private int BreakCrystalNum = 0; // 壊したクリスタルの数
 
     [SerializeField] private bool HitStop = false; // ヒットストップ中か]
 
-    [SerializeField]private int NowRespawnNumber = 0; // 最新のリスポーン地点の座標を持つオブジェクトの固有番号
-    [SerializeField]private Vector3 PlayerRespawnPos; // プレイヤーの最新リスポーン座標を保持
+    public RespawnStatus respawnStatus = new RespawnStatus();
+
+    public RespawnStatus GetRespawnStatus()
+    {
+        return respawnStatus;
+    }
+
+    public void SetRespawnCrystalNum()
+    {
+        respawnStatus.RespawnCrystalNum = HaveCrystal;
+    }
+
+    public void SetRespawnCrystalNum(int _num)
+    {
+        respawnStatus.RespawnCrystalNum = _num;
+    }
 
     public void SetRespawnNum(int _num)
     {
-        NowRespawnNumber = _num;
+        respawnStatus.NowRespawnNumber = _num;
     }
 
-    public int GetNowRespawnNum()
-    {
-        return NowRespawnNumber;
-    }
+    //public int GetNowRespawnNum()
+    //{
+    //    return respawnStatus.NowRespawnNumber;
+    //}
 
-    // リスポーン座標をかえす
-    public Vector3 GetRespawn()
-    {
-        return PlayerRespawnPos;
-    }
+    //// リスポーン座標をかえす
+    //public Vector3 GetRespawn()
+    //{
+    //    return respawnStatus.PlayerRespawnPos;
+    //}
 
     // リスポーン座標を設定
     public void SetRespawn(Vector3 _respawn)
     {
-        PlayerRespawnPos = _respawn;
+        respawnStatus.PlayerRespawnPos = _respawn;
     }
 
     public void AddBreakCrystal()

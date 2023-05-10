@@ -20,7 +20,7 @@ public class PlayerMove : MonoBehaviour
     [Header("歩くときは走るときのどれくらいのスピードか")]
     public float magnification = 1.5f; // 歩くときのスピードの倍率
 
-    PlayerInputManager.DIRECTION oldDire; // 前フレームの向きを入れておくための変数
+    PlayerInputManager.DIRECTION oldDire = PlayerInputManager.DIRECTION.RIGHT; // 前フレームの向きを入れておくための変数
 
     public float ideal_IdleTime = 2.0f; //  立ち止まってからアイドル状態になるまでの時間
     private float IdleTime = 0.0f; // 立ち止まってからの経過時間
@@ -50,6 +50,9 @@ public class PlayerMove : MonoBehaviour
     private SEManager_Player seMana;
 
     private PlayerStatas playerStatus;
+
+    // プレイヤープルプル
+    private WallCheck _wallCheck;
 
     //--------------------------------------
     // 追加担当者:中川直登
@@ -87,6 +90,9 @@ public class PlayerMove : MonoBehaviour
         _runDust = GetComponent<RunDustParticle>();
         if(_runDust == null) Debug.LogError("RunDustParticleのコンポーネントを取得できませんでした。");
         //--------------------------------------
+
+        // 壁との接触判定スクリプト
+        _wallCheck = GetComponent<WallCheck>();
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -96,16 +102,6 @@ public class PlayerMove : MonoBehaviour
         //----------------------------------------------------------------------------------------------------------
         // 普通の移動
         //----------------------------------------------------------------------------------------------------------
-
-        // スローモーション
-        if(debug == false)
-        {
-            //Time.timeScale = 1f;
-        }
-        else
-        {
-            //Time.timeScale = 0.2f;
-        }
 
         if (Moveflg && !playerStatus.GetHitStop()) // 移動フラグがたっているか、ヒットストップ中じゃない
         {
@@ -118,7 +114,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         // 何の動きもなければ
-        if(movement.x == 0.0f)
+        if (movement.x == 0.0f)
         {
             MoveSta = MOVESTATUS.FRIEZE;
             IdleTime += Time.deltaTime;
@@ -168,17 +164,49 @@ public class PlayerMove : MonoBehaviour
                 break;
         }
 
-        //----------------------------------------------------------------------------------------------------------
-        // プレイヤーのTransformに移動量を適応する
-        // スティックで上入力すると少し浮く問題があるため、Y,Zには直接値を入れて修正
-        thisTransform.Translate(movement.x * Speed * Time.deltaTime, 0.0f, 0.0f);
-
         //-----------------------------------------------------------------
         // アニメーション関係
         // movementのxの値によってかわる
         anim.SetBool("walk", MoveSta == MOVESTATUS.WALK); // スティック入力の左右半分までなら歩く
         anim.SetBool("run", MoveSta == MOVESTATUS.RUN); // スティック入力の左右半分以上なら走る
         anim.SetBool("frieze", MoveSta == MOVESTATUS.FRIEZE); // スティック入力が無ければ準備状態
+
+        //-------------------------------------------------------------------
+        // ここより下は強制的にmovementの値をいじる時あり
+        // スクリプトがついてなくてもエラーにならない
+        if (_wallCheck != null)
+        {
+            // 壁との接触判定
+            bool LeftWall = _wallCheck.LeftCheck();
+            bool RightWall = _wallCheck.RightCheck();
+
+            // 壁と接触したレイの方向に進もうとしたらmovementを強制的に0にしてプルプル制御
+
+            // 左壁と接触
+            if (LeftWall == true && RightWall == false)
+            {
+                // 左に進行しようとしている
+                if (movement.x < 0f)
+                {
+                    movement.x = 0f;
+                }
+            }
+            // 右壁と接触
+            else if (LeftWall == false && RightWall == true)
+            {
+                // 右に進行しようとしている
+                if (movement.x > 0f)
+                {
+                    movement.x = 0f;
+                }
+            }
+            // 両方trueもしくは両方falseなら何もしない
+        }
+
+        //----------------------------------------------------------------------------------------------------------
+        // プレイヤーのTransformに移動量を適応する
+        // スティックで上入力すると少し浮く問題があるため、Y,Zには直接値を入れて修正
+        thisTransform.Translate(movement.x * Speed * Time.deltaTime, 0.0f, 0.0f);
         
         if (oldDire != ScriptPIManager.Direction)
         {

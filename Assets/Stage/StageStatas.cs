@@ -9,7 +9,7 @@ using UnityEngine;
 public class StageStatas : MonoBehaviour
 {
     [SerializeField,Header("‰ó‚³‚È‚¢‚Æ‚¢‚¯‚È‚¢ƒNƒŠƒXƒ^ƒ‹")]
-    private int StageCrystal = 0;
+    private int StageCrystal = 1;
 
     private void Start()
     {

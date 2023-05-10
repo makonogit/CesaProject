@@ -226,9 +226,15 @@ public class GameOver : MonoBehaviour
                     if(OutInTimer == 0f)
                     {
                         // リスポーン
-                        //Debug.Log("リスポーン");
-                        //Debug.Log(playerStatus.GetRespawn());
-                        playerTransform.position = playerStatus.GetRespawn();
+
+                        // リスポーン時のステータスを取得
+                        //RespawnStatus _respawnSta = playerStatus.GetRespawnStatus();
+
+                        Debug.Log("リスポーン");
+
+                        // 保存されているリスポーン座標をプレイヤーに代入
+                        playerTransform.position = playerStatus.respawnStatus.PlayerRespawnPos;
+
                         // 落下速度があがりすぎて床を貫通しないようにするため
                         _playerJump.FallTime = 0f;
 
@@ -236,8 +242,13 @@ public class GameOver : MonoBehaviour
                         drawHpUI.NowHPAnimationNumber = 0;
                         drawHpUI.InitImage();
 
+                        //Debug.Log("SSS");
+
                         // 巻き戻し処理
                         _respawnObjManager.RespawnInit();
+
+                        //Debug.Log("SSS");
+                        //Debug.Log(playerStatus.respawnStatus.RespawnCrystalNum);
 
                         // HP回復
                         HP = maxHp;
@@ -254,7 +265,9 @@ public class GameOver : MonoBehaviour
 
                         // 生成したパーティクル削除
                         Destroy(_createdParticle);
-
+                        //Debug.Log(playerStatus.respawnStatus.RespawnCrystalNum);
+                        // クリスタル所持数もセット
+                        playerStatus.SetCrystal(playerStatus.respawnStatus.RespawnCrystalNum);
 
                         // 初期化
                         OutInTimer = 0f;

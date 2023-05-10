@@ -66,15 +66,24 @@ public class UpdateRespawn : MonoBehaviour
             {
                 if (playerStatus != null)
                 {
+                    // リスポーン時のステータスを取得
+                    //RespawnStatus _respawnSta = playerStatus.GetRespawnStatus();
+
                     // 自身より先にあるリスポーン座標を設定していなければ
-                    if (RespawnNumber > playerStatus.GetNowRespawnNum())
+                    if (RespawnNumber >= playerStatus.respawnStatus.NowRespawnNumber)
                     {
+                        if (playerStatus.GetCrystal() > playerStatus.respawnStatus.RespawnCrystalNum)
+                        {
+                            playerStatus.UpdateCrystalNum = true;
+                        }
+
                         // リスポーン設定
-                        playerStatus.SetRespawnNum(RespawnNumber);
-                        playerStatus.SetRespawn(RespawnPos);
+                        playerStatus.SetRespawnNum(RespawnNumber); // 左から何個目のリス地か
+                        playerStatus.SetRespawn(RespawnPos); // リスポーン地点
+                        playerStatus.SetRespawnCrystalNum(); // 所持クリスタル数
 
                         //Debug.Log("リスポーン地点更新");
-                        Debug.Log(playerStatus.GetRespawn());
+                        //Debug.Log(playerStatus.respawnStatus.RespawnCrystalNum);
 
                         Used = true;
                     }
@@ -99,14 +108,20 @@ public class UpdateRespawn : MonoBehaviour
             // 一度もリス設定していない
             if (Used == false)
             {
-                // 自身より先にあるリスポーン座標を設定していなければ
-                if (RespawnNumber > playerStatus.GetNowRespawnNum())
-                {
-                    // リスポーン設定
-                    playerStatus.SetRespawnNum(RespawnNumber);
-                    playerStatus.SetRespawn(RespawnPos);
+                // リスポーン時のステータスを取得
+                //RespawnStatus _respawnSta = playerStatus.GetRespawnStatus();
 
-                    Used = true;
+                if (playerStatus.respawnStatus != null)
+                {
+                    // 自身より先にあるリスポーン座標を設定していなければ
+                    if (RespawnNumber > playerStatus.respawnStatus.NowRespawnNumber)
+                    {
+                        // リスポーン設定
+                        playerStatus.SetRespawnNum(RespawnNumber);
+                        playerStatus.SetRespawn(RespawnPos);
+
+                        Used = true;
+                    }
                 }
             }
         }
