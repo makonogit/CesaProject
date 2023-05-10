@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8856761958495860231}
   - component: {fileID: 4348414436261598351}
   - component: {fileID: 8278269766777442172}
-  - component: {fileID: 7609893496937868507}
   - component: {fileID: 2261827178709230180}
+  - component: {fileID: 1418620888196465287}
   m_Layer: 15
   m_Name: Sand
   m_TagString: Ground
@@ -108,20 +108,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 6
---- !u!114 &7609893496937868507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7901739078190754667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af5b83ac78775194a808b950434197b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SandHit: 0
-  accumulatespeed: 3
 --- !u!60 &2261827178709230180
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -151,3 +137,17 @@ PolygonCollider2D:
       - {x: -0.59999996, y: 0.51}
       - {x: -0.59999996, y: -0.59999996}
       - {x: 0.59999996, y: -0.59999996}
+--- !u!114 &1418620888196465287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7901739078190754667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af5b83ac78775194a808b950434197b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SandHit: 0
+  accumulatespeed: 3

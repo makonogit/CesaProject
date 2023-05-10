@@ -85,7 +85,7 @@ public class PyramidData : MonoBehaviour
                 //　終了していなかったら更新
                 if (BossMove.BossState != DesertBossMove.DesertBossState.END)
                 {
-                    BossMove.BossState = DesertBossMove.DesertBossState.NONE;
+                    BossMove.BossState = DesertBossMove.DesertBossState.IDLE;
                 }
 
             }

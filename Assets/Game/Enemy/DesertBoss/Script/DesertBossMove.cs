@@ -40,12 +40,15 @@ public class DesertBossMove : MonoBehaviour
     public enum DesertBossState
     {
         NONE,   // 何もしていない
+        IDLE,   // 待機
         ATTACK, // 攻撃
         CLEAN,  // ピラミッドを片付ける
         END     // 攻撃終了
     }
 
     public DesertBossState BossState;  // ボスの状態管理用変数
+
+    private Animator anim;             //　ボスのアニメーション
 
     // Start is called before the first frame update
     void Start()
@@ -82,6 +85,9 @@ public class DesertBossMove : MonoBehaviour
         Appearance.Add(0);
         Appearance.Add(0);
 
+        // animatorを取得
+        anim = transform.GetChild(0).GetComponent<Animator>();
+
         // 何もしていない状態にする
         BossState = DesertBossState.NONE;
 
@@ -90,7 +96,7 @@ public class DesertBossMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (BossState == DesertBossState.NONE)
+        if (BossState == DesertBossState.IDLE)
         {
             if (PyramidList.transform.childCount == PyramidNum)
             {
@@ -117,7 +123,7 @@ public class DesertBossMove : MonoBehaviour
 
         //---------------------------------------
         //　攻撃状態
-        if(BossState == DesertBossState.ATTACK)
+        if (BossState == DesertBossState.ATTACK)
         {
             BossAttack();
         }
@@ -150,6 +156,8 @@ public class DesertBossMove : MonoBehaviour
             }
 
         }
+
+        //anim.SetBool("Attack", BossState == DesertBossState.ATTACK);   //攻撃アニメーションに入る
 
     }
 
@@ -203,7 +211,7 @@ public class DesertBossMove : MonoBehaviour
         obj3.transform.parent = Pyramid_parent[2].transform;
 
 
-        BossState = DesertBossState.NONE;
+        BossState = DesertBossState.IDLE;
     }
 
 
