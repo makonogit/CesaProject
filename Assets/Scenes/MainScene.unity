@@ -4892,7 +4892,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 177245301056531068, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: AdjustY
-      value: -0.51
+      value: -0.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 177245301056531068, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: _length
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 177245301056531068, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: AdjustCenter
@@ -4912,11 +4916,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 6636130089559709826, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_LocalScale.z
@@ -5150,7 +5154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOverhead: 0
-  AdjustY: 0.47
+  AdjustY: 0.7
   AdjustX: 0.17
   AdjustCenter: 0.11
 --- !u!4 &8059579095247675326 stripped
@@ -5300,7 +5304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AdjustY: 0.4
-  AdjustX: 0.31
+  AdjustX: 0.53
   AdjustCenterX: 0.11
   AdjustCenterY: -0.04
   _length: 0.04
