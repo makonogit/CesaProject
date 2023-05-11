@@ -61,16 +61,13 @@ public class IceBoss : MonoBehaviour
     private float _sizeX;
 
     private bool _isFish;
+    private Vector3 StartPos;
 
     //-----------------------------------------------------------------
     // Use this for initialization
     void Start()
     {
-        // 初期化処理
-        _state = StateID.WALK;
-        _direction = false;
-        _nowTime = 0.0f;
-        _sizeX = transform.localScale.x;
+        StartPos = transform.position;
         //--------------------------------------
         // 設定のチェック
 
@@ -116,6 +113,17 @@ public class IceBoss : MonoBehaviour
     }
     //-----------------------------------------------------------------
     //★★公開関数★★(公)
+
+    public void Init()
+    {
+        transform.position = StartPos;
+        // 初期化処理
+        _state = StateID.WALK;
+        _direction = false;
+        _nowTime = 0.0f;
+        _sizeX = transform.localScale.x;
+        _health.Init();
+    }
     public StateID State
     {
         get

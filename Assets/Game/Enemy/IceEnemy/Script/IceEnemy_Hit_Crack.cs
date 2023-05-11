@@ -28,7 +28,7 @@ public class IceEnemy_Hit_Crack : MonoBehaviour
             if (_isDamage)
             {
                 iceEnemy.State = IceEnemy.StateID.DEATH;
-                this.gameObject.SetActive(false);
+                //this.gameObject.SetActive(false);
             }
         }
     }

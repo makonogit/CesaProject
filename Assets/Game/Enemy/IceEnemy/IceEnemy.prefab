@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 6397850801235160367}
   - component: {fileID: 6759646404442694712}
   - component: {fileID: 456253630434961076}
+  - component: {fileID: 8353265669796842783}
   m_Layer: 9
   m_Name: IceEnemy
   m_TagString: Enemy
@@ -261,6 +262,20 @@ MonoBehaviour:
   _dropChecker: {fileID: 5670732988998540817}
   _floorChecker: {fileID: 6434192113663894340}
   _moveSpeed: 1.5
+  _edge: {fileID: 0}
+  _num: 0
+--- !u!114 &8353265669796842783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387875887744880321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 138cb93180f2aa844a90804fd3cec9a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6245936972741096757
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,7 +455,6 @@ GameObject:
   - component: {fileID: 4401942244069755766}
   - component: {fileID: 4398544476017708259}
   - component: {fileID: 2612672435964863692}
-  - component: {fileID: 1966594721964433727}
   m_Layer: 0
   m_Name: DamageArea
   m_TagString: Untagged
@@ -493,15 +507,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitTime: 0
   Damage: 1
---- !u!114 &1966594721964433727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8137194405424761000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 138cb93180f2aa844a90804fd3cec9a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

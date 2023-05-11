@@ -24,10 +24,14 @@ public class IceBossHealth : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Init();
+    }
+    public void Init()
+    {
         _hp = _maxHp;
         _Damaged = false;
     }
-    
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
