@@ -5350,8 +5350,8 @@ GameObject:
   - component: {fileID: 8358961399398424014}
   - component: {fileID: 8358961399398424015}
   - component: {fileID: 8358961399398424012}
-  - component: {fileID: 8358961399398424013}
   - component: {fileID: 8549278426631266153}
+  - component: {fileID: 3595392043714595243}
   m_Layer: 14
   m_Name: Broken_Rock
   m_TagString: Rock
@@ -5418,7 +5418,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 6e313acbd65b08a4999a862c25cc7467, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa6497eae15b0504eab06799025afde2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5450,8 +5450,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!61 &8358961399398424013
-BoxCollider2D:
+--- !u!114 &8549278426631266153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8358961399398424000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18930cd1e4c4d2a47b12e8ebaa8c7d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CrystalNum: 0
+  Break: 0
+--- !u!60 &3595392043714595243
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5467,29 +5481,41 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.2, y: 1.2}
+    oldSize: {x: 3, y: 3}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &8549278426631266153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8358961399398424000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18930cd1e4c4d2a47b12e8ebaa8c7d91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CrystalNum: 0
-  Break: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.05, y: -0.52}
+      - {x: 1.0799999, y: -0.48}
+      - {x: 1.0799999, y: -0.38}
+      - {x: 1.04, y: -0.16}
+      - {x: 0.98999995, y: 0.12}
+      - {x: 0.96, y: 0.28}
+      - {x: 0.94, y: 0.39}
+      - {x: 0.90999997, y: 0.44}
+      - {x: 0.71, y: 0.56}
+      - {x: 0.53, y: 0.65999997}
+      - {x: -0.31, y: 0.79999995}
+      - {x: -0.42, y: 0.81}
+      - {x: -0.45, y: 0.79999995}
+      - {x: -0.65, y: 0.63}
+      - {x: -0.82, y: 0.48999998}
+      - {x: -0.94, y: 0.39999998}
+      - {x: -0.97999996, y: 0.35}
+      - {x: -0.98999995, y: 0.22999999}
+      - {x: -1.05, y: -0.24}
+      - {x: -1.06, y: -0.44}
+      - {x: -1.03, y: -0.48999998}
+      - {x: -0.84999996, y: -0.71999997}
+      - {x: -0.76, y: -0.82}
+      - {x: 0.69, y: -0.82}
+      - {x: 0.71999997, y: -0.81}
+      - {x: 0.84999996, y: -0.7}
+      - {x: 0.96999997, y: -0.58}
 --- !u!1 &9044505602327304627
 GameObject:
   m_ObjectHideFlags: 0
