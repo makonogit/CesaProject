@@ -14,13 +14,14 @@ public class PlantEnemyCrackHit : MonoBehaviour
 
     // 外部取得
     private CrackCreater order = null;
-    public GameObject ParentEnemy; // 親オブジェクトの敵;
-    private PlantEnemyMove enemyMove; // PlantEnemyMoveスクリプト取得用変数
+
+    [SerializeField] private PlantEnemyMove enemyMove; // EnemyMoveスクリプト取得用変数
+    [SerializeField] private PlayEnemySound enemyse; //死んだ音用
 
     private void Start()
     {
-        // 敵の基本AI処理スクリプト取得
-        enemyMove = ParentEnemy.GetComponent<PlantEnemyMove>();
+        //// 敵の基本AI処理スクリプト取得
+        //enemyMove = ParentEnemy.GetComponent<PlantEnemyMove>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -36,12 +37,17 @@ public class PlantEnemyCrackHit : MonoBehaviour
                 order = collision.gameObject.GetComponent<CrackCreater>();
 
                 //生成中なら
-                if (order != null && (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING))
+                if (order != null)
                 {
-                    if (enemyMove.EnemyAI == PlantEnemyMove.AIState.Attack || enemyMove.EnemyAI == PlantEnemyMove.AIState.Confusion)
+                    if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
                     {
-                        // 死亡状態にする
-                        enemyMove.EnemyAI = PlantEnemyMove.AIState.Death;
+                        if (enemyMove.EnemyAI == PlantEnemyMove.AIState.Attack || enemyMove.EnemyAI == PlantEnemyMove.AIState.Confusion || enemyMove.EnemyAI == PlantEnemyMove.AIState.Rage)
+                        {
+                            //SE再生
+                            enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
+                            // 死亡状態にする
+                            enemyMove.EnemyAI = PlantEnemyMove.AIState.Death;
+                        }
                     }
                 }
             }

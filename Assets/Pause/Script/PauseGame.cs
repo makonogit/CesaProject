@@ -434,6 +434,8 @@ public class PauseGame : MonoBehaviour
             {
                 FadeAlpha.black = true;
 
+                Debug.Log("シーンをロード");
+
                 // 今いるシーンをロードしなおす
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }

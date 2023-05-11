@@ -44,6 +44,7 @@ public class PlantEnemyMove : MonoBehaviour
         Attack_Wait,  // 攻撃後の待機
         Firing,       // 飛び出す
         Confusion,    // 混乱
+        Rage,         // じたばた
         Death,        // 死亡
     }
 
@@ -73,6 +74,11 @@ public class PlantEnemyMove : MonoBehaviour
     private Vector3 CenterBetweenPipes; // パイプ間の中心座標
     [Header("射出してから混乱状態になるまでの時間(s)")]public float FiringTime = 0.5f;
     private float Adjustment; // 射出時の目標位置から少し遠ざける
+    [SerializeField] private float RageArea = 1f;
+    private Vector3 RageStartPos; // じたばた開始時の初期座標
+    private float RageCount = 0f;
+    [SerializeField] private float JumpInterval = 1.5f;
+    private float RageImpulsePower = 2f;
 
     //マテリアル
     private Material mat;
@@ -86,6 +92,16 @@ public class PlantEnemyMove : MonoBehaviour
     private GameObject Pipe_1; // パイプ1
     private GameObject Pipe_2; // パイプ2
     private GameObject Child; // 敵自身の子オブジェクト
+
+    private void Init()
+    {
+        // 初期化
+
+        Timer = 0f;
+        RageCount = 0;
+        EnemyAI = AIState.Idle;
+        whichPipe = WhichPipe.Pipe1;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -169,6 +185,11 @@ public class PlantEnemyMove : MonoBehaviour
             // 混乱
             case AIState.Confusion:
                 Confusion();
+                break;
+
+            // じたばた
+            case AIState.Rage:
+                Rage();
                 break;
 
             // 撃破
@@ -364,12 +385,47 @@ public class PlantEnemyMove : MonoBehaviour
         {
             // 混乱状態へ
             EnemyAI = AIState.Confusion;
+            Timer = 0f;
         }
     }
 
     private void Confusion()
     {
-        mat.color = Color.blue;
+        // 一定時間たったら
+        Timer += Time.deltaTime;
+        if(Timer > 2f)
+        {
+            // じたばたさせる
+            EnemyAI = AIState.Rage;
+
+            // じたばた開始時の座標
+            RageStartPos = thisTransform.position;
+
+            RageCount = 0f;
+            Timer = 0f;
+        }
+    }
+
+    private void Rage()
+    {
+        // 暴れ始めた地点を中心に
+        thisTransform.position = new Vector3(RageStartPos.x + Mathf.Sin(Timer) / 2f, thisTransform.position.y,RageStartPos.z);
+
+        if(RageCount == 0f)
+        {
+            // 上方向のに跳ねる
+            rigid2D.AddForce(new Vector3(0f, 1f * RageImpulsePower, 0f), ForceMode2D.Impulse);
+        }
+
+        // インパルス用
+        RageCount += Time.deltaTime;
+        if(RageCount > JumpInterval)
+        {
+            RageImpulsePower = Random.Range(2, 4); // パワーはランダム
+            RageCount = 0f;
+        }
+
+        Timer += Time.deltaTime;
     }
 
     private void Death()
@@ -382,8 +438,6 @@ public class PlantEnemyMove : MonoBehaviour
         {
             rigid2D.gravityScale = 1f;
         }
-
-        mat.color = Color.red;
     }
 
     private void SetDirection()

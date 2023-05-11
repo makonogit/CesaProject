@@ -35,21 +35,24 @@ public class EnemyCrackHit : MonoBehaviour
         // “–‚½‚Á‚½‚à‚Ì‚ª‚Ğ‚Ñ‚È‚ç
         if (collision.gameObject.tag == CrackTag)
         {
-            // ‰‚ß‚Ìˆê‰ñ‚Ì‚İ“ü‚é
-            if (enemyMove.EnemyAI != EnemyMove.AIState.DEATH)
+            if (enemyMove != null)
             {
-                // “–‚½‚Á‚½‚Ğ‚Ñ‚ÌCrackOrder‚ğæ“¾
-                order = collision.gameObject.GetComponent<CrackCreater>();
-
-                //¶¬’†‚È‚ç
-                if (order != null)
+                // ‰‚ß‚Ìˆê‰ñ‚Ì‚İ“ü‚é
+                if (enemyMove.EnemyAI != EnemyMove.AIState.DEATH)
                 {
-                    if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                    // “–‚½‚Á‚½‚Ğ‚Ñ‚ÌCrackOrder‚ğæ“¾
+                    order = collision.gameObject.GetComponent<CrackCreater>();
+
+                    //¶¬’†‚È‚ç
+                    if (order != null)
                     {
-                        //SEÄ¶
-                        enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
-                        // €–Só‘Ô‚É‚·‚é
-                        enemyMove.EnemyAI = EnemyMove.AIState.DEATH;
+                        if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                        {
+                            //SEÄ¶
+                            enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
+                            // €–Só‘Ô‚É‚·‚é
+                            enemyMove.EnemyAI = EnemyMove.AIState.DEATH;
+                        }
                     }
                 }
             }
