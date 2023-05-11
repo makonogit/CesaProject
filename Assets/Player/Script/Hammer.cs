@@ -364,6 +364,7 @@ public class Hammer : MonoBehaviour
 
                     // 角度と距離からPoint座標を求める
                     CrackPointList[1] = new Vector2(CrackPointList[0].x + (CrackLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (CrackLength * Mathf.Sin(angle * (Mathf.PI / 180))));
+                    Vector2 ArmPos = new Vector2(CrackPointList[0].x + (1.5f * Mathf.Cos(angle * (Mathf.PI / 180))), (CrackPointList[0].y - 0.4f) + (1.5f * Mathf.Sin(angle * (Mathf.PI / 180))));
 
                     if (AddCrackFlg)
                     {
@@ -377,7 +378,7 @@ public class Hammer : MonoBehaviour
                     }
 
                     //デバッグ用
-                    AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
+                    AngleTest.transform.position = new Vector3(ArmPos.x, ArmPos.y, 0.0f);
                     AngleTest.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
                     //トリガーを離したらひび生成状態(アニメーション終了)
