@@ -124,6 +124,7 @@ public class BreakBlock : MonoBehaviour
         // “–‚½‚è”»’è‚ğÁ‚·
         //GetComponent<BoxCollider2D>().enabled = false;
         Destroy(GetComponent<PolygonCollider2D>());
+        Destroy(GetComponent<BoxCollider2D>());
 
         Break = true;
     }
