@@ -67,7 +67,7 @@ public class CrackCreater : MonoBehaviour
     [SerializeField]
     private List<GameObject> _cracks;// ひびのオブジェクトリスト
 
-    private Wall_HP_System_Script _WHPSS;
+    //private Wall_HP_System_Script _WHPSS;
 
     int layerMask;      //Rayのレイヤーマスク
 
@@ -109,12 +109,12 @@ public class CrackCreater : MonoBehaviour
         State = _nowState;
 
         // WHPSS　-追加
-        GameObject _whpg =GameObject.Find("Wall_Hp_Gauge");
-        _WHPSS = _whpg.GetComponent<Wall_HP_System_Script>();
-        if (_WHPSS == null) 
-        {
-            Debug.LogError("null");
-        }
+        //GameObject _whpg =GameObject.Find("Wall_Hp_Gauge");
+        //_WHPSS = _whpg.GetComponent<Wall_HP_System_Script>();
+        //if (_WHPSS == null) 
+        //{
+        //    Debug.LogError("null");
+        //}
 
         //---------------------------------
         //　layermaskでGroundだけ判定する
@@ -333,7 +333,7 @@ public class CrackCreater : MonoBehaviour
             // 表示
             _cracks[_createCount].SetActive(true);
             // WHPSSのHPを減らす-追加
-            _WHPSS.SubHp(_cracks[_createCount].transform.localScale.x);
+            //_WHPSS.SubHp(_cracks[_createCount].transform.localScale.x);
             // 次へ
             _createCount++;
             // リセット

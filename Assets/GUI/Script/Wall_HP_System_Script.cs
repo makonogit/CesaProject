@@ -14,9 +14,9 @@ public class Wall_HP_System_Script : MonoBehaviour
     
     //-----------------------------------------------------------------
     //―変数―(私)Inaccessible variables
-    private RectTransform RTrans;// サイズ調整するため。
-    public float _nowHP;// 0～1.0f
-    private float _maxSize;
+    //private RectTransform RTrans;// サイズ調整するため。
+    //public float _nowHP;// 0～1.0f
+    //private float _maxSize;
 
     [Header("ダメージフィルター")]
     [SerializeField]
@@ -26,17 +26,17 @@ public class Wall_HP_System_Script : MonoBehaviour
     //―スタート処理―
     void Start()
     {
-        // HPの初期化
-        _nowHP = 1.0f;
-        //--------------------------------------
-        // RectTransformのコンポーネント取得
-        RTrans = GetComponent<RectTransform>();
-        if(RTrans == null) 
-        {
-            Debug.LogError("RectTransformのコンポーネントを取得できませんでした。");
-        }
-        // 最大サイズ保存
-        _maxSize = RTrans.rect.width;
+        //// HPの初期化
+        //_nowHP = 1.0f;
+        ////--------------------------------------
+        //// RectTransformのコンポーネント取得
+        //RTrans = GetComponent<RectTransform>();
+        //if(RTrans == null) 
+        //{
+        //    Debug.LogError("RectTransformのコンポーネントを取得できませんでした。");
+        //}
+        //// 最大サイズ保存
+        //_maxSize = RTrans.rect.width;
     }
 
     //-----------------------------------------------------------------
@@ -50,30 +50,30 @@ public class Wall_HP_System_Script : MonoBehaviour
     //―HP設定関数―(公)
     public void SetHp(float _num) 
     {
-        _nowHP = _num;
-        // 値の制限
-        HpLimit();
-        // ゲージの更新
-        RTrans.sizeDelta = new Vector2(_maxSize * _nowHP, RTrans.rect.height);
+        //_nowHP = _num;
+        //// 値の制限
+        //HpLimit();
+        //// ゲージの更新
+        //RTrans.sizeDelta = new Vector2(_maxSize * _nowHP, RTrans.rect.height);
         
     }
 
     //―HP減少関数―(公)
     public void SubHp(float _num) 
     {
-        _nowHP -= _num * _filter;
-        // 値の制限
-        HpLimit();
-        // ゲージの更新
-        RTrans.sizeDelta = new Vector2(_maxSize * _nowHP, RTrans.rect.height);
+        //_nowHP -= _num * _filter;
+        //// 値の制限
+        //HpLimit();
+        //// ゲージの更新
+        //RTrans.sizeDelta = new Vector2(_maxSize * _nowHP, RTrans.rect.height);
     }
 
     //二宮追加
     //ーゲッター(公)
-    public float GetHp()
-    {
-        return _nowHP;
-    }
+    //public float GetHp()
+    //{
+    //    //return _nowHP;
+    //}
 
     //-----------------------------------------------------------------
     //☆☆秘匿関数☆☆(私)
@@ -81,7 +81,7 @@ public class Wall_HP_System_Script : MonoBehaviour
     //―HP制限関数―(私)
     private void HpLimit() 
     {
-        _nowHP = (_nowHP < 0.0f ? 0.0f : _nowHP);// 下限
-        _nowHP = (_nowHP > 1.0f ? 1.0f : _nowHP);// 上限
+        //_nowHP = (_nowHP < 0.0f ? 0.0f : _nowHP);// 下限
+        //_nowHP = (_nowHP > 1.0f ? 1.0f : _nowHP);// 上限
     }
 }

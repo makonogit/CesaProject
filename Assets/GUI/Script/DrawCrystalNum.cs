@@ -15,34 +15,54 @@ public class DrawCrystalNum : MonoBehaviour
     [SerializeField, Header("数字のフォント")]
     List<Sprite> Number;
 
-    // 外部取得
-    private GameObject player; // プレイヤーを見つけて保持する
-    private PlayerStatas status;
+    public enum Rank
+    {
+        One,
+        Ten,
+    }
 
-    private Image Number_1;    // 1の位
-    private Image Number_2;    // 10の位
+    [SerializeField] private Rank rank;
+
+    // 外部取得
+    [SerializeField] private PlayerStatas status;
+
+    [SerializeField] private Image _number;
+
+    [SerializeField] private Animator anim;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //---------------------------------------------------------
-        // プレイヤー見つける
-        player = GameObject.Find("player");
+        ////---------------------------------------------------------
+        //// プレイヤー見つける
+        //player = GameObject.Find("player");
 
-        // HaveCrystalを取得
-        //crystal = player.GetComponent<HaveCrystal>();
-        status = player.GetComponent<PlayerStatas>();
+        //// HaveCrystalを取得
+        ////crystal = player.GetComponent<HaveCrystal>();
+        //status = player.GetComponent<PlayerStatas>();
 
-        Number_1 = transform.GetChild(0).GetComponent<Image>();
-        Number_2 = transform.GetChild(1).GetComponent<Image>();
+        //Number_1 = transform.GetChild(0).GetComponent<Image>();
+        //Number_2 = transform.GetChild(1).GetComponent<Image>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Number_1.sprite = Number[status.GetCrystal() % 10];
-        Number_2.sprite = Number[status.GetCrystal() / 10];
+        switch (rank) {
+            case Rank.One:
+                _number.sprite = Number[status.GetCrystal() % 10];
+                break;
+
+            case Rank.Ten:
+                _number.sprite = Number[status.GetCrystal() / 10];
+                break;
+        }
+    }
+
+    public void Get()
+    {
+        anim.SetBool("get", false);
     }
 }

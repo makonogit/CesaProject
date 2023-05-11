@@ -52,7 +52,7 @@ public class DrawHpUI : MonoBehaviour
         // 最大HP分hpUIオブジェクト作る
         for (int i = 0; i < gameover.maxHp; i++)
         {
-            objs[i] = Instantiate(chirdren, new Vector3(i * 1.0f, 0.0f, 0.0f), Quaternion.identity,parentTransform);
+            objs[i] = Instantiate(chirdren, new Vector3(i * 0.7f, 0.0f, 0.0f), Quaternion.identity,parentTransform);
             objs[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(100 * i, 0);
         }
 

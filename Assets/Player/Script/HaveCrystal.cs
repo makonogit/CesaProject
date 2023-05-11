@@ -16,16 +16,18 @@ public class HaveCrystal : MonoBehaviour
     private int CrystalNum = 0; // 持っている釘の数
 
     // 外部取得
-    private GameObject player;
-    private PlayerStatas status;
+    [SerializeField] private PlayerStatas status;
 
     private CrystalNum Crystal;
+
+    [SerializeField] private Animator anim1;
+    [SerializeField] private Animator anim2;
 
     // Update is called once per frame
     void Update()
     {
-        player = GameObject.Find("player");
-        status = player.GetComponent<PlayerStatas>();
+        //player = GameObject.Find("player");
+        //status = player.GetComponent<PlayerStatas>();
     }
 
     //落ちているクリスタルに触れるとクリスタル所持数が増える
@@ -49,6 +51,8 @@ public class HaveCrystal : MonoBehaviour
                 collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
 
                 Crystal.Get = true;
+                anim1.SetBool("get", true);
+                anim2.SetBool("get", true);
             }
         }
     }
