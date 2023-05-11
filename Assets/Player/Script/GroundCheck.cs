@@ -167,7 +167,7 @@ public class GroundCheck : MonoBehaviour
         // ñﬂÇËílópïœêî
         bool Return = false;
 
-        RaycastHit2D hit = Physics2D.CircleCast((Vector2)thistransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius, Vector2.down, groundCheckDistance, CircleLayerMask);
+        RaycastHit2D hit = Physics2D.CircleCast((Vector2)thistransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius, Vector2.down, groundCheckDistance, layerMask);
 
         if (hit)
         {
