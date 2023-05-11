@@ -79,7 +79,7 @@ public class SEManager_Player : MonoBehaviour
         }
 
         // ˆÚ“®‚ª‚ ‚é‚©‚Â’n–Ê‚É‚Â‚¢‚Ä‚¢‚ê‚Î
-        if (MoveStart && GC.IsGround())
+        if (MoveStart && GC.IsGroundCircle())
         {
             PlaySE_Move();
         }

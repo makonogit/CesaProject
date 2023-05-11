@@ -20,6 +20,13 @@ public class GroundCheck : MonoBehaviour
     public float AdjustCenter = 0.15f; // 中央ぞろえ用変数
     public int touch; // 地面と触れているレイの本数
 
+    [Header("円形のレイ用")]
+    [SerializeField] float groundCheckRadius = 0.4f; // 半径
+    [SerializeField] float groundCheckOffsetX = 0.45f; // オフセット
+    [SerializeField] float groundCheckOffsetY = 0.45f; // オフセット
+    [SerializeField] float groundCheckDistance = 0.2f; // キャストする最大距離 （円の半径＋この変数）がキャスト距離？
+    [SerializeField] LayerMask CircleLayerMask = 1 << 10; // 判定するレイヤー
+
     //-----------追加担当：中川-----------
     [SerializeField, Tooltip("レイの長さを調整します。")]
     private float _length = 0.01f;
@@ -59,9 +66,11 @@ public class GroundCheck : MonoBehaviour
 
     private void Update()
     {
+        
         if (oldDire != ScriptPIManager.Direction)
         {
             AdjustX = -AdjustX;
+            groundCheckOffsetX = -groundCheckOffsetX;
             AdjustCenter = -AdjustCenter;
         }
 
@@ -117,15 +126,15 @@ public class GroundCheck : MonoBehaviour
         touch = 0;
 
         // 当たっているかつ、タグがGroundならカウントを増やす
-        if (hit_l/* && ((hit_l.collider.gameObject.tag == groundTag) || (hit_l.collider.gameObject.tag == iceTag))*/)
+        if (hit_l)
         {
             touch++;
         }
-        if (hit_m/* && ((hit_m.collider.gameObject.tag == groundTag) || (hit_m.collider.gameObject.tag == iceTag))*/)
+        if (hit_m)
         {
             touch++;
         }
-        if (hit_r/* && ((hit_r.collider.gameObject.tag == groundTag) || (hit_r.collider.gameObject.tag == iceTag))*/)
+        if (hit_r)
         {
             touch++;
         }
@@ -135,18 +144,46 @@ public class GroundCheck : MonoBehaviour
         // 二本以上地面に触れていたら
         if (touch >= 2)
         {
+            Debug.Log("当たった");
+
             isGround = true;
             // 当たっているタグ名を表示
             //Debug.Log(hit.collider.gameObject.tag);
         }
         else
         {
+            Debug.Log("当たってない");
             isGround = false;
         }
 
         //----------------------------------------------------------------------------------------------------------
         // 判定を返す
         return isGround;
+    }
+
+    // 円形のレイキャスト
+    public bool IsGroundCircle()
+    {
+        // 戻り値用変数
+        bool Return = false;
+
+        RaycastHit2D hit = Physics2D.CircleCast((Vector2)thistransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius, Vector2.down, groundCheckDistance, CircleLayerMask);
+
+        if (hit)
+        {
+            Return = true;
+        }
+
+        Debug.Log(Return);
+
+        return Return;
+    }
+
+    // 円形のレイ描画
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere((Vector2)thistransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius);
     }
 
     public int GetRayNum()

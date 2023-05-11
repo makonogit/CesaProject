@@ -27,7 +27,8 @@ public class ChangeResultScene : MonoBehaviour
     private GameObject Player;
 
     // クリア時に停止するプレイヤーのコンポーネント
-    private PlayerJump jump;
+    //private PlayerJump jump;
+    private New_PlayerJump jump;
     private PlayerMove move;
     private Hammer hammer;
     private CrackAutoMove crackmove;
@@ -51,7 +52,8 @@ public class ChangeResultScene : MonoBehaviour
         //------------------------
 
         // プレイヤーを動かすコンポーネントの取得
-        jump = Player.GetComponent<PlayerJump>();
+        //jump = Player.GetComponent<PlayerJump>();
+        jump = Player.GetComponent<New_PlayerJump>();
         move = Player.GetComponent<PlayerMove>();
         hammer = Player.GetComponent<Hammer>();
         crackmove = Player.GetComponent<CrackAutoMove>();

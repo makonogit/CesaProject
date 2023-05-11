@@ -16,8 +16,8 @@ public class PlayerInputManager : MonoBehaviour
     private Vector2 movement; // 入力量を取得する変数
 
     //ジャンプ用
-    [Header("ジャンプ中")]
-    public bool IsJump = false; // 現在ジャンプボタンが押されているか
+    [Header("ジャンプボタン押下"),SerializeField]
+    private bool IsJump = false; // 現在ジャンプボタンが押されているか
     [Header("")]
     [SerializeField] bool JumpTrigger = false; // ジャンプ入力離さないと二回目以降ジャンプしないようにする
 

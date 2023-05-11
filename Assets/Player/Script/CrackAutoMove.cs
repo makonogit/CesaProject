@@ -27,6 +27,8 @@ public class CrackAutoMove : MonoBehaviour
     public bool MoveFlg = false;   //移動中フラグ
     public bool HitFlg = false;    //ヒビに当たっているフラグ     
 
+    private bool InCrack = false;
+
     [Header("InputManager用オブジェクト")]
     private GameObject PlayerInputManager;       // ゲームオブジェクトPlayerInputManagerを取得する変数
     private PlayerInputManager ScriptPIManager;  // PlayerInputManager
@@ -40,7 +42,7 @@ public class CrackAutoMove : MonoBehaviour
     private Material NomalCrackMat;
 
 
-    PlayerJump Jump;                    // ジャンプスクリプト
+    New_PlayerJump Jump;                    // ジャンプスクリプト
     PlayerMove Move;                    // 移動スクリプト
     GroundCheck GroundCheck;            // 接地判定
     Rigidbody2D thisrigidbody;          // このオブジェクトのrigitbody
@@ -89,7 +91,7 @@ public class CrackAutoMove : MonoBehaviour
         ScriptPIManager = PlayerInputManager.GetComponent<PlayerInputManager>();
         InputTrigger = PlayerInputManager.GetComponent<InputTrigger>();
 
-        Jump = this.gameObject.GetComponent<PlayerJump>();
+        Jump = this.gameObject.GetComponent<New_PlayerJump>();
         Move = this.gameObject.GetComponent<PlayerMove>();
         GroundCheck = this.gameObject.GetComponent<GroundCheck>();
 
@@ -228,6 +230,8 @@ public class CrackAutoMove : MonoBehaviour
                 // 自分のあたり判定を有効にする
                 thiscol.enabled = true;
                 // アニメーション終了していたらMove,Jumpを再開
+                Jump.enabled = true;
+                InCrack = false;
                 Move.SetMovement(true);
                 HitFlg = false;
 
@@ -318,10 +322,11 @@ public class CrackAutoMove : MonoBehaviour
                             = FrashCrackMat;
                     }
                 }
-
                 // Aボタンで入る
-                if (InputTrigger.GetJumpTrigger())
+                if (ScriptPIManager.GetJump() == true && InCrack == false)
                 {
+                    InCrack = true;
+
                     NowPointNum = MinPointNum;
                     
                     //　ひびのオブジェクトを取得
@@ -332,6 +337,7 @@ public class CrackAutoMove : MonoBehaviour
                     thisrigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
 
                     //Jump.JumpHeight = 0.0f;
+                    Jump.enabled = false;
                     Move.SetMovement(false);
                 }
             }

@@ -22,10 +22,11 @@ public class PlayerJump : MonoBehaviour
     private bool isOverhead = false; // 天井に触れているか
     [SerializeField]
     private bool isJump = false; // ジャンプ中かどうか
-    private float axel = 9.8f; // 重力加速度
+    public float axel = 6.3f; // 重力加速度  帳尻合わせた5/10
     public float JumpTime = 0.0f; // ジャンプが始まってから落ち始めるまでの経過時間
     public float FallTime = 0.0f; // 落ち始めてからの時間
     public int RayNum; // 当たっているレイの本数
+    public bool fall = false;
 
     // ブロックの上にいる状態でのFallTime増加を防ぐ
     private float oldPosY; // 前フレームのY座標
@@ -143,10 +144,12 @@ public class PlayerJump : MonoBehaviour
             // 天井の衝突判定を得る
             isOverhead = overhead.IsOverHead();
 
-            if(isJump == true)
+            if (isJump == true)
             {
                 isGround = false;
             }
+
+            Debug.Log(RayNum);
 
             //----------------------------------------------------------------------------------------------------------
             // 何も入力されていなければこのままの値をプレイヤーの座標に加算することになる
@@ -217,17 +220,26 @@ public class PlayerJump : MonoBehaviour
 
                 //----------------------------------------------------------------------------------------------------------
                 // ジャンプボタンが押されている。かつ,現在の高さがジャンプした位置から自分の決めた位置より下ならジャンプ継続
-                if (Jump == true && JumpPos + JumpHeight > transform.position.y)
+                if (Jump == true/* && JumpPos + JumpHeight > transform.position.y*/)
                 {
                     //----------------------------------------------------------------------------------------------------------
                     // ジャンプによって上昇する量を変数にセット
                     ySpeed = JumpPower - (axel * JumpTime);
+
+                    if(ySpeed < 0f)
+                    {
+                        fall = true;
+                        JumpTime = 0f;
+                    }
                 }
                 else
                 {
                     //----------------------------------------------------------------------------------------------------------
                     // 状態を非ジャンプ中に設定
                     isJump = false;
+
+                    fall = true;
+                    JumpTime = 0f;
 
                     //---------------------------------------------------------------
                     // ジャンプ制御
@@ -239,7 +251,8 @@ public class PlayerJump : MonoBehaviour
             // 自由落下（加速度加味）
 
             // 地面についてないかつ、ジャンプ入力もない(PlayerInputManagerスクリプトの変数Resetがtrueか未入力)時
-            if ((isGround == false && isJump == false && (crackmove.movestate == CrackAutoMove.MoveState.Walk || crackmove.movestate == CrackAutoMove.MoveState.CrackMoveEnd)))
+            //if ((isGround == false && isJump == false && (crackmove.movestate == CrackAutoMove.MoveState.Walk || crackmove.movestate == CrackAutoMove.MoveState.CrackMoveEnd)))
+            if(fall == true)
             {
                 if (RayNum == 0)
                 {
@@ -254,17 +267,24 @@ public class PlayerJump : MonoBehaviour
                         FallTime += Time.deltaTime;
                     }
                 }
+                else
+                {
+                    // 落下状態での経過時間を初期化
+                    FallTime = 0.0f;
+
+                    fall = false;
+                    // 地面に着地する瞬間に再生
+                    if (FallTime != 0.0f)
+                    {
+                        seMana.PlaySE_Drop();
+                    }
+                }
             }
             else
             {
-                // 地面に着地する瞬間に再生
-                if (FallTime != 0.0f)
-                {
-                    seMana.PlaySE_Drop();
-                }
+                
                 //----------------------------------------------------------------------------------------------------------
-                // 落下状態での経過時間を初期化
-                FallTime = 0.0f;
+ 
             }
 
             //----------------------------------------------------------------------------------------------------------
@@ -299,6 +319,7 @@ public class PlayerJump : MonoBehaviour
 
             // 落下中なら落下アニメーション遷移変数をセット
             anim.SetBool("drop", FallTime > 0.0f);
+
 
         }
         else

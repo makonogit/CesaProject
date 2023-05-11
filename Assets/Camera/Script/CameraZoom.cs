@@ -114,4 +114,9 @@ public class CameraZoom : MonoBehaviour
             Wait += Time.deltaTime; //なぜかステージ開始時に始まってしまう
         }
     }
+
+    public void RespawnInit()
+    {
+        SetBreak = false;
+    }
 }
