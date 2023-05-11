@@ -145,7 +145,7 @@ public class CrackAutoMove : MonoBehaviour
                 thiscol.enabled = false;
                 
                 //始点・終点まで移動したら移動終了
-                if (MinPointNum == 0)
+                if (MinPointNum == 0 || MinPointNum == 1)
                 {
                     //----------------------------------
                     //目的地(Point座標)まで移動
@@ -180,7 +180,7 @@ public class CrackAutoMove : MonoBehaviour
                     }
                 }
 
-                if (MinPointNum == PointNum - 1)
+                if (MinPointNum == PointNum - 1 || MinPointNum == PointNum - 2)
                 {
                    
                     NowCrackspeed += CrackMoveSpeed * Time.deltaTime;
@@ -308,7 +308,7 @@ public class CrackAutoMove : MonoBehaviour
 
             //---------------------------------------------
             //1番近い座標が始点or終点ならひびに入る
-            if (MinPointNum == 0 || MinPointNum == Edge.pointCount - 1 || MinPointNum == 1)
+            if (MinPointNum == 0 || MinPointNum == 1 || MinPointNum == Edge.pointCount - 1 || MinPointNum == Edge.pointCount - 2)
             {
                 HitFlg = true;
 
