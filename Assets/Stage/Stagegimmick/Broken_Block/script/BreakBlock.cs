@@ -123,7 +123,7 @@ public class BreakBlock : MonoBehaviour
 
         // “–‚½‚è”»’è‚ğÁ‚·
         //GetComponent<BoxCollider2D>().enabled = false;
-        Destroy(GetComponent<BoxCollider2D>());
+        Destroy(GetComponent<PolygonCollider2D>());
 
         Break = true;
     }
