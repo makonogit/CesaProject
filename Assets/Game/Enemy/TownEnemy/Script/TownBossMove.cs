@@ -49,41 +49,43 @@ public class TownBossMove : MonoBehaviour
     private int SwitchBack;                                           // 切り返し回数
     [Header("突進後の後隙")] public float RammingWaitTime = 3.0f;     // 突進後の後隙時間
     private float RammingWaitTimer;                                   // 突進後の隙時間タイマー
-
-    // かけら飛ばし用変数
-    private float CreateShardsNeedTime = 0.6f;   // かけらを作るのにかかる時間
-    private float ShardCreateTimer;            // かけらを生成し始めてからの経過時間
-    private int CreatedNum = 0; // かけらを作った数
-    public GameObject Shards_Prefab; // かけらのプレハブを持っておく変数
-    private GameObject[] shardObj = new GameObject[18]; // 作成したかけらオブジェクトをいれる配列
-    private GameObject shardParent; // かけらの親オブジェクト
-    private Vector3[] ShardVelocity = new Vector3[18]; // 作ったかけらを移動させるための値を入れる配列
-    private bool AllAddVelocity = false; // 作成した全てのかけらにVelocityを加算したか
-    [Header("かけらの移動スピード")]public float ShardSpeed = 5f;
-    private float ShardWaitTime = 3f; // かけらを飛ばした後の次のモーションまでの待ち時間
-    private float ShardThrowTimer = 0f; // かけらをとばしてからの経過時間
-    private int ShardWaveNum = 0; // なんかいのウェーブがあるか
-    private int NowShardWave = 0; // 今何ウェーブ目か
-    [Header("1ウェーブに何個飛ばすか(最大6個)"),SerializeField] private int CreateShardNum = 6;
-    // 欠片生成時のエフェクト
-    public GameObject ChargeEffect;
-
-    // かけら配置用変数
-    [Header("何度間隔でかけらを配置するか(初期値10)")]public float SpacingDeg = 10f; // 何度間隔で配置するか
-    private float shardDeg = 0f; // 角度（何度から始まるのか)               
-    private float radius = 2.5f;   // ボスを原点とした円の半径
-
     private bool HitPlayer = false;
 
+    //// かけら飛ばし用変数
+    //private float CreateShardsNeedTime = 0.6f;   // かけらを作るのにかかる時間
+    //private float ShardCreateTimer;            // かけらを生成し始めてからの経過時間
+    //private int CreatedNum = 0; // かけらを作った数
+    //public GameObject Shards_Prefab; // かけらのプレハブを持っておく変数
+    //private GameObject[] shardObj = new GameObject[18]; // 作成したかけらオブジェクトをいれる配列
+    //private GameObject shardParent; // かけらの親オブジェクト
+    //private Vector3[] ShardVelocity = new Vector3[18]; // 作ったかけらを移動させるための値を入れる配列
+    //private bool AllAddVelocity = false; // 作成した全てのかけらにVelocityを加算したか
+    //[Header("かけらの移動スピード")]public float ShardSpeed = 5f;
+    //private float ShardWaitTime = 3f; // かけらを飛ばした後の次のモーションまでの待ち時間
+    //private float ShardThrowTimer = 0f; // かけらをとばしてからの経過時間
+    //private int ShardWaveNum = 0; // なんかいのウェーブがあるか
+    //private int NowShardWave = 0; // 今何ウェーブ目か
+    //[Header("1ウェーブに何個飛ばすか(最大6個)"),SerializeField] private int CreateShardNum = 6;
+    //// 欠片生成時のエフェクト
+    //public GameObject ChargeEffect;
+
+    //// かけら配置用変数
+    //[Header("何度間隔でかけらを配置するか(初期値10)")]public float SpacingDeg = 10f; // 何度間隔で配置するか
+    //private float shardDeg = 0f; // 角度（何度から始まるのか)               
+    //private float radius = 2.5f;   // ボスを原点とした円の半径
+
     //無敵
-    [System.NonSerialized]public bool invincibility = false;
-    [System.NonSerialized] public bool Damaged = false;
-    private GameObject Barrier; // バリアオブジェクト
-    private Material BariMat;   // マテリアル
+    //[System.NonSerialized]public bool invincibility = false;
+    //[System.NonSerialized] public bool Damaged = false;
+    //private GameObject Barrier; // バリアオブジェクト
+    //private Material BariMat;   // マテリアル
 
     // 死亡
     private bool death = false;
     private Directing_BossLight bossDirecting;
+
+    // 初期化用変数
+    private Vector3 InitPosition; // 初期位置
 
     public enum AIState
     {
@@ -112,12 +114,27 @@ public class TownBossMove : MonoBehaviour
     private CameraControl2 cameraControl;   //カメラ追従
     private VibrationCamera vibration;
 
+    public void Init()
+    {
+        // 座標初期化
+        thisTransform.position = InitPosition;
+
+        // 状態セット
+        EnemyAI = AIState.None;
+
+        // 向き
+        Direction = EnemyDirection.LEFT;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         //---------------------------------------------------------
         // オブジェクトのTransformを取得
         thisTransform = GetComponent<Transform>();
+
+        // 初期化用の座標保存
+        InitPosition = thisTransform.position;
 
         // プレイヤーオブジェクト探す
         player = GameObject.Find("player");
@@ -129,12 +146,12 @@ public class TownBossMove : MonoBehaviour
         BossHealth = Colchild.GetComponent<TownBossHealth>();
 
         // バリアオブジェクト取得
-        Barrier = transform.GetChild(2).gameObject;
-        BariMat = Barrier.GetComponent<SpriteRenderer>().material;
-        BariMat.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        //Barrier = transform.GetChild(2).gameObject;
+        //BariMat = Barrier.GetComponent<SpriteRenderer>().material;
+        //BariMat.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
         // ShardParent取得
-        shardParent = transform.GetChild(1).gameObject;
+        //shardParent = transform.GetChild(1).gameObject;
 
         // カメラ探す
         mainCam = GameObject.Find("Main Camera");
@@ -214,7 +231,7 @@ public class TownBossMove : MonoBehaviour
 
             // かけら飛ばし
             case AIState.ThrowShards:
-                ThrowShards();
+                //ThrowShards();
                 break;
 
             // 撃破
@@ -223,15 +240,15 @@ public class TownBossMove : MonoBehaviour
                 break;
         }
 
-        Debug.Log(invincibility);
-        // バリア描画
-        DrawBarrier();
+        //Debug.Log(invincibility);
+        // バリア描画 そんなものはない
+        //DrawBarrier();
     }
 
     private void Lottery()
     {
         // 次の行動を抽選
-        var Action = Random.Range(0, 2);
+        var Action = Random.Range(0, 1);
 
         switch (Action)
         {
@@ -246,15 +263,15 @@ public class TownBossMove : MonoBehaviour
                 break;
         }
 
-        Damaged = false;
-        invincibility = false;
+        //Damaged = false;
+        //invincibility = false;
     }
 
     private void RammingInit()
     {
         // 突進準備
         // 無敵
-        invincibility = true;
+        //invincibility = true;
 
         // 切り返し回数を求める
         SwitchBack = BossHealth.MaxBossHealth - BossHealth.BossHealth;
@@ -289,7 +306,7 @@ public class TownBossMove : MonoBehaviour
             HitPlayer = false;
 
             // 無敵解除
-            invincibility = false;
+            //invincibility = false;
         }
 
         float sign = 0.0f; // 符号
@@ -340,17 +357,17 @@ public class TownBossMove : MonoBehaviour
 
     private void RammingWait()
     {
-        // 隙（ぴよってる）
-        if (Damaged == false)
-        {
-            // 無敵解除
-            invincibility = false;
-        }
-        else
-        {
-            // ダメージをくらったら無敵
-            invincibility = true;
-        }
+        //// 隙（ぴよってる）
+        //if (Damaged == false)
+        //{
+        //    // 無敵解除
+        //    invincibility = false;
+        //}
+        //else
+        //{
+        //    // ダメージをくらったら無敵
+        //    invincibility = true;
+        //}
 
         float vibTime = 1f;
         if(RammingWaitTimer == 0)
@@ -387,160 +404,160 @@ public class TownBossMove : MonoBehaviour
         }
     }
 
-    Vector3 CreatePos;
-    Quaternion CreateRotate;
-    GameObject effect;
+    //Vector3 CreatePos;
+    //Quaternion CreateRotate;
+    //GameObject effect;
     private void ThrowShardsInit()
     {
         // かけら準備
         // 無敵
-        invincibility = true;
+        //invincibility = true;
 
-        // ボスのHPによってかけら飛ばしの回数が変わる
-        ShardWaveNum = BossHealth.MaxBossHealth - BossHealth.BossHealth;
+    //    // ボスのHPによってかけら飛ばしの回数が変わる
+    //    ShardWaveNum = BossHealth.MaxBossHealth - BossHealth.BossHealth;
 
-        if(ShardCreateTimer == 0)
-        {
-            // 角度degからラジアンを作成
-            var rad = (shardDeg + (CreatedNum % CreateShardNum) * SpacingDeg) * Mathf.Deg2Rad;
+    //    if(ShardCreateTimer == 0)
+    //    {
+    //        // 角度degからラジアンを作成
+    //        var rad = (shardDeg + (CreatedNum % CreateShardNum) * SpacingDeg) * Mathf.Deg2Rad;
 
-            // ラジアンを用いてsinとcosを求める
-            var sin = Mathf.Sin(rad);
-            var cos = Mathf.Cos(rad);
+    //        // ラジアンを用いてsinとcosを求める
+    //        var sin = Mathf.Sin(rad);
+    //        var cos = Mathf.Cos(rad);
 
-            var sign = 0f;
-            // 向いている方向によって符号が変わる
-            if (Direction == EnemyDirection.RIGHT)
-            {
-                sign = 1f;
-            }
-            else
-            {
-                sign = -1f;
-            }
+    //        var sign = 0f;
+    //        // 向いている方向によって符号が変わる
+    //        if (Direction == EnemyDirection.RIGHT)
+    //        {
+    //            sign = 1f;
+    //        }
+    //        else
+    //        {
+    //            sign = -1f;
+    //        }
 
-            // ボスを中心とした円周上の点を求める
-            CreatePos = new Vector3(thisTransform.position.x + sign * cos * radius, thisTransform.position.y + AdjustY + sin * radius, 0f);
+    //        // ボスを中心とした円周上の点を求める
+    //        CreatePos = new Vector3(thisTransform.position.x + sign * cos * radius, thisTransform.position.y + AdjustY + sin * radius, 0f);
 
-            // そのかけらの回転角度を求める
-            // 第一引数 回転させたい角度
-            // 第二引数 回転させたい軸 right,up,forward
-            CreateRotate = Quaternion.AngleAxis(
-                (sign *               // 符号（どちら向きに飛ばすのか）
-                (90f +                // 呼び出す欠片を飛ばす方向にむかせるための角度
-                SpacingDeg *          // 何度間隔で配置するのか
-                (CreatedNum % CreateShardNum)))    // そのウェーブの中で何番目に生成されるモノか(1ウェーブ6個)
-                , Vector3.forward);   // z軸回転させたい
+    //        // そのかけらの回転角度を求める
+    //        // 第一引数 回転させたい角度
+    //        // 第二引数 回転させたい軸 right,up,forward
+    //        CreateRotate = Quaternion.AngleAxis(
+    //            (sign *               // 符号（どちら向きに飛ばすのか）
+    //            (90f +                // 呼び出す欠片を飛ばす方向にむかせるための角度
+    //            SpacingDeg *          // 何度間隔で配置するのか
+    //            (CreatedNum % CreateShardNum)))    // そのウェーブの中で何番目に生成されるモノか(1ウェーブ6個)
+    //            , Vector3.forward);   // z軸回転させたい
 
-            // 中心に集まってくるエフェクト生成
-            effect = Instantiate(ChargeEffect);
-            effect.transform.position = CreatePos;
+    //        // 中心に集まってくるエフェクト生成
+    //        effect = Instantiate(ChargeEffect);
+    //        effect.transform.position = CreatePos;
 
-            // ボスの中心座標をAdjustYでずらしたのでずらした座標を持っておく
-            Vector3 AdjustYThisPos = new Vector3(thisTransform.position.x, thisTransform.position.y + AdjustY, thisTransform.position.z);
+    //        // ボスの中心座標をAdjustYでずらしたのでずらした座標を持っておく
+    //        Vector3 AdjustYThisPos = new Vector3(thisTransform.position.x, thisTransform.position.y + AdjustY, thisTransform.position.z);
 
-            // 作成したかけらからボスの中心座標までのベクトルを求める
-            var Vector_Shrad_Boss = CreatePos - AdjustYThisPos;
-            // もとめたベクトルのオブジェクトの作成番号と配列の添え字が一致するようにベクトルを保存
-            ShardVelocity[CreatedNum] = Vector_Shrad_Boss;
-        }
+    //        // 作成したかけらからボスの中心座標までのベクトルを求める
+    //        var Vector_Shrad_Boss = CreatePos - AdjustYThisPos;
+    //        // もとめたベクトルのオブジェクトの作成番号と配列の添え字が一致するようにベクトルを保存
+    //        ShardVelocity[CreatedNum] = Vector_Shrad_Boss;
+    //    }
 
-        // かけらを生成してからの経過時間
-        ShardCreateTimer += Time.deltaTime;
+    //    // かけらを生成してからの経過時間
+    //    ShardCreateTimer += Time.deltaTime;
 
-        if(ShardCreateTimer > CreateShardsNeedTime)
-        {
-            // 第一引数 作成するオブジェクトの素となるプレハブ
-            // 第二引数 作成する位置
-            // 第三引数 作成するときの角度
-            // 第四引数 作成するオブジェクトの親オブジェクト
-            shardObj[CreatedNum] = Instantiate(Shards_Prefab, CreatePos, CreateRotate, shardParent.transform);
+    //    if(ShardCreateTimer > CreateShardsNeedTime)
+    //    {
+    //        // 第一引数 作成するオブジェクトの素となるプレハブ
+    //        // 第二引数 作成する位置
+    //        // 第三引数 作成するときの角度
+    //        // 第四引数 作成するオブジェクトの親オブジェクト
+    //        shardObj[CreatedNum] = Instantiate(Shards_Prefab, CreatePos, CreateRotate, shardParent.transform);
 
-            // 大きさ調整
-            shardObj[CreatedNum].transform.localScale = new Vector3(1f, 1f, 1f);
+    //        // 大きさ調整
+    //        shardObj[CreatedNum].transform.localScale = new Vector3(1f, 1f, 1f);
 
-            // パーティクルのゲームオブジェクト消す
-            Destroy(effect);
+    //        // パーティクルのゲームオブジェクト消す
+    //        Destroy(effect);
 
-            // 作成数カウント
-            CreatedNum++;
+    //        // 作成数カウント
+    //        CreatedNum++;
 
-            // 次のかけら作成のため初期化
-            ShardCreateTimer = 0f;
-        }
+    //        // 次のかけら作成のため初期化
+    //        ShardCreateTimer = 0f;
+    //    }
 
-        // かけらを作り終えたら
-        if (CreatedNum >= CreateShardNum + NowShardWave * CreateShardNum)
-        {
-            // かけら飛ばしへ
-            EnemyAI = AIState.ThrowShards;
+    //    // かけらを作り終えたら
+    //    if (CreatedNum >= CreateShardNum + NowShardWave * CreateShardNum)
+    //    {
+    //        // かけら飛ばしへ
+    //        EnemyAI = AIState.ThrowShards;
 
-            // 初期化
-            ShardCreateTimer = 0.0f;
-        }
-    }
+    //        // 初期化
+    //        ShardCreateTimer = 0.0f;
+    //    }
+    //}
 
-    private void ThrowShards()
-    {
-        // かけら飛ばし
+    //private void ThrowShards()
+    //{
+    //    // かけら飛ばし
 
-        if (Damaged == false)
-        {
-            // 無敵解除
-            invincibility = false;
-        }
+    //    if (Damaged == false)
+    //    {
+    //        // 無敵解除
+    //        //invincibility = false;
+    //    }
 
-        // このAIStateになった最初のフレームのみ入る
-        if (AllAddVelocity == false)
-        {
-            // リジッドボディのvelocityに対応した値を加算
-            for (int i = 0 + CreateShardNum * NowShardWave; i < CreatedNum; i++)
-            {
-                if (shardObj[i] != null)
-                {
-                    Rigidbody2D rigid2D = shardObj[i].GetComponent<Rigidbody2D>();
-                    rigid2D.velocity = ShardVelocity[i] * ShardSpeed;
-                }
-            }
-        }
+    //    // このAIStateになった最初のフレームのみ入る
+    //    if (AllAddVelocity == false)
+    //    {
+    //        // リジッドボディのvelocityに対応した値を加算
+    //        for (int i = 0 + CreateShardNum * NowShardWave; i < CreatedNum; i++)
+    //        {
+    //            if (shardObj[i] != null)
+    //            {
+    //                Rigidbody2D rigid2D = shardObj[i].GetComponent<Rigidbody2D>();
+    //                rigid2D.velocity = ShardVelocity[i] * ShardSpeed;
+    //            }
+    //        }
+    //    }
 
-        // HPが少なくなればなるほどかけらを飛ばす回数が増える
-        if(NowShardWave < ShardWaveNum)
-        {
-            // 次のウェーブに進める
-            NowShardWave++;
+    //    // HPが少なくなればなるほどかけらを飛ばす回数が増える
+    //    if(NowShardWave < ShardWaveNum)
+    //    {
+    //        // 次のウェーブに進める
+    //        NowShardWave++;
 
-            // 次のかけら準備
-            EnemyAI = AIState.ThrowShardsInit;
-        }
-        else
-        {
-            AllAddVelocity = true;
+    //        // 次のかけら準備
+    //        EnemyAI = AIState.ThrowShardsInit;
+    //    }
+    //    else
+    //    {
+    //        AllAddVelocity = true;
 
-            ShardThrowTimer += Time.deltaTime;
-            if (ShardThrowTimer > ShardWaitTime)
-            {
-                // 行動抽選
-                EnemyAI = AIState.Lottery;
+    //        ShardThrowTimer += Time.deltaTime;
+    //        if (ShardThrowTimer > ShardWaitTime)
+    //        {
+    //            // 行動抽選
+    //            EnemyAI = AIState.Lottery;
 
-                // 初期化
-                for (int i = 0; i < CreatedNum; i++)
-                {
-                    if (shardObj[i] != null)
-                    {
-                        // かけらを消去
-                        Destroy(shardObj[i].gameObject);
-                        shardObj[i] = null;
-                    }
-                    ShardVelocity[i] = Vector3.zero;
-                }
+    //            // 初期化
+    //            for (int i = 0; i < CreatedNum; i++)
+    //            {
+    //                if (shardObj[i] != null)
+    //                {
+    //                    // かけらを消去
+    //                    Destroy(shardObj[i].gameObject);
+    //                    shardObj[i] = null;
+    //                }
+    //                ShardVelocity[i] = Vector3.zero;
+    //            }
 
-                CreatedNum = 0;
-                AllAddVelocity = false;
-                ShardThrowTimer = 0f;
-                NowShardWave = 0;
-            }
-        }
+    //            CreatedNum = 0;
+    //            AllAddVelocity = false;
+    //            ShardThrowTimer = 0f;
+    //            NowShardWave = 0;
+    //        }
+    //    }
     }
 
     private void Death()
@@ -554,15 +571,15 @@ public class TownBossMove : MonoBehaviour
 
             bossDirecting.Flash();
 
-            // バリア透明にする
-            BariMat.color = new Color(1f, 1f, 1f, 0f);
+            //// バリア透明にする
+            //BariMat.color = new Color(1f, 1f, 1f, 0f);
         }
     }
 
     private void None()
     {
         // 一定距離までプレイヤーが近づいたら
-        if(Distance < 100f)
+        if(Distance < 120f)
         {
             EnemyAI = AIState.Lottery;
         }
@@ -652,10 +669,10 @@ public class TownBossMove : MonoBehaviour
 
     private void Walk()
     {
-        if(Damaged == true)
-        {
-            invincibility = true;
-        }
+        //if(Damaged == true)
+        //{
+        //    //invincibility = true;
+        //}
 
         // 指定時間横に歩く
         if(Direction == EnemyDirection.LEFT)
@@ -751,18 +768,18 @@ public class TownBossMove : MonoBehaviour
         }
     }
 
-    private void DrawBarrier()
-    {
-        // 無敵ならバリア描画
-        if(invincibility == true)
-        {
-            BariMat.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-        }
-        else
-        {
-            BariMat.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-        }
-    }
+    //private void DrawBarrier()
+    //{
+    //    // 無敵ならバリア描画
+    //    if(invincibility == true)
+    //    {
+    //        BariMat.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    //    }
+    //    else
+    //    {
+    //        BariMat.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+    //    }
+    //}
 
     public void SetHitPlayer(bool _hit)
     {

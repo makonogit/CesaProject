@@ -32,10 +32,13 @@ public class New_PlayerJump : MonoBehaviour
     // 調整可能変数
     [Header("調整用変数")]
     [SerializeField] private float JumpPower = 3.0f; // ジャンプ力
-    private float gravity; // ジャンプパワーから引いてく重力
+    [SerializeField] private float gravity; // ジャンプパワーから引いてく重力
     [Header("慣性が働くフレーム数"),SerializeField] private int inertia = 5; // 慣性フレーム数
 
     private bool Selected = false;  //セレクト画面用
+
+    // デバッグ用変数
+    private int count = 0;
 
     //----------------------------------------------------------------------------------------------------------
     // 外部取得
@@ -83,8 +86,8 @@ public class New_PlayerJump : MonoBehaviour
         // 座標系
         _thisTransform = GetComponent<Transform>();
 
-        // この比率がよい
-        gravity = JumpPower / 100f;
+        // この比率がよい Deltatime利用により正しく値を入れるようにした5/11
+        //gravity = JumpPower / 10f;
 
         //------------追加担当：菅--------------------
         crackmove = GetComponent<CrackAutoMove>();
@@ -127,9 +130,9 @@ public class New_PlayerJump : MonoBehaviour
 
             // トリガー
             TriggerJumpflg = _trigger.GetJumpTrigger(); // 押された瞬間か
-                                                        // プレス
+            // プレス
             PressJumpflg = _playerInputManager.GetJump(); // 押されているか
-                                                          // リリース
+            // リリース
             ReleaseJumpflg = OldPressJumpflg == true && PressJumpflg == false; // 離された瞬間か
 
             //----------------------------------------------------
@@ -149,6 +152,8 @@ public class New_PlayerJump : MonoBehaviour
 
                     // ジャンプse再生
                     seMana.PlaySE_Jump();
+
+                    count = 0;
                 }
             }
 
@@ -169,10 +174,10 @@ public class New_PlayerJump : MonoBehaviour
                 _thisTransform.Translate(0f, MoveY, 0f);
 
                 // 重力の影響を受けさせる
-                MoveY -= gravity;
+                MoveY -= gravity * Time.deltaTime;
             }
 
-            if (PressJumpflg == false)
+            if (isGround == false && PressJumpflg == false)
             {
                 // 落下
 
@@ -185,20 +190,24 @@ public class New_PlayerJump : MonoBehaviour
             }
 
             // ジャンプの処理が終わって地面についたとき(ジャンプが入力されたフレームでは入らない)
-            if (isGround == true && ImFly == true && (TriggerJumpflg == false))
-            {
-                // 一連のジャンプ終了
-                ImFly = false;
-                MoveY = 0f;
-            }
-
-            // ジャンプを経由しない落下が終わる
-            if (isGround == true && ImDrop == true)
-            {
-                // 落下終了
-                ImDrop = false;
-                MoveY = 0f;
-            }
+            if (isGround == true && ImFly == true && (TriggerJumpflg == false) && count > 100)
+            {                                                                  //  ↑
+                // 一連のジャンプ終了                                          //  ｜
+                ImFly = false;                                                 //  ｜
+                MoveY = 0f;                                                    //  ｜
+                //Debug.Log(count);                                            //  ｜
+            }                                                                  //  ｜
+                                                                               //  ｜
+            // ジャンプを経由しない落下が終わる                                //  ｜
+            if (isGround == true && ImDrop == true)                            //  ｜
+            {                                                                  //  ｜
+                // 落下終了                                                    //  ｜
+                ImDrop = false;                                                //  ｜
+                MoveY = 0f;                                                    //  ｜
+            }                                                                  //  ｜
+                                                                               //  ｜
+            // バグ回避用 だけどできないいいいいいいいいいいいいいいいいいいーーーー
+            count++;
 
             //-------------------------------------------------------------------
             // アニメーション関係

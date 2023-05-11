@@ -322,12 +322,12 @@ public class EnemyMove : MonoBehaviour
             {
                 // プレイヤーに向かって進む
                 // プレイヤーが敵自身より右にいるなら
-                if (thisTransform.position.x < playerTransform.position.x)
+                if (thisTransform.position.x < playerTransform.position.x - 0.1f)
                 {
                     thisTransform.Translate(TrackingSpeed * Time.deltaTime, 0.0f, 0.0f);
                 }
                 // プレイヤーが敵自身より左にいるなら
-                else if (thisTransform.position.x > playerTransform.position.x)
+                else if (thisTransform.position.x > playerTransform.position.x + 0.1f)
                 {
                     thisTransform.Translate(-1 * TrackingSpeed * Time.deltaTime, 0.0f, 0.0f);
                 }

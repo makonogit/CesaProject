@@ -31,8 +31,13 @@ public class BreakBlock : MonoBehaviour
     private ParticleSystem CrystalParticle; //クリスタルをゲットしたパーティクル
     private GameObject CrystalPoint;        //クリスタルが集まる座標
 
+    private BoxCollider2D _boxCollider;
+    private PolygonCollider2D _polygonCollider;
+
     private GameObject SEObj;               //SE再生用オブジェクト
     private GimmickPlay_2 PlaySound;     //SE再生用スクリプト
+
+    private SpriteRenderer _spriteRenderer; // スプライトレンダラー
 
     private void Start()
     {
@@ -46,6 +51,11 @@ public class BreakBlock : MonoBehaviour
         BreakParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
         CrystalParticle = transform.GetChild(1).GetComponent<ParticleSystem>();
         CrystalPoint = transform.GetChild(2).gameObject;
+
+        _boxCollider = GetComponent<BoxCollider2D>();
+        _polygonCollider = GetComponent<PolygonCollider2D>();
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (transform.childCount == 4)
         {
@@ -115,16 +125,25 @@ public class BreakBlock : MonoBehaviour
             PlaySound.PlayerGimmickSE(GimmickPlay_2.GimmickSE2List.ROCKBLOCK);
         }
         // 透明にする
-        mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.0f);
+        //mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.0f);
+        _spriteRenderer.enabled = false;
         if (Crystal != null)
         {
             Destroy(Crystal);
         }
 
-        // 当たり判定を消す
-        //GetComponent<BoxCollider2D>().enabled = false;
-        Destroy(GetComponent<PolygonCollider2D>());
-        Destroy(GetComponent<BoxCollider2D>());
+        // 当たり判定をオフ
+        if (_boxCollider != null)
+        {
+            GetComponent<BoxCollider2D>().enabled = false;
+        }
+
+        if (_polygonCollider != null)
+        {
+            GetComponent<PolygonCollider2D>().enabled = false;
+        }
+        //Destroy(GetComponent<PolygonCollider2D>());
+        //Destroy(GetComponent<BoxCollider2D>());
 
         Break = true;
     }

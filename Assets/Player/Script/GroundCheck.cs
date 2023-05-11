@@ -174,12 +174,12 @@ public class GroundCheck : MonoBehaviour
             Return = true;
         }
 
-        Debug.Log(Return);
+        //Debug.Log(Return);
 
         return Return;
     }
 
-    // ‰~Œ`‚ÌƒŒƒC•`‰æ
+    //‰~Œ`‚ÌƒŒƒC•`‰æ
     //private void OnDrawGizmos()
     //{
     //    Gizmos.color = Color.red;

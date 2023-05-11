@@ -59,31 +59,27 @@ public class TownBossHealth : MonoBehaviour
             {
                 if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
                 {
-                    // –³“Gó‘Ô‚¶‚á‚È‚¯‚ê‚Î
-                    if (bossMove.invincibility == false)
+                    // ‘Ì—Í-1
+                    BossHealth--;
+
+                    // ‚Ğ‚ÑÁ‚·
+                    Destroy(collision.gameObject);
+
+                    // ƒ{ƒX‚Ì‘Ì—Í‚ª0ˆÈ‰º‚É‚È‚Á‚½‚ç
+                    if (BossHealth <= 0)
                     {
-                        // ‘Ì—Í-1
-                        BossHealth--;
-
-                        // ‚Ğ‚ÑÁ‚·
-                        Destroy(collision.gameObject);
-
-                        // ƒ{ƒX‚Ì‘Ì—Í‚ª0ˆÈ‰º‚É‚È‚Á‚½‚ç
-                        if (BossHealth <= 0)
-                        {
-                            // AI‚Ìó‘Ô‚ğ•Ï‰»
-                            bossMove.EnemyAI = TownBossMove.AIState.Death; // Œ‚”jó‘Ô
-                            enemySE.KillBossSet();
-                        }
-                        else
-                        {
-                            // SE‚È‚ç‚·
-                            enemySE.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
-                        }
-
-                        // ˜A‘±”í’e‚ğ–h‚®‚½‚ßŸ‚Ìs“®‚Ü‚Å–³“G
-                        bossMove.Damaged = true;
+                        // AI‚Ìó‘Ô‚ğ•Ï‰»
+                        bossMove.EnemyAI = TownBossMove.AIState.Death; // Œ‚”jó‘Ô
+                        enemySE.KillBossSet();
                     }
+                    else
+                    {
+                        // SE‚È‚ç‚·
+                        enemySE.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
+                    }
+
+                    // ˜A‘±”í’e‚ğ–h‚®‚½‚ßŸ‚Ìs“®‚Ü‚Å–³“G
+                    //bossMove.Damaged = true;
                 }
             }
         }

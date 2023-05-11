@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &125115275
 Transform:
   m_ObjectHideFlags: 0
@@ -99,7 +99,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2381068508819883239
 Transform:
   m_ObjectHideFlags: 0
@@ -178,7 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9962016d3b145084a9bda383e07eb12e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NoDamageTime: 1
   HitTime: 0
   Damage: 1
 --- !u!114 &1170386839930017774
@@ -353,11 +352,6 @@ MonoBehaviour:
   RammingSpeed: 3
   PreRammingTime: 1.5
   RammingWaitTime: 5
-  Shards_Prefab: {fileID: 3224777434751250611, guid: 081941a940eda9b43ba686d4ac2b8802, type: 3}
-  ShardSpeed: 3
-  CreateShardNum: 4
-  ChargeEffect: {fileID: 5464189228412731114, guid: 54149277bd0f8874fb203fe9caedcecf, type: 3}
-  SpacingDeg: 20
   EnemyAI: 0
 --- !u!95 &1357279458
 Animator:
