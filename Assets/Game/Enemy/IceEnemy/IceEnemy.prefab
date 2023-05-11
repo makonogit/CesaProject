@@ -382,6 +382,7 @@ GameObject:
   - component: {fileID: 233067468077914631}
   - component: {fileID: 228190375587751283}
   - component: {fileID: 6434192113663894340}
+  - component: {fileID: 853451966786240349}
   m_Layer: 0
   m_Name: Landing
   m_TagString: Untagged
@@ -444,6 +445,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: 
   _tag: Ground
+--- !u!114 &853451966786240349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8009499450460096017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 571d5dc6715066d42b86427410a647fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8137194405424761000
 GameObject:
   m_ObjectHideFlags: 0
