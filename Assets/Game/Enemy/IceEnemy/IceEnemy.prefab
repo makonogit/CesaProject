@@ -58,7 +58,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 15, y: 68}
+  m_Size: {x: 7.5, y: 68}
   m_EdgeRadius: 0
 --- !u!50 &2562821266723528668
 Rigidbody2D:
@@ -125,7 +125,7 @@ Transform:
   m_GameObject: {fileID: 1387875887744880321}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.556, y: 8.242, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6996941273349788791}
@@ -176,7 +176,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 1402653386, guid: a7d2a62a397033046a9c7a3eb7142e9d, type: 3}
+  m_Sprite: {fileID: 342467973, guid: 71856d622aa81fd4184de91c32833d97, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -202,7 +202,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.3}
   serializedVersion: 2
-  m_Radius: 1.25
+  m_Radius: 1.2
 --- !u!50 &6397850801235160367
 Rigidbody2D:
   serializedVersion: 4
@@ -260,6 +260,7 @@ MonoBehaviour:
   _playerChecker: {fileID: 5629496610313759756}
   _dropChecker: {fileID: 5670732988998540817}
   _floorChecker: {fileID: 6434192113663894340}
+  _moveSpeed: 1.5
 --- !u!1 &6245936972741096757
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,7 +319,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.25, y: 15}
+  m_Size: {x: 1.125, y: 15}
   m_EdgeRadius: 0
 --- !u!50 &7848950726858720966
 Rigidbody2D:
@@ -401,7 +402,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1.25}
+  m_Offset: {x: 0, y: -2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -412,7 +413,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.125}
+  m_Size: {x: 0.25, y: 0.5}
   m_EdgeRadius: 0
 --- !u!114 &6434192113663894340
 MonoBehaviour:
@@ -490,7 +491,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9962016d3b145084a9bda383e07eb12e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NoDamageTime: 1
   HitTime: 0
   Damage: 1
 --- !u!114 &1966594721964433727

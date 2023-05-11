@@ -31,12 +31,21 @@ public class IceEnemy : MonoBehaviour
     private CheckArea _dropChecker;
     [SerializeField]
     private CheckArea _floorChecker;
-
     private Animator _anim;
 
+    [SerializeField,Header("歩く速さ")]
+    private float _moveSpeed;
     private Vector2 _pos;
 
     private Rigidbody2D _rb;
+    private bool _direction;
+    private Transform _trans;
+
+    [SerializeField]
+    private EdgeCollider2D _edge;
+    private int _max;
+    [SerializeField]
+    private int _num;
 
     // Use this for initialization
     void Start()
@@ -46,7 +55,8 @@ public class IceEnemy : MonoBehaviour
         if (_playerChecker == null) Debug.LogError("PlayerChecker設定されていません。");
         if (_dropChecker == null) Debug.LogError("DropChecker設定されていません。");
         if (_floorChecker == null) Debug.LogError("FloorChecker設定されていません。");
-
+        if(_edge ==null) Debug.LogError("Edge設定されていません。");
+        _max = _edge.pointCount;
         //--------------------------------------
         // Animatorのコンポーネントを取得
         _anim = GetComponent<Animator>();
@@ -82,7 +92,10 @@ public class IceEnemy : MonoBehaviour
         if (_rb == null) Debug.LogError("Rigidbody2Dのコンポーネントを取得できませんでした。");
         //_rb.velocity = new Vector2(0, 0);
         _rb.simulated = false;
-        
+
+        _direction = false;
+        _trans = GetComponent<Transform>();
+        if(_trans ==null) Debug.LogError("Transformのコンポーネントを取得できませんでした。");
     }
 
     // Update is called once per frame
@@ -124,17 +137,52 @@ public class IceEnemy : MonoBehaviour
     }
     //-----------------------------------------------------------------
     //☆☆秘匿関数☆☆(私)
+
+    private bool Direction
+    {
+        get   
+        {
+            Vector3 Scale = _trans.localScale;
+            return _direction == (Scale.x < 0);
+        }
+    }
+
+    private bool SetDirection 
+    {
+        get 
+        {
+            return _edge.points[_num].x - _trans.position.x > 0;
+        }
+    }
+    private bool Nexst
+    {
+        get 
+        {
+            float distans = _edge.points[_num].x - _trans.position.x;
+            if (Mathf.Abs(distans) < 0.1f) return true;
+            return false;
+        }
+    }
+
     private void Fell()
     {
+        if (Nexst) 
+        {
+            _num++;
+            _num = _num % _max;
+            _direction = SetDirection;
+        }
         
+        float _move = _moveSpeed * Time.deltaTime;
+        Vector3 Scale = _trans.localScale;
+        if (!_direction) _move *= -1f;
+        if (!Direction) Scale = new Vector3(Scale.x*-1, Scale.y, Scale.z);
+        Vector3 moveTrans = new Vector3(_move, 0, 0);
+        _trans.localScale = Scale;
+        _trans.Translate(moveTrans);
     }
     private void Cling() 
     {
-        if(_anim.GetCurrentAnimatorClipInfo(0)[0].clip.name == "IE_SuprizredAnim") 
-        {
-            _anim.SetBool("isOldFlag", true);
-        }
-        
         _anim.SetBool("isSurprised", _playerChecker.IsEnter);// 気づいたアニメーションを出す。
         //_anim.GetCurrentAnimatorClipInfo(0)[0].clip.name
         // もしdropAreaに入ったら
@@ -158,6 +206,8 @@ public class IceEnemy : MonoBehaviour
         {
             _state = StateID.FELL;
             _anim.SetBool("isFell", true);
+            _num = Random.Range(0, _edge.pointCount - 1);
+            _direction = SetDirection;
         }
     }
 
@@ -167,6 +217,11 @@ public class IceEnemy : MonoBehaviour
         {
             _rb.simulated = true;
         }
+    }
+
+    private void Flag() 
+    {
+        _anim.SetBool("isOldFlag", true);
     }
 
 }
