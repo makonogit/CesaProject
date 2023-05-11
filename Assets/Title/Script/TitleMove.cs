@@ -141,7 +141,7 @@ public class TitleMove : MonoBehaviour
             if (a < 0.0f)
             {
                 anim.SetInteger("Select", 4);
-
+               
                 player.transform.position = Vector3.MoveTowards(player.transform.position,
                     new Vector3(11.0f, player.transform.position.y, player.transform.position.z), 6.0f * Time.deltaTime);
             }
