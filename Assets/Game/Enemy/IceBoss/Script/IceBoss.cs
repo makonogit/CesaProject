@@ -53,7 +53,8 @@ public class IceBoss : MonoBehaviour
 
     [SerializeField, Header("状態")]
     private StateID _state;
-
+    [SerializeField]
+    private Directing_BossLight bossDirecting;
     private Animator _anim;
 
     private bool _direction; // true = 右　false = 左　※現段階
@@ -81,6 +82,7 @@ public class IceBoss : MonoBehaviour
         if (_isWall == null) Debug.LogError("IsWallが設定されてません。");
 
         if (_HitBox == null) Debug.LogError("HitBoxが設定されてません。");
+        if(bossDirecting ==null) Debug.LogError("bossDirectingが設定されてません。");
         //--------------------------------------
         // Animatorのコンポーネント取得
         _anim = GetComponent<Animator>();
@@ -104,6 +106,9 @@ public class IceBoss : MonoBehaviour
                 break;
             case StateID.EATING:
                 Eating();
+                break;
+            case StateID.DEATH:
+                Death();
                 break;
         }
        
@@ -226,6 +231,7 @@ public class IceBoss : MonoBehaviour
         // 魚が近くにあったら
         if (_isFish)
         {
+            
             // 時間経過したら
             if (_nowTime >= _eatTime) 
             {
@@ -238,9 +244,12 @@ public class IceBoss : MonoBehaviour
                 _isFish = false;
                 // リセット
                 _nowTime = 0.0f;
+
+                _health.SetDamageFlag();
             }
             else 
             {
+                fish.SetActive(false);
                 // 食べるアニメーション
                 _anim.SetBool("isEating", true);
             }
@@ -262,6 +271,11 @@ public class IceBoss : MonoBehaviour
         {
             _state = StateID.DEATH;
         }
+    }
+
+    private void Death() 
+    {
+        bossDirecting.Flash();
     }
 
     private int Direction 
@@ -291,7 +305,6 @@ public class IceBoss : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        _isFish = (collision.gameObject == fish);
-        if (_isFish) fish.SetActive(false);
+        if (collision.gameObject == fish) _isFish = true;
     }
 }

@@ -12,6 +12,9 @@ public class IceBossHealth : MonoBehaviour
     [SerializeField]
     private int _hp;
 
+
+    private bool _Damaged;
+
     private CrackCreater _crack;
 
     private string _tag = "Crack";
@@ -22,7 +25,9 @@ public class IceBossHealth : MonoBehaviour
     void Start()
     {
         _hp = _maxHp;
+        _Damaged = false;
     }
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -31,13 +36,17 @@ public class IceBossHealth : MonoBehaviour
         {
             _crack = collision.GetComponent<CrackCreater>();
             // 生成中なら
-            if (_crack.State == CrackCreater.CrackCreaterState.CREATING) 
+            if (_crack.State == CrackCreater.CrackCreaterState.CREATING&&!_Damaged) 
             {
                 _hp--;
+                _Damaged = true;
             }
         }
     }
-
+    public void SetDamageFlag() 
+    {
+        _Damaged = false;
+    }
     public int HP 
     {
         get 
