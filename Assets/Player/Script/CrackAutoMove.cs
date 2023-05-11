@@ -304,7 +304,7 @@ public class CrackAutoMove : MonoBehaviour
 
             //---------------------------------------------
             //1番近い座標が始点or終点ならひびに入る
-            if (MinPointNum == 0 || MinPointNum == Edge.pointCount - 1)
+            if (MinPointNum == 0 || MinPointNum == Edge.pointCount - 1 || MinPointNum == 1)
             {
                 HitFlg = true;
 

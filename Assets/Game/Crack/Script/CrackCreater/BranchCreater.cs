@@ -67,9 +67,9 @@ public class BranchCreater : MonoBehaviour
             if (!Branch)
             {
                 //　先端のスプライトを変更
-                //transform.GetChild(transform.childCount - 1).GetComponent<SpriteRenderer>().sprite = CrackEndSprite;
+                transform.GetChild(transform.childCount - 1).GetComponent<SpriteRenderer>().sprite = CrackEndSprite;
                 //　分岐ひび生成
-                //StartBranch = hammer.CreateBranch(BranchObj,gameObject,branchcreater,StartBranch);
+                StartBranch = hammer.CreateBranch(BranchObj,gameObject,branchcreater,StartBranch);
 
                 Branch = true;
             }

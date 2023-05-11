@@ -567,7 +567,7 @@ public class CrackCreater : MonoBehaviour
         if (_nowTime >= _createTime && _addCrackCount>0)
         {
             // 前表示
-            if (_addCrackNow.x >= 0) 
+            if (_addCrackNow.x > 0) 
             {
                 _cracks[_addCrackNow.x].SetActive(true);// 表示
                 _addCrackCount --;// カウントを減らす
