@@ -45,7 +45,7 @@ public class BranchCrack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(creater.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+        if (creater.GetState() == CrackCreater.CrackCreaterState.CRAETED)
         {
             if (Create)
             {
@@ -57,7 +57,7 @@ public class BranchCrack : MonoBehaviour
         }
 
         //　親のひびが追加生成されたら一定の確率で分岐ひびが伸びる
-        if(ParentCrackCreater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING)
+        if (ParentCrackCreater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING)
         {
             if (!Create)
             {
@@ -75,15 +75,10 @@ public class BranchCrack : MonoBehaviour
         }
 
         // 生成終了したらスプライトの変更
-        //if(creater.GetState() == CrackCreater.CrackCreaterState.CRAETED)
-        //{
-        //    transform.GetChild(transform.childCount - 1).GetComponent<SpriteRenderer>().sprite = Crackend;
-        //}
-
-        //if (creater.GetState() == CrackCreater.CrackCreaterState)
-        //{
-
-        //}
-
+        if (creater.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+        {
+            transform.GetChild(transform.childCount - 1).GetComponent<SpriteRenderer>().sprite = Crackend;
+            GetComponent<EdgeCollider2D>().enabled = false;
+        }
     }
 }
