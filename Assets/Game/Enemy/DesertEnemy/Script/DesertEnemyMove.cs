@@ -29,7 +29,7 @@ public class DesertEnemyMove : MonoBehaviour
 
     Transform ThisTrans;        // 自身のTransform
     Animator ThisAnim;          // 自身のAnimator
-    CapsuleCollider2D ThisCol;  // 自身のCollider
+    CircleCollider2D ThisCol;  // 自身のCollider
 
    
     public enum DesertEnemyState
@@ -37,10 +37,16 @@ public class DesertEnemyMove : MonoBehaviour
         NONE,       // 待機状態
         FACE,       // 顔を出す
         ATTACK,     // 攻撃状態
-        ATTACKEND   // 攻撃終了
+        ATTACKEND,  // 攻撃終了
+        DATH,       // 倒れる
     }
 
     public DesertEnemyState EnemyState; //状態管理用変数
+
+    public void Init()
+    {
+        EnemyState = DesertEnemyState.NONE;     //何もしていない状態に設定
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -53,9 +59,7 @@ public class DesertEnemyMove : MonoBehaviour
 
         ThisTrans = transform;                          //自身のTransformを変数化
         ThisAnim = GetComponent<Animator>();            //自身のAnimatorを取得
-        ThisCol = GetComponent<CapsuleCollider2D>();    // 自身のColliderを取得
-
-        EnemyState = DesertEnemyState.NONE;     //何もしていない状態に設定
+        ThisCol = GetComponent<CircleCollider2D>();    // 自身のColliderを取得
 
     }
 
@@ -90,6 +94,8 @@ public class DesertEnemyMove : MonoBehaviour
                 // 時間経過したら攻撃開始
                 if (PowerTime > PowerMaxTime)
                 {
+                    ThisAnim.SetBool("Attack", true);
+
                     EnemyState = DesertEnemyState.ATTACK;
                     PowerTime = 0.0f;
                 }
@@ -97,7 +103,7 @@ public class DesertEnemyMove : MonoBehaviour
 
             if(EnemyState == DesertEnemyState.ATTACK)
             {
-                Attack();
+                //Attack();
             }
 
         }
@@ -111,8 +117,9 @@ public class DesertEnemyMove : MonoBehaviour
     {
         // 顔を出すアニメーションを再生
         ThisAnim.SetBool("OpenFace", true);
-        ThisCol.size = new Vector2(ThisCol.size.x, 10.0f);
-        ThisTrans.position = new Vector3(ThisTrans.position.x, ThisTrans.position.y + 0.14f);
+        //ThisCol.size = new Vector2(ThisCol.size.x, 10.0f);
+        ThisCol.offset = new Vector2(ThisCol.offset.x,ThisCol.offset.y + 0.2f);
+        ThisTrans.position = new Vector3(ThisTrans.position.x, ThisTrans.position.y + 0.07f);
 
     }
 
@@ -135,9 +142,45 @@ public class DesertEnemyMove : MonoBehaviour
         Vector3 CreatePos = new Vector3(ThisTrans.position.x + (0.5f * Mathf.Cos(Angle * (Mathf.PI / 180))), ThisTrans.position.y + (0.5f * Mathf.Sin(Angle * (Mathf.PI / 180))),0.0f);
         Instantiate(Needle, CreatePos, Quaternion.Euler(0, Angle, 0));
 
+        ThisAnim.SetBool("Attack", false);
         EnemyState = DesertEnemyState.FACE;
 
+    }
+
+
+    //　待ちアニメーションに遷移する関数
+    public void Wait()
+    {
+        ThisAnim.SetBool("OpenFace", false);
+        //ThisAnim.SetBool("Attack", true);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //　ひびに当たったら状態をDETHに
+        if (collision.gameObject.tag == "Crack")
+        {
+            ThisAnim.SetBool("Deth", true);
+            Destroy(collision.gameObject);
+            GetComponent<CircleCollider2D>().isTrigger = true;
+            EnemyState = DesertEnemyState.DATH;
+        }
+
+        //　プレイヤーが当たったら攻撃
+        if (collision.gameObject.tag == "Player")
+        {
+            //　HPを1減らす
+            Player.GetComponent<GameOver>().DecreaseHP(1);
+
+            // ノックバック
+            Player.GetComponent<KnockBack>().KnockBack_Func(transform);
+
+            // 点滅処理
+            Player.GetComponent<RenderOnOff>().SetFlash(true);
+            
+        }
 
     }
+
 
 }

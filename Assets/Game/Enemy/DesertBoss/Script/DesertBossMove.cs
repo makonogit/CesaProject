@@ -40,6 +40,8 @@ public class DesertBossMove : MonoBehaviour
 
     public bool Breaking = false;   // ピラミッドが壊れたか 
 
+    private VibrationCamera vibration;  //　振動用
+
     public enum DesertBossState
     {
         NONE,   // 何もしていない
@@ -90,6 +92,8 @@ public class DesertBossMove : MonoBehaviour
 
         // animatorを取得
         anim = transform.GetChild(0).GetComponent<Animator>();
+
+        //vibration = GameObject.Find("Main Camera").GetComponent
 
         // 何もしていない状態にする
         BossState = DesertBossState.NONE;

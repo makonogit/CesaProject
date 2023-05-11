@@ -41,8 +41,10 @@ public class NeedleMove : MonoBehaviour
         //　プレイヤーと衝突したらHPを減らす
         if (collision.gameObject.tag == "Player")
         {
-            hpsystem = collision.gameObject.GetComponent<GameOver>();
-            hpsystem.DecreaseHP(1);
+            collision.gameObject.GetComponent<GameOver>().DecreaseHP(1);
+            collision.gameObject.GetComponent<KnockBack>().KnockBack_Func(transform);
+            collision.gameObject.GetComponent<RenderOnOff>().SetFlash(true);
+
         }
 
         //--------------------------------
