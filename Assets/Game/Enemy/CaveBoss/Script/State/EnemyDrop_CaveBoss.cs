@@ -23,6 +23,8 @@ public class EnemyDrop_CaveBoss : MonoBehaviour
 
     [Header("~‚ç‚¹‚é“G")]
     public GameObject needleEnemy;// ~‚ç‚¹‚é“G
+    [Header("~‚ç‚¹‚é“G‚Ì”ÍˆÍ")]
+    public float dropRange = 15.0f;
 
     //-------------------------------------
     // *** À•WŠÖ˜A ***
@@ -70,7 +72,7 @@ public class EnemyDrop_CaveBoss : MonoBehaviour
             // À•W‚ğ•ÏX
             Transform objTransform = obj.transform;
             Vector3 pos = objTransform.position;
-            pos.x = startPos.x + -8.0f + 0.8f * rndX;
+            pos.x = startPos.x + -dropRange + (dropRange * 0.1f) * rndX;
             pos.y = transform.position.y;
 
             // À•W‚Ì•ÏX‚ğ“G—p‚·‚é

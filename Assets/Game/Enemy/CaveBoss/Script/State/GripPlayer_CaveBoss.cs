@@ -57,10 +57,22 @@ public class GripPlayer_CaveBoss : MonoBehaviour
     Vector2 startPos_R;            // 右手の初期位置
     Vector2 startPos_L;            // 左手の初期位置
 
+    // 大きさ
+    Vector3 startScale;
+
+    // 回転
+    Vector2 center_R;      // 回転の中心座標
+    Vector2 center_L;      // 回転の中心座標
+    float angle;         // 回転角度
+    float radius = 0.25f;// 円の半径
+
     //-------------------------------------
     // *** 外部オブジェクト ***
 
     GameObject objPlayer;// プレイヤー
+
+    Animator animLeft; // 左手のアニメーター
+    Animator animRight;// 右手のアニメーター
 
     //=====================================
     // *** 初期化処理 ***
@@ -68,6 +80,10 @@ public class GripPlayer_CaveBoss : MonoBehaviour
 
     void Start()
     {
+
+        animLeft = GameObject.Find("LeftHand").GetComponent<Animator>();
+        animRight = GameObject.Find("RightHand").GetComponent<Animator>();
+
         //--------------------------------
         // *** 変数の初期化 ***
 
@@ -79,6 +95,8 @@ public class GripPlayer_CaveBoss : MonoBehaviour
 
         // プレイヤーのオブジェクトを取得
         objPlayer = GameObject.Find("player");
+
+        startScale = rightHand.transform.localScale;
     }
 
     //=====================================
@@ -170,16 +188,23 @@ public class GripPlayer_CaveBoss : MonoBehaviour
 
     void Move()
     {
+        // 大きさの指定
+        Vector3 scale = rightHand.transform.localScale;
+        scale.x += 0.001f;
+        scale.y += 0.001f;
+        rightHand.transform.localScale = scale;
+        leftHand.transform.localScale = scale;
+
         //--------------------------------------------------
         // *** プレイヤーの座標まで移動 ***
 
         Vector2 position_R = rightHand.transform.position;
         Vector2 position_L = leftHand.transform.position;
 
-        position_R.x += moveSpeed * 0.1f;
-        position_L.x -= moveSpeed * 0.1f;
-        position_R.y -= moveSpeed;
-        position_L.y -= moveSpeed;
+        position_R.x += moveSpeed * 0.5f;
+        position_L.x -= moveSpeed * 0.5f;
+        position_R.y -= moveSpeed * 1.5f;
+        position_L.y -= moveSpeed * 1.5f;
 
         rightHand.transform.position = position_R;
         leftHand.transform.position = position_L;
@@ -199,14 +224,22 @@ public class GripPlayer_CaveBoss : MonoBehaviour
 
     void Attack()
     {
+        // 大きさの指定
+        Vector3 scale = rightHand.transform.localScale;
+        scale.x += 0.001f;
+        scale.y += 0.001f;
+
+        rightHand.transform.localScale = scale;
+        leftHand.transform.localScale = scale;
+
         //--------------------------------------------------
         // *** 手をプレイヤーを挟むように移動する ***
 
         Vector2 position_R = rightHand.transform.position;
         Vector2 position_L = leftHand.transform.position;
 
-        position_R.x -= moveSpeed;
-        position_L.x += moveSpeed;
+        position_R.x -= moveSpeed * 2.0f;
+        position_L.x += moveSpeed * 2.0f;
 
         rightHand.transform.position = position_R;
         leftHand.transform.position = position_L;
@@ -214,11 +247,12 @@ public class GripPlayer_CaveBoss : MonoBehaviour
         //--------------------------------------------------
         // *** プレイヤーを捕まえたかをRayで判定 ***
 
-        if ((objPlayer.transform.position.x < position_L.x + 1.0f) || (objPlayer.transform.position.x > position_R.x + 1.0f))
+        if ((objPlayer.transform.position.x < position_L.x + 0.0f) || (objPlayer.transform.position.x > position_R.x + 0.0f))
         {
 
             nextGripPlayerState = GripPlayerStateID.RETURN;
 
+            // 左手
             foreach (RaycastHit2D hit_view in Physics2D.RaycastAll(leftHand.transform.position, Vector2.right, 2.0f))
             {
              
@@ -234,11 +268,25 @@ public class GripPlayer_CaveBoss : MonoBehaviour
                 }
                
             }
+
+            // 右手
+            foreach (RaycastHit2D hit_R in Physics2D.RaycastAll(rightHand.transform.position, Vector2.left, 2.0f))
+            {
+
+                if (hit_R)
+                {
+                    //---------------------------------------------
+                    // 捕まえたらGRIP状態にする
+
+                    if (hit_R.collider.gameObject.CompareTag("Player"))
+                    {
+                        nextGripPlayerState = GripPlayerStateID.GRIP;
+                    }
+                }
+
+            }
         }
-          
-        
-
-
+            
     }
 
     //=====================================
@@ -247,8 +295,6 @@ public class GripPlayer_CaveBoss : MonoBehaviour
 
     void Grip()
     {
-        
-
         //---------------------------------
         // *** プレイヤーを捕まえる ***
 
@@ -258,7 +304,45 @@ public class GripPlayer_CaveBoss : MonoBehaviour
         // 捕まえた座標を保存
         if (gripTimCnt == 1)
         {
+
+            animLeft.SetTrigger("Trigger");
+            animRight.SetTrigger("Trigger");
+
+            center_L = leftHand.transform.position;
+            center_R = rightHand.transform.position;
+
             playerGripPos = objPlayer.transform.position;
+        }
+
+        //---------------------------------------------------
+        //  上下にふわふわさせる
+        //---------------------------------------------------
+
+        // 現在のトランスフォームを取得
+        Vector3 pos = rightHand.transform.position;
+        // 角度をラジアンに変換
+        float rd = -angle * Mathf.PI / 180.0f;
+        // 回転後の座標を計算
+        //pos.x = center.x + (Mathf.Sin(rd) * radius) + radius + 0.1f;
+        pos.y = center_R.y + (Mathf.Cos(rd) * radius) + radius + 0.1f;
+        // 変更を反映
+        rightHand.transform.position = pos;
+        pos = leftHand.transform.position;
+        // 角度をラジアンに変換
+        rd = -angle * Mathf.PI / 180.0f;
+        // 回転後の座標を計算
+        //pos.x = center.x + (Mathf.Sin(rd) * radius) + radius + 0.1f;
+        pos.y = center_L.y + (Mathf.Cos(rd) * radius) + radius + 0.1f;
+        // 変更を反映
+        leftHand.transform.position = pos;
+        // 角度を加算
+        angle += 0.2f;
+
+        // 移動ステックが動いたらカウントを早める
+        if (playerGripPos.x != objPlayer.transform.position.x)
+        {
+            gripTimCnt++;
+
         }
 
         // 時間が経ったらRETURN状態にする
@@ -266,12 +350,9 @@ public class GripPlayer_CaveBoss : MonoBehaviour
         {
             nextGripPlayerState = GripPlayerStateID.RETURN;
             gripTimCnt = 0;
-        }
-
-        // 移動ステックが動いたらカウントを早める
-        if(playerGripPos.x != objPlayer.transform.position.x)
-        {
-            gripTimCnt++;
+            
+            animRight.SetTrigger("ResetTrigger");
+            animLeft.SetTrigger("ResetTrigger");
         }
 
         // プレイヤーを保存した座標に移動
@@ -285,6 +366,17 @@ public class GripPlayer_CaveBoss : MonoBehaviour
     void Return()
     {
        
+        if(startScale.x < rightHand.transform.localScale.x)
+        {
+            // 大きさの指定
+            Vector3 scale = rightHand.transform.localScale;
+            scale.x -= 0.0015f;
+            scale.y -= 0.0015f;
+
+            rightHand.transform.localScale = scale;
+            leftHand.transform.localScale = scale;
+        }
+
         //---------------------------------------
         // *** 手を元の座標に移動 ***
 
@@ -326,6 +418,8 @@ public class GripPlayer_CaveBoss : MonoBehaviour
         else
         {
             nextGripPlayerState = GripPlayerStateID.END;
+
+            
         }
 
         // 座標の変更を適用

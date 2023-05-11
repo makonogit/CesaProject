@@ -24,7 +24,7 @@ public class StateManager_CaveBoss : MonoBehaviour
         DEATH,         // 戦闘不能
     }
     MainStateID oldMainState = MainStateID.NULL; // 前の状態
-    MainStateID nowMainState = MainStateID.MOVE; // 現在の状態
+    MainStateID nowMainState = MainStateID.NULL; // 現在の状態
     MainStateID nextMainState = MainStateID.NULL;// 次の状態
 
     enum AttackStateID// 攻撃状態ID
@@ -47,7 +47,12 @@ public class StateManager_CaveBoss : MonoBehaviour
     SpriteRenderer sr;// 色
 
     // ステータス関連
-    int hp = 3;// 体力
+    public int hp = 3;// 体力
+    int hitTim;
+    bool hit;
+
+    SpriteRenderer leftHand;
+    SpriteRenderer rightHand;
 
     //=====================================
     // *** 初期化 ***
@@ -57,8 +62,11 @@ public class StateManager_CaveBoss : MonoBehaviour
     {
         nowMainState = MainStateID.MOVE;
 
-        // マテリアル関連
-        SpriteRenderer sr;// 色
+        // 色を取得
+        sr = GetComponent<SpriteRenderer>();
+
+        leftHand = GameObject.Find("LeftHand").GetComponent<SpriteRenderer>();
+        rightHand = GameObject.Find("RightHand").GetComponent<SpriteRenderer>();
     }
 
     //=====================================
@@ -92,6 +100,40 @@ public class StateManager_CaveBoss : MonoBehaviour
             case MainStateID.DEATH:
                 Death();
                 break;
+        }
+    }
+
+    //============================================================
+    // *** 衝突判定 ***
+    //============================================================
+
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        //--------------------------------------------------------
+        // ひびとぶつかったら戦闘不能状態に遷移
+        //--------------------------------------------------------
+
+        if (collision.gameObject.tag == "Crack")
+        {
+            if(hitTim == 0)
+            {
+                hitTim++;
+
+                hp--;
+
+                if (hp <= 0)
+                {
+                    nextMainState = MainStateID.DEATH;
+
+                }
+            }
+           
+        }
+        else
+        {
+            hitTim = 0;
+
         }
     }
 
@@ -170,30 +212,6 @@ public class StateManager_CaveBoss : MonoBehaviour
         }
     }
 
-    //============================================================
-    // *** 衝突判定 ***
-    //============================================================
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        //--------------------------------------------------------
-        // ひびとぶつかったら戦闘不能状態に遷移
-        //--------------------------------------------------------
-
-        if (collision.gameObject.tag == "Crack")
-        {
-            hp--;
-
-            if(hp <= 0)
-            {
-                nextMainState = MainStateID.DEATH;
-
-            }
-
-        }
-
-    }
-
     //===========================================
     // *** 戦闘不能状態の処理 ***
     //===========================================
@@ -205,6 +223,8 @@ public class StateManager_CaveBoss : MonoBehaviour
         //-------------------------------------------------------------------
 
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a - 0.005f);
+        leftHand.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a - 0.005f);
+        rightHand.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a - 0.005f);
 
         if (sr.color.a < 0.0f)
         {

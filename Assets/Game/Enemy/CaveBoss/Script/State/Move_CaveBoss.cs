@@ -35,6 +35,11 @@ public class Move_CaveBoss: MonoBehaviour
     public Animator animator;// アニメーションコントローラー
     float animSpeed = 1.0f;  // アニメーションの速さ
 
+    // 回転
+    Vector2 center;      // 回転の中心座標
+    float angle;         // 回転角度
+    float radius = 0.25f;// 円の半径
+
     //=====================================
     // *** 初期化処理 ***
     //=====================================
@@ -43,6 +48,9 @@ public class Move_CaveBoss: MonoBehaviour
     {
         //--------------------------------
         // *** 変数の初期化 ***
+
+        // 回転の中心座標に初期位置を保存
+        center = transform.position;
 
         // 初期位置を保存
         startPos = transform.position;
@@ -78,6 +86,22 @@ public class Move_CaveBoss: MonoBehaviour
 
     public void Move()
     {
+        //---------------------------------------------------
+        //  上下にふわふわさせる
+        //---------------------------------------------------
+
+        // 現在のトランスフォームを取得
+        Vector3 pos = this.transform.position;
+        // 角度をラジアンに変換
+        float rd = -angle * Mathf.PI / 180.0f;
+        // 回転後の座標を計算
+        //pos.x = center.x + (Mathf.Sin(rd) * radius) + radius + 0.1f;
+        pos.y = center.y + (Mathf.Cos(rd) * radius) + radius + 0.1f;
+        // 変更を反映
+        this.transform.position = pos;
+        // 角度を加算
+        angle += 0.4f;
+
         //-----------------------------------------
         // *** 移動範囲内を左右に反復して移動 ***
 
@@ -101,12 +125,12 @@ public class Move_CaveBoss: MonoBehaviour
         // 上側の移動制限
         if (position.y > startPos.y + 0.5f)
         {
-            moveVector.y = -0.5f;
+            //moveVector.y = -0.5f;
         }
         // 下側の移動制限
         if (position.y < startPos.y - 0.5f)
         {
-            moveVector.y = 0.5f;
+            //moveVector.y = 0.5f;
         }
 
         //---------------------------------------
@@ -121,6 +145,10 @@ public class Move_CaveBoss: MonoBehaviour
                 {
                     moveVector.x = -1.0f;
                 }
+                else if(hit_R.collider.gameObject.CompareTag("Crack"))
+                {
+                    moveVector.x = -1.0f;
+                }
             }
         }
 
@@ -130,6 +158,10 @@ public class Move_CaveBoss: MonoBehaviour
             if (hit_L)
             {
                 if (hit_L.collider.gameObject.CompareTag("Ground"))
+                {
+                    moveVector.x = 1.0f;
+                }
+                else if (hit_L.collider.gameObject.CompareTag("Crack"))
                 {
                     moveVector.x = 1.0f;
                 }
