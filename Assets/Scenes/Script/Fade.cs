@@ -11,6 +11,11 @@ public static class FadeAlpha
     public static bool black = false;
 };
 
+public static class InMainScene
+{
+    public static bool inMainScene = false;
+}
+
 public class Fade : MonoBehaviour
 {
     // 変数宣言
@@ -49,24 +54,40 @@ public class Fade : MonoBehaviour
         _fadeIn = false;
 
         _panelObj.SetActive(true);
-        if (FadeAlpha.black == false)
+        if (InMainScene.inMainScene == true)
         {
-            _panel.SetAlpha(0.0f);
+            if (FadeAlpha.black == false)
+            {
+                _panel.SetAlpha(0.0f);
+            }
+            else
+            {
+                _panel.SetAlpha(1.0f);
+            }
         }
-        else
-        {
-            _panel.SetAlpha(1.0f);
-        }
+
+        //Debug.Log(InMainScene.inMainScene);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (InMainScene.inMainScene == false)
+        {
+            InMainScene.inMainScene = true;
+        }
+
         // 画面が明るくなっていく
         if (_fadeIn)
         {
-            // _nowTime が0に近づくとフェードパネルのalphaの割合も0に近づく
-            _nowTime -= Time.unscaledDeltaTime;
+
+            // ロードに何秒もかかるとunscaledDeltaTimeがつじつまを合わせようと大きな数字になるので
+            // 1を超えた値が出たときは無視
+            if (Time.unscaledDeltaTime < 1f)
+            {
+                // _nowTime が0に近づくとフェードパネルのalphaの割合も0に近づく
+                _nowTime -= Time.unscaledDeltaTime;
+            }
 
             // フェードイン終了
             if(_nowTime <= 0f)
@@ -79,13 +100,20 @@ public class Fade : MonoBehaviour
                 _fadeState = FadeState.FadeIn_Finish;
 
                 FadeAlpha.black = false;
+
+                Debug.Log("フェードイン終了");
             }
         }
         // 画面が暗くなっていく
         else if (_fadeOut)
         {
-            _nowTime += Time.unscaledDeltaTime;
-        
+            // ロードに何秒もかかるとunscaledDeltaTimeがつじつまを合わせようと大きな数字になるので
+            // 1を超えた値が出たときは無視
+            if (Time.unscaledDeltaTime < 1f)
+            {
+                _nowTime += Time.unscaledDeltaTime;
+            }
+
             // フェードアウト終了
             if(_nowTime >= _fadeTime)
             {
@@ -97,6 +125,9 @@ public class Fade : MonoBehaviour
                 _fadeState = FadeState.FadeOut_Finish;
 
                 FadeAlpha.black = true;
+
+                Debug.Log("フェードアウト終了");
+
             }
         }
 
@@ -105,6 +136,11 @@ public class Fade : MonoBehaviour
         {
             _panel.SetAlpha(_nowTime / _fadeTime);
         }
+
+        Debug.Log(_fadeState);
+        //Debug.Log(_panel.GetAlpha());
+        //Debug.Log("_nowTime" + _nowTime);
+        //Debug.Log("_fadeTime" + _fadeTime);
     }
 
     public void FadeIn()

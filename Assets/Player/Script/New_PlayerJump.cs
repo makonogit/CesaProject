@@ -27,15 +27,13 @@ public class New_PlayerJump : MonoBehaviour
     [Header("接地判定系")]
     [SerializeField] private bool isGround = false; // 地面に触れているか
     [SerializeField] private bool isOverhead = false; // 天井に触れているか
-    [SerializeField] private int RayNum; // 当たっているレイの本数
+    //[SerializeField] private int RayNum; // 当たっているレイの本数
 
     // 調整可能変数
     [Header("調整用変数")]
     [SerializeField] private float JumpPower = 3.0f; // ジャンプ力
     [SerializeField] private float gravity; // ジャンプパワーから引いてく重力
     [Header("慣性が働くフレーム数"),SerializeField] private int inertia = 5; // 慣性フレーム数
-
-    private bool Selected = false;  //セレクト画面用
 
     // デバッグ用変数
     private int count = 0;
@@ -121,7 +119,7 @@ public class New_PlayerJump : MonoBehaviour
             // 接地判定を得る
             isGround = ground.IsGroundCircle();
             // 地面と触れているレイの数を取得
-            RayNum = ground.GetRayNum();
+            //RayNum = ground.GetRayNum();
             // 天井の衝突判定を得る
             isOverhead = overhead.IsOverHead();
 
@@ -132,8 +130,12 @@ public class New_PlayerJump : MonoBehaviour
             TriggerJumpflg = _trigger.GetJumpTrigger(); // 押された瞬間か
             // プレス
             PressJumpflg = _playerInputManager.GetJump(); // 押されているか
-            // リリース
-            ReleaseJumpflg = OldPressJumpflg == true && PressJumpflg == false; // 離された瞬間か
+
+            if (ReleaseJumpflg == false)
+            {
+                // リリース
+                ReleaseJumpflg = OldPressJumpflg == true && PressJumpflg == false; // 離された瞬間か
+            }
 
             //----------------------------------------------------
             // ジャンプボタンが押された瞬間
@@ -189,25 +191,42 @@ public class New_PlayerJump : MonoBehaviour
                 }
             }
 
+            // 天井に当たったら
+            if(MoveY > 0f && isOverhead == true && ImFly == true)
+            {
+                // 落下開始
+                MoveY = 0f;
+            }
+
             // ジャンプの処理が終わって地面についたとき(ジャンプが入力されたフレームでは入らない)
-            if (isGround == true && ImFly == true && (TriggerJumpflg == false) && count > 100)
-            {                                                                  //  ↑
-                // 一連のジャンプ終了                                          //  ｜
-                ImFly = false;                                                 //  ｜
-                MoveY = 0f;                                                    //  ｜
-                //Debug.Log(count);                                            //  ｜
-            }                                                                  //  ｜
-                                                                               //  ｜
-            // ジャンプを経由しない落下が終わる                                //  ｜
-            if (isGround == true && ImDrop == true)                            //  ｜
-            {                                                                  //  ｜
-                // 落下終了                                                    //  ｜
-                ImDrop = false;                                                //  ｜
-                MoveY = 0f;                                                    //  ｜
-            }                                                                  //  ｜
-                                                                               //  ｜
-            // バグ回避用 だけどできないいいいいいいいいいいいいいいいいいいーーーー
+            if (isGround == true && ImFly == true && (TriggerJumpflg == false) && count > 50)
+            {                                                                  
+                // 一連のジャンプ終了                                          
+                ImFly = false;                                                 
+                MoveY = 0f;
+                ReleaseJumpflg = false;
+                //Debug.Log(count);                                            
+            }                                                                  
+                                                                               
+            // ジャンプを経由しない落下が終わる                                
+            if (isGround == true && ImDrop == true)                            
+            {                                                                  
+                // 落下終了                                                    
+                ImDrop = false;                                                
+                MoveY = 0f;                                                    
+            }                                                                  
+                                                                               
+            // バグ回避用 だけどできないいいいいいいいいいいいいいいいいいい
             count++;
+
+            //if (TriggerJumpflg == true)
+            //{
+            //    Debug.Log("-----------------------------------------------------------------------------------");
+            //}
+            //if (MoveY != 0)
+            //{
+            //    Debug.Log(MoveY);
+            //}
 
             //-------------------------------------------------------------------
             // アニメーション関係
@@ -224,18 +243,21 @@ public class New_PlayerJump : MonoBehaviour
         }
         else
         {
-            if (_thisRigidbody2d.gravityScale == 1.0f && !Selected)
+            // ヒットストップ中も重力0
+            if (_thisRigidbody2d.gravityScale == 1.0f)
             {
                 _thisRigidbody2d.gravityScale = 0.0f;
             }
+
+            Debug.Log(_thisRigidbody2d.gravityScale);
         }
     }
 
-    //　セレクト画面で選択しているか判断する関数
-    public void SetSelected(bool select)
-    {
-        Selected = select;
-    }
+    ////　セレクト画面で選択しているか判断する関数
+    //public void SetSelected(bool select)
+    //{
+    //    Selected = select;
+    //}
 
     private void RunDust()
     {

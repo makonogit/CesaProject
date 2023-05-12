@@ -9,10 +9,6 @@ using UnityEngine;
 public class HitCollider : MonoBehaviour
 {
     private string playerTag = "Player"; // 文字列Enemyを持つ変数
-    private string BossEnemyTag = "BossEnemy";
-
-    private float NoDamageTime = 1.5f; //無敵時間
-    [SerializeField] float HitTime = 0.0f; // 敵と接触している時間
 
     [Header("敵によるダメージ")]
     public int Damage = 1; // 接触時にくらうダメージ
@@ -21,7 +17,8 @@ public class HitCollider : MonoBehaviour
     private GameObject player;
     private GameOver gameOver; // ゲームオーバー画面遷移用スクリプト取得用変数
     private KnockBack knocback; // ノックバックスクリプト取得用変数
-    private RenderOnOff renderer; // 点滅スクリプト取得用変数
+    private RenderOnOff _renderer; // 点滅スクリプト取得用変数
+    private HitEnemy _hitEnemy; // 無敵時間関係スクリプト
 
     //追加菅
     private PlayEnemySound enemyse; //敵のSE
@@ -38,16 +35,13 @@ public class HitCollider : MonoBehaviour
         knocback = player.GetComponent<KnockBack>();
 
         // 点滅スクリプト取得
-        renderer = player.GetComponent<RenderOnOff>();
+        _renderer = player.GetComponent<RenderOnOff>();
 
         // 敵のSE再生用スクリプト取得　追加:菅
         enemyse = GameObject.Find("EnemySE").GetComponent<PlayEnemySound>();
 
-    }
-
-    void Update()
-    {
-        HitTime += Time.deltaTime;
+        // プレイヤーのHitEnemy取得
+        _hitEnemy = player.GetComponent<HitEnemy>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -57,7 +51,7 @@ public class HitCollider : MonoBehaviour
         if (collision.gameObject.tag == playerTag)
         {
             // 接触時間が無敵時間より大きいならHP減らす
-            if (HitTime > NoDamageTime)
+            if (_hitEnemy.HitTime > _hitEnemy.NoDamageTime)
             {
                 //---------------------------------------------------------
                 //　SEを再生
@@ -71,11 +65,11 @@ public class HitCollider : MonoBehaviour
                 knocback.KnockBack_Func(transform.parent.transform);
 
                 // 点滅
-                renderer.SetFlash(true);
+                _renderer.SetFlash(true);
 
                 //---------------------------------------------------------
                 // 接触時間リセット
-                HitTime = 0.0f;
+                _hitEnemy.HitTime = 0.0f;
             }
         }
     }
@@ -87,7 +81,7 @@ public class HitCollider : MonoBehaviour
         if (collision.gameObject.tag == playerTag)
         {
             // 接触時間が無敵時間より大きいならHP減らす
-            if (HitTime > NoDamageTime)
+            if (_hitEnemy.HitTime > _hitEnemy.NoDamageTime)
             {
                 //---------------------------------------------------------
                 //　SEを再生
@@ -101,11 +95,11 @@ public class HitCollider : MonoBehaviour
                 knocback.KnockBack_Func(transform.parent.transform);
 
                 // 点滅
-                renderer.SetFlash(true);
+                _renderer.SetFlash(true);
 
                 //---------------------------------------------------------
                 // 接触時間リセット
-                HitTime = 0.0f;
+                _hitEnemy.HitTime = 0.0f;
             }
         }
     }

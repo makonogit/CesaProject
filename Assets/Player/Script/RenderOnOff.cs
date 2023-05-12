@@ -11,7 +11,8 @@ public class RenderOnOff : MonoBehaviour
     // 変数宣言
 
     // 点滅周期
-    [SerializeField] private float cycle = 1f;
+    [SerializeField] private float cycle = 1f; // 点滅周期
+    private float initCycle; // 初期点滅周期
 
     // 経過時間
     private double time;
@@ -21,22 +22,38 @@ public class RenderOnOff : MonoBehaviour
 
     // 何秒間点滅させるか
     private float flashTime = 2f;
+    private float ratio = 0.6f;
+
+    private bool Init = false;
 
     // 明滅のデューティ比（1でレンダラーon,0でoff）
     [SerializeField, Range(0, 1)] private float dutyRate = 0.5f;
 
-    private SpriteRenderer spriteRenderer; // 自身のスプライトレンダラー
+    [SerializeField] private SpriteRenderer spriteRenderer; // 自身のスプライトレンダラー
+
+    [SerializeField] private HitEnemy _hitEnemy; // 点滅時間と無敵時間を結びつける
 
     // Start is called before the first frame update
     void Start()
     {
-        // 自身のスプライトレンダラー取得
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        //// 自身のスプライトレンダラー取得
+        //spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Init == false)
+        {
+            // 無敵時間と点滅時間を結びつけ
+            flashTime = _hitEnemy.NoDamageTime;
+
+            // 初期サイクルを保持
+            initCycle = cycle;
+
+            Init = true;
+        }
+
         // 点滅フラグがたったら
         if(isFlashing == true)
         {
@@ -51,7 +68,14 @@ public class RenderOnOff : MonoBehaviour
             // デューティ比でon/offの割合を変更している
             spriteRenderer.enabled = repeatRange >= cycle * (1 - dutyRate);
 
-            // 点滅時間が経過したら
+            // 点滅時間がratio倍になったら
+            if (time >= flashTime * ratio)
+            {
+                // 点滅スピード早める
+                cycle = initCycle / 2f;
+            }
+
+             //点滅時間が経過したら
             if(time >= flashTime)
             {
                 // 点滅しない
@@ -59,6 +83,9 @@ public class RenderOnOff : MonoBehaviour
 
                 // 初期化
                 time = 0f;
+
+                // 点滅周期初期化
+                cycle = initCycle;
 
                 // 消えた状態で終わらないように
                 spriteRenderer.enabled = true;

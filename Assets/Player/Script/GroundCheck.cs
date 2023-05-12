@@ -144,7 +144,7 @@ public class GroundCheck : MonoBehaviour
         // 二本以上地面に触れていたら
         if (touch >= 2)
         {
-            Debug.Log("当たった");
+            //Debug.Log("当たった");
 
             isGround = true;
             // 当たっているタグ名を表示
@@ -152,7 +152,7 @@ public class GroundCheck : MonoBehaviour
         }
         else
         {
-            Debug.Log("当たってない");
+            //Debug.Log("当たってない");
             isGround = false;
         }
 
