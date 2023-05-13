@@ -8,20 +8,13 @@ using UnityEngine;
 
 public class BreakBossCore : MonoBehaviour
 {
-    [SerializeField, Header("Boss")]
-    private GameObject Boss;
-
-    private void Start()
-    {
-        Boss = GameObject.Find("BossEnemy").transform.GetChild(0).gameObject;
-    }
-
+  
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Ç–Ç—Ç…ìñÇΩÇ¡ÇΩÇÁÉ{ÉXÇ≤Ç∆è¡Ç∑
         if (collision.tag == "Player")
         {
-            Destroy(Boss);
+            Destroy(GameObject.Find("BossEnemy").transform.GetChild(0).gameObject);
             Destroy(gameObject);
         }
     }
