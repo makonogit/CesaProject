@@ -173,7 +173,7 @@ public class New_PlayerJump : MonoBehaviour
             if (ImFly == true || ImDrop == true)
             {
                 // プレイヤーY座標変化
-                _thisTransform.Translate(0f, MoveY, 0f);
+                _thisTransform.Translate(0f, MoveY * Time.deltaTime, 0f);
 
                 // 重力の影響を受けさせる
                 MoveY -= gravity * Time.deltaTime;
