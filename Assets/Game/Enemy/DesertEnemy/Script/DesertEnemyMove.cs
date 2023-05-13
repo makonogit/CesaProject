@@ -155,32 +155,18 @@ public class DesertEnemyMove : MonoBehaviour
         //ThisAnim.SetBool("Attack", true);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //　ひびに当たったら状態をDETHに
         if (collision.gameObject.tag == "Crack")
         {
             ThisAnim.SetBool("Deth", true);
             Destroy(collision.gameObject);
-            GetComponent<CircleCollider2D>().isTrigger = true;
+            GetComponent<CircleCollider2D>().enabled = false;
             EnemyState = DesertEnemyState.DATH;
         }
-
-        //　プレイヤーが当たったら攻撃
-        if (collision.gameObject.tag == "Player")
-        {
-            //　HPを1減らす
-            Player.GetComponent<GameOver>().DecreaseHP(1);
-
-            // ノックバック
-            Player.GetComponent<KnockBack>().KnockBack_Func(transform);
-
-            // 点滅処理
-            Player.GetComponent<RenderOnOff>().SetFlash(true);
-            
-        }
-
     }
+
 
 
 }

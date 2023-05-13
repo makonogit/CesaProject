@@ -20,8 +20,7 @@ public class PyramidData : MonoBehaviour
     private GameObject CoreObj;         // コアオブジェクト
     [SerializeField, Header("敵オブジェクト")]
     private GameObject EnemyObj;        // 敵オブジェクト
-    private GameObject player;          // プレイヤーオブジェクト
-
+   
 
     [SerializeField, Header("壊れたスプライト")]
     private Sprite BreakPyramid;
@@ -46,10 +45,6 @@ public class PyramidData : MonoBehaviour
         // ボスの行動スクリプトを取得
         GameObject obj = GameObject.Find("DesertBoss");
         BossMove = obj.GetComponent<DesertBossMove>();
-
-        //------------------------------
-        // プレイヤーを取得
-        player = GameObject.Find("player");
         
         renderer = GetComponent<SpriteRenderer>();  // このオブジェクトのレンダラーを取得
 
@@ -102,10 +97,6 @@ public class PyramidData : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (MoveFlg && !Breaked && collision.gameObject.tag == "Player")
-        {
-            player.GetComponent<GameOver>().DecreaseHP(1);
-        }
 
         //-------------------------------------
         // ひびが入ったら壊れる

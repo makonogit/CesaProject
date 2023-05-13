@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4599459136331886198}
   - component: {fileID: 1233159618067469616}
   - component: {fileID: 4600518739454350392}
+  - component: {fileID: -476259819584825689}
   m_Layer: 0
   m_Name: Pyramid
   m_TagString: Untagged
@@ -242,3 +243,16 @@ PolygonCollider2D:
       - {x: -3.27, y: -2.19}
       - {x: -0.25, y: -2.19}
       - {x: -0.24, y: -2.18}
+--- !u!114 &-476259819584825689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074200519829471128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9962016d3b145084a9bda383e07eb12e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 1
