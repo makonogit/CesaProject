@@ -305,6 +305,8 @@ public class PauseGame : MonoBehaviour
                         case 3:
                             TimeOperate();
 
+                            InMainScene.inMainScene = false;
+
                             // ステージセレクトに行く
                             SceneManager.LoadScene("newSelectScene");
                             break;

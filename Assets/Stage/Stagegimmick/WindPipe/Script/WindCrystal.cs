@@ -39,7 +39,7 @@ public class WindCrystal : MonoBehaviour
 
     GameObject player;// レイが衝突したプレイヤー
 
-    PlayerJump Jump;
+    New_PlayerJump Jump;
     Rigidbody2D rigid;
 
     // Ray関連
@@ -75,7 +75,7 @@ public class WindCrystal : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
 
         player = GameObject.Find("player");
-        Jump = player.GetComponent<PlayerJump>();
+        Jump = player.GetComponent<New_PlayerJump>();
         rigid = player.GetComponent<Rigidbody2D>();
 
     }

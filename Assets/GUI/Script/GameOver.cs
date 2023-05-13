@@ -55,7 +55,7 @@ public class GameOver : MonoBehaviour
     private GameObject cam;
 
     private PlayerMove _playerMove;
-    private PlayerJump _playerJump;
+    private New_PlayerJump _playerJump;
     private CrackAutoMove _crackAuto;
     private SmashScript _smashScript;
     [SerializeField,Header("ゴールエリアのオブジェ")]
@@ -86,7 +86,7 @@ public class GameOver : MonoBehaviour
 
         _playerMove = GetComponent<PlayerMove>();
         if (_playerMove == null) Debug.LogError("PlayerMoveのコンポーネントを取得できませんでした。");
-        _playerJump = GetComponent<PlayerJump>();
+        _playerJump = GetComponent<New_PlayerJump>();
         if (_playerJump == null) Debug.LogError("PlayerJumpのコンポーネントを取得できませんでした。");
         _crackAuto = GetComponent<CrackAutoMove>();
         if (_crackAuto == null) Debug.LogError("CrackAutoMoveのコンポーネントを取得できませんでした。");
@@ -236,7 +236,7 @@ public class GameOver : MonoBehaviour
                         playerTransform.position = playerStatus.respawnStatus.PlayerRespawnPos;
 
                         // 落下速度があがりすぎて床を貫通しないようにするため
-                        _playerJump.FallTime = 0f;
+                        _playerJump.MoveY = 0f;
 
                         // HPUI初期化
                         drawHpUI.NowHPAnimationNumber = 0;

@@ -51,8 +51,18 @@ public class HaveCrystal : MonoBehaviour
                 collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
 
                 Crystal.Get = true;
+
+                // クリスタル取得時のアニメーション
                 anim1.SetBool("get", true);
                 anim2.SetBool("get", true);
+
+                // 既にアニメーションしていたら
+                if (anim1.GetBool("get"))
+                {
+                    // 始めから
+                    anim1.Play("AccentNumber", 0, 0);
+                    anim2.Play("AccentNumber", 0, 0);
+                }
             }
         }
     }

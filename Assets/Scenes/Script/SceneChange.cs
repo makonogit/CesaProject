@@ -16,6 +16,20 @@ public class SceneChange : MonoBehaviour
     private CanvasRenderer _panel;
     private string _loadScene;
     private bool _start;
+
+    // 二宮追加
+    [SerializeField] private Fade _fade;
+    public bool FirstFadeIn = false; // シーンが始まって一番最初にするフェードイン
+    // このスクリプトを持つオブジェクトが存在するシーン
+    private enum NowScene
+    {
+        Title,
+        Select,
+        Main,
+    }
+
+    [SerializeField]private NowScene _nowScene;
+
     private void Start()
     {
         if(_panelObj == null) Debug.LogError("パネルオブジェをセットしてください");
@@ -26,10 +40,29 @@ public class SceneChange : MonoBehaviour
         _nowTime = 0.0f;
 
         _panelObj.SetActive(true);
-        _panel.SetAlpha(0.0f);
+        if (_nowScene != NowScene.Main)
+        {
+            _panel.SetAlpha(0.0f);
+            FirstFadeIn = true;
+        }
     }
     private void Update()
     {
+        // 二宮追加
+        if (FirstFadeIn == false)
+        {
+            if (_fade.GetFadeState() == Fade.FadeState.FadeIn_Finish)
+            {
+                FirstFadeIn = true;
+            }
+            else 
+            {
+                _fade.FadeIn();
+            }
+
+
+        }
+
         if (_start) 
         {
             _nowTime += Time.deltaTime;
@@ -45,6 +78,8 @@ public class SceneChange : MonoBehaviour
     {
         _loadScene = _str;
         _start = true;
+
+        InMainScene.inMainScene = false;
         //Debug.Log(_str+"シーンをロードします。");
         //SceneManager.LoadScene(_str);
     }
