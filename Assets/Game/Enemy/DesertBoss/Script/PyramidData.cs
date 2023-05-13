@@ -115,9 +115,9 @@ public class PyramidData : MonoBehaviour
             }
             else
             {
-                GameObject obj = Instantiate(CoreObj,transform.position,Quaternion.identity);
-                GameObject Core = GameObject.Find("Core");
-                obj.transform.parent = Core.transform;
+                //GameObject obj = Instantiate(CoreObj,transform.position,Quaternion.identity);
+                //GameObject Core = GameObject.Find("Core");
+                //obj.transform.parent = Core.transform;
                 BossMove.BossState = DesertBossMove.DesertBossState.END;    // çUåÇèIóπ
             }
 
