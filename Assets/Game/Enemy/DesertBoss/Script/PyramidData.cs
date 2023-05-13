@@ -80,6 +80,7 @@ public class PyramidData : MonoBehaviour
                 renderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                 transform.parent = PyramidList.transform;
                 BossMove.Breaking = false;
+                BossMove.Setvibratioin = false;
 
                 //　終了していなかったら更新
                 if (BossMove.BossState != DesertBossMove.DesertBossState.END)

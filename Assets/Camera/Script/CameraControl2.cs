@@ -19,6 +19,8 @@ public class CameraControl2 : MonoBehaviour
     private GameObject CameraArea;          // カメラの追従エリア
     private PolygonCollider2D AreaCollider; // 追従エリアのコライダー
 
+    private Vector2[] FirstAreaColl;    //開始時のコライダー
+
     private Vector2[] NextAreaPos;          // 次のエリアの座標
 
     private AreaManager _AreaManager;       // エリア管理オブジェクト
@@ -48,6 +50,7 @@ public class CameraControl2 : MonoBehaviour
         // カメラの追従エリアの情報を取得
         CameraArea = GameObject.Find("CameraArea");
         AreaCollider = CameraArea.GetComponent<PolygonCollider2D>();
+        FirstAreaColl = AreaCollider.points;
         _AreaManager = CameraArea.GetComponent<AreaManager>();
 
         // カメラズームエリアの情報を取得
@@ -70,6 +73,25 @@ public class CameraControl2 : MonoBehaviour
 
         NowAreaNum = 1;         // 最初のエリアを指定
 
+    }
+
+    // リスポーン時の初期化
+    public void InitCamera()
+    {
+        // エリアマネージャーからエリアのサイズを計算
+        //Vector2[] points = AreaCollider.points;
+        //points[0].x = points[1].x + _AreaManager.AreaSize;
+        //points[3].x = points[1].x + _AreaManager.AreaSize;
+       
+        Vector2[] points = FirstAreaColl;
+        points[0].x = points[1].x + _AreaManager.AreaSize;
+        points[3].x = points[1].x + _AreaManager.AreaSize;
+        AreaCollider.SetPath(0, points);
+
+        NextAreaPos = null;
+        NowMax_x = AreaCollider.points[0].x; // 現在のカメラ右端を設定
+        AreaMove = false;
+        NowAreaNum = 1;         // 最初のエリアを指定
     }
 
     private void LateUpdate()
@@ -134,8 +156,9 @@ public class CameraControl2 : MonoBehaviour
         //プレイヤーがエリア外に出たら次のエリアを指定
         if (TargetTrans.position.x > AreaCollider.points[0].x + AreaCollider.offset.x)
         {
-             if (!AreaMove)
+            if (!AreaMove)
             {
+                Debug.Log("エリア更新");
                 NextAreaPos[0].x = AreaCollider.points[0].x + _AreaManager.AreaSize / 5;
                 NextAreaPos[3].x = AreaCollider.points[0].x + _AreaManager.AreaSize / 5;
                 NextAreaPos[1].x = AreaCollider.points[1].x + _AreaManager.AreaSize + 2.0f;

@@ -350,7 +350,7 @@ public class Hammer : MonoBehaviour
                             }
 
                             //@Šp“x‚ğ45“x‚¸‚Â‚ÅŠÇ—
-                            //angle = (((int)angle / 20)) * 20.0f;
+                            angle = ((int)(angle / 22.5f)) * 22.5f;
 
                         }
                         else

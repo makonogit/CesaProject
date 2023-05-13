@@ -41,6 +41,12 @@ public class DesertBossMove : MonoBehaviour
     public bool Breaking = false;   // ピラミッドが壊れたか 
 
     private VibrationCamera vibration;  //　振動用
+    public bool Setvibratioin = false;
+
+    private float Appearance_probability;        //　出現確率
+
+    [SerializeField,Header("ゲート")]
+    private GateThrough gate;
 
     public enum DesertBossState
     {
@@ -93,7 +99,9 @@ public class DesertBossMove : MonoBehaviour
         // animatorを取得
         anim = transform.GetChild(0).GetComponent<Animator>();
 
-        //vibration = GameObject.Find("Main Camera").GetComponent
+        vibration = GameObject.Find("Main Camera").GetComponent<VibrationCamera>();
+
+        Appearance_probability = 20.0f; //20％の確率に設定
 
         // 何もしていない状態にする
         BossState = DesertBossState.NONE;
@@ -103,6 +111,14 @@ public class DesertBossMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // プレイヤーがゲートを超えたら
+        if(gate.Throgh && BossState==DesertBossState.NONE)
+        {
+            // 敵が出てくる演出
+            BossState = DesertBossState.IDLE;
+
+        }
+
         // 生成中ピラミッドが存在しているか
         if(PyramidPos[0].childCount > 0 && PyramidPos[1].childCount > 0 && PyramidPos[2].childCount > 0)
         {
@@ -111,13 +127,28 @@ public class DesertBossMove : MonoBehaviour
             bool Pyramid2 = PyramidPos[1].GetChild(0).GetComponent<PyramidData>().MoveFlg;
             bool Pyramid3 = PyramidPos[2].GetChild(0).GetComponent<PyramidData>().MoveFlg;
 
+            //　あれば片付け中か取得
+            bool Pyramid1_c = PyramidPos[0].GetChild(0).GetComponent<PyramidData>().Clean;
+            bool Pyramid2_c = PyramidPos[1].GetChild(0).GetComponent<PyramidData>().Clean;
+            bool Pyramid3_c = PyramidPos[2].GetChild(0).GetComponent<PyramidData>().Clean;
+
+
             //　全て生成中だったら攻撃アニメーションにする
             anim.SetBool("Attack", Pyramid1 && Pyramid2 && Pyramid3);
+
+            // どれかが生成中or片付け中で振動していなかったら
+            if(((Pyramid1 && Pyramid2 && Pyramid3) || (Pyramid1_c && Pyramid2_c && Pyramid3_c)) && !Setvibratioin)
+            {
+                vibration.SetVibration(2.0f);
+                Setvibratioin = true;
+            }
+
         }
 
 
         if (BossState == DesertBossState.IDLE)
         {
+
             if (PyramidList.transform.childCount == PyramidNum)
             {
                 // 時間計測
@@ -135,6 +166,7 @@ public class DesertBossMove : MonoBehaviour
             //　どれか1つが壊れたら片づける
             if(Breaking)
             {
+                Setvibratioin = false;
                 BossState = DesertBossState.CLEAN;
             }
 
@@ -165,9 +197,7 @@ public class DesertBossMove : MonoBehaviour
             //　指定時間経過で全て片付ける
             if (TimeMeasure > EndTime)
             {
-                Pyramid_parent[0].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
-                Pyramid_parent[1].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
-                Pyramid_parent[2].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
+                PyramidClean();
                 //Destroy(gameObject);
             }
             else
