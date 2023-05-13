@@ -83,7 +83,7 @@ public class Fade : MonoBehaviour
 
             // ロードに何秒もかかるとunscaledDeltaTimeがつじつまを合わせようと大きな数字になるので
             // 1を超えた値が出たときは無視
-            if (Time.unscaledDeltaTime < 1f)
+            if (Time.unscaledDeltaTime < 0.01f)
             {
                 // _nowTime が0に近づくとフェードパネルのalphaの割合も0に近づく
                 _nowTime -= Time.unscaledDeltaTime;
@@ -109,7 +109,7 @@ public class Fade : MonoBehaviour
         {
             // ロードに何秒もかかるとunscaledDeltaTimeがつじつまを合わせようと大きな数字になるので
             // 1を超えた値が出たときは無視
-            if (Time.unscaledDeltaTime < 1f)
+            if (Time.unscaledDeltaTime < 0.01f)
             {
                 _nowTime += Time.unscaledDeltaTime;
             }

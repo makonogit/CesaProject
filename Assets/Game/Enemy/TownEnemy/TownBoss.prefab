@@ -178,7 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9962016d3b145084a9bda383e07eb12e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitTime: 0
   Damage: 1
 --- !u!114 &1170386839930017774
 MonoBehaviour:
@@ -352,6 +351,9 @@ MonoBehaviour:
   RammingSpeed: 3
   PreRammingTime: 1.5
   RammingWaitTime: 5
+  SandSmoke: {fileID: 243570918075163221, guid: 5302c711727f7c54a84d98a9f78bd99a, type: 3}
+  sandSmokeOffset_left: {x: 1.2, y: -1.9}
+  sandSmokeOffset_right: {x: 0, y: -1.9}
   EnemyAI: 0
 --- !u!95 &1357279458
 Animator:

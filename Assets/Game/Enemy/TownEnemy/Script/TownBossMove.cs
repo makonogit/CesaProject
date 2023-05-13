@@ -50,6 +50,11 @@ public class TownBossMove : MonoBehaviour
     [Header("突進後の後隙")] public float RammingWaitTime = 3.0f;     // 突進後の後隙時間
     private float RammingWaitTimer;                                   // 突進後の隙時間タイマー
     private bool HitPlayer = false;
+    [SerializeField] private GameObject SandSmoke; // 突進準備時の砂煙パーティクル
+    [SerializeField,Header("座標調整用(左足)")] private Vector2 sandSmokeOffset_left; // 座標調整用(左足)
+    private float sandSmokeAdjustX_left;   // ボスの向きで値を変える必要があるため
+    [SerializeField,Header("座標調整用(右足)")] private Vector2 sandSmokeOffset_right; // 座標調整用(右足)
+    private float sandSmokeAdjustX_right;  // ボスの向きで値を変える必要があるため
 
     //// かけら飛ばし用変数
     //private float CreateShardsNeedTime = 0.6f;   // かけらを作るのにかかる時間
@@ -758,6 +763,10 @@ public class TownBossMove : MonoBehaviour
             thisTransform.localScale = new Vector3(-sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
             // レイ調整
             AdjustX = Scale;
+
+            // パーティクル位置調整
+            sandSmokeAdjustX_left = -sandSmokeOffset_left.x;
+            sandSmokeAdjustX_right = -sandSmokeOffset_right.x;
         }
         else
         {
@@ -765,6 +774,10 @@ public class TownBossMove : MonoBehaviour
             thisTransform.localScale = new Vector3(sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
             // レイ調整
             AdjustX = -Scale;
+
+            // パーティクル位置調整
+            sandSmokeAdjustX_left = sandSmokeOffset_left.x;
+            sandSmokeAdjustX_right = sandSmokeOffset_right.x;
         }
     }
 
@@ -784,5 +797,27 @@ public class TownBossMove : MonoBehaviour
     public void SetHitPlayer(bool _hit)
     {
         HitPlayer = _hit;
+    }
+
+    public void CreateSandSmokeLeft()
+    {
+         // パーティクル生成
+         var obj = Instantiate(SandSmoke);
+         // ボスの座標取得
+         var pos = GetComponent<Transform>().position;
+
+         // 足元に生成
+         obj.transform.position = new Vector3(pos.x + sandSmokeAdjustX_left, pos.y + sandSmokeOffset_left.y, pos.z);
+    }
+
+    public void CreateSandSmokeRight()
+    {
+         // パーティクル生成
+         var obj = Instantiate(SandSmoke);
+         // ボスの座標取得
+         var pos = GetComponent<Transform>().position;
+
+         // 足元に生成
+         obj.transform.position = new Vector3(pos.x + sandSmokeAdjustX_right, pos.y + sandSmokeOffset_right.y, pos.z);
     }
 }
