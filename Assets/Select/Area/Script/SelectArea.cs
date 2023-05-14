@@ -61,6 +61,9 @@ public class SelectArea : MonoBehaviour
     private bool LeftMove = false;
     private bool RightMove = false;
 
+    // Playerの移動
+    [SerializeField] private Transform Playertrans;
+
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -98,6 +101,8 @@ public class SelectArea : MonoBehaviour
     {
         //--------------------------------------
         // エリア移動の処理
+        PlayerSelectMove();
+
         ChangeArea();
 
         DisplayIcon();
@@ -288,5 +293,40 @@ public class SelectArea : MonoBehaviour
             _ratio -= _speed * Time.deltaTime * 2f;
         }
     }
+
+    // プレイヤーの移動によって画面移動
+    private void PlayerSelectMove()
+    {
+        // 右移動
+        if (Playertrans.position.x > HorizonLimit.points[1].x)
+        {
+            NextArea();
+            if (_nowArea != _nextArea && !RightMove && !LeftMove)
+            {
+                RightMove = true;
+                OldLimitpoint = HorizonLimit.points[1];
+                List<Vector2> point = new List<Vector2>(2);
+                point.Add(new Vector2(HorizonLimit.points[0].x, HorizonLimit.points[0].y));
+                point.Add(new Vector2(9.0f + (18.0f * _nextArea), HorizonLimit.points[1].y));
+                HorizonLimit.SetPoints(point);
+            }
+        }
+
+        // 左移動
+        if(Playertrans.position.x < HorizonLimit.points[0].x)
+        {
+            PrevArea();
+            if (_nowArea != _nextArea && !LeftMove && !RightMove)
+            {
+                LeftMove = true;
+                OldLimitpoint = HorizonLimit.points[0];
+                List<Vector2> point = new List<Vector2>(2);
+                point.Add(new Vector2((18.0f * _nextArea) - 9.0f, HorizonLimit.points[0].y));
+                point.Add(new Vector2(HorizonLimit.points[1].x, HorizonLimit.points[1].y));
+                HorizonLimit.SetPoints(point);
+            }
+        }
+
+    } 
 
 }

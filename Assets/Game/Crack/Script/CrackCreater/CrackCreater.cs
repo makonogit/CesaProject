@@ -691,6 +691,7 @@ public class CrackCreater : MonoBehaviour
 
         // 形を設定
         _light2D.SetShapePath(_shape);
+        _light2D.intensity = 0.3f;
     }
 
     //
@@ -717,6 +718,7 @@ public class CrackCreater : MonoBehaviour
 
         // 形を設定
         _light2D.SetShapePath(_shape);
+        _light2D.intensity = 0.3f;
     }
 
     //-------------------------------------

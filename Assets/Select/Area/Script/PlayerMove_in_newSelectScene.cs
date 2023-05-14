@@ -38,6 +38,12 @@ public class PlayerMove_in_newSelectScene : MonoBehaviour
     private SEManager_Select seMana;
     private Animator anim; // アニメーターを取得するための変数
 
+    //----------------------------------
+    // 菅追加
+    [SerializeField] private SelectArea _selectarea;        //エリア移動
+    private Transform _playertrans;                         //プレイヤーのTransform
+    [SerializeField] private EdgeCollider2D HorizonLimit;   //横制限 
+
     // Use this for initialization
     void Start()
     {
@@ -61,6 +67,8 @@ public class PlayerMove_in_newSelectScene : MonoBehaviour
         se = GameObject.Find("SE");
         // Seコンポーネント取得
         seMana = se.GetComponent<SEManager_Select>();
+
+        _playertrans = transform;
     }
 
     // Update is called once per frame
@@ -126,6 +134,16 @@ public class PlayerMove_in_newSelectScene : MonoBehaviour
                 anim.SetBool("frieze", false);
             }
         }
+
+        if(_playertrans.position.x > HorizonLimit.points[1].x)
+        {
+            _selectarea.NextArea();
+        }
+        if (_playertrans.position.x < HorizonLimit.points[0].x)
+        {
+            _selectarea.PrevArea();
+        }
+
     }
     //-----------------------------------------------------------------
     //★★公開関数★★(公)
