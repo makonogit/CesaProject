@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8758352913760506890}
   - component: {fileID: 5713501863785350919}
   - component: {fileID: 2522925892059072026}
+  - component: {fileID: 4656423762811638365}
   m_Layer: 14
   m_Name: Broken_Ice
   m_TagString: Ice
@@ -151,7 +152,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrystalNum: 0
   Break: 0
-  _spriteRenderer: {fileID: 0}
+  _boxCollider: {fileID: 5713501863785350919}
+  _polygonCollider: {fileID: 0}
+  _spriteRenderer: {fileID: 5046705214585380853}
+  anim: {fileID: 4656423762811638365}
+  defaultMat: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+--- !u!95 &4656423762811638365
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878558350587911980}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 713f0a1daa9db364f97206c75e1f6ad4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5664599090157938653
 GameObject:
   m_ObjectHideFlags: 0

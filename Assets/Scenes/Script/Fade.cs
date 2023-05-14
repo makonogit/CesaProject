@@ -105,7 +105,7 @@ public class Fade : MonoBehaviour
 
                 FadeAlpha.black = false;
 
-                Debug.Log("フェードイン終了");
+                //Debug.Log("フェードイン終了");
             }
         }
         // 画面が暗くなっていく
@@ -144,7 +144,7 @@ public class Fade : MonoBehaviour
             _panel.SetAlpha(_nowTime / _fadeTime);
         }
 
-        Debug.Log(_fadeState);
+        //Debug.Log(_fadeState);
         //Debug.Log(_panel.GetAlpha());
         //Debug.Log("_nowTime" + _nowTime);
         //Debug.Log("_fadeTime" + _fadeTime);
@@ -154,7 +154,7 @@ public class Fade : MonoBehaviour
     {
         if (RunTime == false)
         {
-            Debug.Log("フェードイン開始");
+            //Debug.Log("フェードイン開始");
 
             _fadeIn = true;
             RunTime = true;
@@ -168,7 +168,7 @@ public class Fade : MonoBehaviour
     {
         if (RunTime == false)
         {
-            Debug.Log("フェードアウト開始");
+            //Debug.Log("フェードアウト開始");
 
             _fadeOut = true;
             RunTime = true;

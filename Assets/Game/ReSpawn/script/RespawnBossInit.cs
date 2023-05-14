@@ -14,7 +14,7 @@ public class RespawnBossInit : MonoBehaviour
     [Header("ステージに存在するボスの初期化関数を持つスクリプトのみ割り当て")]
     [SerializeField,Header("町ボス")] private TownBossMove _townMove;               // 町ボス
     [SerializeField,Header("氷ボス")] private IceBoss _iceMove;                     // 氷ボス
-    [SerializeField,Header("砂漠ボス")] private TownBossMove _sandMove;             // 砂漠ボス
+    [SerializeField,Header("砂漠ボス")] private DesertBossMove _desertMove;         // 砂漠ボス
     [SerializeField,Header("洞窟ボス")] private StateManager_CaveBoss _caveMove;    // 洞窟ボス
     [SerializeField,Header("工場ボス")] private PlantBossMove _plantMove;           // 工場ボス
 
@@ -68,10 +68,10 @@ public class RespawnBossInit : MonoBehaviour
                 if (StageNum == 4)
                 {
 
-                    if (_sandMove != null)
+                    if (_desertMove != null)
                     {
                         // 砂漠ボス初期化
-
+                        _desertMove.DesertBossInit();
                     }
                     else
                     {

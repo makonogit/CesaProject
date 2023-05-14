@@ -31,13 +31,17 @@ public class BreakBlock : MonoBehaviour
     private ParticleSystem CrystalParticle; //クリスタルをゲットしたパーティクル
     private GameObject CrystalPoint;        //クリスタルが集まる座標
 
-    private BoxCollider2D _boxCollider;
-    private PolygonCollider2D _polygonCollider;
+    [SerializeField] private BoxCollider2D _boxCollider;
+    [SerializeField,Header("ないならいらない")] private PolygonCollider2D _polygonCollider; // 岩についてる
 
     private GameObject SEObj;               //SE再生用オブジェクト
     private GimmickPlay_2 PlaySound;     //SE再生用スクリプト
 
-    private SpriteRenderer _spriteRenderer; // スプライトレンダラー
+    [SerializeField] private SpriteRenderer _spriteRenderer; // スプライトレンダラー
+
+    [SerializeField] private Animator anim; // アニメーター
+
+    [SerializeField] private Material defaultMat;
 
     private void Start()
     {
@@ -119,14 +123,19 @@ public class BreakBlock : MonoBehaviour
         if(tag == "Ice")
         {
             PlaySound.PlayerGimmickSE(GimmickPlay_2.GimmickSE2List.ICEBLOCK);
+
+            // 壊れるアニメーション開始
+            anim.SetBool("breakIce", true);
+            // デフォルトのマテリアルに戻す(アニメーターでアニメーションするとおかしくなるため)
+            _spriteRenderer.material = defaultMat; // デフォルトマテリアルをセット
         }
         else
         {
             PlaySound.PlayerGimmickSE(GimmickPlay_2.GimmickSE2List.ROCKBLOCK);
+            // 壊れるアニメーション開始
+            anim.SetBool("breakRock", true);
         }
-        // 透明にする
-        //mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.0f);
-        _spriteRenderer.enabled = false;
+        
         if (Crystal != null)
         {
             Destroy(Crystal);
@@ -146,5 +155,10 @@ public class BreakBlock : MonoBehaviour
         //Destroy(GetComponent<BoxCollider2D>());
 
         Break = true;
+    }
+
+    public void Invisible()
+    {
+        _spriteRenderer.enabled = false;
     }
 }
