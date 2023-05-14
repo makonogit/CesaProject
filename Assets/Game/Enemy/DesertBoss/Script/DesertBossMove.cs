@@ -104,7 +104,7 @@ public class DesertBossMove : MonoBehaviour
 
 
     // ボスの初期化処理
-    void DesertBossInit()
+    public void DesertBossInit()
     {
         BossState = DesertBossState.NONE;   //　何もしていない状態にする
 
