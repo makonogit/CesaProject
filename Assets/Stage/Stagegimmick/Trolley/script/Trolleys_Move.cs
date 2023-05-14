@@ -46,7 +46,7 @@ public class Trolleys_Move : MonoBehaviour
 
     private Vector3 _oldpos;            //前回の位置
     private float _movetime = 0.0f;     //移動時間
-    TrolleyManager trolleyManager = null;
+    //TrolleyManager trolleyManager = null;
 
     //======================================================
     //
@@ -127,9 +127,9 @@ public class Trolleys_Move : MonoBehaviour
     //
     void Update()
     {
-        _movetime += Time.deltaTime;
+        //_movetime += Time.deltaTime;
 
-        if (isStop && trolleyManager != null) trolleyManager.SetStop(true); trolleyManager = null;
+        //if (isStop && trolleyManager != null) trolleyManager.SetStop(true); trolleyManager = null;
 
         SetDirection(); // 進行方向の設定
         DashSetting();  // ダッシュの設定
@@ -138,12 +138,12 @@ public class Trolleys_Move : MonoBehaviour
         Move();         // 移動処理
         RotateWheel();  // タイヤの回転
         
-        if (_movetime > 0.3f)
-        {
-            _oldpos = transform.position;
-            _movetime = 0.0f;
-        }
-        _oldState = _hammer.hammerstate;// 状態を保存
+        //if (_movetime > 0.3f)
+        //{
+        //    _oldpos = transform.position;
+        //    _movetime = 0.0f;
+        //}
+        //_oldState = _hammer.hammerstate;// 状態を保存
        
 
     }
@@ -160,8 +160,8 @@ public class Trolleys_Move : MonoBehaviour
         if (isMoveTrigger)
         {
            _direction = GetDirection;
-            trolleyManager = transform.parent.GetComponent<TrolleyManager>();
-            trolleyManager.SetMoveTrolley(this);
+            //trolleyManager = transform.parent.GetComponent<TrolleyManager>();
+            //trolleyManager.SetMoveTrolley(this);
         }
     }
 
