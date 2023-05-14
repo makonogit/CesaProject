@@ -1,6 +1,6 @@
 //-----------------------------------------
-//@’S“–F›áÁS
-//@“à—eF»”™‚Ìƒ{ƒX‚Ìs“®
+//ã€€æ‹…å½“ï¼šè…çœå¿ƒ
+//ã€€å†…å®¹ï¼šç ‚æ¼ ã®ãƒœã‚¹ã®è¡Œå‹•
 //-----------------------------------------
 using System.Collections;
 using System.Collections.Generic;
@@ -9,68 +9,68 @@ using UnityEngine;
 public class DesertBossMove : MonoBehaviour
 {
     //--------------------------------------
-    // •Ï”éŒ¾
+    // å¤‰æ•°å®£è¨€
     
     //--------------------------------------
-    // ŠO•”æ“¾
-    [SerializeField,Header("¶¬‚·‚éƒsƒ‰ƒ~ƒbƒhƒIƒuƒWƒFƒNƒg")]
+    // å¤–éƒ¨å–å¾—
+    [SerializeField,Header("ç”Ÿæˆã™ã‚‹ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")]
     private GameObject PyramidObj;
 
-    [SerializeField, Header("ƒsƒ‰ƒ~ƒbƒh‚Ì”")]
+    [SerializeField, Header("ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ã®æ•°")]
     private int PyramidNum;
 
-    [SerializeField, Header("ƒsƒ‰ƒ~ƒbƒh‚Ì¶¬ˆÊ’uƒIƒuƒWƒFƒNƒg")]
+    [SerializeField, Header("ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ã®ç”Ÿæˆä½ç½®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")]
     private List<Transform> PyramidPos;
 
-    [SerializeField,Header("ƒsƒ‰ƒ~ƒbƒhŠÇ—ƒIƒuƒWƒFƒNƒg")]
-    private GameObject[] Pyramid_parent;  // ƒsƒ‰ƒ~ƒbƒh¶¬eƒIƒuƒWƒFƒNƒg
+    [SerializeField,Header("ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ç®¡ç†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")]
+    private GameObject[] Pyramid_parent;  // ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ç”Ÿæˆè¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 
-    private int CoreNum;            // ƒRƒA‚Ì”Ô†
+    private int CoreNum;            // ã‚³ã‚¢ã®ç•ªå·
 
-    [SerializeField, Header("ƒsƒ‰ƒ~ƒbƒh‚ªo‚Ä‚­‚é‚Ü‚Å‚ÌŠÔ")]
+    [SerializeField, Header("ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ãŒå‡ºã¦ãã‚‹ã¾ã§ã®æ™‚é–“")]
     private float WaitTime; 
-    private float TimeMeasure;      // ŠÔŒv‘ª—p
+    private float TimeMeasure;      // æ™‚é–“è¨ˆæ¸¬ç”¨
 
-    [SerializeField,Header("ƒRƒA‚ª˜Io‚µ‚Ä‚©‚çƒsƒ‰ƒ~ƒbƒh‚ª~‚è‚é‚Ü‚Å‚ÌŠÔ")]
+    [SerializeField,Header("ã‚³ã‚¢ãŒéœ²å‡ºã—ã¦ã‹ã‚‰ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ãŒé™ã‚Šã‚‹ã¾ã§ã®æ™‚é–“")]
     private float EndTime;       
 
-    public GameObject PyramidList;  // ƒsƒ‰ƒ~ƒbƒhŠÇ—ƒIƒuƒWƒFƒNƒg
+    public GameObject PyramidList;  // ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ç®¡ç†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 
     [SerializeField]
-    private List<int> Appearance;       // oŒ»‚·‚éƒsƒ‰ƒ~ƒbƒh”Ô†
+    private List<int> Appearance;       // å‡ºç¾ã™ã‚‹ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ç•ªå·
 
-    public bool Breaking = false;   // ƒsƒ‰ƒ~ƒbƒh‚ª‰ó‚ê‚½‚© 
+    public bool Breaking = false;   // ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ãŒå£Šã‚ŒãŸã‹ 
 
-    private VibrationCamera vibration;  //@U“®—p
+    private VibrationCamera vibration;  //ã€€æŒ¯å‹•ç”¨
     public bool Setvibratioin = false;
-    private Directing_BossLight LightEffect;  // ”š”­ƒGƒtƒFƒNƒg—p
+    private Directing_BossLight LightEffect;  // çˆ†ç™ºã‚¨ãƒ•ã‚§ã‚¯ãƒˆç”¨
 
-    private float Appearance_probability;        //@oŒ»Šm—¦
+    private float Appearance_probability;        //ã€€å‡ºç¾ç¢ºç‡
 
-    [SerializeField,Header("ƒQ[ƒg")]
+    [SerializeField,Header("ã‚²ãƒ¼ãƒˆ")]
     private GateThrough gate;
 
     public enum DesertBossState
     {
-        NONE,   // ‰½‚à‚µ‚Ä‚¢‚È‚¢
-        IDLE,   // ‘Ò‹@
-        ATTACK, // UŒ‚
-        CLEAN,  // ƒsƒ‰ƒ~ƒbƒh‚ğ•Ğ•t‚¯‚é
-        END     // UŒ‚I—¹
+        NONE,   // ä½•ã‚‚ã—ã¦ã„ãªã„
+        IDLE,   // å¾…æ©Ÿ
+        ATTACK, // æ”»æ’ƒ
+        CLEAN,  // ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ã‚’ç‰‡ä»˜ã‘ã‚‹
+        END     // æ”»æ’ƒçµ‚äº†
     }
 
-    public DesertBossState BossState;  // ƒ{ƒX‚Ìó‘ÔŠÇ——p•Ï”
+    public DesertBossState BossState;  // ãƒœã‚¹ã®çŠ¶æ…‹ç®¡ç†ç”¨å¤‰æ•°
 
-    private Animator anim;             //@ƒ{ƒX‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+    private Animator anim;             //ã€€ãƒœã‚¹ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 
     // Start is called before the first frame update
     void Start()
     {
         //----------------------------------------------------
-        //@¶¬‚·‚éƒsƒ‰ƒ~ƒbƒh‚Ì”•ªƒQ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á
+        //ã€€ç”Ÿæˆã™ã‚‹ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ã®æ•°åˆ†ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ 
        
         //--------------------------------------------
-        //@ƒsƒ‰ƒ~ƒbƒh¶¬
+        //ã€€ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ç”Ÿæˆ
         for (int i = 0; i < PyramidNum; i++)
         {
             GameObject obj = Instantiate(PyramidObj);
@@ -79,36 +79,84 @@ public class DesertBossMove : MonoBehaviour
             objrender.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
         }
 
-        // ƒRƒA‚ª“ü‚Á‚Ä‚¢‚éƒsƒ‰ƒ~ƒbƒh‚ğŒˆ‚ß‚é
+        // ã‚³ã‚¢ãŒå…¥ã£ã¦ã„ã‚‹ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ã‚’æ±ºã‚ã‚‹
         CoreNum = Random.Range(0, PyramidNum - 1);
         PyramidData Data = PyramidList.transform.GetChild(CoreNum).gameObject.GetComponent<PyramidData>();
         Data.InsideNum = 1;
 
-        // ƒƒ‚ƒŠŠm•Û
+        // ãƒ¡ãƒ¢ãƒªç¢ºä¿
         //Appearance.Add(0);
         //Appearance.Add(0);
         //Appearance.Add(0);
 
-        // animator‚ğæ“¾
+        // animatorã‚’å–å¾—
         anim = transform.GetChild(0).GetComponent<Animator>();
 
         vibration = GameObject.Find("Main Camera").GetComponent<VibrationCamera>();
-        LightEffect = transform.GetChild(0).transform.GetChild(0).GetComponent<Directing_BossLight>();  //”š”­—p
+        LightEffect = transform.GetChild(0).transform.GetChild(0).GetComponent<Directing_BossLight>();  //çˆ†ç™ºç”¨
 
-        Appearance_probability = 20.0f; //20“‚ÌŠm—¦‚Éİ’è
+        Appearance_probability = 20.0f; //20ï¼…ã®ç¢ºç‡ã«è¨­å®š
 
-        // ‰½‚à‚µ‚Ä‚¢‚È‚¢ó‘Ô‚É‚·‚é
+        // ä½•ã‚‚ã—ã¦ã„ãªã„çŠ¶æ…‹ã«ã™ã‚‹
         BossState = DesertBossState.NONE;
 
     }
 
+
+    // ãƒœã‚¹ã®åˆæœŸåŒ–å‡¦ç†
+    void DesertBossInit()
+    {
+        BossState = DesertBossState.NONE;   //ã€€ä½•ã‚‚ã—ã¦ã„ãªã„çŠ¶æ…‹ã«ã™ã‚‹
+
+        //--------------------------------------------------
+        //ã€€ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ã®å‰Šé™¤
+        if(Pyramid_parent[0].transform.childCount > 0) Destroy(Pyramid_parent[0].transform.GetChild(0).gameObject);
+        if (Pyramid_parent[1].transform.childCount > 0) Destroy(Pyramid_parent[1].transform.GetChild(0).gameObject);
+        if (Pyramid_parent[2].transform.childCount > 0) Destroy(Pyramid_parent[2].transform.GetChild(0).gameObject);
+
+        for(int i = 0; i< PyramidList.transform.childCount; i++)
+        {
+            Destroy(PyramidList.transform.GetChild(i).gameObject);
+        }
+
+        //---------------------------------------------
+        // æ•µã‚’ä¸€æƒ
+        GameObject Enemy = transform.Find("Enemy").gameObject;
+        for(int i = 0; i < Enemy.transform.childCount; i++)
+        {
+            Destroy(Enemy.transform.GetChild(i));
+        }
+
+        //--------------------------------------------
+        // ã‚³ã‚¢ã‚’æ¶ˆå»
+        
+        // ä¿ç•™
+
+        //--------------------------------------------
+        //ã€€ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ç”Ÿæˆ
+        for (int i = 0; i < PyramidNum; i++)
+        {
+            GameObject obj = Instantiate(PyramidObj);
+            obj.transform.parent = PyramidList.transform;
+            SpriteRenderer objrender = obj.GetComponent<SpriteRenderer>();
+            objrender.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        }
+
+        // ã‚³ã‚¢ãŒå…¥ã£ã¦ã„ã‚‹ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ã‚’æ±ºã‚ã‚‹
+        CoreNum = Random.Range(0, PyramidNum - 1);
+        PyramidData Data = PyramidList.transform.GetChild(CoreNum).gameObject.GetComponent<PyramidData>();
+        Data.InsideNum = 1;
+
+    }
+
+
     // Update is called once per frame
     void Update()
     {
-        // ƒvƒŒƒCƒ„[‚ªƒQ[ƒg‚ğ’´‚¦‚½‚ç
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚²ãƒ¼ãƒˆã‚’è¶…ãˆãŸã‚‰
         if(gate.Throgh && BossState==DesertBossState.NONE)
         {
-            // “G‚ªo‚Ä‚­‚é‰‰o
+            // æ•µãŒå‡ºã¦ãã‚‹æ¼”å‡º
             BossState = DesertBossState.IDLE;
 
         }
@@ -118,11 +166,11 @@ public class DesertBossMove : MonoBehaviour
 
             if (PyramidList.transform.childCount == PyramidNum)
             {
-                // ŠÔŒv‘ª
+                // æ™‚é–“è¨ˆæ¸¬
                 TimeMeasure += Time.deltaTime;
 
                 //------------------------------------
-                //@ŠÔŒo‰ß‚ÅUŒ‚ŠJn
+                //ã€€æ™‚é–“çµŒéã§æ”»æ’ƒé–‹å§‹
                 if (TimeMeasure > WaitTime)
                 {
                     BossState = DesertBossState.ATTACK;
@@ -130,31 +178,31 @@ public class DesertBossMove : MonoBehaviour
                 }
             }
            
-            //@‚Ç‚ê‚©1‚Â‚ª‰ó‚ê‚½‚ç•Ğ‚Ã‚¯‚é
+            //ã€€ã©ã‚Œã‹1ã¤ãŒå£Šã‚ŒãŸã‚‰ç‰‡ã¥ã‘ã‚‹
             if(Breaking)
             {
                 Setvibratioin = false;
                 BossState = DesertBossState.CLEAN;
             }
 
-            // ¶¬’†ƒsƒ‰ƒ~ƒbƒh‚ª‘¶İ‚µ‚Ä‚¢‚é‚©
+            // ç”Ÿæˆä¸­ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ãŒå­˜åœ¨ã—ã¦ã„ã‚‹ã‹
             if (PyramidPos[0].childCount > 0 && PyramidPos[1].childCount > 0 && PyramidPos[2].childCount > 0)
             {
-                //@‚ ‚ê‚Î¶¬’†‚©æ“¾
+                //ã€€ã‚ã‚Œã°ç”Ÿæˆä¸­ã‹å–å¾—
                 bool Pyramid1 = PyramidPos[0].GetChild(0).GetComponent<PyramidData>().MoveFlg;
                 bool Pyramid2 = PyramidPos[1].GetChild(0).GetComponent<PyramidData>().MoveFlg;
                 bool Pyramid3 = PyramidPos[2].GetChild(0).GetComponent<PyramidData>().MoveFlg;
 
-                //@‚ ‚ê‚Î•Ğ•t‚¯’†‚©æ“¾
+                //ã€€ã‚ã‚Œã°ç‰‡ä»˜ã‘ä¸­ã‹å–å¾—
                 bool Pyramid1_c = PyramidPos[0].GetChild(0).GetComponent<PyramidData>().Clean;
                 bool Pyramid2_c = PyramidPos[1].GetChild(0).GetComponent<PyramidData>().Clean;
                 bool Pyramid3_c = PyramidPos[2].GetChild(0).GetComponent<PyramidData>().Clean;
 
 
-                //@‘S‚Ä¶¬’†‚¾‚Á‚½‚çUŒ‚ƒAƒjƒ[ƒVƒ‡ƒ“‚É‚·‚é
+                //ã€€å…¨ã¦ç”Ÿæˆä¸­ã ã£ãŸã‚‰æ”»æ’ƒã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã«ã™ã‚‹
                 anim.SetBool("Attack", Pyramid1 && Pyramid2 && Pyramid3);
 
-                // ‚Ç‚ê‚©‚ª¶¬’†or•Ğ•t‚¯’†‚ÅU“®‚µ‚Ä‚¢‚È‚©‚Á‚½‚ç
+                // ã©ã‚Œã‹ãŒç”Ÿæˆä¸­orç‰‡ä»˜ã‘ä¸­ã§æŒ¯å‹•ã—ã¦ã„ãªã‹ã£ãŸã‚‰
                 if (((Pyramid1 && Pyramid2 && Pyramid3) || (Pyramid1_c && Pyramid2_c && Pyramid3_c)) && !Setvibratioin)
                 {
                     vibration.SetVibration(2.0f);
@@ -167,14 +215,14 @@ public class DesertBossMove : MonoBehaviour
         }
 
         //---------------------------------------
-        //@UŒ‚ó‘Ô
+        //ã€€æ”»æ’ƒçŠ¶æ…‹
         if (BossState == DesertBossState.ATTACK)
         {
             BossAttack();
         }
 
         //---------------------------------------
-        //@•Ğ•t‚¯‚éó‘Ô
+        //ã€€ç‰‡ä»˜ã‘ã‚‹çŠ¶æ…‹
         if(BossState == DesertBossState.CLEAN)
         {
             PyramidClean();
@@ -182,12 +230,12 @@ public class DesertBossMove : MonoBehaviour
         }
 
         //---------------------------------------
-        //@ƒRƒA‚ª˜IoAUŒ‚I—¹
+        //ã€€ã‚³ã‚¢ãŒéœ²å‡ºã€æ”»æ’ƒçµ‚äº†
         if(BossState == DesertBossState.END)
         {
-            Debug.Log("I—¹");
+            Debug.Log("çµ‚äº†");
             //------------------------------------------
-            //@w’èŠÔŒo‰ß‚Å‘S‚Ä•Ğ•t‚¯‚é
+            //ã€€æŒ‡å®šæ™‚é–“çµŒéã§å…¨ã¦ç‰‡ä»˜ã‘ã‚‹
             if (TimeMeasure > EndTime)
             {
                 PyramidClean();
@@ -203,16 +251,16 @@ public class DesertBossMove : MonoBehaviour
     }
 
     //------------------------------------
-    //@ƒ{ƒX‚ÌUŒ‚ˆ—
+    //ã€€ãƒœã‚¹ã®æ”»æ’ƒå‡¦ç†
     private void BossAttack()
     {
         //-----------------------------------------
-        //@oŒ»‚·‚éƒsƒ‰ƒ~ƒbƒh‚ğİ’è
+        //ã€€å‡ºç¾ã™ã‚‹ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ã‚’è¨­å®š
         do {
             for (int i = 0; i < 3; i++)
             {
                 //-----------------------------
-                //@d•¡ƒ`ƒFƒbƒN
+                //ã€€é‡è¤‡ãƒã‚§ãƒƒã‚¯
                 int num = Random.Range(0, PyramidNum - 1);
                 if (!Appearance.Contains(num))
                 {
@@ -224,25 +272,25 @@ public class DesertBossMove : MonoBehaviour
                 }
             }
 
-            //  3‚Â‚Æ‚à‰ó‚ê‚Ä‚¢‚½‚ç‚à‚¤ˆê“xİ’è
+            //  3ã¤ã¨ã‚‚å£Šã‚Œã¦ã„ãŸã‚‰ã‚‚ã†ä¸€åº¦è¨­å®š
         } while ( (PyramidList.transform.GetChild(Appearance[0]).gameObject.GetComponent<PyramidData>().Breaked && 
                    PyramidList.transform.GetChild(Appearance[1]).gameObject.GetComponent<PyramidData>().Breaked &&
                    PyramidList.transform.GetChild(Appearance[2]).gameObject.GetComponent<PyramidData>().Breaked));
 
 
         //-----------------------------------------------------------
-        // ƒsƒ‰ƒ~ƒbƒh‚ª‚È‚¯‚ê‚Îƒsƒ‰ƒ~ƒbƒh‚ğ¶¬(qƒIƒuƒWƒFƒNƒg‚É‚·‚é)
-        GameObject obj = PyramidList.transform.GetChild(Appearance[0]).gameObject;    // ¶
+        // ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ãŒãªã‘ã‚Œã°ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ã‚’ç”Ÿæˆ(å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã™ã‚‹)
+        GameObject obj = PyramidList.transform.GetChild(Appearance[0]).gameObject;    // å·¦
         obj.transform.position = Pyramid_parent[0].transform.position;
         SpriteRenderer objrender = obj.GetComponent<SpriteRenderer>();
         objrender.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
       
-        GameObject obj2 = PyramidList.transform.GetChild(Appearance[1]).gameObject;   // ^‚ñ’†
+        GameObject obj2 = PyramidList.transform.GetChild(Appearance[1]).gameObject;   // çœŸã‚“ä¸­
         obj2.transform.position = Pyramid_parent[1].transform.position;
         SpriteRenderer obj2render = obj2.GetComponent<SpriteRenderer>();
         obj2render.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
      
-        GameObject obj3 = PyramidList.transform.GetChild(Appearance[2]).gameObject;   // ‰E
+        GameObject obj3 = PyramidList.transform.GetChild(Appearance[2]).gameObject;   // å³
         obj3.transform.position = Pyramid_parent[2].transform.position;
         SpriteRenderer obj3render = obj3.GetComponent<SpriteRenderer>();
         obj3render.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -257,7 +305,7 @@ public class DesertBossMove : MonoBehaviour
 
 
     //---------------------------------
-    //@ƒsƒ‰ƒ~ƒbƒh‚ğ•Ğ•t‚¯‚éˆ—
+    //ã€€ãƒ”ãƒ©ãƒŸãƒƒãƒ‰ã‚’ç‰‡ä»˜ã‘ã‚‹å‡¦ç†
     private void PyramidClean()
     {
         Pyramid_parent[0].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
