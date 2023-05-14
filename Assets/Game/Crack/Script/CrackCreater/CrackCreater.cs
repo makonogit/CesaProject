@@ -67,6 +67,8 @@ public class CrackCreater : MonoBehaviour
     [SerializeField]
     private List<GameObject> _cracks;// ひびのオブジェクトリスト
 
+    [SerializeField]private List<Vector2> _nowEdgePoints = new List<Vector2>(); // 更新中のエッジリスト
+
     //private Wall_HP_System_Script _WHPSS;
 
     int layerMask;      //Rayのレイヤーマスク
@@ -274,7 +276,7 @@ public class CrackCreater : MonoBehaviour
         }
 
         // 頂点を設定する
-        Edge2D.SetPoints(_edgePoints);
+        //Edge2D.SetPoints(_edgePoints);
         if(SandEdge != null) SandEdge.SetPoints(_edgePoints);
 
         _nowState = CrackCreaterState.CREATING;
@@ -332,6 +334,11 @@ public class CrackCreater : MonoBehaviour
         {
             // 表示
             _cracks[_createCount].SetActive(true);
+
+            // エッジ設定
+            _nowEdgePoints.Add(_edgePoints[_createCount]);
+            Edge2D.SetPoints(_nowEdgePoints);
+
             // WHPSSのHPを減らす-追加
             //_WHPSS.SubHp(_cracks[_createCount].transform.localScale.x);
             // 次へ
@@ -360,7 +367,7 @@ public class CrackCreater : MonoBehaviour
         // リストの後ろを追加　
         AddBack();
         // 頂点を再設定する
-        Edge2D.SetPoints(_edgePoints);
+        //Edge2D.SetPoints(_edgePoints);
         if (SandEdge != null) SandEdge.SetPoints(_edgePoints);
     }
 
@@ -375,7 +382,7 @@ public class CrackCreater : MonoBehaviour
         AddForward();
 
         // 頂点を再設定する
-        Edge2D.SetPoints(_edgePoints);
+        //Edge2D.SetPoints(_edgePoints);
         SandEdge.SetPoints(_edgePoints);
 
     }
@@ -391,7 +398,7 @@ public class CrackCreater : MonoBehaviour
         AddBack();
 
         // 頂点を再設定する
-        Edge2D.SetPoints(_edgePoints);
+        //Edge2D.SetPoints(_edgePoints);
         if (SandEdge != null)  SandEdge.SetPoints(_edgePoints);
 
     }
@@ -577,6 +584,8 @@ public class CrackCreater : MonoBehaviour
             if (_addCrackNow.y < _cracks.Count) 
             {
                 _cracks[_addCrackNow.y].SetActive(true);// 表示
+                _nowEdgePoints.Add(_edgePoints[_addCrackNow.y]);
+                Edge2D.SetPoints(_nowEdgePoints);
                 _addCrackCount--;// カウントを減らす
                 _addCrackNow = new Vector2Int(_addCrackNow.x , _addCrackNow.y + 1);// カウントを減らす
             }
