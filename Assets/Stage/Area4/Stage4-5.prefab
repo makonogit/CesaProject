@@ -407,9 +407,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4624474287853390675}
-  - {fileID: 7447792555418093199}
-  - {fileID: 1714693622691144090}
+  - {fileID: 6154734121031119305}
+  - {fileID: 183728445552253696}
+  - {fileID: 2736514082836682460}
   m_Father: {fileID: 4140748712188618457}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13812,6 +13812,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7392959647770734563, guid: 87959d36af254754e89e8d3e60ff2a7e, type: 3}
+      propertyPath: m_Intensity
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392959647770734563, guid: 87959d36af254754e89e8d3e60ff2a7e, type: 3}
       propertyPath: m_Vertices.Array.size
       value: 114
       objectReference: {fileID: 0}
@@ -16506,9 +16510,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9693287e8440129499bae4efed3f919b, type: 3}
---- !u!4 &1714693622691144090 stripped
+--- !u!4 &6154734121031119305 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1472050646118836834, guid: 9693287e8440129499bae4efed3f919b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6254396601174276657, guid: 9693287e8440129499bae4efed3f919b, type: 3}
   m_PrefabInstance: {fileID: 262922370387151864}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &368329789960765133
@@ -18584,11 +18588,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: NeedleEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6254396601174276657, guid: 9693287e8440129499bae4efed3f919b, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9693287e8440129499bae4efed3f919b, type: 3}
---- !u!4 &4624474287853390675 stripped
+--- !u!4 &183728445552253696 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1472050646118836834, guid: 9693287e8440129499bae4efed3f919b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6254396601174276657, guid: 9693287e8440129499bae4efed3f919b, type: 3}
   m_PrefabInstance: {fileID: 6071037696084664625}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6099634564836920423
@@ -55730,6 +55738,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7392959647770734563, guid: 87959d36af254754e89e8d3e60ff2a7e, type: 3}
+      propertyPath: m_Intensity
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392959647770734563, guid: 87959d36af254754e89e8d3e60ff2a7e, type: 3}
       propertyPath: m_Vertices.Array.size
       value: 44
       objectReference: {fileID: 0}
@@ -56964,11 +56976,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: NeedleEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6254396601174276657, guid: 9693287e8440129499bae4efed3f919b, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9693287e8440129499bae4efed3f919b, type: 3}
---- !u!4 &7447792555418093199 stripped
+--- !u!4 &2736514082836682460 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1472050646118836834, guid: 9693287e8440129499bae4efed3f919b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6254396601174276657, guid: 9693287e8440129499bae4efed3f919b, type: 3}
   m_PrefabInstance: {fileID: 8301851125593844973}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8340302514294087212

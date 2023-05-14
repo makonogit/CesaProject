@@ -16,7 +16,7 @@ public class LightVolume : MonoBehaviour
 
         if(stage.GetAreaNum() == 3)
         {
-            GetComponent<Light2D>().intensity = 0.25f;
+            GetComponent<Light2D>().intensity = 0.0f;
         }
     }
 
