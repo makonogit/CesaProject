@@ -22,8 +22,6 @@ public class InitScoreCrystal : MonoBehaviour
     private GameObject player;
     private PlayerStatas playerStatus;
 
-    RespawnStatus _respawnSta;
-
     // Start is called before the first frame update
     void Start()
     {

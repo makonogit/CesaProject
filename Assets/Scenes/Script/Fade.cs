@@ -88,6 +88,10 @@ public class Fade : MonoBehaviour
                 // _nowTime が0に近づくとフェードパネルのalphaの割合も0に近づく
                 _nowTime -= Time.unscaledDeltaTime;
             }
+            else
+            {
+                _nowTime -= 0.01f;
+            }
 
             // フェードイン終了
             if(_nowTime <= 0f)
@@ -112,6 +116,9 @@ public class Fade : MonoBehaviour
             if (Time.unscaledDeltaTime < 0.01f)
             {
                 _nowTime += Time.unscaledDeltaTime;
+            }else
+            {
+                _nowTime += 0.01f;
             }
 
             // フェードアウト終了

@@ -13,7 +13,8 @@ public class RespawnObjManager : MonoBehaviour
     private bool Respawn = false;
 
     private CameraZoom _cameraZoom; // リザルト用
-    public InitScoreCrystal _initScoreCrystal; // スコアクリスタル初期化用スクリプト
+    [SerializeField] private InitScoreCrystal _initScoreCrystal; // スコアクリスタル初期化用スクリプト
+    [SerializeField] private RespawnBossInit _initBoss; // ボスの初期化用スクリプト
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,8 @@ public class RespawnObjManager : MonoBehaviour
 
             // リスポーン時にリセットしたいオブジェクトの初期化関数呼び出し
             _initScoreCrystal.ScoreCrystalInitStart(); // スコアクリスタル
+            _initBoss.RespawnInit(); // ボス
+
             _cameraZoom.RespawnInit();
 
             Respawn = false;

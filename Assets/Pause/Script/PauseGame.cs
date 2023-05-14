@@ -434,7 +434,7 @@ public class PauseGame : MonoBehaviour
 
             if(WaitTimer > OutInTime)
             {
-                FadeAlpha.black = true;
+                //FadeAlpha.black = true;
 
                 Debug.Log("シーンをロード");
 

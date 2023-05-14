@@ -129,6 +129,9 @@ public class TownBossMove : MonoBehaviour
 
         // Œü‚«
         Direction = EnemyDirection.LEFT;
+
+        // ‘Ì—ÍÅ‘å‚É‚·‚é
+        BossHealth.BossHealth = BossHealth.MaxBossHealth;
     }
 
     // Start is called before the first frame update
