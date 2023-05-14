@@ -164,7 +164,7 @@ public class CrackAutoMove : MonoBehaviour
                         if (NowPointNum == PointNum - 1)
                         {
                             // Ç–Ç—Çè¡Ç∑
-                            Destroy(NowMoveCrack);
+                          //  Destroy(NowMoveCrack);
                             HitFlg = false;
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
@@ -200,7 +200,7 @@ public class CrackAutoMove : MonoBehaviour
                         if (NowPointNum == 0)
                         {
                             // Ç–Ç—Çè¡Ç∑
-                            Destroy(NowMoveCrack);
+                           // Destroy(NowMoveCrack);
                             HitFlg = false;
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
