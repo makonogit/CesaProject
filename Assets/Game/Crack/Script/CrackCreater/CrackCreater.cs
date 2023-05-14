@@ -76,6 +76,8 @@ public class CrackCreater : MonoBehaviour
     [SerializeField, Header("追加するひびの長さ")]
     private float AddLength;
 
+    SetStage stage; //ステージ
+
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -129,7 +131,9 @@ public class CrackCreater : MonoBehaviour
         if (_light2D == null) Debug.LogError("Light2Dのコンポーネントを取得できませんでした。");
         // 非表示
         _light2D.enabled = false;
-        
+
+        stage = new SetStage();
+
     }
 
 
@@ -349,7 +353,7 @@ public class CrackCreater : MonoBehaviour
         // 全て表示したら
         if (_createCount == _cracks.Count)
         {
-            //SetLight();
+            if (stage.GetAreaNum() == 3) SetLight();
             //_nowState = CrackCreaterState.ADD_CREATE;
             _nowState = CrackCreaterState.CRAETED;
         }
@@ -595,7 +599,10 @@ public class CrackCreater : MonoBehaviour
         // 全て表示したら
         if (_addCrackCount <= 0)
         {
-            //SetLight();
+            if (stage.GetAreaNum() == 3)
+            {
+                SetLight();
+            }
             // 状態変更
             _nowState = CrackCreaterState.CRAETED;
         }
