@@ -16,11 +16,11 @@ public class BranchCreater : MonoBehaviour
     private CrackCreater creater;       //このオブジェクトのCrackCreater
 
 
-    [SerializeField,Header("ひびのスプライト")]
-    private Sprite CrackSprite;
+    [SerializeField,Header("ひびのテクスチャ")]
+    private Texture CrackSprite;
 
-    [SerializeField, Header("ひびの先端スプライト")]
-    private Sprite CrackEndSprite;
+    [SerializeField, Header("ひびの先端テクスチャ")]
+    private Texture CrackEndSprite;
 
     private Hammer hammer;      //Hammerスクリプト
 
@@ -47,7 +47,8 @@ public class BranchCreater : MonoBehaviour
         if(creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATE)
         {
             //　先端のスプライトを変更
-            transform.GetChild(transform.childCount - 1).GetComponent<SpriteRenderer>().sprite = CrackSprite;
+            transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
+            NormalMat.SetTexture("_MainTexture", CrackSprite);
 
         }
 
@@ -66,8 +67,10 @@ public class BranchCreater : MonoBehaviour
 
             if (!Branch)
             {
+                Debug.Log("生成後");
                 //　先端のスプライトを変更
-                transform.GetChild(transform.childCount - 1).GetComponent<SpriteRenderer>().sprite = CrackEndSprite;
+                transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
+                    NormalMat.SetTexture("_MainTexture", CrackEndSprite);
                 //　分岐ひび生成
                 StartBranch = hammer.CreateBranch(BranchObj,gameObject,branchcreater,StartBranch);
 

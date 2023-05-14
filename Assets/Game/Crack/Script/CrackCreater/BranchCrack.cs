@@ -16,11 +16,11 @@ public class BranchCrack : MonoBehaviour
     private GameObject BranchObj;
     private CrackCreater branchcreater;
 
-    [SerializeField, Header("ひびのスプライト")]
-    private Sprite Crack;
+    [SerializeField, Header("ひびのTexture")]
+    private Texture Crack;
 
-    [SerializeField, Header("ひびの先端スプライト")]
-    private Sprite Crackend;
+    [SerializeField, Header("ひびの先端Texture")]
+    private Texture Crackend;
 
     private Hammer hammer;  //Hammerスクリプト、ひび生成用
 
@@ -45,39 +45,48 @@ public class BranchCrack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (creater.GetState() == CrackCreater.CrackCreaterState.CRAETED)
-        {
-            if (Create)
-            {
-                RandomCrack = Random.Range(0, 100); //0～100の乱数取得
-                //生成終了したらコライダーを無効化
-                GetComponent<EdgeCollider2D>().enabled = false;
-                Create = false;
-            }
-        }
+        //if (creater.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+        //{
+        //    if (Create)
+        //    {
+        //        RandomCrack = Random.Range(0, 100); //0～100の乱数取得
+        //        //生成終了したらコライダーを無効化
+        //        GetComponent<EdgeCollider2D>().enabled = false;
+        //        Create = false;
+        //    }
+        //}
 
-        //　親のひびが追加生成されたら一定の確率で分岐ひびが伸びる
-        if (ParentCrackCreater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING)
+        ////　親のひびが追加生成されたら一定の確率で分岐ひびが伸びる
+        //if (ParentCrackCreater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING)
+        //{
+        //    if (!Create)
+        //    {
+        //        if (RandomCrack < 2)
+        //        {
+        //            if (creater.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+        //            {
+        //                GetComponent<EdgeCollider2D>().enabled = true;
+        //                //StartBranch = hammer.CreateBranch(BranchObj, gameObject, branchcreater, StartBranch);
+        //                //creater.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
+        //            }
+        //        }
+        //        Create = true;
+        //    }
+        //}
+
+        // 生成終了したらスプライトの変更
+        if (creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATE)
         {
-            if (!Create)
-            {
-                if (RandomCrack < 2)
-                {
-                    if (creater.GetState() == CrackCreater.CrackCreaterState.CRAETED)
-                    {
-                        GetComponent<EdgeCollider2D>().enabled = true;
-                        //StartBranch = hammer.CreateBranch(BranchObj, gameObject, branchcreater, StartBranch);
-                        //creater.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
-                    }
-                }
-                Create = true;
-            }
+            transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
+                NormalMat.SetTexture("_MainTexture", Crack);
+            GetComponent<EdgeCollider2D>().enabled = true;
         }
 
         // 生成終了したらスプライトの変更
         if (creater.GetState() == CrackCreater.CrackCreaterState.CRAETED)
         {
-            transform.GetChild(transform.childCount - 1).GetComponent<SpriteRenderer>().sprite = Crackend;
+            transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
+                NormalMat.SetTexture("_MainTexture",Crackend);
             GetComponent<EdgeCollider2D>().enabled = false;
         }
     }

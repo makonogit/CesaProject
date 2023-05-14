@@ -316,10 +316,10 @@ public class CrackAutoMove : MonoBehaviour
                 //　子オブジェクトのマテリルをすべて変更
                 for (int i = 0; i < crackobj.transform.childCount - 1; i++)
                 {
-                    if (crackobj.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>())
+                    if (crackobj.transform.GetChild(i).gameObject.GetComponent<PointMatControl>())
                     {
-                        crackobj.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().material
-                            = FrashCrackMat;
+                        crackobj.transform.GetChild(i).gameObject.GetComponent<PointMatControl>().FlashCrack();
+                            //= FrashCrackMat;
                     }
                 }
                 // Aボタンで入る
@@ -359,9 +359,9 @@ public class CrackAutoMove : MonoBehaviour
             //　子オブジェクトのマテリルをすべて変更
             for (int i = 0; i < crackobj.transform.childCount - 1; i++)
             {
-                if(crackobj.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>())
-                crackobj.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().material
-                    = NomalCrackMat;
+                if (crackobj.transform.GetChild(i).gameObject.GetComponent<PointMatControl>())
+                    crackobj.transform.GetChild(i).gameObject.GetComponent<PointMatControl>().NomalCrack();
+                    //= NomalCrackMat;
             }
         }
       
