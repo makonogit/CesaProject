@@ -49,14 +49,15 @@ public class WindCrystal : MonoBehaviour
     // 発生させる風関連
     //----------------------------------
 
-    [Header("[発生させるパーティクル]")]
+    [Header("[風の設定]")]
+    [Header("・発生させるパーティクル")]
     public GameObject particle;
 
-    [Header("[上昇スピード]")]
-    public float rise_speed = 0.1f;
+    [Header("・上昇スピード")]
+    public float rise_speed = 10.0f;
 
-    [Header("[上昇する高さ]")]
-    public float rise = 2.0f;
+    [Header("・上昇する高さ")]
+    public float rise = 10.0f;
 
     //==================================
     // *** 初期化処理 ***
@@ -170,56 +171,28 @@ public class WindCrystal : MonoBehaviour
            rayLayer
            );
 
-        // 重力をONにするか判定するRay
-        RaycastHit2D raycastHit02 = Physics2D.BoxCast(
-           transform.position + new Vector3(1.0f,0.0f,0.0f),
-           new Vector2(1.0f, rise + 1.0f),
-           0.0f,
-           Vector2.up,
-           0.0f,
-           rayLayer
-           );
-
-        RaycastHit2D raycastHit03 = Physics2D.BoxCast(
-           transform.position - new Vector3(1.0f, 0.0f, 0.0f),
-           new Vector2(1.0f, rise + 1.0f),
-           0.0f,
-           Vector2.up,
-           0.0f,
-           rayLayer
-           );
-
         //--------------------------------------------------------
         // 風で上昇する処理
         //--------------------------------------------------------
 
-        if (raycastHit.collider.tag == "Player")
+        if (raycastHit)
         {
-            player = raycastHit.collider.gameObject;
+            // 重力をOFF
+            if (raycastHit01)
+            {
+                Jump.enabled = false;
+                rigid.isKinematic = true;
+            }
 
+            player = raycastHit.collider.gameObject;
             Vector3 pos = player.transform.position;
             pos.y += rise_speed * Time.deltaTime;
             player.transform.position = pos;
         }
 
-        //--------------------------------------------------------
-        // 重力をOFFにする処理
-        //--------------------------------------------------------
-
-        if (raycastHit01.collider.tag == "Player")
+        // 重力をON
+        else
         {
-            // OFF
-            Jump.enabled = false;
-            rigid.isKinematic = true;
-        }
-
-        //--------------------------------------------------------
-        // 重力をONにする処理
-        //--------------------------------------------------------
-
-        if ((raycastHit02)||(raycastHit03))
-        {
-            // ON
             Jump.enabled = true;
             rigid.isKinematic = false;
         }

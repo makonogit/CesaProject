@@ -99,9 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 369d5123714db3042afeb02e2ab58666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rayLayer:
+    serializedVersion: 2
+    m_Bits: 4096
   particle: {fileID: 1983058115021015630, guid: 127f606d8f125c145bd543faf1dbc8a1, type: 3}
-  rise_speed: 0.1
-  rise: 5
+  rise_speed: 10
+  rise: 10
 --- !u!61 &3502461264684009664
 BoxCollider2D:
   m_ObjectHideFlags: 0
