@@ -12,7 +12,14 @@ public class HitEnemy : MonoBehaviour
     // - 変数宣言 -
 
     public float NoDamageTime = 2f; //無敵時間
-    [SerializeField]public float HitTime = 0.0f; // 前回ダメージを受けた時からの経過時間
+    [SerializeField] private float HitTime = 0.0f; // 前回ダメージを受けた時からの経過時間
+
+    [SerializeField] private GameOver gameOver; // ゲームオーバー画面遷移用スクリプト取得用変数
+    [SerializeField] private KnockBack knocback; // ノックバックスクリプト取得用変数
+    [SerializeField] private RenderOnOff _renderer; // 点滅スクリプト取得用変数
+
+    [SerializeField] private PlayEnemySound enemyse; //敵のSE
+
 
     private void Start()
     {
@@ -23,5 +30,31 @@ public class HitEnemy : MonoBehaviour
     void Update()
     {
         HitTime += Time.deltaTime;
+    }
+
+    // 主にHitColliderスクリプトから呼び出し
+    public void HitPlayer(Transform _trans)
+    {
+        // 接触時間が無敵時間より大きいならHP減らす
+        if (HitTime > NoDamageTime)
+        {
+            //---------------------------------------------------------
+            //　SEを再生
+            enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Attack);
+
+            //---------------------------------------------------------
+            // HP減らすための処理
+            gameOver.StartHPUIAnimation();
+
+            // ノックバック
+            knocback.KnockBack_Func(_trans);
+
+            // 点滅
+            _renderer.SetFlash(true);
+
+            //---------------------------------------------------------
+            // 接触時間リセット
+            HitTime = 0.0f;
+        }
     }
 }
