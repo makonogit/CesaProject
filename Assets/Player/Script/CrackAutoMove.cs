@@ -323,7 +323,7 @@ public class CrackAutoMove : MonoBehaviour
                     }
                 }
                 // Aƒ{ƒ^ƒ“‚Å“ü‚é
-                if (ScriptPIManager.GetJump() == true && InCrack == false)
+                if (ScriptPIManager.GetCrackMove() == true && InCrack == false)
                 {
                     InCrack = true;
 
@@ -339,6 +339,7 @@ public class CrackAutoMove : MonoBehaviour
                     //Jump.JumpHeight = 0.0f;
                     Jump.enabled = false;
                     Move.SetMovement(false);
+                    ScriptPIManager.SetCrackMove(false);
                 }
             }
             else

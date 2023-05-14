@@ -220,31 +220,31 @@ public class PlayerInput : MonoBehaviour
             }
 
             //Å´Å´Å´ver.Ç–Ç—Ç…ÇÕÇ¢ÇÈéûÇÃèàóù
-            //if (context.phase == InputActionPhase.Started)
-            //{
+            if (context.phase == InputActionPhase.Started)
+            {
 
-            //    if (ScriptPIManager.GetCrackMove() == false)
-            //    {
-            //        ScriptPIManager.SetCrackMove(true);
-            //    }
-            //}
+                if (ScriptPIManager.GetCrackMove() == false)
+                {
+                    ScriptPIManager.SetCrackMove(true);
+                }
+            }
 
-            //if(context.phase == InputActionPhase.Performed)
-            //{
+            if (context.phase == InputActionPhase.Performed)
+            {
 
-            //    if (ScriptPIManager.GetCrackMove() == false)
-            //    {
-            //        ScriptPIManager.SetCrackMove(true);
-            //    }
-            //}
+                if (ScriptPIManager.GetCrackMove() == false)
+                {
+                    ScriptPIManager.SetCrackMove(true);
+                }
+            }
 
-            //if(context.phase == InputActionPhase.Canceled)
-            //{
-            //    if (ScriptPIManager.GetCrackMove() == true)
-            //    {
-            //        ScriptPIManager.SetCrackMove(false);
-            //    }
-            //}
+            if (context.phase == InputActionPhase.Canceled)
+            {
+                if (ScriptPIManager.GetCrackMove() == true)
+                {
+                    ScriptPIManager.SetCrackMove(false);
+                }
+            }
         }
     }
 

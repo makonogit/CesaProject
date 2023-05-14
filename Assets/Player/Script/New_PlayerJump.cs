@@ -249,7 +249,7 @@ public class New_PlayerJump : MonoBehaviour
                 _thisRigidbody2d.gravityScale = 0.0f;
             }
 
-            Debug.Log(_thisRigidbody2d.gravityScale);
+            //Debug.Log(_thisRigidbody2d.gravityScale);
         }
     }
 
