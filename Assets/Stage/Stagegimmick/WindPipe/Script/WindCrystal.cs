@@ -180,8 +180,10 @@ public class WindCrystal : MonoBehaviour
             // 重力をOFF
             if (raycastHit01)
             {
-                Jump.enabled = false;
-                rigid.isKinematic = true;
+                //Jump.enabled = false;
+                Jump.MoveY = 0;
+                rigid.gravityScale = 0.0f;
+                //rigid.isKinematic = true;
             }
 
             player = raycastHit.collider.gameObject;
@@ -193,8 +195,9 @@ public class WindCrystal : MonoBehaviour
         // 重力をON
         else
         {
-            Jump.enabled = true;
-            rigid.isKinematic = false;
+            //Jump.enabled = true;
+            rigid.gravityScale = 1.0f;
+            //rigid.isKinematic = false;
         }
     }
 }
