@@ -18,19 +18,12 @@ public class KnockBack : MonoBehaviour
     public int CoroutineNum = 10; // コルーチンを繰り返す回数
     private float direction = 1f; // プレイヤーの向き保存用変数
 
-    private Rigidbody2D rigid2D; // rigidbody用変数
     private Transform thisTransform; // Transform用変数
-    private GameObject thisObj; // このスクリプトがコンポーネントされたオブジェクト用変数
-
 
     // Start is called before the first frame update
     void Start()
     {
-        rigid2D = GetComponent<Rigidbody2D>();
-
         thisTransform = GetComponent<Transform>();
-
-        thisObj = gameObject;
     }
 
     private void Update()

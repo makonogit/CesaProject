@@ -1021,6 +1021,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9124700601278212453}
+  - component: {fileID: 5810330898116039600}
   m_Layer: 0
   m_Name: BossEnemy
   m_TagString: Untagged
@@ -1044,6 +1045,23 @@ Transform:
   m_Father: {fileID: 4140748712188618457}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5810330898116039600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2491393045358045652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b25d42d68615ad4983e5741a792da80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _townMove: {fileID: 0}
+  _iceMove: {fileID: 0}
+  _sandMove: {fileID: 0}
+  _caveMove: {fileID: 2842681140422506866}
+  _plantMove: {fileID: 0}
 --- !u!1 &2551201757029628594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,6 +1693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initScoreCrystal: {fileID: 1442978488080329444}
+  _initBoss: {fileID: 5810330898116039600}
 --- !u!1 &3578800439981609109
 GameObject:
   m_ObjectHideFlags: 0
@@ -17477,6 +17496,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 028fce71b1c3e974aabeecf5534f5c71, type: 3}
+--- !u!114 &2842681140422506866 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1607873738661922431, guid: 028fce71b1c3e974aabeecf5534f5c71, type: 3}
+  m_PrefabInstance: {fileID: 3540792251062583053}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eb26d1948d5fa441824406f801e7e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2842681140422506874 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1607873738661922423, guid: 028fce71b1c3e974aabeecf5534f5c71, type: 3}

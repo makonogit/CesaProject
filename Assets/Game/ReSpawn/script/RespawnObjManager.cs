@@ -32,7 +32,12 @@ public class RespawnObjManager : MonoBehaviour
 
             // リスポーン時にリセットしたいオブジェクトの初期化関数呼び出し
             _initScoreCrystal.ScoreCrystalInitStart(); // スコアクリスタル
-            _initBoss.RespawnInit(); // ボス
+
+            // ボスがいるなら初期化
+            if (_initBoss != null)
+            {
+                _initBoss.RespawnInit(); // ボス
+            }
 
             _cameraZoom.RespawnInit();
 
