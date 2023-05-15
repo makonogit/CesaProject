@@ -38,7 +38,7 @@ public class Tutorial_2 : MonoBehaviour
     [SerializeField] private GameObject Lstick;             //LスティックUI
     [SerializeField] private GameObject Crack;              //ひびのオブジェクト
     [SerializeField] private GameObject BButton;            //BボタンUI
-    Animator anim;                         //Animator
+    [SerializeField] private Animator anim;                         //Animator
 
 
     public enum TutorialType
@@ -92,7 +92,7 @@ public class Tutorial_2 : MonoBehaviour
                 switch (type)
                 {
                     case TutorialType.CrackMove:
-
+                        anim.SetBool("CrackMove",true);
                         break;
                     case TutorialType.AddCrack:
                         break;
@@ -140,6 +140,17 @@ public class Tutorial_2 : MonoBehaviour
         if (thisTrans.localScale.y > 0.0f)
         {
             thisTrans.localScale = new Vector3(thisTrans.localScale.x, thisTrans.localScale.y - MoveSpeed * Time.deltaTime, 1.0f);
+        }
+
+        switch (type)
+        {
+            case TutorialType.CrackMove:
+                anim.SetBool("CrackMove", false);
+                break;
+            case TutorialType.AddCrack:
+                break;
+            default:
+                break;
         }
     }
 }
