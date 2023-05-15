@@ -43,8 +43,8 @@ public class Tutorial_2 : MonoBehaviour
 
     public enum TutorialType
     {
-        CrackMove,  //ひびの移動
-        AddCrack    //ひびを伸ばす
+        CrackMove,  //ひびの移動    1-2
+        AddCrack    //ひびを伸ばす  1-2
     }
 
     public TutorialType type;
@@ -95,6 +95,7 @@ public class Tutorial_2 : MonoBehaviour
                         anim.SetBool("CrackMove",true);
                         break;
                     case TutorialType.AddCrack:
+                        anim.SetBool("AddCrack", true);
                         break;
                     default:
                         break;
@@ -148,6 +149,7 @@ public class Tutorial_2 : MonoBehaviour
                 anim.SetBool("CrackMove", false);
                 break;
             case TutorialType.AddCrack:
+                anim.SetBool("AddCrack", false);
                 break;
             default:
                 break;
