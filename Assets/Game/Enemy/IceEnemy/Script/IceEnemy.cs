@@ -124,7 +124,7 @@ public class IceEnemy : MonoBehaviour
         // 当たった場所に設定する
         if (_hit&&_hit.transform.tag=="Ground")
         {
-            Debug.Log(_hit.transform.name);
+            //Debug.Log(_hit.transform.name);
             // めり込み防止用
             Vector2 _offset = new Vector2(0, -1.25f * 0.25f);
             _pos = _hit.point + _offset;

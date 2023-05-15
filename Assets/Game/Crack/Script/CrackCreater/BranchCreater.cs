@@ -67,7 +67,7 @@ public class BranchCreater : MonoBehaviour
 
             if (!Branch)
             {
-                Debug.Log("生成後");
+                //Debug.Log("生成後");
                 //　先端のスプライトを変更
                 transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
                     NormalMat.SetTexture("_MainTexture", CrackEndSprite);

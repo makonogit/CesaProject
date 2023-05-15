@@ -45,7 +45,7 @@ public class PlayBgm : MonoBehaviour
         if (Intro.time > LoopStartTime && Intro.isPlaying)
         {
             Loop.clip = Loop_Bgm[Stage.GetAreaNum()];
-            Debug.Log("loop");
+            //Debug.Log("loop");
             Intro.Stop();
             Loop.Play();
 
