@@ -231,7 +231,7 @@ public class AreaCrack : MonoBehaviour
     //
     public void LoadStage(int _clearNum) 
     {
-        Debug.Log("クリアした数"+_clearNum);
+        //Debug.Log("クリアした数"+_clearNum);
         // 配列に合わせるため値を一個ずらす
         int Num = _clearNum - 1;
         if(Num >= 0)// ステージ１以上クリアしているなら
