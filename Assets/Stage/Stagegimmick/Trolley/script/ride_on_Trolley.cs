@@ -19,6 +19,9 @@ public class ride_on_Trolley : MonoBehaviour
     //[SerializeField]
     private GameObject _player;
 
+    // 二宮追加
+    private New_PlayerJump _playerJump;
+
     [Space(10)]
     [SerializeField, Header("設定")]
     private bool _lockPlayerPosY = false;// プレイヤーのY座標をロックする。
@@ -37,6 +40,7 @@ public class ride_on_Trolley : MonoBehaviour
         if (_onPlayer == null) Debug.LogError(name + ":_onPlayerが設定されていません。ride_onPlayer.cs");
         _player = GameObject.Find("player");
         if (_player == null) Debug.LogError(name + ":_playerが設定されていません。ride_onPlayer.cs");
+        _playerJump = _player.GetComponent<New_PlayerJump>();
 
         //　SE再生用
         SEobj = GameObject.Find("GimmickSE");
@@ -54,10 +58,14 @@ public class ride_on_Trolley : MonoBehaviour
 
     private void Ride() 
     {
-        Vector3 _pos = new Vector3(this.transform.position.x, _player.transform.position.y, 0);
-        if (_lockPlayerPosY) _pos = new Vector3(this.transform.position.x, this.transform.position.y, 0);
+        if (_playerJump.ImFly == false)
+        {
+            Vector3 _pos = new Vector3(this.transform.position.x, _player.transform.position.y, 0);
+            if (_lockPlayerPosY) _pos = new Vector3(this.transform.position.x, this.transform.position.y, 0);
 
-        _player.transform.position = _pos;
+
+            _player.transform.position = _pos;
+        }
 
         _light.intensity = 1.0f;    //　ライトをつける　菅追加
         if (!_play)

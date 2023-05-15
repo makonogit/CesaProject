@@ -13,21 +13,29 @@ public class CheckArea : MonoBehaviour
     private string _tag;
     private bool _isEnter;
 
+    private GameObject player;
+    private New_PlayerJump _playerJump;
+
     private void Start()
     {
         if (_name == null && _tag == null) Debug.LogError("名前かタグの設定をしてください。");
         _isEnter = false;
+
+        player = GameObject.Find("player");
+        _playerJump = player.GetComponent<New_PlayerJump>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Debug.Log(name + ":" + collision.name);
         if (_name != null&& collision.name == _name)
         {
-            _isEnter = true;   
+            _isEnter = true;
+            _playerJump.RideOn = true;
         }
         if (_tag != null&& collision.tag == _tag) 
         {
             _isEnter = true;
+            _playerJump.RideOn = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -36,10 +44,12 @@ public class CheckArea : MonoBehaviour
         if (_name != null && collision.name == _name)
         {
             _isEnter = false;
+            _playerJump.RideOn = false;
         }
         if (_tag != null && collision.tag == _tag)
         {
             _isEnter = false;
+            _playerJump.RideOn = false;
         }
     }
     //private void OnTriggerStay2D(Collider2D collision)

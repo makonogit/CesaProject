@@ -20,7 +20,7 @@ public class New_PlayerJump : MonoBehaviour
     [SerializeField] private bool PressJumpflg = false; // ジャンプボタンが押されている間true
     [SerializeField] private bool OldPressJumpflg = false; // 前フレームの押下状況を保持
     [SerializeField] private bool ReleaseJumpflg = false; // ジャンプを離したらtrue
-    [SerializeField] private bool ImFly = false; // 空中にいるか
+    [SerializeField] public bool ImFly = false; // 空中にいるか
     [SerializeField] private bool ImDrop = false; // ジャンプを経由しない落下
 
     // 接地判定系
@@ -37,6 +37,9 @@ public class New_PlayerJump : MonoBehaviour
 
     // デバッグ用変数
     private int count = 0;
+
+    // トロッコ用
+    public bool RideOn = false;
 
     //----------------------------------------------------------------------------------------------------------
     // 外部取得
@@ -65,7 +68,7 @@ public class New_PlayerJump : MonoBehaviour
 
     // ひび系
     //-------------菅----------------
-    [SerializeField] private CrackAutoMove crackmove;
+    //[SerializeField] private CrackAutoMove crackmove;
 
     // エフェクト系
     //------------中川---------------
@@ -78,17 +81,17 @@ public class New_PlayerJump : MonoBehaviour
         // 入力系
         _trigger = _playerInputManager.GetComponent<InputTrigger>();
 
-        // ステータス系
-        _playerStatus = GetComponent<PlayerStatas>();
+        //// ステータス系
+        //_playerStatus = GetComponent<PlayerStatas>();
 
-        // 座標系
-        _thisTransform = GetComponent<Transform>();
+        //// 座標系
+        //_thisTransform = GetComponent<Transform>();
 
         // この比率がよい Deltatime利用により正しく値を入れるようにした5/11
         //gravity = JumpPower / 10f;
 
-        //------------追加担当：菅--------------------
-        crackmove = GetComponent<CrackAutoMove>();
+        ////------------追加担当：菅--------------------
+        //crackmove = GetComponent<CrackAutoMove>();
 
         //--------------------------------------
         // 追加担当者:中川直登
@@ -103,7 +106,6 @@ public class New_PlayerJump : MonoBehaviour
         //--------------------------------------
         // 追加担当者:中川直登
         RunDust();
-
 
         //--------------------------------------
         // ヒットストップ中でないなら実行
@@ -157,6 +159,25 @@ public class New_PlayerJump : MonoBehaviour
 
                     count = 0;
                 }
+            }
+
+            // トロッコに乗りながらジャンプ
+            if (RideOn == true && TriggerJumpflg == true)
+            {
+                // 私は飛ぶ
+                ImFly = true;
+
+                // 1フレームのプレイヤーの移動量セット
+                MoveY = JumpPower;
+                if (RideOn == true)
+                {
+                    MoveY = 1.2f * JumpPower;
+                }
+
+                // ジャンプse再生
+                seMana.PlaySE_Jump();
+
+                count = 0;
             }
 
             // 崖から落ちたら
@@ -214,7 +235,13 @@ public class New_PlayerJump : MonoBehaviour
                 // 落下終了                                                    
                 ImDrop = false;                                                
                 MoveY = 0f;                                                    
-            }                                                                  
+            }
+            
+            if(RideOn == true && ImDrop == true)
+            {
+                ImDrop = false;
+                MoveY = 0f;
+            }
                                                                                
             // バグ回避用 だけどできないいいいいいいいいいいいいいいいいいい
             count++;
