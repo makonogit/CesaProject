@@ -83,7 +83,7 @@ public class BranchCrack : MonoBehaviour
         }
 
         // 生成終了したらスプライトの変更
-        if (creater.GetState() == CrackCreater.CrackCreaterState.CRAETED)
+        if (creater.GetState() == CrackCreater.CrackCreaterState.CRAETED && transform.childCount > 0)
         {
             transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
                 NormalMat.SetTexture("_MainTexture",Crackend);
