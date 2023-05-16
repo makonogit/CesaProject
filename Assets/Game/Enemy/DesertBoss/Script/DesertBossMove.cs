@@ -43,7 +43,6 @@ public class DesertBossMove : MonoBehaviour
 
     private VibrationCamera vibration;  //　振動用
     public bool Setvibratioin = false;
-    private Directing_BossLight LightEffect;  // 爆発エフェクト用
 
     private float Appearance_probability;        //　出現確率
 
@@ -52,6 +51,8 @@ public class DesertBossMove : MonoBehaviour
     [SerializeField,Header("ゲートの座標")]
     private Transform gatepos;
 
+    [SerializeField, Header("スフィンクス")]
+    private GameObject Sqhinx;
     public enum DesertBossState
     {
         NONE,   // 何もしていない
@@ -95,7 +96,7 @@ public class DesertBossMove : MonoBehaviour
         anim = transform.GetChild(0).GetComponent<Animator>();
 
         vibration = GameObject.Find("Main Camera").GetComponent<VibrationCamera>();
-        LightEffect = transform.GetChild(0).transform.GetChild(0).GetComponent<Directing_BossLight>();  //爆発用
+        //LightEffect = transform.GetChild(0).transform.GetChild(0).GetComponent<Directing_BossLight>();  //爆発用
 
         Appearance_probability = 20.0f; //20％の確率に設定
 
@@ -219,7 +220,7 @@ public class DesertBossMove : MonoBehaviour
                 // どれかが生成中or片付け中で振動していなかったら
                 if (((Pyramid1 && Pyramid2 && Pyramid3) || (Pyramid1_c && Pyramid2_c && Pyramid3_c)) && !Setvibratioin)
                 {
-                    vibration.SetVibration(2.0f);
+                    vibration.SetVibration(1.0f);
                     Setvibratioin = true;
                 }
 
@@ -253,7 +254,13 @@ public class DesertBossMove : MonoBehaviour
             if (TimeMeasure > EndTime)
             {
                 PyramidClean();
-                LightEffect.Flash();
+
+                if (!Sqhinx)
+                {
+                    Destroy(gameObject);
+                }
+
+                //LightEffect.Flash();
                 //Destroy(gameObject);
             }
             else
@@ -322,9 +329,12 @@ public class DesertBossMove : MonoBehaviour
     //　ピラミッドを片付ける処理
     private void PyramidClean()
     {
-        Pyramid_parent[0].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
-        Pyramid_parent[1].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
-        Pyramid_parent[2].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
+        if(Pyramid_parent[0].transform.childCount > 0)
+            Pyramid_parent[0].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
+        if (Pyramid_parent[1].transform.childCount > 0)
+            Pyramid_parent[1].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
+        if (Pyramid_parent[2].transform.childCount > 0)
+            Pyramid_parent[2].transform.GetChild(0).gameObject.GetComponent<PyramidData>().Clean = true;
     }
 
 }

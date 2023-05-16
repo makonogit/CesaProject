@@ -69,7 +69,7 @@ public class PyramidData : MonoBehaviour
         if (Clean)
         {
             
-            if(Ypos <= 0.0f)
+            if(Ypos <= 0.5f)
             {
                 Clean = false;
                 renderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
@@ -99,28 +99,35 @@ public class PyramidData : MonoBehaviour
     {
 
         //-------------------------------------
-        // Ç–Ç—Ç™ì¸Ç¡ÇΩÇÁâÛÇÍÇÈ
+        // ê∂ê¨íÜÇÃÇ–Ç—Ç™ì¸Ç¡ÇΩÇÁâÛÇÍÇÈ
         if (collision.gameObject.tag == "Crack" && !Breaked && !MoveFlg)
         {
-            Destroy(collision.gameObject);
-            renderer.sprite = BreakPyramid;
-            BossMove.Breaking = true;
-            Breaked = true;
-         
-            if(InsideNum == 0)
+            CrackCreater creater = collision.GetComponent<CrackCreater>();
+          
+            if (creater != null &&
+                (creater.GetState() == CrackCreater.CrackCreaterState.CREATING ||
+                creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING))
             {
-                GameObject obj = Instantiate(EnemyObj, transform.position, Quaternion.identity);
-                GameObject Enemy = GameObject.Find("BossEnemyManager");
-                obj.transform.parent = Enemy.transform;
-            }
-            else
-            {
-                //GameObject obj = Instantiate(CoreObj,transform.position,Quaternion.identity);
-                //GameObject Core = GameObject.Find("Core");
-                //obj.transform.parent = Core.transform;
-                BossMove.BossState = DesertBossMove.DesertBossState.END;    // çUåÇèIóπ
-            }
+                Destroy(collision.gameObject);
+                renderer.sprite = BreakPyramid;
+                BossMove.Breaking = true;
+                Breaked = true;
+                
 
+                if (InsideNum == 0)
+                {
+                    GameObject obj = Instantiate(EnemyObj, transform.position, Quaternion.identity);
+                    GameObject Enemy = GameObject.Find("BossEnemyManager");
+                    obj.transform.parent = Enemy.transform;
+                }
+                else
+                {
+                    GameObject obj = Instantiate(CoreObj,transform.position,Quaternion.identity);
+                    //GameObject Core = GameObject.Find("Core");
+                    //obj.transform.parent = Core.transform;
+                    BossMove.BossState = DesertBossMove.DesertBossState.END;    // çUåÇèIóπ
+                }
+            }
         }
 
     }
