@@ -61,7 +61,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9962016d3b145084a9bda383e07eb12e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitTime: 0
   Damage: 1
 --- !u!1 &1607873736819672258
 GameObject:
@@ -478,6 +477,8 @@ MonoBehaviour:
   moveRange: 15
   moveSpeed: 0.01
   animator: {fileID: 1607873738661922417}
+  radius: 0.5
+  updown_speed: 0.6
 --- !u!114 &1607873738661922428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,6 +493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needleEnemy: {fileID: 6254396601174276663, guid: 9693287e8440129499bae4efed3f919b, type: 3}
   dropRange: 15
+  effect: {fileID: 2060584799664172778, guid: f376cf470543cc6448d00094b64f44cc, type: 3}
 --- !u!114 &1607873738661922429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,6 +542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eb26d1948d5fa441824406f801e7e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainStateDelay: 500
   hp: 3
   effect: {fileID: 7052504874363746491, guid: 8b8f8be0fd2e7b84691bdc107780e038, type: 3}
   invincible_time: 100

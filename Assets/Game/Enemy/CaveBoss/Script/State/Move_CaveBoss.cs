@@ -38,7 +38,10 @@ public class Move_CaveBoss: MonoBehaviour
     // ‰ñ“]
     Vector2 center;      // ‰ñ“]‚Ì’†SÀ•W
     float angle;         // ‰ñ“]Šp“x
-    float radius = 0.25f;// ‰~‚Ì”¼Œa
+    [Header("ã‰ºˆÚ“®‚Ì•")]
+    public float radius = 0.5f;// ‰~‚Ì”¼Œa
+    [Header("ã‰ºˆÚ“®‚Ì‘¬‚³")]
+    public float updown_speed = 0.6f;// ‰ñ“]Šp“x‚É‰ÁZ‚·‚é’l
 
     //=====================================
     // *** ‰Šú‰»ˆ— ***
@@ -100,7 +103,7 @@ public class Move_CaveBoss: MonoBehaviour
         // •ÏX‚ğ”½‰f
         this.transform.position = pos;
         // Šp“x‚ğ‰ÁZ
-        angle += 0.4f;
+        angle += updown_speed;
 
         //-----------------------------------------
         // *** ˆÚ“®”ÍˆÍ“à‚ğ¶‰E‚É”½•œ‚µ‚ÄˆÚ“® ***

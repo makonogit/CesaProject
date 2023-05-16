@@ -25,6 +25,8 @@ public class EnemyDrop_CaveBoss : MonoBehaviour
     public GameObject needleEnemy;// 降らせる敵
     [Header("降らせる敵の範囲")]
     public float dropRange = 15.0f;
+    [Header("生成時エフェクト")]
+    public GameObject effect;  // エフェクト
 
     //-------------------------------------
     // *** 座標関連 ***
@@ -77,6 +79,9 @@ public class EnemyDrop_CaveBoss : MonoBehaviour
 
             // 座標の変更を敵用する
             objTransform.position = pos;
+
+            // エフェクトを生成
+            Instantiate(effect, objTransform.position, Quaternion.identity);
         }
 
         return true;
