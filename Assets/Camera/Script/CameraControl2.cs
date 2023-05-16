@@ -88,7 +88,7 @@ public class CameraControl2 : MonoBehaviour
         points[3].x = points[1].x + _AreaManager.AreaSize;
         AreaCollider.SetPath(0, points);
 
-        NextAreaPos = null;
+        NextAreaPos = new Vector2[4];
         NowMax_x = AreaCollider.points[0].x; // 現在のカメラ右端を設定
         AreaMove = false;
         NowAreaNum = 1;         // 最初のエリアを指定

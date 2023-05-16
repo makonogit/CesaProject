@@ -49,6 +49,8 @@ public class DesertBossMove : MonoBehaviour
 
     [SerializeField,Header("ゲート")]
     private GateThrough gate;
+    [SerializeField,Header("ゲートの座標")]
+    private Transform gatepos;
 
     public enum DesertBossState
     {
@@ -121,10 +123,22 @@ public class DesertBossMove : MonoBehaviour
 
         //---------------------------------------------
         // 敵を一掃
-        GameObject Enemy = transform.Find("Enemy").gameObject;
+        GameObject Enemy = transform.Find("BossEnemyManager").gameObject;
         for(int i = 0; i < Enemy.transform.childCount; i++)
         {
-            Destroy(Enemy.transform.GetChild(i));
+            Destroy(Enemy.transform.GetChild(i).gameObject);
+        }
+
+        //---------------------------------------------
+        // ボスエリア内のひびを消去
+        GameObject CrackManager = GameObject.Find("CrackManager");
+        for(int i = 0; i < CrackManager.transform.childCount; i++)
+        {
+            GameObject Crack = CrackManager.transform.GetChild(i).gameObject;
+            if (Crack.transform.GetChild(2).transform.position.x > gatepos.position.x)
+            {
+                Destroy(Crack);
+            }
         }
 
         //--------------------------------------------

@@ -110,7 +110,7 @@ public class PyramidData : MonoBehaviour
             if(InsideNum == 0)
             {
                 GameObject obj = Instantiate(EnemyObj, transform.position, Quaternion.identity);
-                GameObject Enemy = GameObject.Find("Enemy");
+                GameObject Enemy = GameObject.Find("BossEnemyManager");
                 obj.transform.parent = Enemy.transform;
             }
             else
