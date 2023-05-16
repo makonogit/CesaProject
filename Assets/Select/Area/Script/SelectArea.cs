@@ -232,13 +232,13 @@ public class SelectArea : MonoBehaviour
                 {
                     if(HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
                     //プレイヤーの座標変更
-                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[1].x + 1.5f, HorizonLimit.points[0].y, 1.0f);
+                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[1].x - 2.0f, HorizonLimit.points[_nowArea % 2].y, 1.0f);
                 }
                 else
                 {
                     if (HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
                         //プレイヤーの座標変更
-                        GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 1.5f, HorizonLimit.points[1].y - 0.5f, 1.0f);
+                        GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 2.0f, HorizonLimit.points[1].y - 0.5f, 1.0f);
                 }
                 LeftMove = false;
             }
@@ -253,7 +253,7 @@ public class SelectArea : MonoBehaviour
                 if (HorizonLimit.points[0].x > GameObject.Find("player").transform.position.x)
                 {
                     //プレイヤーの座標変更
-                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x - 1.0f, HorizonLimit.points[0].y, 1.0f);
+                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 2.0f, HorizonLimit.points[(_nowArea + 1) % 2].y, 1.0f);
                 }
                 RightMove = false;
             }
