@@ -46,6 +46,8 @@ public class Tutorial_2 : MonoBehaviour
         CrackMove,  //ひびの移動    1-2
         AddCrack,   //ひびを伸ばす  1-2
         EnemyDestroy, // 敵を倒す   1-4
+        BreakIce,     // 氷を壊す   2-1
+        BreakRock,    // 岩を壊す   3-1
     }
 
     public TutorialType type;
@@ -98,7 +100,12 @@ public class Tutorial_2 : MonoBehaviour
                     case TutorialType.EnemyDestroy:
                         anim.SetBool("EnemyDestroy", true);
                         break;
-                        
+                    case TutorialType.BreakIce:
+                        anim.SetBool("BreakIce", true);
+                        break;
+                    case TutorialType.BreakRock:
+                        anim.SetBool("BreakRock", true);
+                        break;
                     default:
                         break;
                 }
@@ -155,6 +162,12 @@ public class Tutorial_2 : MonoBehaviour
                 break;
             case TutorialType.EnemyDestroy:
                 anim.SetBool("EnemyDestroy", false);
+                break;
+            case TutorialType.BreakIce:
+                anim.SetBool("BreakIce", false);
+                break;
+            case TutorialType.BreakRock:
+                anim.SetBool("BreakRock", false);
                 break;
             default:
                 break;
