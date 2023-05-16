@@ -72,7 +72,7 @@ public class CameraZoom : MonoBehaviour
         if (Wait > 0.5f)
         {
             //　全て破壊されたら
-            if (((!resultScene.BossStage || (resultScene.BossStage && GameObject.Find("BossEnemy").transform.childCount == 0 && resultScene.WaitFlame > 0.2f)))
+            if ((!resultScene.BossStage || (resultScene.BossStage && GameObject.Find("BossEnemy").transform.childCount == 0 && resultScene.WaitFlame > 0.2f))
                 && stagestatas.GetStageCrystal() == 0)
             {
                 // 演出開始させていなければ
