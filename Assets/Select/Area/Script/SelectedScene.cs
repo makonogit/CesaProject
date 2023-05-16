@@ -24,7 +24,8 @@ public class SelectedScene : MonoBehaviour
     private Animator anim;
     private VibrationCamera main;
     public GameObject SelectObject;
-    private PlayerJump jump;
+    private PlayerJump Jump;
+    private PlayerMove move;
 
     [SerializeField,Header("ひびのオブジェクト")]
     private GameObject Crack;   // ひびのオブジェクト
@@ -53,7 +54,8 @@ public class SelectedScene : MonoBehaviour
         PlayerParticle = transform.GetChild(0).gameObject;
         PlayerParticleSystem = PlayerParticle.GetComponent<ParticleSystem>();
         PlayerParticle.SetActive(false);    //パーティクルを非表示に
-        jump = GetComponent<PlayerJump>();
+        Jump = GetComponent<PlayerJump>();
+        move = GetComponent<PlayerMove>();
 
         transform.position = stagemanager.stage[setmanager.GetAreaNum()].stage[setmanager.GetStageNum()].StageObj.transform.position;
 
@@ -101,7 +103,8 @@ public class SelectedScene : MonoBehaviour
                 Particle.GetComponent<ParticleSystem>().GetComponent<ParticleSystemRenderer>().sortingOrder = 13;
                 Create = true;
 
-                jump.SetSelected(true);
+                Jump.enabled = false;
+                move.enabled = false;
                 GetComponent<Rigidbody2D>().gravityScale = 0.0f;
                 WaitTime = 0.0f;
             }
@@ -157,6 +160,7 @@ public class SelectedScene : MonoBehaviour
             {
                 main.SetVibration(1.0f);
                 anim.SetBool("accumulate", true);
+
                 AnimStart = true;
 
              }
