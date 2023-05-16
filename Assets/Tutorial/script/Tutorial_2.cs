@@ -44,7 +44,8 @@ public class Tutorial_2 : MonoBehaviour
     public enum TutorialType
     {
         CrackMove,  //ひびの移動    1-2
-        AddCrack    //ひびを伸ばす  1-2
+        AddCrack,   //ひびを伸ばす  1-2
+        EnemyDestroy, // 敵を倒す   1-4
     }
 
     public TutorialType type;
@@ -59,14 +60,11 @@ public class Tutorial_2 : MonoBehaviour
 
         //　自身のTransform
         thisTrans = transform;
-
-      
     }
 
     // Update is called once per frame
     void Update()
     {
-
         // プレイヤーとUIの距離を求める
         float Distance = Vector3.Magnitude(PlayerTrans.position - thisTrans.position);
         
@@ -97,6 +95,10 @@ public class Tutorial_2 : MonoBehaviour
                     case TutorialType.AddCrack:
                         anim.SetBool("AddCrack", true);
                         break;
+                    case TutorialType.EnemyDestroy:
+                        anim.SetBool("EnemyDestroy", true);
+                        break;
+                        
                     default:
                         break;
                 }
@@ -150,6 +152,9 @@ public class Tutorial_2 : MonoBehaviour
                 break;
             case TutorialType.AddCrack:
                 anim.SetBool("AddCrack", false);
+                break;
+            case TutorialType.EnemyDestroy:
+                anim.SetBool("EnemyDestroy", false);
                 break;
             default:
                 break;

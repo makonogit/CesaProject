@@ -346,6 +346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5128603651728450782}
   - component: {fileID: 3572871325540506356}
+  - component: {fileID: 777145986}
   m_Layer: 0
   m_Name: UI_AnimDestroyEnemy
   m_TagString: Untagged
@@ -392,3 +393,25 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &777145986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6028728376935776285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7e36800123089b41b5551ff5e5ebd0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OpenDistance: 8
+  UIsize: {x: 1, y: 1, z: 1}
+  MoveSpeed: 3
+  Abuttton: {fileID: 0}
+  RTbutton: {fileID: 0}
+  Lstick: {fileID: 0}
+  Crack: {fileID: 0}
+  BButton: {fileID: 0}
+  anim: {fileID: 3572871325540506356}
+  type: 2
