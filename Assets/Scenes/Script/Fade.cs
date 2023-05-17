@@ -133,7 +133,7 @@ public class Fade : MonoBehaviour
 
                 FadeAlpha.black = true;
 
-                Debug.Log("フェードアウト終了");
+                //Debug.Log("フェードアウト終了");
 
             }
         }

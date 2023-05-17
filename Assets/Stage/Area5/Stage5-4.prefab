@@ -21639,6 +21639,7 @@ GameObject:
   - component: {fileID: 7991347801451558505}
   - component: {fileID: 3814992296339630270}
   - component: {fileID: 7863640831181539305}
+  - component: {fileID: 4940002374295628796}
   m_Layer: 0
   m_Name: Stage5-4
   m_TagString: Untagged
@@ -21703,6 +21704,20 @@ MonoBehaviour:
   stagestatas: {fileID: 0}
   ZoomEnd: 0
   SetBreak: 0
+--- !u!114 &4940002374295628796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6447511671689801875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad9c7d1465e6a442ab3c9008460345c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initScoreCrystal: {fileID: 3830109250263804495}
+  _initBoss: {fileID: 0}
 --- !u!1 &6523911809714370483
 GameObject:
   m_ObjectHideFlags: 0
@@ -22264,6 +22279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4817926512095890892}
+  - component: {fileID: 3830109250263804495}
   m_Layer: 0
   m_Name: Score
   m_TagString: Untagged
@@ -22317,6 +22333,18 @@ Transform:
   m_Father: {fileID: 7991347801451558505}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3830109250263804495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6924119163548161358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d27514b458ca60b4ea470a900996337d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7069479326599365529
 GameObject:
   m_ObjectHideFlags: 0

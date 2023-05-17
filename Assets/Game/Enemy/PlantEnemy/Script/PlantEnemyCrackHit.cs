@@ -16,12 +16,16 @@ public class PlantEnemyCrackHit : MonoBehaviour
     private CrackCreater order = null;
 
     [SerializeField] private PlantEnemyMove enemyMove; // EnemyMoveスクリプト取得用変数
-    [SerializeField] private PlayEnemySound enemyse; //死んだ音用
+    private GameObject EnemySE;
+    private PlayEnemySound enemyse; //死んだ音用
 
     private void Start()
     {
         //// 敵の基本AI処理スクリプト取得
         //enemyMove = ParentEnemy.GetComponent<PlantEnemyMove>();
+
+        EnemySE = GameObject.Find("EnemySE");
+        enemyse = EnemySE.GetComponent<PlayEnemySound>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
