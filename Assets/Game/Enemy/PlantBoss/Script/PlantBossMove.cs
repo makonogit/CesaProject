@@ -16,6 +16,7 @@ public class PlantBossMove : MonoBehaviour
     public enum PlantBossMoveState
     {
         NONE,       // 何もしていない
+        STARTANIM,  // 攻撃アニメーション
         WALK,       // 歩く
         ATTACK,     // 攻撃
         DETH,       // 死亡
@@ -29,12 +30,21 @@ public class PlantBossMove : MonoBehaviour
 
     //[SerializeField,Header("1回の攻撃で生成する敵の数")]
     private int CreateenemyNum = 0;
+    private int MoveEnemy = 0;          //行動する敵の数
 
     [SerializeField, Header("生成する座標リスト")]
     private List<Vector2> CreatePosList; 
 
     [SerializeField, Header("生成した敵の座標リスト")]
     private List<Vector2> EnemyPos;
+
+    [SerializeField, Header("風パイプ")]
+    private List<WindCrystal> WindPipe;
+
+    [SerializeField] GameObject pipe;       //アニメーション用パイプ
+    private VibrationCamera vibration;      //振動用
+    private bool vibration_once = false;            
+    private float animtime = 0.0f;          //アニメーションTime 
 
     [SerializeField,Header("攻撃間隔")]
     private float AttackTime;
@@ -57,10 +67,10 @@ public class PlantBossMove : MonoBehaviour
     //    public bool Conect;        //　接続されているか
     //}
 
-    private GameObject LeftArm;     // 左手
-    private GameObject RightArm;    // 右手
-    private GameObject LeftFoot;    // 左足
-    private GameObject RightFoot;   // 右足
+    [SerializeField]private GameObject LeftArm;     // 左手
+    [SerializeField]private GameObject RightArm;    // 右手
+    [SerializeField]private GameObject LeftFoot;    // 左足
+    [SerializeField]private GameObject RightFoot;   // 右足
 
     EdgeCollider2D WalkSpeace;  // 移動距離用EdgeCollider
     private float[] Limit = new float[2];
@@ -71,6 +81,11 @@ public class PlantBossMove : MonoBehaviour
 
     private Animator anim;      //　Animator
 
+    private bool Destroyenemy = false;
+
+    private Transform PlayerTrans;  // プレイヤーとの距離を計算
+    private PlayerMove move;
+    private New_PlayerJump jump;
 
     // Start is called before the first frame update
     void Start()
@@ -80,10 +95,10 @@ public class PlantBossMove : MonoBehaviour
         //------------------------------------------
         //　体のパーツを取得
 
-        LeftArm = transform.Find("LeftArm").gameObject;
-        RightArm = transform.Find("RightArm").gameObject;
-        LeftFoot = transform.Find("LeftKnees").gameObject;
-        RightFoot = transform.Find("Rightknees").gameObject;
+        //LeftArm = transform.Find("LeftArm").gameObject;
+        //RightArm = transform.Find("RightArm").gameObject;
+        //LeftFoot = GameObject.Find("LeftKnees").gameObject;
+        //RightFoot = GameObject.Find("Rightknees").gameObject;
 
         BodyColl = GetComponent<PolygonCollider2D>();
         if(BodyColl == null)
@@ -108,7 +123,17 @@ public class PlantBossMove : MonoBehaviour
 
         //敵管理用オブジェクトを取得
         EnemyManager = GameObject.Find("CreateEnemyManager");
-        
+
+        // 振動用スクリプトを取得
+        vibration = GameObject.Find("Main Camera").GetComponent<VibrationCamera>();
+
+        // プレイヤーの情報
+        GameObject player = GameObject.Find("player");
+        PlayerTrans = player.transform;
+        move = player.GetComponent<PlayerMove>();
+        jump = player.GetComponent<New_PlayerJump>();
+
+        CreateenemyNum = 5; //常に5体出す
     }
 
     // Update is called once per frame
@@ -120,6 +145,43 @@ public class PlantBossMove : MonoBehaviour
         switch (State)
         {
             case PlantBossMoveState.NONE:
+                
+                float Distance = Vector3.Magnitude(transform.position - PlayerTrans.position);
+
+                if (Distance < 5.5f)
+                {
+                    move.enabled = false;
+                    jump.enabled = false;
+                    State = PlantBossMoveState.STARTANIM;
+                }
+
+                break;
+            case PlantBossMoveState.STARTANIM:
+
+                //　生成数に到達するまでパイプを生成
+                while (EnemyPos.Count < CreateenemyNum)
+                {
+                    CreateEnemy();
+                }
+
+                // 振動させる
+                if (!vibration_once)
+                {
+                    vibration.SetVibration(1.0f);
+                    vibration_once = true;
+                }
+
+                if(animtime < 1.5f)
+                {
+                    animtime += Time.deltaTime;
+                }
+                else
+                {
+                    move.enabled = true;
+                    jump.enabled = true;
+                    State = PlantBossMoveState.WALK;
+                }
+
                 break;
             case PlantBossMoveState.WALK:
                 
@@ -129,30 +191,20 @@ public class PlantBossMove : MonoBehaviour
                 
                 if (AttackTimeMesure > AttackTime)
                 {
-                    CreateenemyNum = Random.Range(1, 6);
+                    //CreateenemyNum = Random.Range(1, 6);
+
+                    // 風が出るパイプの初期化
+                    for(int i = 0; i < WindPipe.Count; i++)
+                    {
+                        WindPipe[i].Init();
+                    }
+
+                    Destroyenemy = false;
+                    MoveEnemy = Random.Range(1, 3); //行動しない敵の数を設定
 
                     //一定時間経過したら攻撃開始
                     State = PlantBossMoveState.ATTACK;
                     AttackTimeMesure = 0.0f;
-
-                    //敵が生成されていたら一回全て破棄してから生成
-                    if(EnemyManager.transform.childCount > 0)
-                    {
-                        for (int i = 0; i < EnemyManager.transform.childCount; i++){
-                            Destroy(EnemyManager.transform.GetChild(i).gameObject);
-                        }
-                    }
-
-                }
-
-                //　両足消えたらコライダーのサイズを変更
-                if (LeftFoot == null && RightFoot == null)
-                {
-                    Vector2[] point = BodyColl.points;
-                    point[2].y = -1.4f;
-                    point[3].y = -1.4f;
-
-                    BodyColl.SetPath(0, point);
 
                 }
 
@@ -194,6 +246,18 @@ public class PlantBossMove : MonoBehaviour
                 break;
         }
 
+        //　両足消えたらコライダーのサイズを変更
+        if (LeftFoot == null && RightFoot == null)
+        {
+            Debug.Log("壊れた");
+            Vector2[] point = BodyColl.points;
+            point[2].y = -1.4f;
+            point[3].y = -1.4f;
+
+            BodyColl.SetPath(0, point);
+
+        }
+
         //　全て破壊されたら死亡
         if (LeftArm.transform.childCount == 0 && RightArm.transform.childCount == 0 &&
             LeftFoot == null && RightFoot == null)
@@ -207,7 +271,7 @@ public class PlantBossMove : MonoBehaviour
         }
 
         anim.SetBool("Walk", State == PlantBossMoveState.WALK);
-        anim.SetBool("Attack", State == PlantBossMoveState.ATTACK);
+        anim.SetBool("Attack", State == PlantBossMoveState.ATTACK || State == PlantBossMoveState.STARTANIM);
         //LeftArm.anim.SetBool("LeftAttack", State == PlantBossMoveState.ATTACK);
         //RightArm.anim.SetBool("RightAttack", State == PlantBossMoveState.ATTACK);
     }
@@ -239,7 +303,20 @@ public class PlantBossMove : MonoBehaviour
     //　戻り値：なし
     private void CreateEnemy()
     {
+
+        if (!Destroyenemy)
+        {
+            //敵が生成されていたら一回全て破棄してから生成
+            for (int i = 0; i < EnemyManager.transform.childCount; i++)
+            {
+                Destroy(EnemyManager.transform.GetChild(i).gameObject);
+            }
+
+            Destroyenemy = true;
+        }
+
         int CreatePos = Random.Range(0, CreatePosList.Count);   // 生成する座標を指定
+        int Direction = Random.Range(0, 2); //　0：左　１:右
 
         //　同じ座標が登録されていなければ座標追加
         if (!EnemyPos.Contains(CreatePosList[CreatePos]))
@@ -247,11 +324,33 @@ public class PlantBossMove : MonoBehaviour
             // 座標登録
             EnemyPos.Add(CreatePosList[CreatePos]);
 
-            //　末尾の要素位置に生成
-            GameObject obj = Instantiate(PlantEnemy, EnemyPos[EnemyPos.Count - 1], Quaternion.identity);
-            obj.transform.parent = EnemyManager.transform;  //敵管理用オブジェクトの子オブジェクトに
+            // ランダムに向きを変更
+            if (State == PlantBossMoveState.ATTACK)
+            {
+                //　末尾の要素位置に生成
+                GameObject obj = Instantiate(PlantEnemy, EnemyPos[EnemyPos.Count - 1], Quaternion.identity);
 
+                Vector3 scale = obj.transform.localScale;
+                Vector3 pos = obj.transform.localPosition;
+                obj.transform.localScale = Direction == 0 ? scale : new Vector3(-scale.x, scale.y, scale.z);
+                obj.transform.localPosition = Direction == 0 ? pos : new Vector3(pos.x + 17.62f, pos.y, pos.z);
+                obj.transform.parent = EnemyManager.transform;  //敵管理用オブジェクトの子オブジェクトに
+                if (MoveEnemy >= 0)
+                {
+                    obj.transform.GetChild(2).GetComponent<PlantEnemyMove>().EnemyAI = PlantEnemyMove.AIState.none; //行動しないように設定
+                    MoveEnemy--;
+                }
+            }
+
+            if (State == PlantBossMoveState.STARTANIM)
+            {
+                //　末尾の要素位置に生成
+                GameObject obj = Instantiate(pipe, EnemyPos[EnemyPos.Count - 1], Quaternion.identity);
+                obj.transform.parent = EnemyManager.transform;  //敵管理用オブジェクトの子オブジェクトに
+
+            }
         }
+
 
         {
             ////　生成する方向を決める　1:左 2:右 3:上 4:下
@@ -320,7 +419,7 @@ public class PlantBossMove : MonoBehaviour
     //　戻り値：なし
     public void BattleStart()
     {
-        State = PlantBossMoveState.WALK;
+        State = PlantBossMoveState.STARTANIM;
     }
     
 }

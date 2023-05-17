@@ -16,11 +16,7 @@ public class AreaManager : MonoBehaviour
 
     private void Start()
     {
-        SetStage stage = new SetStage();
-        if(stage.GetStageNum() == 4)
-        {
-            AreaSize = 107;
-        }
+       
     }
 
 }

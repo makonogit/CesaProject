@@ -38,6 +38,7 @@ public class PlantEnemyMove : MonoBehaviour
 
     public enum AIState
     {
+        none,         // 何もしていない
         Idle,         // アイドル
         Pre_Attack,   // 攻撃準備
         Attack,       // 攻撃
@@ -106,6 +107,8 @@ public class PlantEnemyMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EnemyAI = AIState.Idle;
+
         // 行き来するパイプのゲームオブジェクト取得
         Pipe_1 = Parent.transform.GetChild(0).gameObject;
         Pipe_2 = Parent.transform.GetChild(1).gameObject;
@@ -157,6 +160,8 @@ public class PlantEnemyMove : MonoBehaviour
 
         switch (EnemyAI)
         {
+            case AIState.none:  //何もしない
+                break;
             // アイドル
             case AIState.Idle:
                 Idle();
