@@ -31,7 +31,7 @@ public class BreakBlock : MonoBehaviour
     private ParticleSystem CrystalParticle; //クリスタルをゲットしたパーティクル
     private GameObject CrystalPoint;        //クリスタルが集まる座標
 
-    [SerializeField] private BoxCollider2D _boxCollider;
+    [SerializeField,Header("ないならいらない")] private BoxCollider2D _boxCollider; // 氷についてる
     [SerializeField,Header("ないならいらない")] private PolygonCollider2D _polygonCollider; // 岩についてる
 
     private GameObject SEObj;               //SE再生用オブジェクト
@@ -159,6 +159,11 @@ public class BreakBlock : MonoBehaviour
 
     public void Invisible()
     {
+        // 不可視化
         _spriteRenderer.enabled = false;
+
+        // アニメーション終了
+        anim.SetBool("breakIce", false);
+        anim.SetBool("breakRock", false);
     }
 }
