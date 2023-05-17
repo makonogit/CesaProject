@@ -14,16 +14,28 @@ public class PointMatControl : MonoBehaviour
     [SerializeField, Header("SpeiteRenderer")]
     private SpriteRenderer thisrenderer;
 
+    float Wait = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
         // ’Êíƒ}ƒeƒŠƒAƒ‹‚ğİ’è
-        //NormalMat = GetComponent<SpriteRenderer>().material;
+        NormalMat = GetComponent<SpriteRenderer>().material;
+        //FirstCheck = true;
+    }
+
+    private void Update()
+    {
+        if (Wait < 0.1f)
+        {
+            Wait += Time.deltaTime;
+        }
     }
 
     // ‚Ğ‚Ñ‚ğ”­Œõ‚³‚¹‚éŠÖ”
     public void FlashCrack()
     {
+        if(Wait > 0.1f)
         thisrenderer.material = FlashMat;
     }
 

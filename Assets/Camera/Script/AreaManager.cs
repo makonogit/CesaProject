@@ -16,7 +16,11 @@ public class AreaManager : MonoBehaviour
 
     private void Start()
     {
-        //AreaSize *= 1.7f;   //1マス分のサイズで計算
+        SetStage stage = new SetStage();
+        if(stage.GetStageNum() == 4)
+        {
+            AreaSize = 107;
+        }
     }
 
 }

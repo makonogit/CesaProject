@@ -27,8 +27,11 @@ public class PlantBossMove : MonoBehaviour
     [SerializeField, Header("生成する敵のオブジェクト")]
     private GameObject PlantEnemy;
 
-    [SerializeField,Header("1回の攻撃で生成する敵の数")]
-    private int CreateenemyNum;
+    //[SerializeField,Header("1回の攻撃で生成する敵の数")]
+    private int CreateenemyNum = 0;
+
+    [SerializeField, Header("生成する座標リスト")]
+    private List<Vector2> CreatePosList; 
 
     [SerializeField, Header("生成した敵の座標リスト")]
     private List<Vector2> EnemyPos;
@@ -126,6 +129,8 @@ public class PlantBossMove : MonoBehaviour
                 
                 if (AttackTimeMesure > AttackTime)
                 {
+                    CreateenemyNum = Random.Range(1, 6);
+
                     //一定時間経過したら攻撃開始
                     State = PlantBossMoveState.ATTACK;
                     AttackTimeMesure = 0.0f;
@@ -161,9 +166,15 @@ public class PlantBossMove : MonoBehaviour
                 }
 
                 AttackTimeMesure += Time.deltaTime;
+
                 if (AttackTimeMesure > AttackTime - 2)
                 {
                     EnemyPos.Clear();                   //敵のリストを初期化
+                    ////// 敵を抹消
+                    ////for(int i = 0; i < EnemyManager.transform.childCount; i++)
+                    ////{
+                    ////    Destroy(EnemyManager.transform.GetChild(i).gameObject);
+                    ////}
                     State = PlantBossMoveState.WALK;    //生成終了+一定時間経過したらしたら歩行に戻る
                 }
 
@@ -228,27 +239,39 @@ public class PlantBossMove : MonoBehaviour
     //　戻り値：なし
     private void CreateEnemy()
     {
-        //　生成する方向を決める　1:左 2:右 3:上 4:下
-        int CreateDirection = 1/*Random.Range(1, 4)*/;
-
-        float UpDownPos = (Random.RandomRange(LeftDownPos.y, RightUpPos.y));  //　0.3間隔で座標を指定
-
-        // 向きによって座標を指定
-        Vector2 VerticalPos = CreateDirection == 1 ? new Vector2(LeftDownPos.x, UpDownPos) :
-            new Vector2(RightUpPos.x, UpDownPos);
+        int CreatePos = Random.Range(0, CreatePosList.Count);   // 生成する座標を指定
 
         //　同じ座標が登録されていなければ座標追加
-        if (!EnemyPos.Contains(VerticalPos))
+        if (!EnemyPos.Contains(CreatePosList[CreatePos]))
         {
             // 座標登録
-            EnemyPos.Add(VerticalPos);
+            EnemyPos.Add(CreatePosList[CreatePos]);
 
             //　末尾の要素位置に生成
             GameObject obj = Instantiate(PlantEnemy, EnemyPos[EnemyPos.Count - 1], Quaternion.identity);
             obj.transform.parent = EnemyManager.transform;  //敵管理用オブジェクトの子オブジェクトに
+
         }
 
         {
+            ////　生成する方向を決める　1:左 2:右 3:上 4:下
+            //int CreateDirection = 1/*Random.Range(1, 4)*/;
+
+            //float UpDownPos = (Random.RandomRange(LeftDownPos.y, RightUpPos.y));  //　0.3間隔で座標を指定
+
+            //// 向きによって座標を指定
+            //Vector2 VerticalPos = CreateDirection == 1 ? new Vector2(LeftDownPos.x, UpDownPos) :
+            //    new Vector2(RightUpPos.x, UpDownPos);
+
+            //if (!EnemyPos.Contains(VerticalPos))
+            //{
+            //    // 座標登録
+            //    EnemyPos.Add(VerticalPos);
+
+            //    //　末尾の要素位置に生成
+            //    GameObject obj = Instantiate(PlantEnemy, EnemyPos[EnemyPos.Count - 1], Quaternion.identity);
+            //    obj.transform.parent = EnemyManager.transform;  //敵管理用オブジェクトの子オブジェクトに
+            //}
             //　生成する位置を決める
             //if(CreateDirection < 3)
             //{
