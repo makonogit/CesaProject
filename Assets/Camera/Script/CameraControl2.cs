@@ -46,7 +46,7 @@ public class CameraControl2 : MonoBehaviour
         SetStage stage = new SetStage();
         if (stage.GetStageNum() == 4)
         {
-            _AreaSize = 118;
+            _AreaSize = 108;
         }
         else
         {
@@ -179,10 +179,10 @@ public class CameraControl2 : MonoBehaviour
             if (!AreaMove)
             {
                 Debug.Log("エリア更新");
-                NextAreaPos[0].x = AreaCollider.points[0].x + _AreaSize / 5;
-                NextAreaPos[3].x = AreaCollider.points[0].x + _AreaSize / 5;
-                NextAreaPos[1].x = AreaCollider.points[1].x + _AreaSize + 2.0f;
-                NextAreaPos[2].x = AreaCollider.points[2].x + _AreaSize + 2.0f;
+                NextAreaPos[0].x = AreaCollider.points[0].x + _AreaSize / 5 - 2.0f;
+                NextAreaPos[3].x = AreaCollider.points[0].x + _AreaSize / 5 - 2.0f;
+                NextAreaPos[1].x = AreaCollider.points[1].x + _AreaSize; //+ 2.0f;
+                NextAreaPos[2].x = AreaCollider.points[2].x + _AreaSize;// + 2.0f;
                 NowAreaNum++;
                 AreaMove = true;
             }
