@@ -77,8 +77,11 @@ public class BranchCrack : MonoBehaviour
         // 生成終了したらスプライトの変更
         if (creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATE)
         {
-            transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
-                NormalMat.SetTexture("_MainTexture", Crack);
+            if (transform.childCount > 0)
+            {
+                transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
+                    NormalMat.SetTexture("_MainTexture", Crack);
+            }
             GetComponent<EdgeCollider2D>().enabled = true;
         }
 
@@ -86,7 +89,7 @@ public class BranchCrack : MonoBehaviour
         if (creater.GetState() == CrackCreater.CrackCreaterState.CRAETED && transform.childCount > 0)
         {
             transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
-                NormalMat.SetTexture("_MainTexture",Crackend);
+                   NormalMat.SetTexture("_MainTexture", Crackend);
             GetComponent<EdgeCollider2D>().enabled = false;
         }
     }

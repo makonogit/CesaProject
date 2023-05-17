@@ -154,7 +154,7 @@ public class WindCrystal : MonoBehaviour
         // 風に当たっているかを判定するRay
         RaycastHit2D raycastHit = Physics2D.BoxCast(
             transform.position,
-            new Vector2(1.0f, rise - 1.0f),
+            new Vector2(0.5f, rise - 1.0f),
             0.0f,
             Vector2.up,
             0.0f,
@@ -180,11 +180,20 @@ public class WindCrystal : MonoBehaviour
             // 重力をOFF
             if (raycastHit01)
             {
-                //Jump.enabled = false;
-                Jump.MoveY = 0;
+                Jump.enabled = false;
+                //Jump.MoveY = 0;
                 rigid.gravityScale = 0.0f;
                 //rigid.isKinematic = true;
             }
+            //else
+            //{
+            //    if (player.GetComponent<CrackAutoMove>().movestate == CrackAutoMove.MoveState.Walk)
+            //    {
+            //        Jump.enabled = true;
+            //        //Jump.MoveY = 0;
+            //        rigid.gravityScale = 1.0f;
+            //    }
+            //}
 
             player = raycastHit.collider.gameObject;
             Vector3 pos = player.transform.position;
@@ -195,8 +204,11 @@ public class WindCrystal : MonoBehaviour
         // 重力をON
         else
         {
-            //Jump.enabled = true;
-            rigid.gravityScale = 1.0f;
+            if (player != null && player.GetComponent<CrackAutoMove>().movestate == CrackAutoMove.MoveState.Walk)
+            {
+                Jump.enabled = true;
+                rigid.gravityScale = 1.0f;
+            }
             //rigid.isKinematic = false;
         }
     }

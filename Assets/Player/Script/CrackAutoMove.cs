@@ -316,7 +316,8 @@ public class CrackAutoMove : MonoBehaviour
                 //　子オブジェクトのマテリルをすべて変更
                 for (int i = 0; i < crackobj.transform.childCount - 1; i++)
                 {
-                    if (crackobj.transform.GetChild(i).gameObject.GetComponent<PointMatControl>())
+                    PointMatControl control = crackobj.transform.GetChild(i).gameObject.GetComponent<PointMatControl>();
+                    if (control != null)
                     {
                         crackobj.transform.GetChild(i).gameObject.GetComponent<PointMatControl>().FlashCrack();
                             //= FrashCrackMat;

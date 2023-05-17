@@ -36,12 +36,13 @@ public class ClearStageManager : MonoBehaviour
         {
             int areaNum = setmanager.GetAreaNum();
             int stageNum = setmanager.GetStageNum();
+            
             //Debug.Log("エリア"+areaNum+"ステージ"+stageNum);
             _data._data.ClearStages += _areas[areaNum].ClearStage(stageNum);
             //Debug.Log(_data._data.ClearStages);
             _data.Save(_data._data);
             // エリアをクリアしたか
-            if (_areas[areaNum].IsAreaClear && areaNum+1 < 5)
+            if (_areas[areaNum].IsAreaClear && areaNum + 1 < 5)
             {
                 _areas[areaNum+1].AreaStart();//新エリア解放
                     

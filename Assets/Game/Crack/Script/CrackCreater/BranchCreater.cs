@@ -49,8 +49,11 @@ public class BranchCreater : MonoBehaviour
             //　先端のスプライトを変更
             if (transform.childCount > 0)
             {
-                transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
-                NormalMat.SetTexture("_MainTexture", CrackSprite);
+                for (int i = transform.childCount - 1; transform.GetChild(i).name != "Point(Clone)"; i--)
+                {
+                    transform.GetChild(i).GetComponent<PointMatControl>().
+                     NormalMat.SetTexture("_MainTexture", CrackSprite);
+                }
             }
 
         }
@@ -74,8 +77,12 @@ public class BranchCreater : MonoBehaviour
                 //　先端のスプライトを変更
                 if (transform.childCount > 0)
                 {
-                    transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
+                    for(int i = transform.childCount - 1; transform.GetChild(i).name != "Point(Clone)"; i--) 
+                    {
+                        transform.GetChild(i).GetComponent<PointMatControl>().
                         NormalMat.SetTexture("_MainTexture", CrackEndSprite);
+                    }
+                   
                 }
                 //　分岐ひび生成
                 StartBranch = hammer.CreateBranch(BranchObj,gameObject,branchcreater,StartBranch);

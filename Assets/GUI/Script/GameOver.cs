@@ -298,6 +298,8 @@ public class GameOver : MonoBehaviour
         {
             HP = 0;
         }
+
+
     }
     
     //\’Ç‰Á’S“–ÒF’†ì’¼“o\//

@@ -106,6 +106,7 @@ public class ChangeResultScene : MonoBehaviour
             {
                 BossStage = false;
             }
+
             Firstcheck = true;
         }
     }
