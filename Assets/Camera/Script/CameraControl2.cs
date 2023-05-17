@@ -23,7 +23,9 @@ public class CameraControl2 : MonoBehaviour
 
     private Vector2[] NextAreaPos;          // 次のエリアの座標
 
-    private AreaManager _AreaManager;       // エリア管理オブジェクト
+   // private AreaManager _AreaManager;       // エリア管理オブジェクト
+    [SerializeField] private float _AreaSize;   //　エリアサイズ
+
     private int NowAreaNum;                 // 現在のエリア番号
     private bool AreaMove = false;          // エリアの移動イベント
 
@@ -40,6 +42,24 @@ public class CameraControl2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // ステージのサイズ設定
+        SetStage stage = new SetStage();
+        if (stage.GetStageNum() == 4)
+        {
+            _AreaSize = 118;
+        }
+        else
+        {
+            if (stage.GetAreaNum() == 0 && stage.GetStageNum() == 0)
+            {
+                _AreaSize = 81; //1‐1のみ
+            }
+            else
+            {
+                _AreaSize = 98.5f;
+            }
+        }
+
         // プレイヤーの情報取得
         Target = GameObject.Find("player");
         TargetTrans = Target.GetComponent<Transform>();
@@ -51,7 +71,7 @@ public class CameraControl2 : MonoBehaviour
         CameraArea = GameObject.Find("CameraArea");
         AreaCollider = CameraArea.GetComponent<PolygonCollider2D>();
         FirstAreaColl = AreaCollider.points;
-        _AreaManager = CameraArea.GetComponent<AreaManager>();
+      //  _AreaManager = CameraArea.GetComponent<AreaManager>();
 
         // カメラズームエリアの情報を取得
         //ZoomArea = GameObject.Find("GoalArea");
@@ -65,8 +85,8 @@ public class CameraControl2 : MonoBehaviour
 
         // エリアマネージャーからエリアのサイズを計算
         Vector2[] points = AreaCollider.points;
-        points[0].x = points[1].x + _AreaManager.AreaSize;
-        points[3].x = points[1].x + _AreaManager.AreaSize;
+        points[0].x = points[1].x + _AreaSize;
+        points[3].x = points[1].x + _AreaSize;
         AreaCollider.SetPath(0, points);
 
         NowMax_x = points[0].x; // 現在のカメラ右端を設定
@@ -80,12 +100,12 @@ public class CameraControl2 : MonoBehaviour
     {
         // エリアマネージャーからエリアのサイズを計算
         //Vector2[] points = AreaCollider.points;
-        //points[0].x = points[1].x + _AreaManager.AreaSize;
-        //points[3].x = points[1].x + _AreaManager.AreaSize;
+        //points[0].x = points[1].x + _AreaSize;
+        //points[3].x = points[1].x + _AreaSize;
        
         Vector2[] points = FirstAreaColl;
-        points[0].x = points[1].x + _AreaManager.AreaSize;
-        points[3].x = points[1].x + _AreaManager.AreaSize;
+        points[0].x = points[1].x + _AreaSize;
+        points[3].x = points[1].x + _AreaSize;
         AreaCollider.SetPath(0, points);
 
         NextAreaPos = new Vector2[4];
@@ -137,8 +157,8 @@ public class CameraControl2 : MonoBehaviour
         //----------------------------------------------------------------------
         // エリアの情報からコライダーをリサイズ
         //Vector2[] points = AreaCollider.points;
-        //points[0].x = points[1].x + _AreaManager.AreaSize;
-        //points[3].x = points[1].x + _AreaManager.AreaSize;
+        //points[0].x = points[1].x + _AreaSize;
+        //points[3].x = points[1].x + _AreaSize;
         //AreaCollider.SetPath(0, points);
 
         //----------------------------------------------------------------------
@@ -159,10 +179,10 @@ public class CameraControl2 : MonoBehaviour
             if (!AreaMove)
             {
                 Debug.Log("エリア更新");
-                NextAreaPos[0].x = AreaCollider.points[0].x + _AreaManager.AreaSize / 5;
-                NextAreaPos[3].x = AreaCollider.points[0].x + _AreaManager.AreaSize / 5;
-                NextAreaPos[1].x = AreaCollider.points[1].x + _AreaManager.AreaSize + 2.0f;
-                NextAreaPos[2].x = AreaCollider.points[2].x + _AreaManager.AreaSize + 2.0f;
+                NextAreaPos[0].x = AreaCollider.points[0].x + _AreaSize / 5;
+                NextAreaPos[3].x = AreaCollider.points[0].x + _AreaSize / 5;
+                NextAreaPos[1].x = AreaCollider.points[1].x + _AreaSize + 2.0f;
+                NextAreaPos[2].x = AreaCollider.points[2].x + _AreaSize + 2.0f;
                 NowAreaNum++;
                 AreaMove = true;
             }
