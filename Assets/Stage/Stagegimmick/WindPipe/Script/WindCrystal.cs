@@ -62,6 +62,23 @@ public class WindCrystal : MonoBehaviour
     //==================================
     // *** 初期化処理 ***
     //==================================
+    public void Init()
+    {
+        // 状態を初期化
+        nowState = StateID.NORMAL;
+        oldState = StateID.NULL; // 前の状態
+        nextState = StateID.NULL;// 次の状態
+
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
+        if(transform.childCount > 2)
+        {
+            Destroy(transform.GetChild(transform.childCount - 1).gameObject);
+        }
+
+        Jump.enabled = true;
+        rigid.gravityScale = 1.0f;
+    }
+
 
     void Start()
     {
@@ -135,7 +152,8 @@ public class WindCrystal : MonoBehaviour
                 // パーティクルを発生させる
                 Vector3 pos = transform.position;
                 pos.y -= 2.0f;
-                Instantiate(particle, pos, Quaternion.identity);
+                GameObject obj = Instantiate(particle, pos, Quaternion.identity);
+                obj.transform.parent = transform;
             }
 
         }
