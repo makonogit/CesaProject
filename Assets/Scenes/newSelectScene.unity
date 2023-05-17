@@ -1958,6 +1958,28 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8074353045410181229, guid: bfa8bdd08f56b994a8446550166bd7af, type: 3}
   m_PrefabInstance: {fileID: 323352148}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &323352150 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 485230115815756650, guid: bfa8bdd08f56b994a8446550166bd7af, type: 3}
+  m_PrefabInstance: {fileID: 323352148}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323352149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 022a739bb7634d045a1699ad89bdf34f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &323352151 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8074353045410181231, guid: bfa8bdd08f56b994a8446550166bd7af, type: 3}
+  m_PrefabInstance: {fileID: 323352148}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323352149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 691a1a360d7556c4c9de34a8421b9c78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &360478589
 GameObject:
   m_ObjectHideFlags: 0
@@ -8071,6 +8093,7 @@ GameObject:
   - component: {fileID: 931340711}
   - component: {fileID: 931340713}
   - component: {fileID: 931340716}
+  - component: {fileID: 931340722}
   m_Layer: 12
   m_Name: player
   m_TagString: Player
@@ -8307,7 +8330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseSpeed: 5
   magnification: 1.5
-  ideal_IdleTime: 0
+  ideal_IdleTime: 0.001
   MoveSta: 0
   debug: 0
   BlockLayer:
@@ -8320,7 +8343,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 931340704}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4eddf918c50930d4f8b7df78883066b7, type: 3}
   m_Name: 
@@ -8382,14 +8405,14 @@ MonoBehaviour:
   AdjustX: 0.1
   AdjustCenter: 0.13
   touch: 0
-  groundCheckRadius: 0.4
-  groundCheckOffsetX: 0.45
-  groundCheckOffsetY: 0.45
-  groundCheckDistance: 0.2
+  groundCheckRadius: 0.25
+  groundCheckOffsetX: 0.15
+  groundCheckOffsetY: -0.61
+  groundCheckDistance: 0
   CircleLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  _length: 0.125
+  _length: 0.06
 --- !u!114 &931340719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8451,6 +8474,42 @@ MonoBehaviour:
   _crackCreaterObj: {fileID: 7869875550553585627, guid: 5e387acae0f89364487b0d1bae8712f2, type: 3}
   HitStopTime: 0.3
   WaitHammer: 0.3
+--- !u!114 &931340722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931340704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b582e12416153e640924515573b9d072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveY: 0
+  TriggerJumpflg: 0
+  PressJumpflg: 0
+  OldPressJumpflg: 0
+  ReleaseJumpflg: 0
+  ImFly: 0
+  ImDrop: 0
+  isGround: 0
+  isOverhead: 0
+  JumpPower: 10
+  gravity: 20
+  inertia: 15
+  RideOn: 0
+  hitStop: 0
+  _playerInputManager: {fileID: 323352151}
+  _trigger: {fileID: 323352150}
+  _thisTransform: {fileID: 931340709}
+  _thisRigidbody2d: {fileID: 931340706}
+  ground: {fileID: 931340718}
+  overhead: {fileID: 931340717}
+  _playerStatus: {fileID: 931340719}
+  anim: {fileID: 931340710}
+  seMana: {fileID: 1872879729}
+  _runDust: {fileID: 931340716}
 --- !u!1 &958471754
 GameObject:
   m_ObjectHideFlags: 0
@@ -21527,6 +21586,17 @@ MonoBehaviour:
   se_town_run3: {fileID: 8300000, guid: b67bf42bdb074624eaac0a1d89a6a3ac, type: 3}
   se_town_run4: {fileID: 8300000, guid: e1fc22618fcad254f83799aeabc2fb95, type: 3}
   se_hammer: {fileID: 8300000, guid: e51175316c9c5984d87f8833c60237c2, type: 3}
+--- !u!114 &1872879729 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6935934372925696596, guid: 81bf5b0ff7b32d84aaf4da544c1bef48, type: 3}
+  m_PrefabInstance: {fileID: 415168437}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872879725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c880a87691269648aed4e5df2da8cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1888472749 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3677334076235703487, guid: dbd0563a71e430a46b055865c9129522, type: 3}

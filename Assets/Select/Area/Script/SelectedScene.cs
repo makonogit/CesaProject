@@ -24,7 +24,7 @@ public class SelectedScene : MonoBehaviour
     private Animator anim;
     private VibrationCamera main;
     public GameObject SelectObject;
-    private PlayerJump Jump;
+    private New_PlayerJump Jump;
     private PlayerMove move;
 
     [SerializeField,Header("ひびのオブジェクト")]
@@ -54,7 +54,7 @@ public class SelectedScene : MonoBehaviour
         PlayerParticle = transform.GetChild(0).gameObject;
         PlayerParticleSystem = PlayerParticle.GetComponent<ParticleSystem>();
         PlayerParticle.SetActive(false);    //パーティクルを非表示に
-        Jump = GetComponent<PlayerJump>();
+        Jump = GetComponent<New_PlayerJump>();
         move = GetComponent<PlayerMove>();
 
         transform.position = stagemanager.stage[setmanager.GetAreaNum()].stage[setmanager.GetStageNum()].StageObj.transform.position;

@@ -41,6 +41,9 @@ public class New_PlayerJump : MonoBehaviour
     // トロッコ用
     public bool RideOn = false;
 
+    // HitStop中かどうか
+    public bool hitStop = false;
+
     //----------------------------------------------------------------------------------------------------------
     // 外部取得
 
@@ -267,6 +270,8 @@ public class New_PlayerJump : MonoBehaviour
 
             // 重力もどす
             _thisRigidbody2d.gravityScale = 1.0f;
+
+            Debug.Log("ヒットストップ中でない");
         }
         else
         {
@@ -276,15 +281,11 @@ public class New_PlayerJump : MonoBehaviour
                 _thisRigidbody2d.gravityScale = 0.0f;
             }
 
+            Debug.Log("ヒットストップ中");
+
             //Debug.Log(_thisRigidbody2d.gravityScale);
         }
     }
-
-    ////　セレクト画面で選択しているか判断する関数
-    //public void SetSelected(bool select)
-    //{
-    //    Selected = select;
-    //}
 
     private void RunDust()
     {
