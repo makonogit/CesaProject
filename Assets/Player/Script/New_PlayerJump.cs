@@ -271,7 +271,7 @@ public class New_PlayerJump : MonoBehaviour
             // 重力もどす
             _thisRigidbody2d.gravityScale = 1.0f;
 
-            Debug.Log("ヒットストップ中でない");
+            //Debug.Log("ヒットストップ中でない");
         }
         else
         {
@@ -281,7 +281,7 @@ public class New_PlayerJump : MonoBehaviour
                 _thisRigidbody2d.gravityScale = 0.0f;
             }
 
-            Debug.Log("ヒットストップ中");
+            //Debug.Log("ヒットストップ中");
 
             //Debug.Log(_thisRigidbody2d.gravityScale);
         }

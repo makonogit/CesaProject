@@ -17,9 +17,9 @@ public class HitEnemy : MonoBehaviour
     [SerializeField] private GameOver gameOver; // ゲームオーバー画面遷移用スクリプト取得用変数
     [SerializeField] private KnockBack knocback; // ノックバックスクリプト取得用変数
     [SerializeField] private RenderOnOff _renderer; // 点滅スクリプト取得用変数
+    [SerializeField] private PostEffectManager _postEffectMana; // 被ダメ時のvignette用
 
     [SerializeField] private PlayEnemySound enemyse; //敵のSE
-
 
     private void Start()
     {
@@ -51,6 +51,9 @@ public class HitEnemy : MonoBehaviour
 
             // 点滅
             _renderer.SetFlash(true);
+
+            // 画面効果
+            _postEffectMana.Damage();
 
             //---------------------------------------------------------
             // 接触時間リセット
