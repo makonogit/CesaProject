@@ -93,9 +93,6 @@ public class Hammer : MonoBehaviour
         InputanagerObj = GameObject.Find("PlayerInputManager");
         InputManager = InputanagerObj.GetComponent<PlayerInputManager>();
 
-        // スプライトレンダーを取得
-        renderer = GetComponent<SpriteRenderer>();
-
         //-----------------------------------
         // ひびの親オブジェクトを取得
         CrackManager = GameObject.Find("CrackManager");
@@ -144,6 +141,11 @@ public class Hammer : MonoBehaviour
         // アニメーター取得
         anim = GetComponent<Animator>();
         playerStatus = GetComponent<PlayerStatas>();
+
+
+        // スプライトレンダーを取得
+        renderer = AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>();
+
     }
 
     // Update is called once per frame
@@ -531,7 +533,16 @@ public class Hammer : MonoBehaviour
 
             // アニメーション関係
 
-           
+           if(angle >= 67.5 && angle <= 112.5)
+           {
+                renderer.sortingOrder = 8;
+                TargtRenderer.sortingOrder = 9;
+           }
+           else
+           {
+                renderer.sortingOrder = 10;
+                TargtRenderer.sortingOrder = 11;
+           }
 
             // ためアニメーション
             anim.SetBool("accumulate",(hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION) && angle != 90);
