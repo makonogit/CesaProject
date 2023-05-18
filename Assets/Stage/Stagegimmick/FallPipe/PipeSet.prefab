@@ -229,7 +229,7 @@ Transform:
   m_GameObject: {fileID: 6472178773796843060}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.67, y: 0, z: -0.06394577}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 1.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6472178773359158790}
@@ -354,7 +354,7 @@ Transform:
   m_GameObject: {fileID: 6472178773806289817}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.04, y: 0, z: -0.06394577}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 1.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6472178773359158790}
@@ -576,7 +576,7 @@ GameObject:
   - component: {fileID: 3700231537812748567}
   - component: {fileID: 4687813390387993985}
   - component: {fileID: 9126244597742383065}
-  m_Layer: 22
+  m_Layer: 18
   m_Name: MiddlePipe
   m_TagString: Pipe
   m_Icon: {fileID: 0}
@@ -683,7 +683,7 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 1
+  m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.0095152855, y: -0.00600636}
   m_SpriteTilingProperty:
@@ -705,7 +705,7 @@ PlatformEffector2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6472178774621704918}
-  m_Enabled: 1
+  m_Enabled: 0
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
@@ -742,13 +742,13 @@ GameObject:
   m_Component:
   - component: {fileID: 568400377709463523}
   - component: {fileID: 1147749925436301026}
-  m_Layer: 15
+  m_Layer: 18
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &568400377709463523
 Transform:
   m_ObjectHideFlags: 0

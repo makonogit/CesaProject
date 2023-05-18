@@ -26,6 +26,8 @@ public class RammingStop : MonoBehaviour
         {
             // “–‚½‚Á‚½î•ñ‚ğ‘—‚é
             townBossMove.SetHitPlayer(true);
+
+            //Debug.Log("ƒvƒŒƒCƒ„[‚Æ“–‚½‚Á‚½‚æ");
         }
     }
 }

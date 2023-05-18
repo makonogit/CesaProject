@@ -41,7 +41,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2728864554363083106}
   serializedVersion: 8
-  lengthInSec: 0.5
+  lengthInSec: 0.6
   simulationSpeed: 1
   stopAction: 2
   cullingMode: 0
@@ -222,8 +222,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0, g: 0.49484062, b: 1, a: 1}
-      maxColor: {r: 0.02264148, g: 0.9715538, b: 1, a: 1}
+      minColor: {r: 0, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -285,8 +285,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: 0
+      scalar: 13
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -867,7 +867,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 80
+      scalar: 100
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4806,7 +4806,7 @@ ParticleSystemRenderer:
   m_Mesh: {fileID: 2190622540023885545, guid: 987093e6ff70a5347a302d96445c5d33, type: 3}
   m_Mesh1: {fileID: 5869761508291144630, guid: 987093e6ff70a5347a302d96445c5d33, type: 3}
   m_Mesh2: {fileID: 2443237146360861554, guid: 987093e6ff70a5347a302d96445c5d33, type: 3}
-  m_Mesh3: {fileID: 0}
+  m_Mesh3: {fileID: -2124705421725058983, guid: a58f1938db7161049b9dbcd0615c1359, type: 3}
   m_MeshWeighting: 1
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1

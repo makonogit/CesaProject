@@ -55,6 +55,7 @@ public class TownBossMove : MonoBehaviour
     private float sandSmokeAdjustX_left;   // ボスの向きで値を変える必要があるため
     [SerializeField,Header("座標調整用(右足)")] private Vector2 sandSmokeOffset_right; // 座標調整用(右足)
     private float sandSmokeAdjustX_right;  // ボスの向きで値を変える必要があるため
+    [SerializeField] private GameObject ConfusionAnim; // 星がくるくるする
 
     //// かけら飛ばし用変数
     //private float CreateShardsNeedTime = 0.6f;   // かけらを作るのにかかる時間
@@ -673,6 +674,9 @@ public class TownBossMove : MonoBehaviour
                 raycast = false;
             }
         }
+
+        //Debug.Log("walkInit");
+        //Debug.Log(HitPlayer);     
     }
 
     private void Walk()

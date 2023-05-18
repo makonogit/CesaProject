@@ -4588,6 +4588,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 177245301056531068, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2971194306975641323, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -4677,13 +4681,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1415808584}
     - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: _length
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: _trigger
       value: 
       objectReference: {fileID: 1978350436}
     - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: groundCheckRadius
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: groundCheckOffsetX
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: groundCheckOffsetY
+      value: -0.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: _playerInputManager
       value: 
       objectReference: {fileID: 1978350435}
+    - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: groundCheckDistance
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
 --- !u!1 &8059579095247675266 stripped

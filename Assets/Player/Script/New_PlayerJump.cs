@@ -27,7 +27,20 @@ public class New_PlayerJump : MonoBehaviour
     [Header("接地判定系")]
     [SerializeField] private bool isGround = false; // 地面に触れているか
     [SerializeField] private bool isOverhead = false; // 天井に触れているか
-    //[SerializeField] private int RayNum; // 当たっているレイの本数
+    [Header("円形のレイ用")]
+    [SerializeField] float groundCheckRadius = 0.4f; // 半径
+    [SerializeField] float groundCheckOffsetX = 0.45f; // オフセット
+    [SerializeField] float groundCheckOffsetY = 0.45f; // オフセット
+    [SerializeField] float groundCheckDistance = 0.2f; // キャストする最大距離 （円の半径＋この変数）がキャスト距離？
+    // 10 : Ground
+    // 14 : Block
+    // 17 : EnemyPipe
+    // 18 : Pipe
+    // 21 : Trolley
+    // 22 : IgnoreOverHead
+    private LayerMask layerMask = 1 << 10 | 1 << 14 | 1 << 17 | 1 << 18 | 1 << 21 | 1 << 22;
+    [SerializeField, Tooltip("レイの長さを調整します。")]
+    private float _length = 0.01f;
 
     // 調整可能変数
     [Header("調整用変数")]
@@ -122,7 +135,7 @@ public class New_PlayerJump : MonoBehaviour
             // 接地判定
 
             // 接地判定を得る
-            isGround = ground.IsGroundCircle();
+            isGround = IsGroundCircle();
             // 地面と触れているレイの数を取得
             //RayNum = ground.GetRayNum();
             // 天井の衝突判定を得る
@@ -161,6 +174,8 @@ public class New_PlayerJump : MonoBehaviour
                     seMana.PlaySE_Jump();
 
                     count = 0;
+
+                    //Debug.Log("トリガー");
                 }
             }
 
@@ -253,9 +268,10 @@ public class New_PlayerJump : MonoBehaviour
             //{
             //    Debug.Log("-----------------------------------------------------------------------------------");
             //}
-            //if (MoveY != 0)
+            //if (count < 30/*MoveY != 0*/)
             //{
-            //    Debug.Log(MoveY);
+            //    Debug.Log(count);
+            //    //Debug.Log(MoveY);
             //}
 
             //-------------------------------------------------------------------
@@ -290,5 +306,23 @@ public class New_PlayerJump : MonoBehaviour
     private void RunDust()
     {
         _runDust.IsJump = !isGround;
+    }
+
+    // 円形のレイキャスト
+    private bool IsGroundCircle()
+    {
+        // 戻り値用変数
+        bool Return = false;
+
+        RaycastHit2D hit = Physics2D.CircleCast((Vector2)_thisTransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius, Vector2.down, groundCheckDistance, layerMask);
+
+        if (hit)
+        {
+            Return = true;
+        }
+
+        //Debug.Log(Return);
+
+        return Return;
     }
 }

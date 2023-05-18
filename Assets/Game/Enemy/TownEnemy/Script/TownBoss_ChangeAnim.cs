@@ -30,5 +30,6 @@ public class TownBoss_ChangeAnim : MonoBehaviour
         anim.SetBool("ramming", townBossMove.EnemyAI == TownBossMove.AIState.Ramming);
         anim.SetBool("ramminginit", townBossMove.EnemyAI == TownBossMove.AIState.RammingInit);
         anim.SetBool("death", townBossMove.EnemyAI == TownBossMove.AIState.Death);
+        anim.SetBool("rammingwait", townBossMove.EnemyAI == TownBossMove.AIState.RammingWait);
     }
 }
