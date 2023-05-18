@@ -40,6 +40,9 @@ public class GiveScene : MonoBehaviour
     private StateID _state;
     [SerializeField]
     private GameObject _crystal;
+    [SerializeField,Header("クリア後画像")]
+    private Sprite sprite;
+    private SpriteRenderer _renderer;
 
     private void Start()
     {
@@ -56,14 +59,20 @@ public class GiveScene : MonoBehaviour
 
         
         if (_crystal == null) Debug.LogError("設定されていません。");
-        
+
+        _renderer = GetComponent<SpriteRenderer>();
+        if (_renderer == null) Debug.LogError("SpriteRendererのコンポーネントを取得できませんでした。");
         //setStage = _Stagemanager.GetComponent<SetStage>();
     }
     private void Update()
     {
-        if (State == StateID.CLEAR)
+        if (State == StateID.PLAYABLE)
         {
             _crystal.SetActive(false);
+        }
+        if(State == StateID.CLEAR) 
+        {
+            _renderer.sprite = sprite;
         }
     }
 

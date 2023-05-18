@@ -38,7 +38,7 @@ public class TestTargetState : MonoBehaviour
         //    Debug.Log(hit.collider.gameObject);
         //}
 
-        Debug.Log(hammer.GetInput());
+        //Debug.Log(hammer.GetInput());
 
         if (CheeckGround)
         {

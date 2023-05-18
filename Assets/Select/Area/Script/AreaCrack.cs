@@ -258,7 +258,7 @@ public class AreaCrack : MonoBehaviour
     //
     public int ClearStage(int _stageNum) 
     {
-        Debug.Log("ステージステータス"+_stages[_stageNum].State);
+        //Debug.Log("ステージステータス"+_stages[_stageNum].State);
         // プレイ可能でクリアしていない時
         if (_stages[_stageNum].State == GiveScene.StateID.PLAYABLE) 
         {
