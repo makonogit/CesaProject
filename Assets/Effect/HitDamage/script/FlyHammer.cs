@@ -5,10 +5,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class FlyChase : MonoBehaviour
+public class FlyHammer : MonoBehaviour
 {
     //------------------------------------------------------------------------
-    private enum State 
+    private enum State
     {
         NULL,
         MOVE,
@@ -27,8 +27,7 @@ public class FlyChase : MonoBehaviour
     private float acceleration;
     [SerializeField]
     private float rotateSpeed;
-    [SerializeField]
-    HaveCrystal haveCrystal;
+    [SerializeField] private GameOver gameOver; // ゲームオーバー画面遷移用スクリプト取得用変数
 
     //------------------------------------------------------------------------
 
@@ -37,10 +36,10 @@ public class FlyChase : MonoBehaviour
     //
     // 内容：呼ぶと動き始める※念のため引数にTransform
     //
-    public void SetStart(Transform _end,HaveCrystal have)
+    public void SetStart(Transform _end,GameOver over)
     {
         _endPos = _end;
-        haveCrystal = have;
+        gameOver = over;
     }
 
     //------------------------------------------------------------------------
@@ -53,7 +52,7 @@ public class FlyChase : MonoBehaviour
     {
         _trans = GetComponent<Transform>();
         if (_trans == null) Debug.LogError("Transformのコンポーネントを取得できませんでした。");
-        if(_state == State.NULL) _state = State.D;
+        if (_state == State.NULL) _state = State.D;
     }
 
     // Update is called once per frame
@@ -75,7 +74,7 @@ public class FlyChase : MonoBehaviour
     private void End()
     {
         Vector3 Distans = _trans.position - _endPos.position;
-        if (Distans.magnitude < _endDis ) { Destroy(this.gameObject); }
+        if (Distans.magnitude < _endDis) { Destroy(this.gameObject); }
     }
 
     //
@@ -85,13 +84,13 @@ public class FlyChase : MonoBehaviour
     //
     private void MoveSystem()
     {
-        switch (_state) 
+        switch (_state)
         {
             case State.MOVE:
                 Move();
                 break;
         }
-        
+
     }
 
     //
@@ -102,9 +101,9 @@ public class FlyChase : MonoBehaviour
     private void Move()
     {
         Vector3 rotate = transform.rotation.eulerAngles;
-        rotate = new Vector3(0, 0,rotateSpeed * Time.deltaTime);
+        rotate = new Vector3(0,0,rotateSpeed*Time.deltaTime);
         transform.Rotate(rotate);
-        
+
         speed += acceleration * Time.deltaTime;
         Vector3 _moveVec = _endPos.position - _trans.position;
         transform.position += _moveVec.normalized * speed * Time.deltaTime;
@@ -112,7 +111,7 @@ public class FlyChase : MonoBehaviour
 
     private void OnDestroy()
     {
-        haveCrystal.AnimationGetCrystal();
+        // HP減らすための処理
+        gameOver.StartHPUIAnimation();
     }
-
 }

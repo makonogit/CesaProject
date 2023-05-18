@@ -21,6 +21,9 @@ public class HitEnemy : MonoBehaviour
 
     [SerializeField] private PlayEnemySound enemyse; //敵のSE
 
+    [SerializeField]
+    private DamageEffectSystem _effectSystem;
+
     private void Start()
     {
         // 始まった時無敵時間なのを防ぐため初期化
@@ -43,8 +46,7 @@ public class HitEnemy : MonoBehaviour
             enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Attack);
 
             //---------------------------------------------------------
-            // HP減らすための処理
-            gameOver.StartHPUIAnimation();
+            
 
             // ノックバック
             knocback.KnockBack_Func(_trans);
@@ -54,6 +56,9 @@ public class HitEnemy : MonoBehaviour
 
             // 画面効果
             _postEffectMana.Damage();
+
+            // ハンマーが飛ぶ
+            _effectSystem.Creat();
 
             //---------------------------------------------------------
             // 接触時間リセット
