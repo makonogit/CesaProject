@@ -13,6 +13,11 @@ public class TestTargetState : MonoBehaviour
     Transform thistrans;
     LayerMask layerMask = 1 << 10;
 
+    Vector2 Movement;
+
+    [SerializeField, Header("Hammer")]
+    private Hammer hammer;  //ハンマーのスクリプト
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,19 +30,38 @@ public class TestTargetState : MonoBehaviour
     private void Update()
     {
         //RaycastHit2D hit = Physics2D.Raycast(thistrans.position, Vector2.down,0.3f,layerMask);
-        
+
         //Debug.DrawRay(thistrans.position,Vector2.down * 0.3f,Color.red);
 
         //if (hit)
         //{
         //    Debug.Log(hit.collider.gameObject);
         //}
+
+        Debug.Log(hammer.GetInput());
+
+        if (CheeckGround)
+        {
+            hammer.SetAngleLook(true);
+
+            if(Movement.x < 0 && Movement.x > hammer.GetInput().x)
+            {
+                CheeckGround = false;
+            }
+
+        }
+        else
+        {
+            hammer.SetAngleLook(false);
+        }
+
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if(collision.tag == "Ground")
         {
+            Movement = hammer.GetInput();
             CheeckGround = true;
         }
     }
@@ -46,6 +70,7 @@ public class TestTargetState : MonoBehaviour
     {
         if (collision.tag == "Ground")
         {
+            Movement = hammer.GetInput();
             CheeckGround = true;
         }
     }

@@ -17,6 +17,7 @@ public class Hammer : MonoBehaviour
     //外部取得
     private GameObject InputanagerObj;          // InputManagerを持つオブジェクト
     private PlayerInputManager InputManager;    // InputManager
+    private SpriteRenderer renderer;            // Spriterenderer
     private GameObject AngleTest;               // 角度を可視化するため
     private SpriteRenderer TargtRenderer;       // 角度可視化用のレンダー
     private TestTargetState Targetstate;        // ひびを作れるか判断
@@ -30,6 +31,7 @@ public class Hammer : MonoBehaviour
     private VibrationCamera vibration;          // カメラ振動スクリプト
 
 
+    private bool AngleLook = false;
     public bool AddCrackFlg = false;            // ひびが伸びるフラグ
     private bool LongCrack = false;             // 伸びているひびなのか
     private float angle;                        // ひびを入れる角度
@@ -90,6 +92,9 @@ public class Hammer : MonoBehaviour
         // InputManagerを取得する
         InputanagerObj = GameObject.Find("PlayerInputManager");
         InputManager = InputanagerObj.GetComponent<PlayerInputManager>();
+
+        // スプライトレンダーを取得
+        renderer = GetComponent<SpriteRenderer>();
 
         //-----------------------------------
         // ひびの親オブジェクトを取得
@@ -158,6 +163,7 @@ public class Hammer : MonoBehaviour
                     Move.SetMovement(true);
                     // 角度の可視化
                     TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                    AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
                     // 前回の座標との距離を求める
                     float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
@@ -217,6 +223,7 @@ public class Hammer : MonoBehaviour
                     Move.SetMovement(false);
                     // 照準の非表示
                     TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                    AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
                     if (!AddCrackFlg)
                     //-----------------------------------------------------------------------------
@@ -229,16 +236,23 @@ public class Hammer : MonoBehaviour
                         //　スティックの入力があれば角度計算
                         if (LeftStick != Vector2.zero)
                         {
-                            angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
-
-                            // 角度を正規化
-                            if (angle < 0)
+                            if (!AngleLook)
                             {
-                                angle += 360;
+                                angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
+
+                                // 角度を正規化
+                                if (angle < 0)
+                                {
+                                    angle += 360;
+                                }
                             }
 
                             //　角度を45度ずつで管理
                             //angle = (((int)angle / 20)) * 20.0f;
+
+                            //　角度を45度ずつで管理
+                            angle = ((int)(angle / 22.5f)) * 22.5f;
+
 
                         }
                         else
@@ -341,17 +355,19 @@ public class Hammer : MonoBehaviour
                         //　スティックの入力があれば角度計算
                         if (LeftStick != Vector2.zero)
                         {
-                            angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
-
-                            // 角度を正規化
-                            if (angle < 0)
+                            if (!AngleLook)
                             {
-                                angle += 360;
-                            }
+                                angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
 
+                                // 角度を正規化
+                                if (angle < 0)
+                                {
+                                    angle += 360;
+                                }
+                            }
                             //　角度を45度ずつで管理
                             angle = ((int)(angle / 22.5f)) * 22.5f;
-
+                          
                         }
                         else
                         {
@@ -364,17 +380,19 @@ public class Hammer : MonoBehaviour
 
                     // 角度と距離からPoint座標を求める
                     CrackPointList[1] = new Vector2(CrackPointList[0].x + (CrackLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (CrackLength * Mathf.Sin(angle * (Mathf.PI / 180))));
-                    Vector2 ArmPos = new Vector2(CrackPointList[0].x + (1.5f * Mathf.Cos(angle * (Mathf.PI / 180))), (CrackPointList[0].y - 0.4f) + (1.5f * Mathf.Sin(angle * (Mathf.PI / 180))));
+                    Vector2 ArmPos = new Vector2(CrackPointList[0].x + (0.6f * Mathf.Cos(angle * (Mathf.PI / 180))), (CrackPointList[0].y - 0.4f) + (0.6f * Mathf.Sin(angle * (Mathf.PI / 180))));
 
                     if (AddCrackFlg)
                     {
                         // 角度の非表示
-                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                        //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                        //AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                     }
                     else
                     {
                         // 角度の可視化
                         TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                        AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                     }
 
                     //デバッグ用
@@ -409,6 +427,7 @@ public class Hammer : MonoBehaviour
                             AngleTest.transform.position = CrackPointList[0];
                             // 照準非表示
                             TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                            AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                             //// Point座標を初期化
                             //AngleTest.transform.position = CrackPointList[0];
                             //　移動制限解除
@@ -512,8 +531,12 @@ public class Hammer : MonoBehaviour
 
             // アニメーション関係
 
+           
+
             // ためアニメーション
-            anim.SetBool("accumulate", hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION);
+            anim.SetBool("accumulate",(hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION) && angle != 90);
+            // ためアニメーション
+            anim.SetBool("angle", (hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION) && angle == 90);
             // ひびアニメーション
             anim.SetBool("crack", hammerstate == HammerState.HAMMER);
             // キャンセル
@@ -647,6 +670,18 @@ public class Hammer : MonoBehaviour
         }
 
         return StartBranch = creater.transform.childCount - 1; //　末尾の要素を返却
+    }
+
+    //------------------------------
+    // angleを取得する
+    public Vector2 GetInput()
+    {
+        return InputManager.GetMovement();
+    }
+
+    public void SetAngleLook(bool _look)
+    {
+        AngleLook = _look;
     }
 
 }
