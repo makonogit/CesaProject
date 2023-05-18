@@ -51,6 +51,8 @@ public class Tutorial_2 : MonoBehaviour
         ChargeCrack,  // ためてひびを打つ 2-2
         BreakRock,    // 岩を壊す   3-1
         SandMove,     // 流砂の軌道を変える 3-3
+        Trolley,      // トロッコ 4-3
+        WindPipe,     // 風が吹くパイプ 5-2
     }
 
     public TutorialType type;
@@ -117,6 +119,12 @@ public class Tutorial_2 : MonoBehaviour
                         break;
                     case TutorialType.SandMove:
                         anim.SetBool("SandMove", true);
+                        break;
+                    case TutorialType.Trolley:
+                        anim.SetBool("Trolley", true);
+                        break;
+                    case TutorialType.WindPipe:
+                        anim.SetBool("WindPipe", true);
                         break;
                     default:
                         break;
@@ -187,8 +195,8 @@ public class Tutorial_2 : MonoBehaviour
             case TutorialType.BreakRock:
                 anim.SetBool("BreakRock", false);
                 break;
-            case TutorialType.SandMove:
-                anim.SetBool("SandMove", false);
+            case TutorialType.Trolley:
+                anim.SetBool("Trolley", false);
                 break;
             default:
                 break;
