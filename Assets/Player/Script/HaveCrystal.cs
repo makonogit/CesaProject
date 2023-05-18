@@ -23,11 +23,15 @@ public class HaveCrystal : MonoBehaviour
     [SerializeField] private Animator anim1;
     [SerializeField] private Animator anim2;
 
+    private GetCrystal getCrystal;
+
     // Update is called once per frame
     void Update()
     {
         //player = GameObject.Find("player");
         //status = player.GetComponent<PlayerStatas>();
+        getCrystal = GameObject.Find("GetCrystal").GetComponent<GetCrystal>();
+        if (getCrystal == null) Debug.LogError("GetCrystalコンポーネントを取得できませんでした。");
     }
 
     //落ちているクリスタルに触れるとクリスタル所持数が増える
@@ -45,27 +49,33 @@ public class HaveCrystal : MonoBehaviour
             // 取得済みでないなら
             if (Crystal.Get == false)
             {
-                // クリスタル所持数を増やす
-                status.SetCrystal(status.GetCrystal() + Crystal.crystalNum);
+
                 // 取得済みフラグ
                 collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-
                 Crystal.Get = true;
 
-                // クリスタル取得時のアニメーション
-                anim1.SetBool("get", true);
-                anim2.SetBool("get", true);
+                getCrystal.Creat();
 
-                // 既にアニメーションしていたら
-                if (anim1.GetBool("get"))
-                {
-                    // 始めから
-                    anim1.Play("AccentNumber", 0, 0);
-                    anim2.Play("AccentNumber", 0, 0);
-                }
-
-                Debug.Log("クリスタル取得");
+                //Debug.Log("クリスタル取得");
             }
+        }
+    }
+
+    public void AnimationGetCrystal()
+    {
+        // クリスタル所持数を増やす
+        status.SetCrystal(status.GetCrystal() + Crystal.crystalNum);
+
+        // クリスタル取得時のアニメーション
+        anim1.SetBool("get", true);
+        anim2.SetBool("get", true);
+
+        // 既にアニメーションしていたら
+        if (anim1.GetBool("get"))
+        {
+            // 始めから
+            anim1.Play("AccentNumber", 0, 0);
+            anim2.Play("AccentNumber", 0, 0);
         }
     }
 }
