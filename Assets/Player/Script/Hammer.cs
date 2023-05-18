@@ -380,7 +380,7 @@ public class Hammer : MonoBehaviour
 
                     // äpìxÇ∆ãóó£Ç©ÇÁPointç¿ïWÇãÅÇﬂÇÈ
                     CrackPointList[1] = new Vector2(CrackPointList[0].x + (CrackLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (CrackLength * Mathf.Sin(angle * (Mathf.PI / 180))));
-                    Vector2 ArmPos = new Vector2(CrackPointList[0].x + (0.6f * Mathf.Cos(angle * (Mathf.PI / 180))), (CrackPointList[0].y - 0.4f) + (0.6f * Mathf.Sin(angle * (Mathf.PI / 180))));
+                    Vector2 ArmPos = new Vector2(CrackPointList[0].x + (0.6f * Mathf.Cos(angle * (Mathf.PI / 180))), (CrackPointList[0].y - 0.25f) + (0.6f * Mathf.Sin(angle * (Mathf.PI / 180))));
 
                     if (AddCrackFlg)
                     {
