@@ -215,7 +215,7 @@ public class PlayerInput : MonoBehaviour
                 {
                     // キャンセルボタン入力セット
                     ScriptPIManager.SetPressB(true);
-                    Debug.Log("??????????");
+                    //Debug.Log("??????????");
                 }
             }
 

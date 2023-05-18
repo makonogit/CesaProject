@@ -15,6 +15,9 @@ public class FlyItem : MonoBehaviour
     [Header("Ç«ÇÃÇ≠ÇÁÇ¢è„â∫Ç≥ÇπÇÈÇ©")]
     public float Difference = 0.3f;
 
+    [Header("âΩïbÇ≈àÍâÒì]Ç∑ÇÈÇ©")]
+    private float rotateSecond = 10f;
+
     private float initTransformY;
 
     // Start is called before the first frame update
@@ -27,7 +30,10 @@ public class FlyItem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var rot = 360f * Time.deltaTime / rotateSecond;
+
         // Mathf.PingPong(éûä‘,è„â∫ç∑)
         transform.position = new Vector3(transform.position.x, initTransformY + Mathf.PingPong(Time.time * UpDownSpeed, Difference), transform.position.z);
+        transform.Rotate(0f, rot, 0f);
     }
 }

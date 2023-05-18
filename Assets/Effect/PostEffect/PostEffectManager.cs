@@ -111,7 +111,7 @@ public class PostEffectManager : MonoBehaviour
 
         Timer += Time.deltaTime;
 
-        Debug.Log(vignette.intensity.value);
+        //Debug.Log(vignette.intensity.value);
     }
 }
 

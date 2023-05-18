@@ -63,6 +63,8 @@ public class HaveCrystal : MonoBehaviour
                     anim1.Play("AccentNumber", 0, 0);
                     anim2.Play("AccentNumber", 0, 0);
                 }
+
+                Debug.Log("ƒNƒŠƒXƒ^ƒ‹Žæ“¾");
             }
         }
     }
