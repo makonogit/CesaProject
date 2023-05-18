@@ -66,7 +66,7 @@ public class GiveScene : MonoBehaviour
     }
     private void Update()
     {
-        if (State == StateID.PLAYABLE)
+        if (State != StateID.UNPLAYABLE)
         {
             _crystal.SetActive(false);
         }
