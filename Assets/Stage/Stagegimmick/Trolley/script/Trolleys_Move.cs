@@ -312,7 +312,7 @@ public class Trolleys_Move : MonoBehaviour
             // 現在の状態が HAMMERではないなら
             if (!isStateHammer) return false;
             // 前の状態が POWER ではないなら
-            if (_oldState != Hammer.HammerState.POWER) return false;
+            if (_oldState == Hammer.HammerState.POWER) return false;
             return true;
         }
     }
