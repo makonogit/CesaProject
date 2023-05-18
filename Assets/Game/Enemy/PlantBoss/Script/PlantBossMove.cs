@@ -236,8 +236,8 @@ public class PlantBossMove : MonoBehaviour
                 //　リザルトに移行
                 if (!transform.Find("core").GetComponent<BreakCore>())
                 {
-                    transform.Find("core").gameObject.layer = 15;
-                    transform.Find("core").gameObject.AddComponent<BreakCore>();
+                   // transform.Find("core").gameObject.layer = 15;
+                   // transform.Find("core").gameObject.AddComponent<BreakCore>();
                 }
 
                 break;
@@ -265,8 +265,12 @@ public class PlantBossMove : MonoBehaviour
             Destroy(BodyColl);  //体のコライダーを消去
             Destroy(LeftFoot);
             Destroy(RightFoot);
-            transform.Find("core").GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-            transform.Find("Head").GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+            GameObject core = transform.Find("core").gameObject;
+            GameObject Head = transform.Find("Head").gameObject;
+            core.transform.parent = null;
+            Head.transform.parent = null;
+            core.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+            Head.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
             State = PlantBossMoveState.DETH;
         }
 
