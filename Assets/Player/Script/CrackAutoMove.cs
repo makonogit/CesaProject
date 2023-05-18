@@ -48,6 +48,7 @@ public class CrackAutoMove : MonoBehaviour
     Rigidbody2D thisrigidbody;          // このオブジェクトのrigitbody
     SpriteRenderer thisRenderer;        // このオブジェクトのspriterenderer
     CapsuleCollider2D thiscol;          // このオブジェクトのあたり判定
+    Vector2 colsize;                    // コライダーのサイズ
     Animator anim;                      // このオブジェクトのAnimator
 
     float Line = 1.0f;                  // ひびに入るアニメーション用変数
@@ -84,6 +85,8 @@ public class CrackAutoMove : MonoBehaviour
         thisrigidbody = GetComponent<Rigidbody2D>();
         thisRenderer = GetComponent<SpriteRenderer>();
         thiscol = GetComponent<CapsuleCollider2D>();
+        colsize = thiscol.size;
+
         // Animator取得
         anim = GetComponent<Animator>();
 
@@ -142,7 +145,7 @@ public class CrackAutoMove : MonoBehaviour
             case MoveState.CrackMove:
 
                 // 移動中は自分のあたり判定を無効化
-                thiscol.enabled = false;
+                thiscol.size = new Vector2(1.0f,1.0f);
                 
                 //始点・終点まで移動したら移動終了
                 if (MinPointNum == 0 || MinPointNum == 1)
@@ -228,7 +231,8 @@ public class CrackAutoMove : MonoBehaviour
                 thisrigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
                 // 自分のあたり判定を有効にする
-                thiscol.enabled = true;
+                //thiscol.enabled = true;
+                thiscol.size = colsize;
                 // アニメーション終了していたらMove,Jumpを再開
                 Jump.enabled = true;
                 InCrack = false;
