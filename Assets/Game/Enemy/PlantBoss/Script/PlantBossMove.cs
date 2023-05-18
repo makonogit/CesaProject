@@ -267,8 +267,8 @@ public class PlantBossMove : MonoBehaviour
             Destroy(RightFoot);
             GameObject core = transform.Find("core").gameObject;
             GameObject Head = transform.Find("Head").gameObject;
-            core.transform.parent = null;
-            Head.transform.parent = null;
+            core.GetComponent<BoxCollider2D>().isTrigger = false;
+            Head.GetComponent<BoxCollider2D>().isTrigger = false;
             core.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
             Head.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
             State = PlantBossMoveState.DETH;
