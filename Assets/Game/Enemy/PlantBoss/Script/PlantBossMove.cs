@@ -133,7 +133,7 @@ public class PlantBossMove : MonoBehaviour
         move = player.GetComponent<PlayerMove>();
         jump = player.GetComponent<New_PlayerJump>();
 
-        CreateenemyNum = 5; //常に5体出す
+        CreateenemyNum = 3; //常に3体出す
     }
 
     // Update is called once per frame
