@@ -53,6 +53,7 @@ public class Tutorial_2 : MonoBehaviour
         SandMove,     // 流砂の軌道を変える 3-3
         Trolley,      // トロッコ 4-3
         WindPipe,     // 風が吹くパイプ 5-2
+        FallPipe,     // 落下パイプ 5-3
     }
 
     public TutorialType type;
@@ -125,6 +126,9 @@ public class Tutorial_2 : MonoBehaviour
                         break;
                     case TutorialType.WindPipe:
                         anim.SetBool("WindPipe", true);
+                        break;
+                    case TutorialType.FallPipe:
+                        anim.SetBool("FallPipe", true);
                         break;
                     default:
                         break;
