@@ -45,7 +45,7 @@ public class PlantBossMove : MonoBehaviour
     private VibrationCamera vibration;      //振動用
     private bool vibration_once = false;            
     private float animtime = 0.0f;          //アニメーションTime 
-
+    
     [SerializeField,Header("攻撃間隔")]
     private float AttackTime;
 
@@ -421,5 +421,11 @@ public class PlantBossMove : MonoBehaviour
     {
         State = PlantBossMoveState.STARTANIM;
     }
+ 
     
+    public PlantBossMoveState GetState()
+    {
+        return State;
+    }
+
 }
