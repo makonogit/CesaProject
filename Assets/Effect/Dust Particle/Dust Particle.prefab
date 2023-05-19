@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &812351755614964142
+--- !u!1 &526671679881186893
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 812351755614964129}
-  - component: {fileID: 812351755614964128}
-  - component: {fileID: 812351755614964143}
+  - component: {fileID: 2027795964253039497}
+  - component: {fileID: 8186858672989178126}
+  - component: {fileID: 7506549841805457504}
   m_Layer: 0
   m_Name: Dust Particle
   m_TagString: Untagged
@@ -18,28 +18,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &812351755614964129
+--- !u!4 &2027795964253039497
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812351755614964142}
+  m_GameObject: {fileID: 526671679881186893}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -0.2, y: -0.39226788, z: -1.29}
+  m_LocalPosition: {x: -2.0857348, y: 3.8313248, z: -1.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!198 &812351755614964128
+--- !u!198 &8186858672989178126
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812351755614964142}
+  m_GameObject: {fileID: 526671679881186893}
   serializedVersion: 8
   lengthInSec: 5
   simulationSpeed: 1
@@ -4740,14 +4740,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &812351755614964143
+--- !u!199 &7506549841805457504
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812351755614964142}
+  m_GameObject: {fileID: 526671679881186893}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
