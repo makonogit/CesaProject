@@ -58,6 +58,7 @@ public class Hammer : MonoBehaviour
         POWER,      // 溜め技
         DIRECTION,  // 方向決定
         HAMMER,     // 叩く
+        
     }
 
     public HammerState hammerstate;     // 状態管理用変数
@@ -164,8 +165,8 @@ public class Hammer : MonoBehaviour
 
                     Move.SetMovement(true);
                     // 角度の可視化
-                    TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                    AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                    //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                    //AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
                     // 前回の座標との距離を求める
                     float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
@@ -224,8 +225,8 @@ public class Hammer : MonoBehaviour
                     //　移動できないようにする
                     Move.SetMovement(false);
                     // 照準の非表示
-                    TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                    AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                    //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                    //AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
                     if (!AddCrackFlg)
                     //-----------------------------------------------------------------------------
@@ -270,7 +271,7 @@ public class Hammer : MonoBehaviour
                         CrackPointList[1] = new Vector2(CrackPointList[0].x + (MoveLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (MoveLength * Mathf.Sin(angle * (Mathf.PI / 180))));
 
                         //デバッグ用
-                        //AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
+                        AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
 
 
                         //----------------------------------------------
@@ -384,19 +385,6 @@ public class Hammer : MonoBehaviour
                     CrackPointList[1] = new Vector2(CrackPointList[0].x + (CrackLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (CrackLength * Mathf.Sin(angle * (Mathf.PI / 180))));
                     Vector2 ArmPos = new Vector2(CrackPointList[0].x + (0.6f * Mathf.Cos(angle * (Mathf.PI / 180))), (CrackPointList[0].y - 0.25f) + (0.6f * Mathf.Sin(angle * (Mathf.PI / 180))));
 
-                    if (AddCrackFlg)
-                    {
-                        // 角度の非表示
-                        //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                        //AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                    }
-                    else
-                    {
-                        // 角度の可視化
-                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                        AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                    }
-
                     //デバッグ用
                     AngleTest.transform.position = new Vector3(ArmPos.x, ArmPos.y, 0.0f);
                     AngleTest.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -428,8 +416,8 @@ public class Hammer : MonoBehaviour
                             // Point座標を初期化
                             AngleTest.transform.position = CrackPointList[0];
                             // 照準非表示
-                            TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                            AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                            //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                            //AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                             //// Point座標を初期化
                             //AngleTest.transform.position = CrackPointList[0];
                             //　移動制限解除
@@ -543,6 +531,19 @@ public class Hammer : MonoBehaviour
                 renderer.sortingOrder = 10;
                 TargtRenderer.sortingOrder = 11;
            }
+
+            if (anim.GetBool("accumulate") || anim.GetBool("angle"))
+            {
+                // 角度の可視化
+                TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            }
+            else
+            {
+                // 角度の可視化
+                TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+            }
 
             // ためアニメーション
             anim.SetBool("accumulate",(hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION) && angle != 90);
