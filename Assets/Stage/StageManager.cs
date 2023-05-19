@@ -12,7 +12,6 @@ public class StageChild
 
     public GameObject StageObj;   // ステージ管理
     public Vector2 PlayerPos;     // プレイヤー初期座標
-
     
     public StageChild(GameObject _stageobj,Vector2 _playerpos)
     {
@@ -20,8 +19,8 @@ public class StageChild
         PlayerPos = _playerpos;
     }
 
-
 }
+
 
 [System.Serializable]
 public class Stage
@@ -34,11 +33,15 @@ public class Stage
     }
 }
 
+
 public class StageManager : MonoBehaviour
 {
-
+    
     [Header("ステージ管理")]
     public List<Stage> stage;
+
+    [Header("クリアステージ管理")]
+    public List<Stage> clearstage;
 
     //-----------------------------------------
     //　外部取得
@@ -54,8 +57,18 @@ public class StageManager : MonoBehaviour
         if (StageData.StageNum > -1 && StageData.AreaNum > -1 &&
             StageData.StageNum < 5 && StageData.AreaNum < 5)
         {
-           GameObject obj = Instantiate(stage[StageData.AreaNum].stage[StageData.StageNum].StageObj);
-           obj.transform.parent = this.transform;                  //子オブジェクトにする
+
+            GameObject obj;
+            if (StageData.ClearFlg[StageData.AreaNum, StageData.StageNum])
+            {
+                obj = Instantiate(clearstage[StageData.AreaNum].stage[StageData.StageNum].StageObj);
+            }
+            else
+            {
+                obj = Instantiate(stage[StageData.AreaNum].stage[StageData.StageNum].StageObj);
+            }
+
+            obj.transform.parent = this.transform;                  //子オブジェクトにする
 
         }
         else
@@ -87,11 +100,15 @@ public class StageManager : MonoBehaviour
 
 public static class StageData
 {
-  
+
     [Header("エリア番号")]
     public static int AreaNum = 0;        // エリアの番号を持つ変数
     [Header("ステージ番号")]
     public static int StageNum = 0;       // ステージの番号を持つ変数
+
+    public static bool[,] ClearFlg = new bool[5, 5]
+    { {false,false,false,false,false },{ false,false,false,false,false},{false,false,false,false,false },
+        {false,false,false,false,false },{ false,false,false,false,false} };   // クリアステージ
 
 }
 
@@ -123,6 +140,24 @@ public class SetStage {
     public int GetAreaNum()
     {
         return StageData.AreaNum;
+    }
+
+    //----------------------------------------------
+    //　クリアしたかを獲得する関数
+    //  引数：エリア番号、ステージ番号
+    //　戻り値：クリアフラグ
+    public bool GetClearFlg(int _area,int _stage)
+    {
+        return StageData.ClearFlg[_area,_stage];
+    }
+
+    //----------------------------------------------
+    //　クリアしたかを設定する関数
+    //  引数：エリア番号、ステージ番号
+    //　戻り値：なし
+    public void SetClearFlg(int _area, int _stage)
+    {
+        StageData.ClearFlg[_area,_stage] = true;
     }
 
 }

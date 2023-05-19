@@ -11,6 +11,9 @@ public class ClearStageManager : MonoBehaviour
     [SerializeField,Header("エリア")]
     private List<AreaCrack> _areas;
 
+    [SerializeField, Header("ステージマネージャー")]
+    private StageManager _stagemanager;
+
     //必要のもの
     // クリアしたか
     private Clear clear;
@@ -71,6 +74,8 @@ public class ClearStageManager : MonoBehaviour
 
         // クリアしたステージの設定
         _areas[_areaNum].LoadStage(_stageNum);
+
+        setmanager.SetClearFlg(_areaNum, _stageNum);
 
         // クリアしたエリアの設定
         for (int i = 0; i < _areaNum; i++) _areas[i].AreaClear();

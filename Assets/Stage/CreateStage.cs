@@ -10,6 +10,7 @@ public class CreateStage : MonoBehaviour
 {
     //-------------------------
     //ステージ生成用のデータ
+  
     StageManager _stagemanager;
 
     // Start is called before the first frame update
