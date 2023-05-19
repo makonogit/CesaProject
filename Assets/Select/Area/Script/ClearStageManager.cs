@@ -39,7 +39,9 @@ public class ClearStageManager : MonoBehaviour
         {
             int areaNum = setmanager.GetAreaNum();
             int stageNum = setmanager.GetStageNum();
-            
+
+            setmanager.SetClearFlg(areaNum, stageNum);
+
             //Debug.Log("エリア"+areaNum+"ステージ"+stageNum);
             _data._data.ClearStages += _areas[areaNum].ClearStage(stageNum);
             //Debug.Log(_data._data.ClearStages);
@@ -74,8 +76,6 @@ public class ClearStageManager : MonoBehaviour
 
         // クリアしたステージの設定
         _areas[_areaNum].LoadStage(_stageNum);
-
-        setmanager.SetClearFlg(_areaNum, _stageNum);
 
         // クリアしたエリアの設定
         for (int i = 0; i < _areaNum; i++) _areas[i].AreaClear();
