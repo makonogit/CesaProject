@@ -36,7 +36,7 @@ public class SaveData
     private void Start()
     {
         // パス名取得
-        filepath = Application.dataPath + "/" + fileName;
+        filepath = Application.persistentDataPath + "/" + fileName;
 
         // ファイルがないとき、ファイル作成
         if (!File.Exists(filepath))
@@ -66,7 +66,7 @@ public class SaveData
     public void Save(StatusData data)
     {
         // パス名取得
-        filepath = Application.dataPath + "/" + fileName;
+        filepath = Application.persistentDataPath + "/" + fileName;
 
         var fs = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
         string json = JsonUtility.ToJson(data);
@@ -84,6 +84,7 @@ public class SaveData
         rd.Close();
         return JsonUtility.FromJson<StatusData>(json);
     }
+
     private void OnDestroy()
     {
         Save(_data);
