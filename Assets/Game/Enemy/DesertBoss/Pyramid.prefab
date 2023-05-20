@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1233159618067469616}
   - component: {fileID: 4600518739454350392}
   - component: {fileID: -476259819584825689}
+  - component: {fileID: 3136008666829689219}
   m_Layer: 0
   m_Name: Pyramid
   m_TagString: Untagged
@@ -103,6 +104,7 @@ MonoBehaviour:
   CoreObj: {fileID: 2616426373369771336, guid: 497f036d574addc4980eae511d558aef, type: 3}
   EnemyObj: {fileID: 28137785612753870, guid: f2b0c95af9ca52b499de701cc87fe149, type: 3}
   BreakPyramid: {fileID: 21300000, guid: 805598bf42543fd46b1bb849a3021c72, type: 3}
+  anim: {fileID: 3136008666829689219}
   InsideNum: 0
   MoveSpeed: 4
   Breaked: 0
@@ -170,3 +172,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9962016d3b145084a9bda383e07eb12e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &3136008666829689219
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074200519829471128}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b2ff86572cfe1f94e818dfc2106b7e0d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

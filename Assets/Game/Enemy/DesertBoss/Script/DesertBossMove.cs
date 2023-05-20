@@ -25,6 +25,8 @@ public class DesertBossMove : MonoBehaviour
     [SerializeField,Header("ピラミッド管理オブジェクト")]
     private GameObject[] Pyramid_parent;  // ピラミッド生成親オブジェクト
 
+    private Transform PlayerTrans;      //プレイヤーのTransform
+
     private int CoreNum;            // コアの番号
 
     [SerializeField, Header("ピラミッドが出てくるまでの時間")]
@@ -44,7 +46,7 @@ public class DesertBossMove : MonoBehaviour
     private VibrationCamera vibration;  //　振動用
     public bool Setvibratioin = false;
 
-    private float Appearance_probability;        //　出現確率
+    private int Appearance_probability;        //　出現確率
 
     [SerializeField,Header("ゲート")]
     private GateThrough gate;
@@ -69,6 +71,10 @@ public class DesertBossMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //------------------------------------------------------
+        //　プレイヤーのTransformを取得
+        PlayerTrans = GameObject.Find("player").transform;
+
         //----------------------------------------------------
         //　生成するピラミッドの数分ゲームオブジェクトを追加
        
@@ -98,7 +104,7 @@ public class DesertBossMove : MonoBehaviour
         vibration = GameObject.Find("Main Camera").GetComponent<VibrationCamera>();
         //LightEffect = transform.GetChild(0).transform.GetChild(0).GetComponent<Directing_BossLight>();  //爆発用
 
-        Appearance_probability = 20.0f; //20％の確率に設定
+        Appearance_probability = 0;
 
         // 何もしていない状態にする
         BossState = DesertBossState.NONE;
@@ -171,8 +177,12 @@ public class DesertBossMove : MonoBehaviour
         // プレイヤーがゲートを超えたら
         if(gate.Throgh && BossState==DesertBossState.NONE)
         {
-            // 敵が出てくる演出
-            BossState = DesertBossState.IDLE;
+            float Distance = Vector3.Magnitude(PlayerTrans.position - transform.position);
+            if (Distance < 8.0f)
+            {
+                // 敵が出てくる演出
+                BossState = DesertBossState.IDLE;
+            }
 
         }
 
@@ -278,6 +288,7 @@ public class DesertBossMove : MonoBehaviour
         //-----------------------------------------
         //　出現するピラミッドを設定
         do {
+            
             for (int i = 0; i < 3; i++)
             {
                 //-----------------------------
@@ -296,7 +307,11 @@ public class DesertBossMove : MonoBehaviour
             //  3つとも壊れていたらもう一度設定
         } while ( (PyramidList.transform.GetChild(Appearance[0]).gameObject.GetComponent<PyramidData>().Breaked && 
                    PyramidList.transform.GetChild(Appearance[1]).gameObject.GetComponent<PyramidData>().Breaked &&
-                   PyramidList.transform.GetChild(Appearance[2]).gameObject.GetComponent<PyramidData>().Breaked));
+                   PyramidList.transform.GetChild(Appearance[2]).gameObject.GetComponent<PyramidData>().Breaked)||
+                   (Appearance_probability < 2 &&
+                   (PyramidList.transform.GetChild(Appearance[0]).gameObject.GetComponent<PyramidData>().InsideNum == 1 ||
+                   PyramidList.transform.GetChild(Appearance[1]).gameObject.GetComponent<PyramidData>().InsideNum == 1 ||
+                   PyramidList.transform.GetChild(Appearance[2]).gameObject.GetComponent<PyramidData>().InsideNum == 1)));
 
 
         //-----------------------------------------------------------
@@ -320,7 +335,7 @@ public class DesertBossMove : MonoBehaviour
         obj2.transform.parent = Pyramid_parent[1].transform;
         obj3.transform.parent = Pyramid_parent[2].transform;
 
-
+        Appearance_probability++;
         BossState = DesertBossState.IDLE;
     }
 

@@ -25,6 +25,9 @@ public class PyramidData : MonoBehaviour
     [SerializeField, Header("壊れたスプライト")]
     private Sprite BreakPyramid;
 
+    [SerializeField, Header("壊れるアニメーション")]
+    Animator anim;
+
     [Header("中身 0:敵 1:コア　触らないで")]
     public int InsideNum = 0;
 
@@ -69,7 +72,7 @@ public class PyramidData : MonoBehaviour
         if (Clean)
         {
             
-            if(Ypos <= 0.5f)
+            if(Ypos <= -0.5f)
             {
                 Clean = false;
                 renderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
@@ -90,6 +93,7 @@ public class PyramidData : MonoBehaviour
             }
         }
 
+        
         //　座標更新
         transform.localPosition = new Vector3(transform.localPosition.x, Ypos, 0.0f);
 
@@ -109,24 +113,8 @@ public class PyramidData : MonoBehaviour
                 creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING))
             {
                 Destroy(collision.gameObject);
-                renderer.sprite = BreakPyramid;
-                BossMove.Breaking = true;
-                Breaked = true;
-                
-
-                if (InsideNum == 0)
-                {
-                    GameObject obj = Instantiate(EnemyObj, transform.position, Quaternion.identity);
-                    GameObject Enemy = GameObject.Find("BossEnemyManager");
-                    obj.transform.parent = Enemy.transform;
-                }
-                else
-                {
-                    GameObject obj = Instantiate(CoreObj,transform.position,Quaternion.identity);
-                    //GameObject Core = GameObject.Find("Core");
-                    //obj.transform.parent = Core.transform;
-                    BossMove.BossState = DesertBossMove.DesertBossState.END;    // 攻撃終了
-                }
+                anim.SetBool("Break", true);
+                //renderer.sprite = BreakPyramid;
             }
         }
 
@@ -154,6 +142,27 @@ public class PyramidData : MonoBehaviour
         {
             MoveFlg = false;
 
+        }
+    }
+
+    void CreatePyramidCore()
+    {
+        Destroy(GetComponent<HitCollider>());
+        BossMove.Breaking = true;
+        Breaked = true;
+
+        if (InsideNum == 0)
+        {
+            GameObject obj = Instantiate(EnemyObj, transform.position, Quaternion.identity);
+            GameObject Enemy = GameObject.Find("BossEnemyManager");
+            obj.transform.parent = Enemy.transform;
+        }
+        else
+        {
+            GameObject obj = Instantiate(CoreObj, transform.position, Quaternion.identity);
+            //GameObject Core = GameObject.Find("Core");
+            //obj.transform.parent = Core.transform;
+            BossMove.BossState = DesertBossMove.DesertBossState.END;    // 攻撃終了
         }
     }
 
