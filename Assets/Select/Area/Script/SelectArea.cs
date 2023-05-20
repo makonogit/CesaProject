@@ -89,10 +89,10 @@ public class SelectArea : MonoBehaviour
         this.transform.position = new Vector3(_positions[_nowArea].position.x, _positions[_nowArea].position.y, transform.position.z);
 
         HorizonLimit = GameObject.Find("HorizonLimit").GetComponent<EdgeCollider2D>();
-        //List<Vector2> point = new List<Vector2>(2);
-        //point.Add(new Vector2(-9.0f + (36.0f * _nowArea), HorizonLimit.points[0].y));
-        //point.Add(new Vector2(9.0f + (36.0f * _nowArea), HorizonLimit.points[1].y));
-        //HorizonLimit.SetPoints(point);
+        List<Vector2> point = new List<Vector2>(2);
+        point.Add(new Vector2(-9.0f + (36.0f * _nowArea), HorizonLimit.points[0].y));
+        point.Add(new Vector2(27.0f + (36.0f * _nowArea), HorizonLimit.points[1].y));
+        HorizonLimit.SetPoints(point);
 
     }
 
