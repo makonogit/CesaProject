@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 0}
+  move: {fileID: 0}
 --- !u!1 &477006129297580018
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,6 +622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 0}
+  move: {fileID: 0}
 --- !u!1 &3161056585693366977
 GameObject:
   m_ObjectHideFlags: 0
@@ -5581,6 +5583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 7682666071012274771}
+  move: {fileID: 0}
 --- !u!1 &4847751547626050347
 GameObject:
   m_ObjectHideFlags: 0
@@ -5729,6 +5732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 0}
+  move: {fileID: 0}
 --- !u!1 &5553121108623185148
 GameObject:
   m_ObjectHideFlags: 0
@@ -5897,7 +5901,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &485187738084786439
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5905,7 +5909,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5564902955772398401}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -6043,7 +6047,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1275960332166902379
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6051,7 +6055,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6087776728379661588}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -6168,6 +6172,7 @@ MonoBehaviour:
   WindPipe: []
   pipe: {fileID: 0}
   AttackTime: 5
+  BodyColl: {fileID: 0}
   LeftArm: {fileID: 566848972774915383}
   RightArm: {fileID: 7119569411151779671}
   LeftFoot: {fileID: 7475848252783081729}
@@ -6536,6 +6541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 0}
+  move: {fileID: 0}
 --- !u!1 &7119569411151779671
 GameObject:
   m_ObjectHideFlags: 0
@@ -6717,6 +6723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 0}
+  move: {fileID: 0}
 --- !u!1 &7608146009871163379
 GameObject:
   m_ObjectHideFlags: 0
@@ -6865,6 +6872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 0}
+  move: {fileID: 0}
 --- !u!1 &7949030438236778804
 GameObject:
   m_ObjectHideFlags: 0
@@ -7453,6 +7461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 0}
+  move: {fileID: 0}
 --- !u!1 &8910767104562427181
 GameObject:
   m_ObjectHideFlags: 0
