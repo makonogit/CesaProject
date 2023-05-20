@@ -20,6 +20,7 @@ public class AreaCrack : MonoBehaviour
     [SerializeField, Header("クリスタル")]
     private GameObject Crystal;
     private SpriteRenderer _crys;
+    private SpriteRenderer _crys2;
     [SerializeField, Header("ひびの生成時間")]
     private AnimationCurve _creatTime;
     //private float _creatTime = 0.1f;
@@ -93,6 +94,9 @@ public class AreaCrack : MonoBehaviour
     {
         _crys = Crystal.GetComponent<SpriteRenderer>();
         if (_crys == null) Debug.LogError("SpriteRendererのコンポーネントを取得できませんでした。");
+
+        _crys2 = Crystal.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        if (_crys2 == null) Debug.LogError("SpriteRendererのコンポーネントを取得できませんでした。");
 
         _eddgeC2D = GetComponent<EdgeCollider2D>();
         if (_eddgeC2D == null) Debug.LogError("EdgeCollider2Dのコンポーネントを取得できませんでした。");
@@ -217,6 +221,7 @@ public class AreaCrack : MonoBehaviour
     {
         // 結晶非表示
         _crys.enabled = false;
+        _crys2.enabled = false;
         // 全ひびの非表示
         for (int i =0; i < _cracks.Count; i++) _cracks[i].SetActive(false);
         
