@@ -11,6 +11,8 @@ public class Sand : MonoBehaviour
     //-------------------------------
     //　変数宣言
     private SpriteRenderer thismat;  //このオブジェクトのRender
+    private Transform thistrans;
+    private float MaxScale;
     public bool SandHit = false;   //砂が当たっているか   
     [SerializeField]private float Line = 0.0f;
     
@@ -28,6 +30,8 @@ public class Sand : MonoBehaviour
     {
         thismat = GetComponent<SpriteRenderer>();
         thiscoll = GetComponent<PolygonCollider2D>();
+        thistrans = transform;
+        MaxScale = thistrans.localScale.y;  //縦の長さを取得
         MaxSand = thiscoll.points[0].y;
     }
 
@@ -37,18 +41,42 @@ public class Sand : MonoBehaviour
         //砂が当たっていたら徐々に見えるようにする
         if (SandHit)
         {
-            if (Line < 1.0f)
             {
-                Line += accumulatespeed * Time.deltaTime;
-                Vector2[] points = thiscoll.points;
-                
-                if (points[0].y < MaxSand)
-                {
-                    points[0].y += Line;
-                    points[1].y += Line;
-                }
+                //if (Line< 1.0f)
+                //{
+                //    Line += accumulatespeed * Time.deltaTime;
+                //    Vector2[] points = thiscoll.points;
 
-                thiscoll.SetPath(0, points);
+                //    if (points[0].y < MaxSand)
+                //    {
+                //        points[0].y += Line;
+                //        points[1].y += Line;
+                //    }
+
+                //    thiscoll.SetPath(0, points);
+                //}
+                //else
+                //{
+                //    gameObject.layer = 10;
+                //}
+            }
+
+            if(thistrans.localScale.y < MaxScale)
+            {
+                thistrans.localScale = new Vector3(thistrans.localScale.x, thistrans.localScale.y + accumulatespeed * Time.deltaTime, thistrans.localScale.z);
+                thistrans.localPosition = new Vector3(thistrans.localPosition.x, thistrans.localPosition.y + (accumulatespeed / 2) * Time.deltaTime, thistrans.localPosition.z);
+
+                //// コライダーの設定
+                //Vector2[] points = thiscoll.points;
+
+                //if (points[0].y < MaxSand)
+                //{
+                //    points[0].y += accumulatespeed * Time.deltaTime;
+                //    points[1].y += accumulatespeed * Time.deltaTime;
+                //}
+
+                //thiscoll.SetPath(0, points);
+
             }
             else
             {
@@ -58,22 +86,47 @@ public class Sand : MonoBehaviour
         }
         else
         {
-            if (Line > 0.0f)
             {
-                Line -= accumulatespeed * Time.deltaTime;
-                Vector2[] points = thiscoll.points;
-                if (points[0].y > points[2].y)
-                {
-                    points[0].y -= Line;
-                    points[1].y -= Line;
-                }
-                thiscoll.SetPath(0, points);
+                //if (Line > 0.0f)
+                //{
+                //    Line -= accumulatespeed * Time.deltaTime;
+                //    Vector2[] points = thiscoll.points;
+                //    if (points[0].y > points[2].y)
+                //    {
+                //        points[0].y -= Line;
+                //        points[1].y -= Line;
+                //    }
+                //    thiscoll.SetPath(0, points);
+
+                //}
+                //else
+                //{
+                //    gameObject.layer = 15;
+                //}
+            }
+
+            if (thistrans.localScale.y > 0.1f)
+            {
+                thistrans.localScale = new Vector3(thistrans.localScale.x, thistrans.localScale.y - accumulatespeed * Time.deltaTime, thistrans.localScale.z);
+                thistrans.localPosition = new Vector3(thistrans.localPosition.x, thistrans.localPosition.y - (accumulatespeed / 2) * Time.deltaTime, thistrans.localPosition.z);
+
+                //// コライダーの設定
+                //Vector2[] points = thiscoll.points;
+
+                //if (points[0].y > points[2].y + 0.1f)
+                //{
+                //    points[0].y -= (accumulatespeed / 2) * Time.deltaTime;
+                //    points[1].y -= (accumulatespeed / 2) * Time.deltaTime;
+                //}
+
+                //thiscoll.SetPath(0, points);
 
             }
             else
             {
                 gameObject.layer = 15;
             }
+
         }
 
         // 0.5秒待って当たり判定を無効に
@@ -91,7 +144,7 @@ public class Sand : MonoBehaviour
             SandHit = false;
         }
 
-        thismat.material.SetFloat("_Border", Line);
+        //thismat.material.SetFloat("_Border", Line);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
