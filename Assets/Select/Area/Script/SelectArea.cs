@@ -204,10 +204,12 @@ public class SelectArea : MonoBehaviour
             // 現在地と目標地の間の座標を求める。
             Vector3 _pos = transform.position * 0.95f;
             _pos += new Vector3(_positions[_nextArea].position.x, _positions[_nextArea].position.y, transform.position.z) * (1.0f - 0.95f);
+
             // 現在地の更新
             this.transform.position = _pos;
             // 現在地と目標地の距離を入れる。
             Distance = _pos - new Vector3(_positions[_nextArea].position.x, _positions[_nextArea].position.y, transform.position.z);
+
         }
         
         // エリア移動完了
@@ -229,18 +231,23 @@ public class SelectArea : MonoBehaviour
                 point.Add(new Vector2(HorizonLimit.points[0].x, HorizonLimit.points[0].y));
                 point.Add(new Vector2(OldLimitpoint.x, HorizonLimit.points[1].y));
                 HorizonLimit.SetPoints(point);
-                if (_nowArea > 0)
-                {
-                    if(HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
+
+                if (HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
                     //プレイヤーの座標変更
-                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[1].x - 2.0f, HorizonLimit.points[_nowArea % 2].y, 1.0f);
-                }
-                else
-                {
-                    if (HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
-                        //プレイヤーの座標変更
-                        GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 2.0f, HorizonLimit.points[1].y - 0.5f, 1.0f);
-                }
+                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 2.0f, HorizonLimit.points[1].y - 0.5f, 1.0f);
+
+                //if (_nowArea > 0)
+                //{
+                //    if(HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
+                //    //プレイヤーの座標変更
+                //    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[1].x - 2.0f, HorizonLimit.points[1].y - 0.5f, 1.0f);
+                //}
+                //else
+                //{
+                //    if (HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
+                //        //プレイヤーの座標変更
+                //        GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 2.0f, HorizonLimit.points[1].y - 0.5f, 1.0f);
+                //}
                 LeftMove = false;
             }
             if (RightMove)
@@ -254,7 +261,7 @@ public class SelectArea : MonoBehaviour
                 if (HorizonLimit.points[0].x > GameObject.Find("player").transform.position.x)
                 {
                     //プレイヤーの座標変更
-                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 2.0f, HorizonLimit.points[(_nowArea + 1) % 2].y, 1.0f);
+                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 2.0f, HorizonLimit.points[1].y - 0.5f, 1.0f);
                 }
                 RightMove = false;
             }

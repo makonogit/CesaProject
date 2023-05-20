@@ -170,8 +170,8 @@ public class AreaCrack : MonoBehaviour
         Quaternion quat = Quaternion.Euler(-90, 0.0f, 0.0f);// 角度
         // パーティクル生成
         for (int i = 0; i < 2; i++) Instantiate(particle, this.transform.position, quat);
-        
-        
+        for (int i = 0; i < 2; i++) Instantiate(particle, this.transform.position + new Vector3(transform.position.x + 19.2f,transform.position.y), quat);
+
         _isBreaked = true;
     }
 
