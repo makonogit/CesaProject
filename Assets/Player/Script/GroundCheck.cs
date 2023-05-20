@@ -176,11 +176,11 @@ public class GroundCheck : MonoBehaviour
     }
 
     //‰~Œ`‚ÌƒŒƒC•`‰æ
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)thistransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere((Vector2)thistransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius);
+    //}
 
     public int GetRayNum()
     {

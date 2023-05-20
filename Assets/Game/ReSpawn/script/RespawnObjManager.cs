@@ -28,7 +28,7 @@ public class RespawnObjManager : MonoBehaviour
         // リスポーンしたときに一度だけ実行
         if(Respawn == true)
         {
-            Debug.Log("リスポーンマネージャー");
+            //Debug.Log("リスポーンマネージャー");
 
             // リスポーン時にリセットしたいオブジェクトの初期化関数呼び出し
             _initScoreCrystal.ScoreCrystalInitStart(); // スコアクリスタル

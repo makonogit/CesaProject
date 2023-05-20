@@ -16,7 +16,7 @@ public class RespawnBossInit : MonoBehaviour
     [SerializeField,Header("氷ボス")] private IceBoss _iceMove;                     // 氷ボス
     [SerializeField,Header("砂漠ボス")] private DesertBossMove _desertMove;         // 砂漠ボス
     [SerializeField,Header("洞窟ボス")] private StateManager_CaveBoss _caveMove;    // 洞窟ボス
-    [SerializeField,Header("工場ボス")] private PlantBossInit _plantMove;           // 工場ボス
+    [SerializeField,Header("工場ボス")] private PlantBossInit _plantInit;           // 工場ボス
 
     // 現在いるステージを取得するため
     private SetStage setStage = new SetStage();
@@ -53,7 +53,7 @@ public class RespawnBossInit : MonoBehaviour
                     if (_iceMove != null)
                     {
                         // 氷ボス初期化
-
+                        _iceMove.Init();
                     }
                     else
                     {
@@ -106,10 +106,10 @@ public class RespawnBossInit : MonoBehaviour
                 if (StageNum == 4)
                 {
 
-                    if (_plantMove != null)
+                    if (_plantInit != null)
                     {
                         // 工場ボス初期化
-                        
+                        _plantInit.init();
                     }
                     else
                     {
