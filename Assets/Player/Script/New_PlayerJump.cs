@@ -57,6 +57,9 @@ public class New_PlayerJump : MonoBehaviour
     // HitStop中かどうか
     public bool hitStop = false;
 
+    // プレイヤーの向き
+    private PlayerInputManager.DIRECTION oldDire;
+
     //----------------------------------------------------------------------------------------------------------
     // 外部取得
 
@@ -96,22 +99,10 @@ public class New_PlayerJump : MonoBehaviour
     {
         // 入力系
         _trigger = _playerInputManager.GetComponent<InputTrigger>();
-
-        //// ステータス系
-        //_playerStatus = GetComponent<PlayerStatas>();
-
-        //// 座標系
-        //_thisTransform = GetComponent<Transform>();
-
-        // この比率がよい Deltatime利用により正しく値を入れるようにした5/11
-        //gravity = JumpPower / 10f;
-
-        ////------------追加担当：菅--------------------
-        //crackmove = GetComponent<CrackAutoMove>();
+        oldDire = _playerInputManager.Direction;
 
         //--------------------------------------
         // 追加担当者:中川直登
-        //_runDust = GetComponent<RunDustParticle>();
         if (_runDust == null) Debug.LogError("RunDustParticleのコンポーネントを取得できませんでした。");
         //--------------------------------------
     }
@@ -119,6 +110,14 @@ public class New_PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (oldDire != _playerInputManager.Direction)
+        {
+            groundCheckOffsetX = -groundCheckOffsetX;
+        }
+
+        // 前フレームの向きとして保存
+        oldDire = _playerInputManager.Direction;
+
         //--------------------------------------
         // 追加担当者:中川直登
         RunDust();
@@ -136,8 +135,6 @@ public class New_PlayerJump : MonoBehaviour
 
             // 接地判定を得る
             isGround = IsGroundCircle();
-            // 地面と触れているレイの数を取得
-            //RayNum = ground.GetRayNum();
             // 天井の衝突判定を得る
             isOverhead = overhead.IsOverHead();
 
@@ -238,7 +235,7 @@ public class New_PlayerJump : MonoBehaviour
             }
 
             // ジャンプの処理が終わって地面についたとき(ジャンプが入力されたフレームでは入らない)
-            if (isGround == true && ImFly == true && (TriggerJumpflg == false) && count > 50)
+            if (isGround == true && ImFly == true && (TriggerJumpflg == false))
             {                                                                  
                 // 一連のジャンプ終了                                          
                 ImFly = false;                                                 
@@ -262,7 +259,7 @@ public class New_PlayerJump : MonoBehaviour
             }
                                                                                
             // バグ回避用 だけどできないいいいいいいいいいいいいいいいいいい
-            count++;
+            //count++;
 
             //if (TriggerJumpflg == true)
             //{
@@ -324,5 +321,11 @@ public class New_PlayerJump : MonoBehaviour
         //Debug.Log(Return);
 
         return Return;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere((Vector2)_thisTransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius);
     }
 }

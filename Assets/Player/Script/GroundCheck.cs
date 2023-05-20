@@ -11,9 +11,6 @@ public class GroundCheck : MonoBehaviour
     //----------------------------------------------------------------------------------------------------------
     // - 変数宣言 -
 
-    private string groundTag = "Ground"; // Groundタグ名を文字列型で持っている変数
-    private string iceTag = "Ice";
-
     public bool isGround = false; // 最終的に接地しているかしていないかの情報を持つ
     public float AdjustY = 0.03f; // 画像の空白部分を無視するための調整用変数
     public float AdjustX = 0.41f; // 画像の空白部分を無視するための調整用変数
@@ -25,7 +22,6 @@ public class GroundCheck : MonoBehaviour
     [SerializeField] float groundCheckOffsetX = 0.45f; // オフセット
     [SerializeField] float groundCheckOffsetY = 0.45f; // オフセット
     [SerializeField] float groundCheckDistance = 0.2f; // キャストする最大距離 （円の半径＋この変数）がキャスト距離？
-    [SerializeField] LayerMask CircleLayerMask = 1 << 10; // 判定するレイヤー
 
     //-----------追加担当：中川-----------
     [SerializeField, Tooltip("レイの長さを調整します。")]
@@ -180,11 +176,11 @@ public class GroundCheck : MonoBehaviour
     }
 
     //円形のレイ描画
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireSphere((Vector2)thistransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius);
-    //}
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere((Vector2)thistransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius);
+    }
 
     public int GetRayNum()
     {
