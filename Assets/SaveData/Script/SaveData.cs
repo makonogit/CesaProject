@@ -102,6 +102,7 @@ public class StatusData
 { 
     public string Name;
     public int ClearStages;
+    
     public StatusData() 
     { 
         Name = "テストデータ";

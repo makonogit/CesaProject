@@ -55,11 +55,12 @@ public class SelectArea : MonoBehaviour
 
     private SetStage setmanager;
 
-    //　カメラ制限
     private EdgeCollider2D HorizonLimit;
     private Vector2 OldLimitpoint;
-    private bool LeftMove = false;
-    private bool RightMove = false;
+    
+    public bool LeftMove = false;
+    
+    public bool RightMove = false;
 
     // Playerの移動
     [SerializeField] private Transform Playertrans;
@@ -88,10 +89,10 @@ public class SelectArea : MonoBehaviour
         this.transform.position = new Vector3(_positions[_nowArea].position.x, _positions[_nowArea].position.y, transform.position.z);
 
         HorizonLimit = GameObject.Find("HorizonLimit").GetComponent<EdgeCollider2D>();
-        List<Vector2> point = new List<Vector2>(2);
-        point.Add(new Vector2(-9.0f + (18.0f * _nowArea), HorizonLimit.points[0].y));
-        point.Add(new Vector2(9.0f + (18.0f * _nowArea), HorizonLimit.points[1].y));
-        HorizonLimit.SetPoints(point);
+        //List<Vector2> point = new List<Vector2>(2);
+        //point.Add(new Vector2(-9.0f + (36.0f * _nowArea), HorizonLimit.points[0].y));
+        //point.Add(new Vector2(9.0f + (36.0f * _nowArea), HorizonLimit.points[1].y));
+        //HorizonLimit.SetPoints(point);
 
     }
 
@@ -150,7 +151,7 @@ public class SelectArea : MonoBehaviour
                 OldLimitpoint = HorizonLimit.points[1];
                 List<Vector2> point = new List<Vector2>(2);
                 point.Add(new Vector2(HorizonLimit.points[0].x, HorizonLimit.points[0].y));
-                point.Add(new Vector2(9.0f + (18.0f * _nextArea), HorizonLimit.points[1].y));
+                point.Add(new Vector2(27.0f + (36.0f * _nextArea), HorizonLimit.points[1].y));
                 HorizonLimit.SetPoints(point);
             }
         }
@@ -168,7 +169,7 @@ public class SelectArea : MonoBehaviour
                 LeftMove = true;
                 OldLimitpoint = HorizonLimit.points[0];
                 List<Vector2> point = new List<Vector2>(2);
-                point.Add(new Vector2((18.0f * _nextArea) - 9.0f, HorizonLimit.points[0].y));
+                point.Add(new Vector2((36.0f * _nextArea) - 9.0f, HorizonLimit.points[0].y));
                 point.Add(new Vector2(HorizonLimit.points[1].x, HorizonLimit.points[1].y));
                 HorizonLimit.SetPoints(point);
             }
@@ -257,7 +258,7 @@ public class SelectArea : MonoBehaviour
                 }
                 RightMove = false;
             }
-
+        
         }
         //_nowNextUiTime += Time.deltaTime;        _nowPrevUiTime += Time.deltaTime;
     }
@@ -307,7 +308,7 @@ public class SelectArea : MonoBehaviour
                 OldLimitpoint = HorizonLimit.points[1];
                 List<Vector2> point = new List<Vector2>(2);
                 point.Add(new Vector2(HorizonLimit.points[0].x, HorizonLimit.points[0].y));
-                point.Add(new Vector2(9.0f + (18.0f * _nextArea), HorizonLimit.points[1].y));
+                point.Add(new Vector2(27.0f + (36.0f * _nextArea), HorizonLimit.points[1].y));
                 HorizonLimit.SetPoints(point);
             }
         }
@@ -321,7 +322,7 @@ public class SelectArea : MonoBehaviour
                 LeftMove = true;
                 OldLimitpoint = HorizonLimit.points[0];
                 List<Vector2> point = new List<Vector2>(2);
-                point.Add(new Vector2((18.0f * _nextArea) - 9.0f, HorizonLimit.points[0].y));
+                point.Add(new Vector2((36.0f * _nextArea) - 9.0f, HorizonLimit.points[0].y));
                 point.Add(new Vector2(HorizonLimit.points[1].x, HorizonLimit.points[1].y));
                 HorizonLimit.SetPoints(point);
             }
