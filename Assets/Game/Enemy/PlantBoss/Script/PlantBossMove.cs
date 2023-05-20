@@ -52,7 +52,7 @@ public class PlantBossMove : MonoBehaviour
     private float AttackTimeMesure = 0.0f;    //攻撃時間計測用
 
     private GameObject EnemyManager;          //生成した敵管理用
-    private PolygonCollider2D BodyColl;       //体のコライダー
+    [SerializeField]private PolygonCollider2D BodyColl;       //体のコライダー
 
     //　画面端座標
     private Vector2 LeftDownPos;  //　左下
@@ -100,7 +100,7 @@ public class PlantBossMove : MonoBehaviour
         //LeftFoot = GameObject.Find("LeftKnees").gameObject;
         //RightFoot = GameObject.Find("Rightknees").gameObject;
 
-        BodyColl = GetComponent<PolygonCollider2D>();
+        //BodyColl = GetComponent<PolygonCollider2D>();
         if(BodyColl == null)
         {
             Debug.Log("体の当たり判定がない");
@@ -247,35 +247,47 @@ public class PlantBossMove : MonoBehaviour
         }
 
         //　両足消えたらコライダーのサイズを変更
-        if (LeftFoot == null && RightFoot == null)
+        if (LeftFoot == null && RightFoot == null && State != PlantBossMoveState.DETH)
         {
             Debug.Log("壊れた");
-            Vector2[] point = BodyColl.points;
-            point[2].y = -1.4f;
-            point[3].y = -1.4f;
+            if (BodyColl != null)
+            {
+                Vector2[] point = BodyColl.points;
+                point[2].y = -1.4f;
+                point[3].y = -1.4f;
 
-            BodyColl.SetPath(0, point);
-
+                BodyColl.SetPath(0, point);
+            }
         }
 
         //　全て破壊されたら死亡
         if (LeftArm.transform.childCount == 0 && RightArm.transform.childCount == 0 &&
-            LeftFoot == null && RightFoot == null)
+            LeftFoot == null && RightFoot == null && State != PlantBossMoveState.DETH)
         {
             Destroy(BodyColl);  //体のコライダーを消去
-            Destroy(LeftFoot);
-            Destroy(RightFoot);
+            //Destroy(LeftFoot);
+            //Destroy(RightFoot);
+            Destroy(anim);
+            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY;
             GameObject core = transform.Find("core").gameObject;
             GameObject Head = transform.Find("Head").gameObject;
+            GameObject lfoot = transform.Find("LeftFoot1").gameObject;
+            GameObject rfoot = transform.Find("RightFoot1").gameObject;
             core.GetComponent<BoxCollider2D>().isTrigger = false;
             Head.GetComponent<BoxCollider2D>().isTrigger = false;
             core.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+            lfoot.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+            rfoot.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+            core.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
             Head.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
             State = PlantBossMoveState.DETH;
         }
 
-        anim.SetBool("Walk", State == PlantBossMoveState.WALK);
-        anim.SetBool("Attack", State == PlantBossMoveState.ATTACK || State == PlantBossMoveState.STARTANIM);
+        if (State != PlantBossMoveState.DETH)
+        {
+            anim.SetBool("Walk", State == PlantBossMoveState.WALK);
+            anim.SetBool("Attack", State == PlantBossMoveState.ATTACK || State == PlantBossMoveState.STARTANIM);
+        }
         //LeftArm.anim.SetBool("LeftAttack", State == PlantBossMoveState.ATTACK);
         //RightArm.anim.SetBool("RightAttack", State == PlantBossMoveState.ATTACK);
     }
