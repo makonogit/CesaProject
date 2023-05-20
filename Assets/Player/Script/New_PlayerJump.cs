@@ -323,9 +323,9 @@ public class New_PlayerJump : MonoBehaviour
         return Return;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)_thisTransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere((Vector2)_thisTransform.position + groundCheckOffsetX * Vector2.right + groundCheckOffsetY * Vector2.up, groundCheckRadius);
+    //}
 }
