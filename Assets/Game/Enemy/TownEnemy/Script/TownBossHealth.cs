@@ -18,8 +18,7 @@ public class TownBossHealth : MonoBehaviour
     private CrackCreater order = null;
 
     // 外部取得
-    private GameObject Boss;
-    private TownBossMove bossMove;
+    [SerializeField] private TownBossMove bossMove;
 
     // SE関係
     private GameObject SE;
@@ -27,10 +26,10 @@ public class TownBossHealth : MonoBehaviour
 
     private void Start()
     {
-        // ボス探す
-        Boss = GameObject.Find("TownBoss");
-        // ボスの行動スクリプト取得
-        bossMove = Boss.GetComponent<TownBossMove>();
+        //// ボス探す
+        //Boss = GameObject.Find("TownBoss");
+        //// ボスの行動スクリプト取得
+        //bossMove = Boss.GetComponent<TownBossMove>();
 
         BossHealth = MaxBossHealth;
         //BossHealth = 2;
@@ -59,27 +58,28 @@ public class TownBossHealth : MonoBehaviour
             {
                 if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
                 {
-                    // 体力-1
-                    BossHealth--;
-
-                    // ひび消す
-                    Destroy(collision.gameObject);
-
-                    // ボスの体力が0以下になったら
-                    if (BossHealth <= 0)
+                    // プレイヤー未発見状態でないなら
+                    if (bossMove.EnemyAI != TownBossMove.AIState.None)
                     {
-                        // AIの状態を変化
-                        bossMove.EnemyAI = TownBossMove.AIState.Death; // 撃破状態
-                        enemySE.KillBossSet();
-                    }
-                    else
-                    {
-                        // SEならす
-                        enemySE.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
-                    }
+                        // 体力-1
+                        BossHealth--;
 
-                    // 連続被弾を防ぐため次の行動まで無敵
-                    //bossMove.Damaged = true;
+                        // ひび消す
+                        Destroy(collision.gameObject);
+
+                        // ボスの体力が0以下になったら
+                        if (BossHealth <= 0)
+                        {
+                            // AIの状態を変化
+                            bossMove.EnemyAI = TownBossMove.AIState.Death; // 撃破状態
+                            enemySE.KillBossSet();
+                        }
+                        else
+                        {
+                            // SEならす
+                            enemySE.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
+                        }
+                    }
                 }
             }
         }

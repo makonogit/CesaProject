@@ -42,6 +42,9 @@ public class TownBossMove : MonoBehaviour
     private float WalkTimer = 0f;
     bool raycast = false; // レイを飛ばすかどうか
 
+    // プレイヤーに気づく距離
+    [SerializeField] private float MoveStartDistance = 120f;
+    
     // 突進用変数
     [Header("突進時のスピード")]public float RammingSpeed = 5.0f;     // 突進時の移動速度
     [Header("突進準備時間")] public float PreRammingTime = 3.0f;      // 突進準備時間
@@ -55,7 +58,6 @@ public class TownBossMove : MonoBehaviour
     private float sandSmokeAdjustX_left;   // ボスの向きで値を変える必要があるため
     [SerializeField,Header("座標調整用(右足)")] private Vector2 sandSmokeOffset_right; // 座標調整用(右足)
     private float sandSmokeAdjustX_right;  // ボスの向きで値を変える必要があるため
-    [SerializeField] private GameObject ConfusionAnim; // 星がくるくるする
 
     //// かけら飛ばし用変数
     //private float CreateShardsNeedTime = 0.6f;   // かけらを作るのにかかる時間
@@ -189,6 +191,8 @@ public class TownBossMove : MonoBehaviour
 
         // 三平方の定理
         Distance = SubX * SubX + SubY * SubY; // プレイヤーとの距離が求まった
+
+        Debug.Log(Distance);
 
         // ボスの向いている方向をセット
         SetDirection();
@@ -588,7 +592,7 @@ public class TownBossMove : MonoBehaviour
     private void None()
     {
         // 一定距離までプレイヤーが近づいたら
-        if(Distance < 120f)
+        if(Distance < MoveStartDistance)
         {
             EnemyAI = AIState.Lottery;
         }

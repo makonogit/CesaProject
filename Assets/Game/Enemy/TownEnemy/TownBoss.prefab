@@ -275,6 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxBossHealth: 3
+  bossMove: {fileID: 763984895660101168}
 --- !u!114 &11445009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +370,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 20
   m_Sprite: {fileID: 295008757, guid: c6f39daf289c75e46b2fe7a030684cba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -432,13 +433,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WalkSpeed: 2
   WalkTime: 4
+  MoveStartDistance: 232
   RammingSpeed: 3
   PreRammingTime: 1.5
   RammingWaitTime: 5
   SandSmoke: {fileID: 243570918075163221, guid: 5302c711727f7c54a84d98a9f78bd99a, type: 3}
   sandSmokeOffset_left: {x: 1.2, y: -1.9}
   sandSmokeOffset_right: {x: 0, y: -1.9}
-  ConfusionAnim: {fileID: 0}
   EnemyAI: 0
 --- !u!95 &1357279458
 Animator:

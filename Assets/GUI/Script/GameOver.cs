@@ -219,7 +219,7 @@ public class GameOver : MonoBehaviour
                     _fadeout = true;
                 }
 
-                // 待ち時間中にリスポーンと巻き戻し処理(未実装)
+                // 待ち時間中にリスポーンと巻き戻し処理
                 if(fadestate == Fade.FadeState.FadeOut_Finish || WaitTime)
                 {
                     // 初回のみ
@@ -230,7 +230,7 @@ public class GameOver : MonoBehaviour
                         // リスポーン時のステータスを取得
                         //RespawnStatus _respawnSta = playerStatus.GetRespawnStatus();
 
-                        Debug.Log("リスポーン");
+                        //Debug.Log("リスポーン");
 
                         // 保存されているリスポーン座標をプレイヤーに代入
                         playerTransform.position = playerStatus.respawnStatus.PlayerRespawnPos;

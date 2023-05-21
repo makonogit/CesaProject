@@ -46,6 +46,7 @@ public class GateThrough : MonoBehaviour
             Destroy(Gateobj);   //生成したゲートを削除
             boss_bgm.Stop();    
             stage_bgm.Play();
+            stage_bgm.volume = 0f; // 二宮追加
             camera.InitCamera();    //カメラ位置初期化
             Throgh = false;     //通り抜けフラグの初期化
 

@@ -22,6 +22,12 @@ public class PlayBgm : MonoBehaviour
     // 二宮追加
     [Header("ループに切り替わる時間")]
     public float LoopStartTime;
+    [SerializeField,Header("音が変化するスピード")] private float changeSpeed = 1f;
+
+    private bool Init = false;
+
+    private GameObject BossPassage;
+    private GettingSmallerBGM _smallerBGM;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +47,20 @@ public class PlayBgm : MonoBehaviour
     {
         //Debug.Log(Intro.time);
 
+        if(Init == false)
+        {
+            // ボス通路
+            BossPassage = GameObject.Find("BossPassage");
+            if (BossPassage != null)
+            {
+                _smallerBGM = BossPassage.GetComponent<GettingSmallerBGM>();
+            }
+
+            Debug.Log(_smallerBGM);
+
+            Init = true;
+        }
+
         // イントロが再生が終了したら
         if (Intro.time > LoopStartTime && Intro.isPlaying)
         {
@@ -50,6 +70,34 @@ public class PlayBgm : MonoBehaviour
             Loop.Play();
 
         }
-        
+
+        if (_smallerBGM != null)
+        {
+            // ボスの通路に入ったら
+            if (_smallerBGM.GetInPassageArea() == true)
+            {
+                // ループBGMのvolumeを徐々に0に近づける
+                if (Loop.volume > 0f)
+                {
+                    Loop.volume -= Time.deltaTime * changeSpeed;
+                }
+                else
+                {
+                    Loop.volume = 0f;
+                }
+            }
+            else
+            {
+                // ループBGMのvolumeを徐々に0.2に近づける
+                if (Loop.volume < 0.2f)
+                {
+                    Loop.volume += Time.deltaTime * changeSpeed;
+                }
+                else
+                {
+                    Loop.volume = 0.2f;
+                }
+            }
+        }
     }
 }
