@@ -24,7 +24,7 @@ public class PipeAnim : MonoBehaviour
         rightpipe = transform.GetChild(1).transform;
 
         lefttarget = new Vector3(leftpipe.position.x + 2, leftpipe.position.y, leftpipe.position.z);
-        righttarget = new Vector3(rightpipe.position.x - 3.5f, rightpipe.position.y, rightpipe.position.z);
+        righttarget = new Vector3(rightpipe.position.x - 1.6f, rightpipe.position.y, rightpipe.position.z);
     }
 
     // Update is called once per frame

@@ -355,7 +355,7 @@ public class PlantBossMove : MonoBehaviour
                 Vector3 scale = obj.transform.localScale;
                 Vector3 pos = obj.transform.localPosition;
                 obj.transform.localScale = Direction == 0 ? scale : new Vector3(-scale.x, scale.y, scale.z);
-                obj.transform.localPosition = Direction == 0 ? pos : new Vector3(pos.x + 17.62f, pos.y, pos.z);
+                obj.transform.localPosition = Direction == 0 ? new Vector3(pos.x + 1, pos.y, pos.z) : new Vector3(pos.x + 16.62f, pos.y, pos.z);
                 obj.transform.parent = EnemyManager.transform;  //敵管理用オブジェクトの子オブジェクトに
                 if (MoveEnemy >= 0)
                 {
