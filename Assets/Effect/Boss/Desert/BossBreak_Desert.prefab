@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -222,7 +222,7 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.31132078, g: 0.10329533, b: 0, a: 1}
+      minColor: {r: 0.2830189, g: 0.09314546, b: 0, a: 1}
       maxColor: {r: 1, g: 0.9697046, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
@@ -285,8 +285,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 15
-      minScalar: 10
+      scalar: 50
+      minScalar: 35
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4761,7 +4761,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 74e32cb423c98bd4cbe060ef5924349b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4803,10 +4803,10 @@ ParticleSystemRenderer:
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
   m_VertexStreams: 00010304
-  m_Mesh: {fileID: -4575734979276873811, guid: 987093e6ff70a5347a302d96445c5d33, type: 3}
-  m_Mesh1: {fileID: 2190622540023885545, guid: 987093e6ff70a5347a302d96445c5d33, type: 3}
-  m_Mesh2: {fileID: 2443237146360861554, guid: 987093e6ff70a5347a302d96445c5d33, type: 3}
-  m_Mesh3: {fileID: -2124705421725058983, guid: a58f1938db7161049b9dbcd0615c1359, type: 3}
+  m_Mesh: {fileID: 6750382564028958556, guid: 75902cb7300dc3e49b187c317ff246fd, type: 3}
+  m_Mesh1: {fileID: 4340719902593992495, guid: 75902cb7300dc3e49b187c317ff246fd, type: 3}
+  m_Mesh2: {fileID: -8356141293787191088, guid: 75902cb7300dc3e49b187c317ff246fd, type: 3}
+  m_Mesh3: {fileID: 1881125385508326797, guid: 8362b244ceb70634baaa283aa5eb7b87, type: 3}
   m_MeshWeighting: 1
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
