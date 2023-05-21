@@ -84,6 +84,7 @@ public class IceBoss : MonoBehaviour
         // Animatorのコンポーネント取得
         _anim = GetComponent<Animator>();
         if (_anim == null) Debug.LogError("Animatorのコンポーネントを取得できませんでした。");
+        Init();
     }
 
     // Update is called once per frame
