@@ -213,4 +213,9 @@ public class VibrationCamera : MonoBehaviour
         if (gamepad != null) gamepad.SetMotorSpeeds(vibration_speed, vibration_speed);
       
     }
+
+    public bool GetVibration()
+    {
+        return Vibration;
+    }
 }

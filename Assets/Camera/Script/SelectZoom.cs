@@ -26,6 +26,7 @@ public class SelectZoom : MonoBehaviour
     // 外部取得
     private GameObject Camera; // ゲームオブジェクトMainCamera
     Camera Cam; // カメラスクリプトを取得
+    VibrationCamera vibration;
 
     //　カメラの移動制限用Collider
     private EdgeCollider2D HorizonLimit;    //水平方向
@@ -55,8 +56,10 @@ public class SelectZoom : MonoBehaviour
         Camera = GameObject.Find("Main Camera");
         // カメラスクリプトを取得
         Cam = Camera.GetComponent<Camera>();
+        vibration = Camera.GetComponent<VibrationCamera>();
 
         cameraTransform = Camera.transform;
+
 
         //player = GameObject.Find("player");
         //playertans = player.transform;
@@ -97,7 +100,6 @@ public class SelectZoom : MonoBehaviour
            
         }
 
-
         // 現在の座標を取得
         Vector3 NowPos = new Vector3(TargetTrans.position.x, TargetTrans.position.y, transform.position.z);
 
@@ -106,14 +108,12 @@ public class SelectZoom : MonoBehaviour
             // カメラの座標をターゲットを基に更新
             cameraTransform.position = new Vector3(NowPos.x, NowPos.y, cameraTransform.position.z);
 
-
             //----------------------------------------------------------------------
             // 画面端の座標を取得
             float Max_x = HorizonLimit.points[1].x - Cam.orthographicSize * 1.78f;
             float Min_x = HorizonLimit.points[0].x + Cam.orthographicSize * 1.78f;
             float Max_y = VerticalLimit.points[0].y - Cam.orthographicSize;
             float Min_y = VerticalLimit.points[1].y + Cam.orthographicSize;
-
 
             //Vector2 CameraPos = cameraTransform.position;
 
@@ -122,9 +122,11 @@ public class SelectZoom : MonoBehaviour
             NowPos.x = Mathf.Clamp(NowPos.x, Min_x, Max_x);
             NowPos.y = Mathf.Clamp(NowPos.y, Min_y, Max_y);
 
-
             // カメラの座標をターゲットを基に更新
             cameraTransform.position = new Vector3(NowPos.x, NowPos.y, cameraTransform.position.z);
+
         }
+        
+
     }
 }
