@@ -38,8 +38,7 @@ public class PlantBossMove : MonoBehaviour
     [SerializeField, Header("生成した敵の座標リスト")]
     private List<Vector2> EnemyPos;
 
-    [SerializeField, Header("風パイプ")]
-    private List<WindCrystal> WindPipe;
+    private List<WindCrystal> WindPipe = new List<WindCrystal>();
 
     [SerializeField] GameObject pipe;       //アニメーション用パイプ
     private VibrationCamera vibration;      //振動用
@@ -104,6 +103,13 @@ public class PlantBossMove : MonoBehaviour
         if(BodyColl == null)
         {
             Debug.Log("体の当たり判定がない");
+        }
+
+        // パイプを取得
+        GameObject pipe = GameObject.Find("BossWindPipe");
+        for(int i = 0; i < pipe.transform.childCount; i++)
+        {
+            WindPipe.Add(pipe.transform.GetChild(i).GetComponent<WindCrystal>());
         }
 
         //　Animatorを取得
