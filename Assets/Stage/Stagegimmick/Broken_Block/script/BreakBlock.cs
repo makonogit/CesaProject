@@ -43,6 +43,8 @@ public class BreakBlock : MonoBehaviour
 
     [SerializeField] private Material defaultMat;
 
+    private GetCrystal getCrystal; // クリスタル取得時のパーティクル出現用
+
     private void Start()
     {
         SEObj = GameObject.Find("BlockSE");
@@ -65,6 +67,10 @@ public class BreakBlock : MonoBehaviour
         {
             Crystal = transform.GetChild(3).gameObject;
         }
+
+        // クリスタルが飛んでいく演出用
+        getCrystal = GameObject.Find("GetCrystal").GetComponent<GetCrystal>();
+        if (getCrystal == null) Debug.LogError("GetCrystalコンポーネントを取得できませんでした。");
     }
 
     private void Update()
@@ -99,19 +105,14 @@ public class BreakBlock : MonoBehaviour
                         // ひびを消す
                         Destroy(collision.gameObject);
 
-                        //壊れるパーティクルの再生
-                        BreakParticle.Play();
-                        if (CrystalNum > 0)
-                        {
-                            CrystalPoint.transform.position = Player.transform.position;
-                            CrystalParticle.Play();
-                        }
+                        //if (CrystalNum > 0)
+                        //{
+                        //    CrystalPoint.transform.position = Player.transform.position;
+                        //    CrystalParticle.Play();
+                        //}
 
                         // 壊れるブロックの処理用関数呼び出し
                         Func_BreakBlock();
-
-                        //クリスタルを付与
-                        statas.SetCrystal(statas.GetCrystal() + CrystalNum);
                     }
                 }
             }
@@ -120,7 +121,10 @@ public class BreakBlock : MonoBehaviour
     
     public void Func_BreakBlock()
     {
-        if(tag == "Ice")
+        //壊れるパーティクルの再生
+        BreakParticle.Play();
+
+        if (tag == "Ice")
         {
             PlaySound.PlayerGimmickSE(GimmickPlay_2.GimmickSE2List.ICEBLOCK);
 
@@ -136,6 +140,12 @@ public class BreakBlock : MonoBehaviour
             anim.SetBool("breakRock", true);
         }
         
+        // クリスタルの個数分エフェクト生成
+        for(int i = 0; i < CrystalNum; i++)
+        {
+            getCrystal.Creat();
+        }
+
         if (Crystal != null)
         {
             Destroy(Crystal);
@@ -153,6 +163,9 @@ public class BreakBlock : MonoBehaviour
         }
         //Destroy(GetComponent<PolygonCollider2D>());
         //Destroy(GetComponent<BoxCollider2D>());
+
+        //クリスタルを付与
+        statas.SetCrystal(statas.GetCrystal() + CrystalNum);
 
         Break = true;
     }

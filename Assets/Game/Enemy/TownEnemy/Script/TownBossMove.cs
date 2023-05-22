@@ -192,7 +192,7 @@ public class TownBossMove : MonoBehaviour
         // 三平方の定理
         Distance = SubX * SubX + SubY * SubY; // プレイヤーとの距離が求まった
 
-        Debug.Log(Distance);
+        //Debug.Log(Distance);
 
         // ボスの向いている方向をセット
         SetDirection();

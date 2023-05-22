@@ -64,7 +64,10 @@ public class HaveCrystal : MonoBehaviour
     public void AnimationGetCrystal()
     {
         // クリスタル所持数を増やす
-        status.SetCrystal(status.GetCrystal() + Crystal.crystalNum);
+        if (Crystal != null)
+        {
+            status.SetCrystal(status.GetCrystal() + Crystal.crystalNum);
+        }
 
         // クリスタル取得時のアニメーション
         anim1.SetBool("get", true);
