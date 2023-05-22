@@ -88,7 +88,7 @@ public class CameraZoom : MonoBehaviour
 
                 if (breakstage.GetBreakStage() == true)
                 {
-                    Debug.Log("zoom");
+                    //Debug.Log("zoom");
                     // ズーム後のカメラ描画サイズになるまで徐々にズームインしていく
                     if (NowCameraSize > ZoomCameraSize)
                     {

@@ -195,49 +195,49 @@ public class ResultManager : MonoBehaviour
 
         if (start.x * 2 > distance.x * flameCnt)
         {
-            if(flameCnt % flame == 0)
-            {
-                // ランダムに形、座標、大きさ、回転率を取得する
-                int rndDebris = Random.Range(0, 3);
-                int rndX = Random.Range(0, 10);
-                int rndY = Random.Range(0, 10);
-                int rndSizeX = Random.Range(1, 10);
-                int rndSizeY = Random.Range(1, 10);
-                int rndRot = Random.Range(1, 360);
+            //if(flameCnt % flame == 0)
+            //{
+            //    // ランダムに形、座標、大きさ、回転率を取得する
+            //    int rndDebris = Random.Range(0, 3);
+            //    int rndX = Random.Range(0, 10);
+            //    int rndY = Random.Range(0, 10);
+            //    int rndSizeX = Random.Range(1, 10);
+            //    int rndSizeY = Random.Range(1, 10);
+            //    int rndRot = Random.Range(1, 360);
 
-                // 破片を生成
-                GameObject debrisRist = Instantiate(debris[rndDebris], transform.position, Quaternion.identity);
+            //    // 破片を生成
+            //    GameObject debrisRist = Instantiate(debris[rndDebris], transform.position, Quaternion.identity);
 
-                // 生成した破片のtransformを取得
-                Transform objTransform = debrisRist.transform;
+            //    // 生成した破片のtransformを取得
+            //    Transform objTransform = debrisRist.transform;
 
-                // 座標を変更
-                Vector3 pos0;
-                pos0.x = objTransform.position.x + start.x - distance.x * flameCnt;
-                pos0.y = objTransform.position.y + start.y - distance.y * rndY;
-                pos0.z = -0.9f;
+            //    // 座標を変更
+            //    Vector3 pos0;
+            //    pos0.x = objTransform.position.x + start.x - distance.x * flameCnt;
+            //    pos0.y = objTransform.position.y + start.y - distance.y * rndY;
+            //    pos0.z = -0.9f;
 
-                // 大きさを変更
-                Vector3 scale;
-                scale.x = size * rndSizeX;
-                scale.y = size * rndSizeY;
-                scale.z = 1.0f;
+            //    // 大きさを変更
+            //    Vector3 scale;
+            //    scale.x = size * rndSizeX;
+            //    scale.y = size * rndSizeY;
+            //    scale.z = 1.0f;
 
-                // 回転を変更
-                Vector3 rot;
-                rot.x = 1.0f;
-                rot.y = 1.0f;
-                rot.z = 1.0f * rndRot;
+            //    // 回転を変更
+            //    Vector3 rot;
+            //    rot.x = 1.0f;
+            //    rot.y = 1.0f;
+            //    rot.z = 1.0f * rndRot;
 
-                // 変更を敵用する
-                objTransform.position = pos0;   // 座標
-                objTransform.localScale = scale;// 大きさ
-                objTransform.eulerAngles = rot; // 回転
+            //    // 変更を敵用する
+            //    objTransform.position = pos0;   // 座標
+            //    objTransform.localScale = scale;// 大きさ
+            //    objTransform.eulerAngles = rot; // 回転
 
-                // 破片の変数を初期化
-                debrisRist.GetComponent<ResultDebris>().move_speed = move_speed;
-                debrisRist.GetComponent<ResultDebris>().acceleration = acceleration;
-            }
+            //    // 破片の変数を初期化
+            //    debrisRist.GetComponent<ResultDebris>().move_speed = move_speed;
+            //    debrisRist.GetComponent<ResultDebris>().acceleration = acceleration;
+            //}
 
 
         }

@@ -46,6 +46,12 @@ public class DirectingBreakStage : MonoBehaviour
     public GameObject particle; // 壊れた破片が落ちてくるパーティクル
     private GameObject ParticleObj; // 作成したパーティクルを持つ変数
 
+    [SerializeField, Header("割れるエフェクト")]
+    private ScreenBreak _ScreenBreak;
+
+    [SerializeField, Header("背景クリスタル")]
+    private List<GameObject> Crystal;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -103,7 +109,7 @@ public class DirectingBreakStage : MonoBehaviour
                 //Debug.Log(control.GetTarget());
 
                 // このスクリプトを持つオブジェクトの子オブジェクトに
-                ParticleObj = Instantiate(particle, this.gameObject.transform.GetChild(0).gameObject.transform);
+               // ParticleObj = Instantiate(particle, this.gameObject.transform.GetChild(0).gameObject.transform);
             }
 
             // カメラ追従ターゲットの位置を目標地点まで加速しながら移動させる
@@ -134,7 +140,7 @@ public class DirectingBreakStage : MonoBehaviour
             // 背景クリスタルを消す割合
             FaderRate -= Time.deltaTime * BreakSpeed;
             // 背景クリスタルマテリアルの閾値を最大値から最小値に下げる
-            Mat.SetFloat("_Fader", FaderRate);
+            //Mat.SetFloat("_Fader", FaderRate);
 
             if (FaderRate <= 1f - CrystalNum_X * 2f)
             {
@@ -142,7 +148,13 @@ public class DirectingBreakStage : MonoBehaviour
                 BreakStage = true;
                 Debug.Log("ステージ破壊完了");
 
-                Destroy(ParticleObj);
+                for(int i = 0; i < Crystal.Count; i++)
+                {
+                    Destroy(Crystal[i]);
+                }
+
+                // Destroy(ParticleObj);
+                _ScreenBreak.enabled = true;
             }
 
             // カウント
@@ -150,6 +162,7 @@ public class DirectingBreakStage : MonoBehaviour
         }
         else
         {
+
             thisTransform.position = InitPos;
             control.SetTarget(player);
             timer = 0f;
