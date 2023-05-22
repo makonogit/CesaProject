@@ -12,10 +12,15 @@ public class ScreenBreak : MonoBehaviour
     // - 変数宣言 -
 
     // 破片関連
+    [SerializeField]
+    private GameObject BreakManager;        //破片管理オブジェクト
     [Header("破片のオブジェクト")]
     public GameObject[] debris = new GameObject[3];// 破片用オブジェクト
     [Header("破片の生成数")]
     public int amount = 50;                        // 破片の生成数
+    
+    [SerializeField,Header("画面端座標")]
+    private float screenedge;
 
     // 音関連
     [Header("効果音")]
@@ -27,6 +32,7 @@ public class ScreenBreak : MonoBehaviour
 
     void Start()
     {
+        BreakManager = GameObject.Find("BreakCrystal");
         // AudioSourceコンポーネントを取得
         audioSource = GetComponent<AudioSource>();
 
@@ -40,7 +46,7 @@ public class ScreenBreak : MonoBehaviour
     {
         //--------------------------------------------------------
         // 音声ファイルを再生する
-        //audioSource.PlayOneShot(sound1);
+        audioSource.PlayOneShot(sound1);
 
         //--------------------------------------------------------
         // 破片を生成する
@@ -48,11 +54,12 @@ public class ScreenBreak : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             // ランダムに形、座標、大きさ、回転率を決定する
-            int rndDebris = Random.Range(0, 3);
+            int rndDebris = Random.Range(1, 101) % 5;
             int rndX = Random.Range(1, 20);
             int rndY = Random.Range(1, 20);
-            int rndSizeX = Random.Range(1, 2);
-            int rndSizeY = Random.Range(1, 2);
+            float rndSizeX = Random.Range(0.1f, 2.0f);
+            float rndSizeY = Random.Range(0.1f, 2.0f);
+            float rndSize = Random.Range(0.1f, 2.0f);
             int rndRot = Random.Range(1, 360);
 
             // 破片を生成
@@ -61,15 +68,15 @@ public class ScreenBreak : MonoBehaviour
             Transform objTransform = obj.transform;
 
             // 座標を変更
-            Vector3 pos = objTransform.position;
-            pos.x = -8.0f + 0.8f * rndX;
+            Vector3 pos = objTransform.localPosition;
+            pos.x = screenedge + 0.8f * rndX;
             pos.y = -8.0f + 0.8f * rndY;
             pos.z = 0.0f;
 
             // 大きさを変更
             Vector3 scale;
-            scale.x = 1.0f * rndSizeX;
-            scale.y = 1.0f * rndSizeY;
+            scale.x = 0.6f * rndSize;
+            scale.y = 0.6f * rndSize;
             scale.z = 1.0f;
 
             // 回転を変更
@@ -79,9 +86,11 @@ public class ScreenBreak : MonoBehaviour
             rot.z = 1.0f * rndRot;
 
             // 変更を敵用する
-            objTransform.position = pos;    // 座標
+            objTransform.localPosition = pos;    // 座標
             objTransform.localScale = scale;// 大きさ
             objTransform.eulerAngles = rot; // 回転
+
+            obj.transform.parent = BreakManager.transform;
         }
     }
     //============================================================

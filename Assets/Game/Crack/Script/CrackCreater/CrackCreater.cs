@@ -239,7 +239,7 @@ public class CrackCreater : MonoBehaviour
                 Vector2 _vNailVec = _nailPoints[i] - _nailPoints[i + 1];
 
                 // 方向と距離でレイであたり判定
-                RaycastHit2D hit = Physics2D.Raycast(_nailPoints[i] + new Vector2(0.1f, 0.1f), _vNailVec.normalized * -1 , _vNailVec.magnitude, layerMask);
+                RaycastHit2D hit = Physics2D.Raycast(_nailPoints[i] + new Vector2(0.01f, 0.01f), _vNailVec.normalized * -1 , _vNailVec.magnitude, layerMask);
                 //Debug.DrawRay(_nailPoints[i], _vNailVec * -1, Color.red, 1000, false);
                 //Debug.Log("当たりました" +hit.collider.gameObject.name);
                 

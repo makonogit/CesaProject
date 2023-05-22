@@ -25,7 +25,7 @@ public class Debris : MonoBehaviour
 
         Transform objTransform = this.transform;
         startRot = objTransform.eulerAngles;
-        startPos = objTransform.position;
+        startPos = objTransform.localPosition;
     }
 
     //============================================================
@@ -37,27 +37,27 @@ public class Debris : MonoBehaviour
         // 落下時の挙動を制御する
 
         // 回転させる
-        startRot.z += 0.1f;
+        startRot.z += 2 * Time.deltaTime;
 
         // このオブジェクトのTransformを取得
         Transform objTransform = this.transform;
 
         // 座標の指定
-        Vector3 pos = objTransform.position;
+        Vector3 pos = objTransform.localPosition;
         // 真ん中より右なら右に移動する
         if(pos.x > 2.0f)
         {
-            pos.x += 0.03f;
+            pos.x += 1.0f * Time.deltaTime;
         }
         // 真ん中より左なら左に移動する
         if (pos.x < -2.0f)
         {
-            pos.x -= 0.03f;
+            pos.x -= 1.0f * Time.deltaTime;
         }
         // 最初は少し上に移動させる
         if (startPos.y > pos.y - 2.0f)
         {
-         pos.y += 0.01f;
+         pos.y += 3.0f * Time.deltaTime;
         }
 
         // 回転率の指定
@@ -68,7 +68,7 @@ public class Debris : MonoBehaviour
 
         // 座標、回転率を敵用する
         objTransform.eulerAngles = rot;
-        objTransform.position = pos;
+        objTransform.localPosition = pos;
 
         // 画面外ならこのオブジェクトを消去する
         if ((pos.y < -8.0f)|| (pos.y > 8.0f))
