@@ -272,7 +272,7 @@ public class Hammer : MonoBehaviour
                         CrackPointList[1] = new Vector2(CrackPointList[0].x + (MoveLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (MoveLength * Mathf.Sin(angle * (Mathf.PI / 180))));
 
                         //デバッグ用
-                        AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
+                        //AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
 
 
                     //----------------------------------------------
@@ -280,8 +280,8 @@ public class Hammer : MonoBehaviour
                     if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
                     {
                         // 照準の非表示
-                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                        AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                        //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                        //AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
                         vibration.SetControlerVibration();
                         
@@ -374,6 +374,7 @@ public class Hammer : MonoBehaviour
                                 {
                                     angle += 360;
                                 }
+                                
                             }
 
                             //　角度を45度ずつで管理
@@ -531,19 +532,19 @@ public class Hammer : MonoBehaviour
             // アニメーション関係
             if (TargtRenderer != null || renderer != null)
             {
-                if (angle >= 67.5 && angle <= 112.5)
+                if (angle >= 45 && angle <= 135)
                 {
                     renderer.sortingOrder = 8;
                     TargtRenderer.sortingOrder = 9;
                 }
                 else
                 {
-                    renderer.sortingOrder = 10;
-                    TargtRenderer.sortingOrder = 11;
+                    renderer.sortingOrder = 21;
+                    TargtRenderer.sortingOrder = 22;
                 }
             }
 
-            if ((anim.GetBool("accumulate") || anim.GetBool("angle")) && hammerstate != HammerState.POWER)
+            if (anim.GetBool("accumulate") || anim.GetBool("angle"))
             {
                 // 角度の可視化
                 TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
