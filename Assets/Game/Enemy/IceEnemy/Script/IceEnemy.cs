@@ -49,6 +49,9 @@ public class IceEnemy : MonoBehaviour
 
     private Vector3 StartPos;
 
+    [SerializeField]
+    private GameObject Particle;
+
     // Use this for initialization
     void Start()
     {
@@ -226,16 +229,18 @@ public class IceEnemy : MonoBehaviour
 
     private void Death() 
     {
-        if(_rb.simulated == false) 
-        {
-            _rb.simulated = true;
-        }
+        //if(_rb.simulated == false) 
+        //{
+        //    _rb.simulated = true;
+        //}
 
-        if (transform.childCount > 3)
-        {
-            Destroy(transform.GetChild(transform.childCount - 1).gameObject);
-        }
+        //if (transform.childCount > 3)
+        //{
+        //    Destroy(transform.GetChild(transform.childCount - 1).gameObject);
+        //}
 
+        Instantiate(Particle, transform.position,Quaternion.identity);   //　割れる演出をする
+        Destroy(gameObject);    //自分を消す
     }
 
     private void Flag() 
