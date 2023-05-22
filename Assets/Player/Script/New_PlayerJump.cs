@@ -28,10 +28,10 @@ public class New_PlayerJump : MonoBehaviour
     [SerializeField] private bool isGround = false; // 地面に触れているか
     [SerializeField] private bool isOverhead = false; // 天井に触れているか
     [Header("円形のレイ用")]
-    [SerializeField] float groundCheckRadius = 0.4f; // 半径
-    [SerializeField] float groundCheckOffsetX = 0.45f; // オフセット
-    [SerializeField] float groundCheckOffsetY = 0.45f; // オフセット
-    [SerializeField] float groundCheckDistance = 0.2f; // キャストする最大距離 （円の半径＋この変数）がキャスト距離？
+    [Header("半径"),SerializeField] float groundCheckRadius = 0.4f; // 半径
+    [Header("X微調整"),SerializeField] float groundCheckOffsetX = 0.45f; // オフセット
+    [Header("Y微調整"),SerializeField] float groundCheckOffsetY = 0.45f; // オフセット
+    [Header("0でいい"),SerializeField] float groundCheckDistance = 0.2f; // キャストする最大距離 （円の半径＋この変数）がキャスト距離？
     // 10 : Ground
     // 14 : Block
     // 17 : EnemyPipe
@@ -39,14 +39,13 @@ public class New_PlayerJump : MonoBehaviour
     // 21 : Trolley
     // 22 : IgnoreOverHead
     private LayerMask layerMask = 1 << 10 | 1 << 14 | 1 << 17 | 1 << 18 | 1 << 21 | 1 << 22;
-    [SerializeField, Tooltip("レイの長さを調整します。")]
-    private float _length = 0.01f;
 
     // 調整可能変数
     [Header("調整用変数")]
     [SerializeField] private float JumpPower = 3.0f; // ジャンプ力
     [SerializeField] private float gravity; // ジャンプパワーから引いてく重力
     [Header("慣性が働くフレーム数"),SerializeField] private int inertia = 5; // 慣性フレーム数
+    [Header("落下スピードの下限値"), SerializeField] private float LowerLimit = -100f; // 落下速度が速くなりすぎないように
 
     // デバッグ用変数
     private int count = 0;
@@ -213,6 +212,12 @@ public class New_PlayerJump : MonoBehaviour
 
                 // 重力の影響を受けさせる
                 MoveY -= gravity * Time.deltaTime;
+
+                // 落下速度下限値より小さくなったらそれより下の値にならない
+                if(MoveY < LowerLimit)
+                {
+                    MoveY = LowerLimit;
+                }
             }
 
             if (isGround == false && PressJumpflg == false)
@@ -235,7 +240,7 @@ public class New_PlayerJump : MonoBehaviour
             }
 
             // ジャンプの処理が終わって地面についたとき(ジャンプが入力されたフレームでは入らない)
-            if (isGround == true && ImFly == true && (TriggerJumpflg == false))
+            if (isGround == true && ImFly == true && (TriggerJumpflg == false) && count > 30)
             {                                                                  
                 // 一連のジャンプ終了                                          
                 ImFly = false;                                                 
@@ -259,7 +264,7 @@ public class New_PlayerJump : MonoBehaviour
             }
                                                                                
             // バグ回避用 だけどできないいいいいいいいいいいいいいいいいいい
-            //count++;
+            count++;
 
             //if (TriggerJumpflg == true)
             //{
@@ -268,7 +273,7 @@ public class New_PlayerJump : MonoBehaviour
             //if (count < 30/*MoveY != 0*/)
             //{
             //    Debug.Log(count);
-            //    //Debug.Log(MoveY);
+            //    Debug.Log(MoveY);
             //}
 
             //-------------------------------------------------------------------

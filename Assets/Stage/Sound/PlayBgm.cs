@@ -56,7 +56,7 @@ public class PlayBgm : MonoBehaviour
                 _smallerBGM = BossPassage.GetComponent<GettingSmallerBGM>();
             }
 
-            Debug.Log(_smallerBGM);
+            //Debug.Log(_smallerBGM);
 
             Init = true;
         }

@@ -19,7 +19,7 @@ public class DrawSandStorm : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(setstage.GetAreaNum());
+        //Debug.Log(setstage.GetAreaNum());
 
         // ’§íƒGƒŠƒA‚ª»”™‚È‚ç»—’•\¦
         if(setstage.GetAreaNum() == 2)

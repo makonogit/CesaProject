@@ -4915,7 +4915,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: gravity
-      value: 15
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: _trigger
@@ -4923,11 +4923,15 @@ PrefabInstance:
       objectReference: {fileID: 1978350436}
     - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: JumpPower
-      value: 9
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: LowerLimit
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: groundCheckRadius
-      value: 0.25
+      value: 0.325
       objectReference: {fileID: 0}
     - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: groundCheckOffsetX
@@ -4935,7 +4939,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: groundCheckOffsetY
-      value: -0.61
+      value: -0.52
       objectReference: {fileID: 0}
     - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: _playerInputManager
