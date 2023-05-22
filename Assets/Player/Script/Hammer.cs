@@ -34,7 +34,7 @@ public class Hammer : MonoBehaviour
     private bool AngleLook = false;
     public bool AddCrackFlg = false;            // ひびが伸びるフラグ
     private bool LongCrack = false;             // 伸びているひびなのか
-    private float angle;                        // ひびを入れる角度
+    private float angle = 0;                    // ひびを入れる角度
     public Vector2 OldFirstPoint;              // 前回の始点座標
    
     [Header("ひびの長さ")]
@@ -145,7 +145,10 @@ public class Hammer : MonoBehaviour
 
 
         // スプライトレンダーを取得
-        renderer = AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>();
+        if (AngleTest.transform.childCount > 0)
+        {
+            renderer = AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>();
+        }
 
     }
 
@@ -224,9 +227,6 @@ public class Hammer : MonoBehaviour
 
                     //　移動できないようにする
                     Move.SetMovement(false);
-                    // 照準の非表示
-                    //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                    //AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
                     if (!AddCrackFlg)
                     //-----------------------------------------------------------------------------
@@ -242,6 +242,7 @@ public class Hammer : MonoBehaviour
                             if (!AngleLook)
                             {
                                 angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
+                                //angle += LeftStick.y + 6.0f * Time.deltaTime;
 
                                 // 角度を正規化
                                 if (angle < 0)
@@ -254,7 +255,7 @@ public class Hammer : MonoBehaviour
                             //angle = (((int)angle / 20)) * 20.0f;
 
                             //　角度を45度ずつで管理
-                            angle = ((int)(angle / 22.5f)) * 22.5f;
+                            //angle = ((int)(angle / 22.5f)) * 22.5f;
 
 
                         }
@@ -274,64 +275,69 @@ public class Hammer : MonoBehaviour
                         AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
 
 
-                        //----------------------------------------------
-                        //　両方押されていたら長さを更新
-                        if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
-                        {
-                            vibration.SetControlerVibration();
-                            if (!AddCrackFlg)
-                            {
-                                MoveLength += CrackPower * Time.deltaTime;
-                            }
-                            else
-                            {
-                                AddPower += (CrackPower / 2) * Time.deltaTime;
-                            }
+                    //----------------------------------------------
+                    //　両方押されていたら長さを更新
+                    if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
+                    {
+                        // 照準の非表示
+                        TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                        AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
-                            StartHaloAnimation();//←追加者:中川直登 アニメーション開始
+                        vibration.SetControlerVibration();
+                        
+                        if (!AddCrackFlg)
+                        {
+                            MoveLength += CrackPower * Time.deltaTime;
                         }
                         else
                         {
-                            if (!AddCrackFlg) {
-                                if (MoveLength > CrackLength)
+                            AddPower += (CrackPower / 2) * Time.deltaTime;
+                        }
+
+                        StartHaloAnimation();//←追加者:中川直登 アニメーション開始
+                    }
+                    else
+                    {
+                        if (!AddCrackFlg) {
+                            if (MoveLength > CrackLength)
+                            {
+                                //　分割数を求める
+                                int segment = (int)(MoveLength / CrackLength);
+
+                                //　前方の分割
+                                for (int i = 0; i < segment / 2; i++)
                                 {
-                                    //　分割数を求める
-                                    int segment = (int)(MoveLength / CrackLength);
 
-                                    //　前方の分割
-                                    for (int i = 0; i < segment / 2; i++)
-                                    {
-
-                                        CrackPointList.Insert(1, Vector2.Lerp(CrackPointList[0], CrackPointList[1], 0.5f));
-                                        //Debug.Log(CrackPointList[1]);
-                                    }
-
-                                    //　後方の追加
-                                    for (int i = 0; i < segment - (segment / 2); i++)
-                                    {
-                                        CrackPointList.Insert(CrackPointList.Count - 1,
-                                            Vector2.Lerp(CrackPointList[CrackPointList.Count - 2], CrackPointList[CrackPointList.Count - 1], 0.5f));
-                                    }
+                                    CrackPointList.Insert(1, Vector2.Lerp(CrackPointList[0], CrackPointList[1], 0.5f));
+                                    //Debug.Log(CrackPointList[1]);
                                 }
 
+                                //　後方の追加
+                                for (int i = 0; i < segment - (segment / 2); i++)
+                                {
+                                    CrackPointList.Insert(CrackPointList.Count - 1,
+                                        Vector2.Lerp(CrackPointList[CrackPointList.Count - 2], CrackPointList[CrackPointList.Count - 1], 0.5f));
+                                }
                             }
 
-                            // SE再生
-                            vibration.SetVibration(0.5f);
-                            se.PlaySE_Crack1();
-                            se.PlayHammer();
-
-                            // ヒットストップ初期化
-                            playerStatus.SetHitStop(true);
-                            anim.speed = 0.02f;
-                            stopTime = 0.0f;
-
-                            MoveLength = CrackLength;   //　長さの初期化
-                                                        //　離されたら打ち込み状態にする
-                            hammerstate = HammerState.HAMMER;
-
-                            EndHaloAnimation();//←追加者:中川直登 アニメーション停止
                         }
+
+                        // SE再生
+                        vibration.SetVibration(0.5f);
+                        se.PlaySE_Crack1();
+                        se.PlayHammer();
+
+                        // ヒットストップ初期化
+                        playerStatus.SetHitStop(true);
+                        anim.speed = 0.02f;
+                        stopTime = 0.0f;
+
+                        MoveLength = CrackLength;   //　長さの初期化
+                                                    //　離されたら打ち込み状態にする
+                        hammerstate = HammerState.HAMMER;
+
+                        EndHaloAnimation();//←追加者:中川直登 アニメーション停止
+                    }
 
                     
                     break;
@@ -361,6 +367,7 @@ public class Hammer : MonoBehaviour
                             if (!AngleLook)
                             {
                                 angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
+                                //angle += LeftStick.y + 6.0f * Time.deltaTime;
 
                                 // 角度を正規化
                                 if (angle < 0)
@@ -368,8 +375,9 @@ public class Hammer : MonoBehaviour
                                     angle += 360;
                                 }
                             }
+
                             //　角度を45度ずつで管理
-                            angle = ((int)(angle / 22.5f)) * 22.5f;
+                           // angle = ((int)(angle / 22.5f)) * 22.5f;
                           
                         }
                         else
@@ -407,6 +415,7 @@ public class Hammer : MonoBehaviour
                             anim.speed = 0.02f;
                             stopTime = 0.0f;
 
+                            angle = 0.0f; //角度初期化
                             hammerstate = HammerState.HAMMER;
 
 
@@ -520,19 +529,21 @@ public class Hammer : MonoBehaviour
 
 
             // アニメーション関係
+            if (TargtRenderer != null || renderer != null)
+            {
+                if (angle >= 67.5 && angle <= 112.5)
+                {
+                    renderer.sortingOrder = 8;
+                    TargtRenderer.sortingOrder = 9;
+                }
+                else
+                {
+                    renderer.sortingOrder = 10;
+                    TargtRenderer.sortingOrder = 11;
+                }
+            }
 
-           if(angle >= 67.5 && angle <= 112.5)
-           {
-                renderer.sortingOrder = 8;
-                TargtRenderer.sortingOrder = 9;
-           }
-           else
-           {
-                renderer.sortingOrder = 10;
-                TargtRenderer.sortingOrder = 11;
-           }
-
-            if (anim.GetBool("accumulate") || anim.GetBool("angle"))
+            if ((anim.GetBool("accumulate") || anim.GetBool("angle")) && hammerstate != HammerState.POWER)
             {
                 // 角度の可視化
                 TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -546,9 +557,9 @@ public class Hammer : MonoBehaviour
             }
 
             // ためアニメーション
-            anim.SetBool("accumulate",(hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION) && angle != 90);
+            anim.SetBool("accumulate",(hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION) && (angle < 45 || angle > 135));
             // ためアニメーション
-            anim.SetBool("angle", (hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION) && angle == 90);
+            anim.SetBool("angle", (hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION) && (angle >= 45 && angle <= 135));
             // ひびアニメーション
             anim.SetBool("crack", hammerstate == HammerState.HAMMER);
             // キャンセル
