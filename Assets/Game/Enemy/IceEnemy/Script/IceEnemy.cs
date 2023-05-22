@@ -162,14 +162,14 @@ public class IceEnemy : MonoBehaviour
     {
         get 
         {
-            return _edge.points[_num].x - _trans.position.x > 0;
+            return (_edge.points[_num].x + _edge.offset.x) - _trans.position.x > 0;
         }
     }
     private bool Nexst
     {
         get 
         {
-            float distans = _edge.points[_num].x - _trans.position.x;
+            float distans = (_edge.points[_num].x + _edge.offset.x) - _trans.position.x;
             if (Mathf.Abs(distans) < 0.1f) return true;
             return false;
         }

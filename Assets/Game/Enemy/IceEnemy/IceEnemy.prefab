@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 6759646404442694712}
   - component: {fileID: 456253630434961076}
   - component: {fileID: 8353265669796842783}
+  - component: {fileID: 7338389665252382096}
   m_Layer: 9
   m_Name: IceEnemy
   m_TagString: Enemy
@@ -262,7 +263,7 @@ MonoBehaviour:
   _dropChecker: {fileID: 5670732988998540817}
   _floorChecker: {fileID: 6434192113663894340}
   _moveSpeed: 1.5
-  _edge: {fileID: 0}
+  _edge: {fileID: 7338389665252382096}
   _num: 0
 --- !u!114 &8353265669796842783
 MonoBehaviour:
@@ -276,6 +277,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 138cb93180f2aa844a90804fd3cec9a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!68 &7338389665252382096
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387875887744880321}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -2.5, y: 0}
+  - {x: 2.5, y: 0}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &6245936972741096757
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,5 +541,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9962016d3b145084a9bda383e07eb12e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitTime: 0
-  Damage: 1
