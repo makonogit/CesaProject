@@ -23,6 +23,9 @@ public class BreakBlock : MonoBehaviour
 
     public bool Break = false;
 
+    private bool _BreakBlock = false;
+    private float timer = 0f;
+
     // 外部取得
     private GameObject Player;
     private PlayerStatas statas;
@@ -84,6 +87,30 @@ public class BreakBlock : MonoBehaviour
         //{
         //    CrystalPoint.transform.position = new Vector3(-1000.0f, -1000.0f);
         //}
+
+        // Func_BreakBlockが呼ばれたらtrue
+        if(_BreakBlock == true)
+        {
+            if (CrystalNum > 0)
+            {
+                if (timer > 0.5f)
+                {
+                    // クリスタルの個数分エフェクト生成
+                    getCrystal.Creat();
+
+                    // 初期化
+                    timer = 0f;
+
+                    CrystalNum--;
+                }
+
+                timer += Time.deltaTime;
+            }
+            else
+            {
+                _BreakBlock = false;
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -139,12 +166,9 @@ public class BreakBlock : MonoBehaviour
             // 壊れるアニメーション開始
             anim.SetBool("breakRock", true);
         }
-        
-        // クリスタルの個数分エフェクト生成
-        for(int i = 0; i < CrystalNum; i++)
-        {
-            getCrystal.Creat();
-        }
+
+        // クリスタル取得エフェクト用フラグs
+        _BreakBlock = true;
 
         if (Crystal != null)
         {
@@ -164,8 +188,8 @@ public class BreakBlock : MonoBehaviour
         //Destroy(GetComponent<PolygonCollider2D>());
         //Destroy(GetComponent<BoxCollider2D>());
 
-        //クリスタルを付与
-        statas.SetCrystal(statas.GetCrystal() + CrystalNum);
+        ////クリスタルを付与
+        //statas.SetCrystal(statas.GetCrystal() + CrystalNum);
 
         Break = true;
     }
