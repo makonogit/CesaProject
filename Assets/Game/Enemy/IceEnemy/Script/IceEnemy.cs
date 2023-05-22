@@ -52,6 +52,8 @@ public class IceEnemy : MonoBehaviour
     [SerializeField]
     private GameObject Particle;
 
+    private PlayEnemySound enemyse; //死んだ音用
+
     // Use this for initialization
     void Start()
     {
@@ -77,6 +79,8 @@ public class IceEnemy : MonoBehaviour
         _trans = GetComponent<Transform>();
         if(_trans ==null) Debug.LogError("Transformのコンポーネントを取得できませんでした。");
         _max = _edge.pointCount;
+
+        enemyse = GameObject.Find("EnemySE").GetComponent<PlayEnemySound>();
 
         Init();
     }
@@ -239,6 +243,7 @@ public class IceEnemy : MonoBehaviour
         //    Destroy(transform.GetChild(transform.childCount - 1).gameObject);
         //}
 
+        enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);     //死んだ音を再生
         Instantiate(Particle, transform.position,Quaternion.identity);   //　割れる演出をする
         Destroy(gameObject);    //自分を消す
     }
