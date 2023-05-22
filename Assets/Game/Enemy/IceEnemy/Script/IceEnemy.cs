@@ -191,7 +191,9 @@ public class IceEnemy : MonoBehaviour
         Vector3 moveTrans = new Vector3(_move, 0, 0);
         _trans.localScale = Scale;
         _trans.Translate(moveTrans);
+
     }
+
     private void Cling() 
     {
         _anim.SetBool("isSurprised", _playerChecker.IsEnter);// 気づいたアニメーションを出す。
@@ -228,6 +230,12 @@ public class IceEnemy : MonoBehaviour
         {
             _rb.simulated = true;
         }
+
+        if (transform.childCount > 3)
+        {
+            Destroy(transform.GetChild(transform.childCount - 1).gameObject);
+        }
+
     }
 
     private void Flag() 
