@@ -28,7 +28,7 @@ public class BreakBlock : MonoBehaviour
     private PlayerStatas statas;
     private CrackCreater order = null;
     private ParticleSystem BreakParticle;   //壊れるエフェクト
-    private ParticleSystem CrystalParticle; //クリスタルをゲットしたパーティクル
+    //private ParticleSystem CrystalParticle; //クリスタルをゲットしたパーティクル
     private GameObject CrystalPoint;        //クリスタルが集まる座標
 
     [SerializeField,Header("ないならいらない")] private BoxCollider2D _boxCollider; // 氷についてる
@@ -55,7 +55,7 @@ public class BreakBlock : MonoBehaviour
         Player = GameObject.Find("player");
         statas = Player.GetComponent<PlayerStatas>();
         BreakParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
-        CrystalParticle = transform.GetChild(1).GetComponent<ParticleSystem>();
+        //CrystalParticle = transform.GetChild(1).GetComponent<ParticleSystem>();
         CrystalPoint = transform.GetChild(2).gameObject;
 
         _boxCollider = GetComponent<BoxCollider2D>();
@@ -76,14 +76,14 @@ public class BreakBlock : MonoBehaviour
     private void Update()
     {
         //再生中
-        if (CrystalParticle.isPlaying)
-        {
-            CrystalPoint.transform.position = Player.transform.position;
-        }
-        else
-        {
-            CrystalPoint.transform.position = new Vector3(-1000.0f, -1000.0f);
-        }
+        //if (CrystalParticle.isPlaying)
+        //{
+        //    CrystalPoint.transform.position = Player.transform.position;
+        //}
+        //else
+        //{
+        //    CrystalPoint.transform.position = new Vector3(-1000.0f, -1000.0f);
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

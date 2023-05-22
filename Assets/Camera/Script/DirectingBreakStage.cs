@@ -41,7 +41,7 @@ public class DirectingBreakStage : MonoBehaviour
     private CameraControl2 control;
     private GameObject player;
 
-    [Header("各ステージごとに用意されたBorderLineマテリアルをセット")]public Material Mat;
+    [Header("各ステージごとに用意されたBorderLineマテリアルをセット")]private Material Mat;
 
     public GameObject particle; // 壊れた破片が落ちてくるパーティクル
     private GameObject ParticleObj; // 作成したパーティクルを持つ変数
@@ -93,8 +93,8 @@ public class DirectingBreakStage : MonoBehaviour
             //Debug.Log(sc_cameraZoom);
 
             // 初期化
-            Mat.SetFloat("_Fader", 1f);  // 初期値
-            Mat.SetFloat("_Width", -9f); // 固定
+            //Mat.SetFloat("_Fader", 1f);  // 初期値
+            //Mat.SetFloat("_Width", -9f); // 固定
 
             startInit = true;
         }
@@ -168,7 +168,7 @@ public class DirectingBreakStage : MonoBehaviour
             timer = 0f;
 
             FaderRate = 1f;
-            Mat.SetFloat("_Fader", FaderRate);
+            //Mat.SetFloat("_Fader", FaderRate);
         }
     }
 
