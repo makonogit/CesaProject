@@ -103,7 +103,7 @@ public class SelectZoom : MonoBehaviour
         // 現在の座標を取得
         Vector3 NowPos = new Vector3(TargetTrans.position.x, TargetTrans.position.y, transform.position.z);
 
-        if (!_selectarea.LeftMove && !_selectarea.RightMove)
+        if (!_selectarea.LeftMove && !_selectarea.RightMove && !_selectarea.PlayerLeftMove)
         {
             // カメラの座標をターゲットを基に更新
             cameraTransform.position = new Vector3(NowPos.x, NowPos.y, cameraTransform.position.z);

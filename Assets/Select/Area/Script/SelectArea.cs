@@ -62,6 +62,8 @@ public class SelectArea : MonoBehaviour
     
     public bool RightMove = false;
 
+    public bool PlayerLeftMove = false;
+
     // Playerの移動
     [SerializeField] private Transform Playertrans;
 
@@ -145,7 +147,7 @@ public class SelectArea : MonoBehaviour
         if(_context.phase == InputActionPhase.Started) 
         {
             NextArea();
-            if (_nowArea != _nextArea && !RightMove && !LeftMove)
+            if (_nowArea != _nextArea && !RightMove && !LeftMove && !PlayerLeftMove)
             {
                 RightMove = true;
                 OldLimitpoint = HorizonLimit.points[1];
@@ -164,7 +166,7 @@ public class SelectArea : MonoBehaviour
         if (_context.phase == InputActionPhase.Started)
         {
             PrevArea();
-            if (_nowArea != _nextArea && !LeftMove && !RightMove)
+            if (_nowArea != _nextArea && !LeftMove && !RightMove && !PlayerLeftMove)
             {
                 LeftMove = true;
                 OldLimitpoint = HorizonLimit.points[0];
@@ -201,15 +203,28 @@ public class SelectArea : MonoBehaviour
         // エリアを移動す時
         if (_nowArea != _nextArea)// 現在と次のエリアが違うとき
         {
-            // 現在地と目標地の間の座標を求める。
-            Vector3 _pos = transform.position * 0.95f;
-            _pos += new Vector3(_positions[_nextArea].position.x, _positions[_nextArea].position.y, transform.position.z) * (1.0f - 0.95f);
+            if (!PlayerLeftMove)
+            {
+                // 現在地と目標地の間の座標を求める。
+                Vector3 _pos = transform.position * 0.95f;
+                _pos += new Vector3(_positions[_nextArea].position.x, _positions[_nextArea].position.y, transform.position.z) * (1.0f - 0.95f);
 
-            // 現在地の更新
-            this.transform.position = _pos;
-            // 現在地と目標地の距離を入れる。
-            Distance = _pos - new Vector3(_positions[_nextArea].position.x, _positions[_nextArea].position.y, transform.position.z);
+                // 現在地の更新
+                this.transform.position = _pos;
+                // 現在地と目標地の距離を入れる。
+                Distance = _pos - new Vector3(_positions[_nextArea].position.x,_positions[_nextArea].position.y, transform.position.z);
+            }
+            else
+            {
+                // 現在地と目標地の間の座標を求める。
+                Vector3 _pos = transform.position * 0.95f;
+                _pos += new Vector3(_positions[_nextArea].position.x + 18.0f, _positions[_nextArea].position.y, transform.position.z) * (1.0f - 0.95f);
 
+                // 現在地の更新
+                this.transform.position = _pos;
+                // 現在地と目標地の距離を入れる。
+                Distance = _pos - new Vector3(_positions[_nextArea].position.x + 18.0f, _positions[_nextArea].position.y, transform.position.z);
+            }
         }
         
         // エリア移動完了
@@ -233,23 +248,22 @@ public class SelectArea : MonoBehaviour
                 HorizonLimit.SetPoints(point);
 
                 if (HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
+                {
                     //プレイヤーの座標変更
                     GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 2.0f, HorizonLimit.points[1].y - 0.5f, 1.0f);
-
-                //if (_nowArea > 0)
-                //{
-                //    if(HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
-                //    //プレイヤーの座標変更
-                //    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[1].x - 2.0f, HorizonLimit.points[1].y - 0.5f, 1.0f);
-                //}
-                //else
-                //{
-                //    if (HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
-                //        //プレイヤーの座標変更
-                //        GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 2.0f, HorizonLimit.points[1].y - 0.5f, 1.0f);
-                //}
+                }
                 LeftMove = false;
             }
+            
+            if (PlayerLeftMove)
+            {
+                List<Vector2> point = new List<Vector2>(2);
+                point.Add(new Vector2(HorizonLimit.points[0].x, HorizonLimit.points[0].y));
+                point.Add(new Vector2(OldLimitpoint.x, HorizonLimit.points[1].y));
+                HorizonLimit.SetPoints(point);
+                PlayerLeftMove = false;
+            }
+
             if (RightMove)
             {
                 List<Vector2> point = new List<Vector2>(2);
@@ -309,7 +323,7 @@ public class SelectArea : MonoBehaviour
         if (Playertrans.position.x > HorizonLimit.points[1].x)
         {
             NextArea();
-            if (_nowArea != _nextArea && !RightMove && !LeftMove)
+            if (_nowArea != _nextArea && !RightMove && !LeftMove && !PlayerLeftMove)
             {
                 RightMove = true;
                 OldLimitpoint = HorizonLimit.points[1];
@@ -324,9 +338,10 @@ public class SelectArea : MonoBehaviour
         if(Playertrans.position.x < HorizonLimit.points[0].x)
         {
             PrevArea();
-            if (_nowArea != _nextArea && !LeftMove && !RightMove)
+            if (_nowArea != _nextArea && !LeftMove && !RightMove && !PlayerLeftMove)
             {
-                LeftMove = true;
+                //LeftMove = true;
+                PlayerLeftMove = true;
                 OldLimitpoint = HorizonLimit.points[0];
                 List<Vector2> point = new List<Vector2>(2);
                 point.Add(new Vector2((36.0f * _nextArea) - 9.0f, HorizonLimit.points[0].y));
