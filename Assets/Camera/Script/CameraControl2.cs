@@ -52,7 +52,7 @@ public class CameraControl2 : MonoBehaviour
         {
             if (stage.GetAreaNum() == 0 && stage.GetStageNum() == 0)
             {
-                _AreaSize = 81; //1Å]1ÇÃÇ›
+                _AreaSize = 70.5f; //1Å]1ÇÃÇ›
             }
             else
             {
