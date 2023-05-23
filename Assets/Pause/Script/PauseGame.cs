@@ -13,6 +13,7 @@ public class PauseGame : MonoBehaviour
     //----------------------------------------------------------------------------------------------------------
     // - 変数宣言 -
 
+    public bool Clear = false;          //ステージクリアしたか
     public bool IsPause = false; // ポーズ状態かどうか
     public int CursorY = 0; // Y方向の移動をするカーソルの番号
     const int CursorMax = 3; // カーソルの一番下
@@ -128,31 +129,33 @@ public class PauseGame : MonoBehaviour
     void Update()
     {
         //----------------------------------------------------------------------------------------------------------
-        // ポーズボタンが押されたなら
-        if (ScriptPIManager.GetPause() == true)
+        // ポーズボタンが押されたなら(ステージクリアしていなかったら)
+        if (!Clear)
         {
-            //TimeOperate();
+            if (ScriptPIManager.GetPause() == true)
+            {
+                //TimeOperate();
 
-            if(IsPause == false)
-            {
-                magnification = true;
-            }
-            else
-            {
-                manualImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                // 子オブジェクトのα値を全て更新
-                for (int i = 0; i < Manual.transform.childCount; i++)
+                if (IsPause == false)
                 {
-                    Manual.transform.GetChild(i).gameObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                    magnification = true;
                 }
-                reduction = true;
+                else
+                {
+                    manualImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                    // 子オブジェクトのα値を全て更新
+                    for (int i = 0; i < Manual.transform.childCount; i++)
+                    {
+                        Manual.transform.GetChild(i).gameObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                    }
+                    reduction = true;
+                }
+
+                ScriptPIManager.SetPause(false);
+
+                seMana.PlaySE_OK();
             }
-
-            ScriptPIManager.SetPause(false);
-
-            seMana.PlaySE_OK();
         }
-
 
         if (magnification)
         {

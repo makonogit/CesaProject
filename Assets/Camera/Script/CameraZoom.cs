@@ -33,6 +33,7 @@ public class CameraZoom : MonoBehaviour
     private Transform playertans;   // プレイヤーのTransform
     public StageStatas stagestatas;    // ステージのステータスを取得
     private ChangeResultScene resultScene;
+    private PauseGame Pause;    //ポーズを開けないようにする
 
     private bool First = false;
   
@@ -53,6 +54,8 @@ public class CameraZoom : MonoBehaviour
         Camera = GameObject.Find("Main Camera");
         // カメラスクリプトを取得
         Cam = Camera.GetComponent<Camera>();
+
+        Pause = GameObject.Find("PausePanel").GetComponent<PauseGame>();    //ポーズスクリプト取得
 
         player = GameObject.Find("player");
         playertans = player.transform;
@@ -82,6 +85,7 @@ public class CameraZoom : MonoBehaviour
                     // 破壊演出開始
                     breakstage.StartBreak();
 
+                    Pause.Clear = true;　//クリア状態をセットしてポーズを開けないようにする
                     // フラグ
                     SetBreak = true;
                 }
