@@ -224,7 +224,13 @@ public class CameraControl2 : MonoBehaviour
             //　カメラの座標を更新
             transform.position = new Vector3(NowPos.x, NowPos.y, transform.position.z);
         }
-           
+
+        // ステージのPorigonColliderを基に移動制限
+        NowPos.x = Mathf.Clamp(NowPos.x, Min_x, Max_x);
+        NowPos.y = Mathf.Clamp(NowPos.y, Min_y, Max_y);
+
+        //　カメラの座標を更新
+        transform.position = new Vector3(NowPos.x, NowPos.y, transform.position.z);
     }
 
     // 追従するターゲットを設定する
