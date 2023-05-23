@@ -60,8 +60,9 @@ public class Sand : MonoBehaviour
                 //    gameObject.layer = 10;
                 //}
             }
+            gameObject.layer = 10;
 
-            if(thistrans.localScale.y < MaxScale)
+            if (thistrans.localScale.y < MaxScale)
             {
                 thistrans.localScale = new Vector3(thistrans.localScale.x, thistrans.localScale.y + accumulatespeed * Time.deltaTime, thistrans.localScale.z);
                 thistrans.localPosition = new Vector3(thistrans.localPosition.x, thistrans.localPosition.y + (accumulatespeed / 2) * Time.deltaTime, thistrans.localPosition.z);
@@ -78,11 +79,7 @@ public class Sand : MonoBehaviour
                 //thiscoll.SetPath(0, points);
 
             }
-            else
-            {
-                gameObject.layer = 10;
-            }
-
+        
         }
         else
         {
@@ -124,7 +121,7 @@ public class Sand : MonoBehaviour
             }
             else
             {
-                gameObject.layer = 15;
+                gameObject.layer = 16;
             }
 
         }
@@ -152,6 +149,7 @@ public class Sand : MonoBehaviour
         //»‚ª“–‚½‚Á‚Ä‚¢‚½‚ç
         if (collision.gameObject.tag == "Sand" && !SandHit)
         {
+            gameObject.layer = 10;
             SandHit = true;
         }
     }
