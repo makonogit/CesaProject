@@ -18,8 +18,6 @@ public class CrackManager : MonoBehaviour
     [SerializeField, Header("存在するひびのCrackCreaterリスト")]
     private List<CrackCreater> creaters;
 
-    float nowTime;
-
     //-----------------------------------------------------
     // private method
     //-----------------------------------------------------
@@ -55,15 +53,33 @@ public class CrackManager : MonoBehaviour
         creaters.Clear();
     }
 
+
     //
     // 関数：AddCracInfokList(CrackInfo _info) 
     //
     // 内容：CrackInfoのリストに追加する。
     //
-    public void AddCracInfokList(CrackInfo _info) 
+    public void AddCrackInfokList(CrackInfo _info)
     {
         gameObjects.Add(_info.gameObject);
         creaters.Add(_info.creater);
+    }
+    //
+    // 関数：RemoveCracInfokList(CrackInfo _info)
+    //
+    // 内容：CrackInfoのリストから削除する。
+    //
+    public void RemoveCrackInfokList(CrackInfo _info)
+    {
+        // 検索して要素番号を返す
+        int num = gameObjects.IndexOf(_info.gameObject);
+        // 要素があったら
+        if (num >= 0) 
+        {
+            gameObjects.RemoveAt(num);// GameObjectをリストから消す
+            creaters.RemoveAt(num);// CrackCreaterをリストから消す
+        }
+        
     }
 
     //
@@ -82,6 +98,7 @@ public class CrackManager : MonoBehaviour
         // 要素の状態を返す
         return creaters[num].GetState();
     }
+
     //
     // 関数： GetHitCrackState(GameObject _gameObject)
     //

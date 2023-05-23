@@ -27,9 +27,13 @@ public class Crack_Information : MonoBehaviour
         _info.gameObject = gameObject;
         _info.creater = GetComponent<CrackCreater>();
         _info.NullCheck();
-        _manager.AddCracInfokList(_info);
+        _manager.AddCrackInfokList(_info);
     }
 
-   
+    private void OnDestroy()
+    {
+        _manager.RemoveCrackInfokList(_info);
+    }
+
 
 }

@@ -9,7 +9,6 @@ using UnityEngine;
 public class CrackCreater : MonoBehaviour
 {
     UnityEngine.Rendering.Universal.Light2D _light2D;
-    
     //-----------------------------------------------------------------
     //―変数―(公)Accessible variables
 
@@ -26,8 +25,6 @@ public class CrackCreater : MonoBehaviour
         ADD_CREATEFORWARD,      // 前方追加
         ADD_CREATEBACK,         // 後方追加
     }
-    [System.NonSerialized]// 非表示
-    public CrackCreaterState State; // 外部閲覧用
 
     [System.NonSerialized]// 非表示
     public EdgeCollider2D Edge2D;
@@ -68,7 +65,7 @@ public class CrackCreater : MonoBehaviour
     [SerializeField]
     private List<GameObject> _cracks;// ひびのオブジェクトリスト
 
-    [SerializeField]private List<Vector2> _nowEdgePoints = new List<Vector2>(); // 更新中のエッジリスト
+    [SerializeField] private List<Vector2> _nowEdgePoints = new List<Vector2>(); // 更新中のエッジリスト
 
     //private Wall_HP_System_Script _WHPSS;
 
@@ -86,10 +83,8 @@ public class CrackCreater : MonoBehaviour
         //--------------------------------------
         // エッジコライダー2Dが入っているか
         Edge2D = GetComponent<EdgeCollider2D>();
-        if (Edge2D == null)
-        {
-            Debug.LogError("EdgeCollider2Dがコンポーネントされてません。");
-        }
+        if (Edge2D == null) Debug.LogError("EdgeCollider2Dがコンポーネントされてません。");
+
 
         //　砂用コライダー　担当：菅
         if (transform.childCount > 0)
@@ -112,14 +107,6 @@ public class CrackCreater : MonoBehaviour
         }
         // 状態を共有する
         State = _nowState;
-
-        // WHPSS　-追加
-        //GameObject _whpg =GameObject.Find("Wall_Hp_Gauge");
-        //_WHPSS = _whpg.GetComponent<Wall_HP_System_Script>();
-        //if (_WHPSS == null) 
-        //{
-        //    Debug.LogError("null");
-        //}
 
         //---------------------------------
         //　layermaskでGroundだけ判定する
@@ -148,7 +135,7 @@ public class CrackCreater : MonoBehaviour
         {
             EdgeSetting();//エッジの設定
             _createCount = 0;
-            
+
             //_nowState = CrackCreaterState.CREATING;// 確認用
         }
 
@@ -195,8 +182,6 @@ public class CrackCreater : MonoBehaviour
         {
             AddCreating();
         }
-        // 状態を共有する
-        State = _nowState;
     }
 
 
@@ -212,14 +197,27 @@ public class CrackCreater : MonoBehaviour
     public void SetState(CrackCreaterState _state)
     {
         _nowState = _state;
-        State = _nowState;
+
     }
 
     //-------------------------------------------------------
     //―状態獲得関数―(公) 追加担当：菅眞心
-    public CrackCreaterState　GetState()
+    public CrackCreaterState GetState()
     {
         return _nowState;
+    }
+
+
+    public CrackCreaterState State
+    {
+        get
+        {
+            return _nowState;
+        }
+        set
+        {
+            _nowState = value;
+        }
     }
 
     //-------------------------------------------------------
@@ -232,20 +230,12 @@ public class CrackCreater : MonoBehaviour
         {
             // 釘の座標を追加
             _edgePoints.Add(_nailPoints[i]);
-            
+
             // 最後の座標でなければ
             if (i != _nailPoints.Count - 1)
             {
-                // 方向決定
-                Vector2 _vNailVec = _nailPoints[i] - _nailPoints[i + 1];
-
-                // 方向と距離でレイであたり判定
-                RaycastHit2D hit = Physics2D.Raycast(_nailPoints[i] + new Vector2(0.01f, 0.01f), _vNailVec.normalized * -1, _vNailVec.magnitude, layerMask);
-                //Debug.DrawRay(_nailPoints[i], _vNailVec.normalized * -1, Color.red,  _vNailVec.magnitude, false);
-                //Debug.Log("当たりました" +hit.collider.gameObject.name);
-
                 // ステージに当たったら終了する
-                if (hit) 
+                if (RayHit(i, false))
                 {
                     break;
                 }
@@ -257,54 +247,7 @@ public class CrackCreater : MonoBehaviour
 
         //--------------------------------------
         // 2つ頂点の間にポイントを置く
-        for (int i = 0; i < _edgePoints.Count - 1; i++)
-        {
-            // 中間座標を求める
-            Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1]) / 2;
-            Vector3 _point = new Vector3(_center.x, _center.y, 0);
-
-            // 最後の座標でなければ
-            if (i != _edgePoints.Count - 2)
-            {
-                // 方向決定
-                Vector2 _vNailVec = _edgePoints[i] - _edgePoints[i + 1];
-
-                // 方向と距離でレイであたり判定
-                RaycastHit2D hit = Physics2D.Raycast(_edgePoints[i] + new Vector2(0.01f, 0.01f), _vNailVec.normalized * -1, _vNailVec.magnitude, layerMask);
-                Debug.DrawRay(_edgePoints[i] + new Vector2(0.01f, 0.01f), _vNailVec.normalized * -1, Color.red, _vNailVec.magnitude, false);
-
-
-                // ステージに当たったら終了する
-                if (hit)
-                {
-                    HitPoint = i;
-                    break;
-                }
-
-                //Debug.Log("当たりました" +hit.collider.gameObject.name);
-
-            }
-
-            // リストに追加
-            // 呼び出し
-            _cracks.Add(Instantiate(_crackObject, _point, Quaternion.identity, transform));
-
-            // 非表示
-            _cracks[i].SetActive(false);
-
-            // 二つの釘から垂直な角度を求める
-            Vector2 _vec = _edgePoints[i] - _edgePoints[i + 1];
-            float _angle = Mathf.Atan2(_vec.y, _vec.x) * Mathf.Rad2Deg;
-            // 角度設定
-            _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle);
-            // サイズ設定
-            _cracks[i].transform.localScale = new Vector3(_vec.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
-
-        }
-
-        // 頂点を設定する
-        //Edge2D.SetPoints(_edgePoints);
-        //if(SandEdge != null) SandEdge.SetPoints(_edgePoints);
+        Setting_object_in_between_vertices(0, _edgePoints.Count - 1, Ways.NORMAL);
 
         _nowState = CrackCreaterState.CREATING;
     }
@@ -330,24 +273,7 @@ public class CrackCreater : MonoBehaviour
         int _division = Random.Range(_divisionNum.x, _divisionNum.y);
         //--------------------------------------
         // 分割する頂点分繰り返す
-        for (int j = 1; j < _division; j++)
-        {
-            //奇数なら－偶数なら＋
-            float _odd = (j % 2 != 0 ? -1.0f : 1.0f);
-            // 割合を求める
-            float _percent = (float)j / ((float)_division);
-            // 間の座標を求める
-            Vector2 _pos = _nailPoints[_num] * (1.0f - _percent);
-            _pos += _nailPoints[_num + 1] * _percent;
-            if (j != 1 && j != _division - 1)// 最初と最後以外
-            {
-                _pos += _verticalVec * _odd * Random.Range(_rangeNum.x, _rangeNum.y);
-            }
-            // 間を追加
-            _edgePoints.Add(_pos);
-            // _edgePoinsの位置を計算する
-            _nailPointCount[_num + 1] += 1;
-        }
+        SubdivisionVertex(_division, _verticalVec, _num, Ways.NORMAL);
     }
 
     //-------------------------------------------------------
@@ -427,13 +353,12 @@ public class CrackCreater : MonoBehaviour
 
         // 頂点を再設定する
         //Edge2D.SetPoints(_edgePoints);
-        if (SandEdge != null)  SandEdge.SetPoints(_edgePoints);
+        if (SandEdge != null) SandEdge.SetPoints(_edgePoints);
 
     }
-
-
     //-------------------------------------------------------
     //―ひびの前方追加関数―(私)
+
     private void AddForward()
     {
 
@@ -442,12 +367,12 @@ public class CrackCreater : MonoBehaviour
         // 方向と距離でレイであたり判定
         RaycastHit2D hit = Physics2D.Raycast(_edgePoints[0], _vNailVec.normalized, AddLength, layerMask);
         //if (hit) Debug.Log("前" + hit.collider.gameObject.name);
-        if (hit) 
+        if (RayHit(0, true))
         {
             //Debug.Log("前"+ hit.collider.tag);
             _vNailVec = hit.point;
         }
-        else 
+        else
         {
             _vNailVec = _edgePoints[0] + (_vNailVec.normalized * AddLength);
             // 設定
@@ -464,24 +389,8 @@ public class CrackCreater : MonoBehaviour
             int _division = Random.Range(_divisionNum.x, _divisionNum.y);
             //--------------------------------------
             // 分割する頂点分繰り返す
-            for (int j = 1; j < _division; j++)
-            {
-                //奇数なら－偶数なら＋
-                float _odd = (j % 2 != 0 ? -1.0f : 1.0f);
-                // 割合を求める
-                float _percent = (float)j / ((float)_division);
-                // 間の座標を求める
-                Vector2 _pos = _edgePoints[0] * (1.0f - _percent);
-                _pos += _edgePoints[j] * _percent;
-                if (j != 1 && j != _division - 1)// 最初と最後以外
-                {
-                    _pos += _verticalVec * _odd * Random.Range(_rangeNum.x, _rangeNum.y);
-                }
-                // 間を追加
-                _edgePoints.Insert(j, _pos);
-                // _edgePoinsの位置を計算する
-                _nailPointCount[0]++;
-            }
+            SubdivisionVertex(_division, _verticalVec, 0, Ways.FORWARD);
+
             // 前に増えた分を足す
             for (int i = 1; i < _nailPointCount.Count; i++)
             {
@@ -489,32 +398,12 @@ public class CrackCreater : MonoBehaviour
             }
             //--------------------------------------
             // 2つ頂点の間にポイントを置く// 0～_division - 1
-            for (int i = 0; i < _division; i++)
-            {
-                // 中間座標を求める
-                Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1]) / 2;
-                Vector3 _point = new Vector3(_center.x, _center.y, 0);
+            Setting_object_in_between_vertices(0, _division, Ways.FORWARD);
 
-                // リストに追加
-                // 呼び出し
-                _cracks.Insert(i, Instantiate(_crackObject, _point, Quaternion.identity, transform));
-
-                // 非表示
-                _cracks[i].SetActive(false);
-
-                // 二つの釘から垂直な角度を求める
-                Vector2 _vector = _edgePoints[i] - _edgePoints[i + 1];
-                float _angle2 = Mathf.Atan2(_vector.y, _vector.x) * Mathf.Rad2Deg;
-                // 角度設定
-                _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle2);
-                // サイズ設定
-                _cracks[i].transform.localScale = new Vector3(_vector.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
-                _addCrackCount++;
-            }
             // 非表示の場所を記録
             _addCrackNow = new Vector2Int(_division - 1, 0);
         }
-       
+
     }
     //-------------------------------------------------------
     //―ひびの後方追加関数―(私)
@@ -523,9 +412,9 @@ public class CrackCreater : MonoBehaviour
         int Last = _edgePoints.Count - 1;
         // 方向決定(仮想釘の設定)
         Vector2 _vNailVec = _edgePoints[Last] - _edgePoints[_edgePoints.Count - 2];
-        Debug.DrawRay(_edgePoints[Last] + new Vector2(0.01f, 0.01f), _vNailVec.normalized, Color.red, AddLength - 1.0f, false);
+        Debug.DrawRay(_edgePoints[Last], _vNailVec.normalized, Color.blue, AddLength - 1.0f, false);
         // 方向と距離でレイであたり判定
-        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last]/* + new Vector2(0.01f,0.01f)*/, _vNailVec.normalized , AddLength - 1.0f, layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last], _vNailVec.normalized, AddLength - 1.0f, layerMask);
         //if (hit) Debug.Log("後" + hit.collider.gameObject.tag);
         if (hit)
         {
@@ -549,50 +438,179 @@ public class CrackCreater : MonoBehaviour
             int _division = Random.Range(_divisionNum.x, _divisionNum.y);
             //--------------------------------------
             // 分割する頂点分繰り返す
-            for (int j = 1; j < _division; j++)
-            {
-                //奇数なら－偶数なら＋
-                float _odd = (j % 2 != 0 ? -1.0f : 1.0f);
-                // 割合を求める
-                float _percent = (float)j / ((float)_division);
-                // 間の座標を求める
-                Vector2 _pos = _edgePoints[Last] * (1.0f - _percent);
-                _pos += _edgePoints[_edgePoints.Count - 1] * _percent;
-                if (j != 1 && j != _division - 1)// 最初と最後以外
-                {
-                    _pos += _verticalVec * _odd * Random.Range(_rangeNum.x, _rangeNum.y);
-                }
-                // 間を追加
-                _edgePoints.Insert(_edgePoints.Count - 1, _pos);
-            }
+            SubdivisionVertex(_division, _verticalVec, Last, Ways.BACK);
+
             //--------------------------------------
             // 2つ頂点の間にポイントを置く// Last～Cont - 1
-            for (int i = Last; i < _edgePoints.Count - 1; i++)
-            {
-                // 中間座標を求める
-                Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1]) / 2;
-                Vector3 _point = new Vector3(_center.x, _center.y, 0);
+            Setting_object_in_between_vertices(Last, _edgePoints.Count - 1, Ways.BACK);
 
-                // リストに追加
-                // 呼び出し
-                _cracks.Add(Instantiate(_crackObject, _point, Quaternion.identity, transform));
-
-                // 非表示
-                _cracks[i].SetActive(false);
-
-                // 二つの釘から垂直な角度を求める
-                Vector2 _vector = _edgePoints[i] - _edgePoints[i + 1];
-                float _angle2 = Mathf.Atan2(_vector.y, _vector.x) * Mathf.Rad2Deg;
-                // 角度設定
-                _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle2);
-                // サイズ設定
-                _cracks[i].transform.localScale = new Vector3(_vector.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
-                _addCrackCount++;
-            }
             // 非表示の場所を記録
             _addCrackNow = new Vector2Int(_addCrackNow.x, Last);
         }
     }
+
+    //
+    // 列挙型：Ways
+    //
+    // 目的：頂点追加方法の種類を判別する用
+    // 
+    private enum Ways
+    {
+        NORMAL,
+        FORWARD,
+        BACK,
+    }
+
+    //
+    // 関数：SubdivisionVertex(float _division, Vector2 _verticalVec, int num, Ways ways)
+    //
+    // 目的：辺を細分化しギザギザにする
+    // 
+    private void SubdivisionVertex(float _division, Vector2 _verticalVec, int num, Ways ways)
+    {
+        for (int j = 1; j < _division; j++)
+        {
+            //奇数なら－偶数なら＋
+            float _odd = (j % 2 != 0 ? -1.0f : 1.0f);
+            // 割合を求める
+            float _percent = (float)j / ((float)_division);
+            // 間の座標を求める
+            Vector2 _pos = SettingBetweenPos(_percent, num, j, ways);
+            if (j != 1 && j != _division - 1)// 最初と最後以外
+            {
+                _pos += _verticalVec * _odd * Random.Range(_rangeNum.x, _rangeNum.y);
+            }
+            // リストの追加
+            AddBetween(num, j, _pos, ways);
+
+        }
+
+    }
+
+    //
+    // 関数： SettingBetweenPos(float _percent, int num,int j, Ways ways)
+    //
+    // 目的：間の座標を求める
+    // 
+    private Vector2 SettingBetweenPos(float _percent, int num, int j, Ways ways)
+    {
+        Vector2 _pos;
+        _pos = _edgePoints[num] * (1.0f - _percent);
+
+        // 前方向に追加するとき
+        if (ways == Ways.FORWARD)
+        {
+            _pos += _edgePoints[j] * _percent;
+        }
+        // 後方向に追加するとき
+        if (ways == Ways.BACK)
+        {
+            _pos += _edgePoints[_edgePoints.Count - 1] * _percent;
+        }
+        // 通常時
+        if (ways == Ways.NORMAL)
+        {
+            _pos = _nailPoints[num] * (1.0f - _percent);
+            _pos += _nailPoints[num + 1] * _percent;
+        }
+        return _pos;
+    }
+    //
+    // 関数： AddBetween(int num,int j,Vector2 _pos,Ways ways) 
+    //
+    // 目的：頂点リストの追加
+    // 
+    private void AddBetween(int num, int j, Vector2 _pos, Ways ways)
+    {
+        // 前方向に追加するとき
+        if (ways == Ways.FORWARD)
+        {
+            // 間を追加
+            _edgePoints.Insert(j, _pos);
+            // _edgePoinsの位置を計算する
+            _nailPointCount[0]++;
+        }
+        // 後方向に追加するとき
+        if (ways == Ways.BACK)
+        {
+            // 間を追加
+            _edgePoints.Insert(_edgePoints.Count - 1, _pos);
+        }
+        // 通常時
+        if (ways == Ways.NORMAL)
+        {
+            // 間を追加
+            _edgePoints.Add(_pos);
+            // _edgePoinsの位置を計算する
+            _nailPointCount[num + 1] += 1;
+        }
+    }
+
+    //
+    // 関数： Setting_object_in_between_vertices() 
+    //
+    // 目的：頂点の間にオブジェクトを設定する
+    // 
+    private void Setting_object_in_between_vertices(int _startNum, int _endNum, Ways ways)
+    {
+        for (int i = _startNum; i < _endNum; i++)
+        {
+            // 中間座標を求める
+            Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1]) / 2;
+            Vector3 _point = new Vector3(_center.x, _center.y, 0);
+
+            // ステージに当たったら終了する
+            //if (i != _edgePoints.Count - 2)
+            //{
+            //    if ( ways == Ways.NORMAL && RayHit(i,true))
+            //    {
+            //        HitPoint = i;
+            //        break;
+            //    }
+            //}
+
+            // リストに追加
+            // 呼び出し
+            if (ways == Ways.FORWARD) // 前方向
+            {
+                _cracks.Insert(i, Instantiate(_crackObject, _point, Quaternion.identity, transform));// 間に追加
+            }
+            if (ways != Ways.FORWARD)
+            {
+                _cracks.Add(Instantiate(_crackObject, _point, Quaternion.identity, transform));
+            }
+
+            // 非表示
+            _cracks[i].SetActive(false);
+            // 二つの釘から垂直な角度を求める
+            Vector2 _vector = _edgePoints[i] - _edgePoints[i + 1];
+            float _angle2 = Mathf.Atan2(_vector.y, _vector.x) * Mathf.Rad2Deg;
+
+
+            // 角度設定
+            _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle2);
+            // サイズ設定
+            _cracks[i].transform.localScale = new Vector3(_vector.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
+            if (ways != Ways.NORMAL) _addCrackCount++;
+        }
+    }
+    //
+    // 関数：RayHit(int i) 
+    //
+    // 目的：ステージに当たったら終了する
+    // 
+    private RaycastHit2D RayHit(int i, bool edge)
+    {
+        // 方向決定
+        Vector2 _vNailVec;
+        if (edge) _vNailVec = _edgePoints[i + 1] - _edgePoints[i];
+        else _vNailVec = _nailPoints[i + 1] - _nailPoints[i];
+        // 方向と距離でレイであたり判定
+        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[i], _vNailVec.normalized, _vNailVec.magnitude, layerMask);
+        Debug.DrawRay(_edgePoints[i] + new Vector2(0.01f, 0.01f), _vNailVec.normalized, Color.red, _vNailVec.magnitude, false);
+        return hit;
+    }
+
     //-------------------------------------------------------
     //―ひびの追加作成関数―(私)
     private void AddCreating()
@@ -600,23 +618,23 @@ public class CrackCreater : MonoBehaviour
         // 時間計算
         _nowTime += Time.deltaTime;
         // 生成時間を越えたら
-        if (_nowTime >= _createTime && _addCrackCount>0)
+        if (_nowTime >= _createTime && _addCrackCount > 0)
         {
             // 前表示
-            if (_addCrackNow.x > 0) 
+            if (_addCrackNow.x > 0)
             {
                 _cracks[_addCrackNow.x].SetActive(true);// 表示
-                _addCrackCount --;// カウントを減らす
-                _addCrackNow = new Vector2Int(_addCrackNow.x -1 , _addCrackNow.y);// カウントを減らす
+                _addCrackCount--;// カウントを減らす
+                _addCrackNow = new Vector2Int(_addCrackNow.x - 1, _addCrackNow.y);// カウントを減らす
             }
             // 後ろ表示
-            if (_addCrackNow.y < _cracks.Count) 
+            if (_addCrackNow.y < _cracks.Count)
             {
                 _cracks[_addCrackNow.y].SetActive(true);// 表示
                 _nowEdgePoints.Add(_edgePoints[_addCrackNow.y]);
                 Edge2D.SetPoints(_nowEdgePoints);
                 _addCrackCount--;// カウントを減らす
-                _addCrackNow = new Vector2Int(_addCrackNow.x , _addCrackNow.y + 1);// カウントを減らす
+                _addCrackNow = new Vector2Int(_addCrackNow.x, _addCrackNow.y + 1);// カウントを減らす
             }
             // リセット
             _nowTime = 0.0f;
@@ -640,14 +658,14 @@ public class CrackCreater : MonoBehaviour
     // 
     // コメント：座標は反時計回りにしてください
     // 
-    private void SetLight ()
+    private void SetLight()
     {
         // 表示
         _light2D.enabled = true;
 
         // 方向設定
         Vector2 _direction = new Vector2(0.125f, -1);
-        
+
         // 距離設定
         float _distance = 10000f;
 
@@ -667,7 +685,7 @@ public class CrackCreater : MonoBehaviour
     //
     // 目的：レイを飛ばして当たったとこの位置を返す   
     // 
-    private Vector3 SetLightShape(Vector2 _pos,Vector2 _direction,float _distance) 
+    private Vector3 SetLightShape(Vector2 _pos, Vector2 _direction, float _distance)
     {
         // レイを飛ばす
         RaycastHit2D _hit = Physics2D.Raycast(_pos, _direction.normalized, _distance, layerMask);
@@ -684,9 +702,9 @@ public class CrackCreater : MonoBehaviour
     //
     // 目的：ひびが右向きかを判断する
     // 
-    private bool _isRight 
+    private bool _isRight
     {
-        get 
+        get
         {
             if (_edgePoints[0].x < _edgePoints[_edgePoints.Count - 1].x) return true;
             return false;
@@ -698,7 +716,7 @@ public class CrackCreater : MonoBehaviour
     //
     // 目的：ひびが右向きの方法で光の形を設定する
     // 
-    private void RightSideShape(Vector2 _direction,float _distance) 
+    private void RightSideShape(Vector2 _direction, float _distance)
     {
         // 頂点数
         int pointNum = _edgePoints.Count;
@@ -710,7 +728,7 @@ public class CrackCreater : MonoBehaviour
         // 頂点をひびの形に合わせる
         for (int i = 1; i <= pointNum; i++)
         {
-            _shape[i-1] = new Vector3(_edgePoints[pointNum - i].x, _edgePoints[pointNum - i].y, 0.0f);
+            _shape[i - 1] = new Vector3(_edgePoints[pointNum - i].x, _edgePoints[pointNum - i].y, 0.0f);
             _shape[pointNum * 2 - i] = SetLightShape(_edgePoints[pointNum - i], _direction, _distance);
         }
 
@@ -724,7 +742,7 @@ public class CrackCreater : MonoBehaviour
     //
     // 目的：ひびが左向きの方法で、光の形を設定する
     // 
-    private void LeftSideShape(Vector2 _direction, float _distance) 
+    private void LeftSideShape(Vector2 _direction, float _distance)
     {
         // 頂点数
         int pointNum = _edgePoints.Count;
@@ -732,7 +750,7 @@ public class CrackCreater : MonoBehaviour
         Vector3[] _shape;
         // サイズ指定
         _shape = new Vector3[pointNum * 2];
-        
+
         // 頂点をひびの形に合わせる
         for (int i = 0; i < pointNum; i++)
         {
