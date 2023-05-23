@@ -89,7 +89,7 @@ public class DesertBossMove : MonoBehaviour
         }
 
         // コアが入っているピラミッドを決める
-        CoreNum = Random.Range(0, PyramidNum - 1);
+        CoreNum = Random.Range(0, PyramidNum);
         PyramidData Data = PyramidList.transform.GetChild(CoreNum).gameObject.GetComponent<PyramidData>();
         Data.InsideNum = 1;
 
@@ -164,7 +164,7 @@ public class DesertBossMove : MonoBehaviour
         }
 
         // コアが入っているピラミッドを決める
-        CoreNum = Random.Range(0, PyramidNum - 1);
+        CoreNum = Random.Range(0, PyramidNum);
         PyramidData Data = PyramidList.transform.GetChild(CoreNum).gameObject.GetComponent<PyramidData>();
         Data.InsideNum = 1;
 
