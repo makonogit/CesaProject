@@ -264,26 +264,26 @@ public class CrackCreater : MonoBehaviour
             Vector3 _point = new Vector3(_center.x, _center.y, 0);
 
             // 最後の座標でなければ
-            //if (i != _edgePoints.Count - 2)
-            //{
-            //    // 方向決定
-            //    Vector2 _vNailVec = _edgePoints[i] - _edgePoints[i + 1];
+            if (i != _edgePoints.Count - 2)
+            {
+                // 方向決定
+                Vector2 _vNailVec = _edgePoints[i] - _edgePoints[i + 1];
 
-            //    // 方向と距離でレイであたり判定
-            //    RaycastHit2D hit = Physics2D.Raycast(_edgePoints[i], _vNailVec.normalized * -1, _vNailVec.magnitude, layerMask);
-            //    Debug.DrawRay(_edgePoints[i], _vNailVec.normalized * -1, Color.red,  _vNailVec.magnitude, false);
+                // 方向と距離でレイであたり判定
+                RaycastHit2D hit = Physics2D.Raycast(_edgePoints[i] + new Vector2(0.01f, 0.01f), _vNailVec.normalized * -1, _vNailVec.magnitude, layerMask);
+                Debug.DrawRay(_edgePoints[i] + new Vector2(0.01f, 0.01f), _vNailVec.normalized * -1, Color.red, _vNailVec.magnitude, false);
 
 
-            //    // ステージに当たったら終了する
-            //    if (hit)
-            //    {
-            //        HitPoint = i;
-            //        break;
-            //    }
+                // ステージに当たったら終了する
+                if (hit)
+                {
+                    HitPoint = i;
+                    break;
+                }
 
-            //    //Debug.Log("当たりました" +hit.collider.gameObject.name);
+                //Debug.Log("当たりました" +hit.collider.gameObject.name);
 
-            //}
+            }
 
             // リストに追加
             // 呼び出し
