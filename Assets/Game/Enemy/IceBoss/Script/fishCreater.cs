@@ -11,7 +11,6 @@ public class fishCreater : MonoBehaviour
     private GameObject fishObj;
     [SerializeField]
     private IceBoss boss;
-    private CrackCreater _crack;
     private string _tag = "Crack";
 
     // Use this for initialization
@@ -25,16 +24,10 @@ public class fishCreater : MonoBehaviour
         // ひびなら
         if (collision.tag == _tag)
         {
-            _crack = collision.GetComponent<CrackCreater>();
-            // 生成中なら
-            if (_crack.State == CrackCreater.CrackCreaterState.CREATING || _crack.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+            if (boss.fish == null)
             {
-                if (boss.fish == null) 
-                {
-                    Vector2 pos = collision.ClosestPoint(transform.position);
-                    boss.fish = Instantiate(fishObj, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
-                }
-                
+                Vector2 pos = collision.ClosestPoint(transform.position);
+                boss.fish = Instantiate(fishObj, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
             }
         }
     }

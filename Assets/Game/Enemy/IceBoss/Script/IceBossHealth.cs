@@ -13,9 +13,10 @@ public class IceBossHealth : MonoBehaviour
     private int _hp;
 
 
+    private CrackManager _manager;
+
     private bool _Damaged;
 
-    private CrackCreater _crack;
 
     private string _tag = "Crack";
 
@@ -24,6 +25,9 @@ public class IceBossHealth : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GameObject Object = GameObject.Find("CrackManager");
+        _manager = Object.GetComponent<CrackManager>();
+        if (_manager == null) Debug.LogError("CrackManagerコンポーネントを取得できませんでした。");
         Init();
     }
     public void Init()
@@ -38,13 +42,7 @@ public class IceBossHealth : MonoBehaviour
         // ひびなら
         if(collision.tag == _tag)
         {
-            _crack = collision.GetComponent<CrackCreater>();
-            // 生成中なら
-            if (_crack.State == CrackCreater.CrackCreaterState.CREATING&&!_Damaged) 
-            {
-                _hp--;
-                _Damaged = true;
-            }
+            HitCrack(collision);
         }
     }
     public void SetDamageFlag() 
@@ -56,6 +54,17 @@ public class IceBossHealth : MonoBehaviour
         get 
         {
             return _hp;
+        }
+    }
+
+    private void HitCrack(Collider2D collision) 
+    {
+        CrackCreater.CrackCreaterState _state= _manager.GetHitCrackState(collision);
+        // 生成中なら
+        if (_state == CrackCreater.CrackCreaterState.CREATING && !_Damaged)
+        {
+            _hp--;
+            _Damaged = true;
         }
     }
 }

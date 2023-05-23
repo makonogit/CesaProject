@@ -68,6 +68,7 @@ public class IceBoss : MonoBehaviour
     void Start()
     {
         StartPos = transform.position;
+        _sizeX = transform.localScale.x;
         //--------------------------------------
         // 設定のチェック
 
@@ -122,7 +123,6 @@ public class IceBoss : MonoBehaviour
         _state = StateID.WALK;
         _direction = false;
         _nowTime = 0.0f;
-        _sizeX = transform.localScale.x;
         _health.Init();
     }
     public StateID State
