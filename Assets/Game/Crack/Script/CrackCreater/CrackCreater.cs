@@ -57,6 +57,7 @@ public class CrackCreater : MonoBehaviour
     private int _createCount;
     private int _addCrackCount;
     private Vector2Int _addCrackNow;
+    private int HitPoint;   //生成中に衝突したpoint
 
     [SerializeField]
     private List<Vector2> _nailPoints;// 釘の座標リスト
@@ -239,12 +240,12 @@ public class CrackCreater : MonoBehaviour
                 Vector2 _vNailVec = _nailPoints[i] - _nailPoints[i + 1];
 
                 // 方向と距離でレイであたり判定
-                RaycastHit2D hit = Physics2D.Raycast(_nailPoints[i] + new Vector2(0.01f, 0.01f), _vNailVec.normalized * -1 , _vNailVec.magnitude, layerMask);
-                //Debug.DrawRay(_nailPoints[i], _vNailVec * -1, Color.red, 1000, false);
+                RaycastHit2D hit = Physics2D.Raycast(_nailPoints[i] + new Vector2(0.01f, 0.01f), _vNailVec.normalized * -1, _vNailVec.magnitude, layerMask);
+                //Debug.DrawRay(_nailPoints[i], _vNailVec.normalized * -1, Color.red,  _vNailVec.magnitude, false);
                 //Debug.Log("当たりました" +hit.collider.gameObject.name);
-                
+
                 // ステージに当たったら終了する
-                if (hit && hit.collider.tag == "Ground") 
+                if (hit) 
                 {
                     break;
                 }
@@ -261,6 +262,28 @@ public class CrackCreater : MonoBehaviour
             // 中間座標を求める
             Vector2 _center = (_edgePoints[i] + _edgePoints[i + 1]) / 2;
             Vector3 _point = new Vector3(_center.x, _center.y, 0);
+
+            // 最後の座標でなければ
+            //if (i != _edgePoints.Count - 2)
+            //{
+            //    // 方向決定
+            //    Vector2 _vNailVec = _edgePoints[i] - _edgePoints[i + 1];
+
+            //    // 方向と距離でレイであたり判定
+            //    RaycastHit2D hit = Physics2D.Raycast(_edgePoints[i], _vNailVec.normalized * -1, _vNailVec.magnitude, layerMask);
+            //    Debug.DrawRay(_edgePoints[i], _vNailVec.normalized * -1, Color.red,  _vNailVec.magnitude, false);
+
+
+            //    // ステージに当たったら終了する
+            //    if (hit)
+            //    {
+            //        HitPoint = i;
+            //        break;
+            //    }
+
+            //    //Debug.Log("当たりました" +hit.collider.gameObject.name);
+
+            //}
 
             // リストに追加
             // 呼び出し
@@ -281,7 +304,7 @@ public class CrackCreater : MonoBehaviour
 
         // 頂点を設定する
         //Edge2D.SetPoints(_edgePoints);
-        if(SandEdge != null) SandEdge.SetPoints(_edgePoints);
+        //if(SandEdge != null) SandEdge.SetPoints(_edgePoints);
 
         _nowState = CrackCreaterState.CREATING;
     }
@@ -342,6 +365,7 @@ public class CrackCreater : MonoBehaviour
             // エッジ設定
             _nowEdgePoints.Add(_edgePoints[_createCount]);
             Edge2D.SetPoints(_nowEdgePoints);
+            if (SandEdge != null) SandEdge.SetPoints(_nowEdgePoints);
 
             // WHPSSのHPを減らす-追加
             //_WHPSS.SubHp(_cracks[_createCount].transform.localScale.x);
@@ -499,8 +523,9 @@ public class CrackCreater : MonoBehaviour
         int Last = _edgePoints.Count - 1;
         // 方向決定(仮想釘の設定)
         Vector2 _vNailVec = _edgePoints[Last] - _edgePoints[_edgePoints.Count - 2];
+        Debug.DrawRay(_edgePoints[Last] + new Vector2(0.01f, 0.01f), _vNailVec.normalized, Color.red, AddLength - 1.0f, false);
         // 方向と距離でレイであたり判定
-        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last] + new Vector2(0.1f,0.1f), _vNailVec.normalized , AddLength, layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last]/* + new Vector2(0.01f,0.01f)*/, _vNailVec.normalized , AddLength - 1.0f, layerMask);
         //if (hit) Debug.Log("後" + hit.collider.gameObject.tag);
         if (hit)
         {
