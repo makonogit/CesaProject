@@ -175,10 +175,12 @@ public class Hammer : MonoBehaviour
                     float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
                     if (Distance < 0.5f)
                     {
-                        GameObject crackobj = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).gameObject;
-                        NowCrack = crackobj.transform.childCount > 1 ? crackobj.transform.GetComponent<CrackCreater>() : null;
-
-                        if (CrackManager.transform.childCount > 0 && NowCrack != null)
+                        if (CrackManager.transform.childCount > 0)
+                        {
+                            GameObject crackobj = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).gameObject;
+                            NowCrack = crackobj.transform.childCount > 1 ? crackobj.transform.GetComponent<CrackCreater>() : null;
+                        }
+                        if (NowCrack != null)
                         {
                            AddCrackFlg = true;
                         }
