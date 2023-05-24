@@ -25,6 +25,8 @@ public class PauseGame : MonoBehaviour
     private bool retry_Out = false; // リトライが選択されたらtrue
     private bool retry_In = false;  // シーンが読み込まれたらtrue
 
+    private bool select_Out = false; // セレクトが選択されたらtrue
+
     [Header("フェードアウトとフェードインの間隔")] public float OutInTime = 0.5f;
     private float WaitTimer = 0f;
     private bool fadeout = false;
@@ -186,6 +188,12 @@ public class PauseGame : MonoBehaviour
             Retry_FadeIn();
         }
 
+        // セレクトフェードアウト
+        if (select_Out)
+        {
+            Select_FadeOut();
+        }
+
         // ポーズ状態の時の処理
         if (IsPause)
         {
@@ -311,12 +319,9 @@ public class PauseGame : MonoBehaviour
 
                         //セレクトへ
                         case 3:
-                            TimeOperate();
+                            select_Out = true;
 
-                            InMainScene.inMainScene = false;
-
-                            // ステージセレクトに行く
-                            SceneManager.LoadScene("newSelectScene");
+                            
                             break;
                     }
                     ScriptPIManager.SetPressA(false);
@@ -435,6 +440,7 @@ public class PauseGame : MonoBehaviour
 
             // BGMフェード開始
             _BGMFadeMana.SmallStageBGM();
+            _BGMFadeMana.SmallBossBGM();
 
             fadeout = true;
         }
@@ -447,7 +453,7 @@ public class PauseGame : MonoBehaviour
             {
                 //FadeAlpha.black = true;
 
-                Debug.Log("シーンをロード");
+                //Debug.Log("シーンをロード");
 
                 // 今いるシーンをロードしなおす
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -466,5 +472,39 @@ public class PauseGame : MonoBehaviour
 
         // 通常再生にする
         Time.timeScale = 1f;
+    }
+
+    private void Select_FadeOut()
+    {
+        Fade.FadeState fadestate = fade.GetFadeState();
+
+        // フェードアウトする初回のみ入る
+        if (fadestate != Fade.FadeState.FadeOut && fadeout == false)
+        {
+            // フェードアウト開始
+            fade.FadeOut();
+
+            // BGMフェード開始
+            _BGMFadeMana.SmallStageBGM();
+
+            fadeout = true;
+        }
+
+        if (fadestate == Fade.FadeState.FadeOut_Finish)
+        {
+            WaitTimer += Time.unscaledDeltaTime;
+
+            if (WaitTimer > OutInTime)
+            {
+                //FadeAlpha.black = true;
+
+                TimeOperate();
+
+                InMainScene.inMainScene = false;
+
+                // ステージセレクトに行く
+                SceneManager.LoadScene("newSelectScene");
+            }
+        }
     }
 }

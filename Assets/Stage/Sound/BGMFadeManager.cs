@@ -15,6 +15,8 @@ public class BGMFadeManager : MonoBehaviour
     private bool _bigBossBGM; // ボス戦開始時に立てる
     private bool _smallStageBGMflg; // セレクトに戻るとき、死亡時、クリア時
     private bool _bigStageBGMflg; // ステージに入った時、リスポーン時、
+    private bool _bigSpecialBGMflg; // 死亡時、クリア時
+    private bool _smallSpecialBGMflg; // 死亡演出終了後呼び出し
 
     [SerializeField] private FadeBGM _fadeBGM; // フェード処理スクリプト
 
@@ -53,6 +55,21 @@ public class BGMFadeManager : MonoBehaviour
             _bigStageBGMflg = false;
         }
 
+        // 特殊BGMおおきく
+        if(_bigSpecialBGMflg == true)
+        {
+            _fadeBGM.Special.FadeIn = true;
+
+            _bigSpecialBGMflg = false;
+        }
+
+        // 特殊BGM小さく
+        if(_smallSpecialBGMflg == true)
+        {
+            _fadeBGM.Special.FadeOut = true;
+
+            _smallSpecialBGMflg = false;
+        }
     }
 
     // ボス撃破時に呼び出し
@@ -83,6 +100,17 @@ public class BGMFadeManager : MonoBehaviour
     public void StageClear()
     {
         _fadeBGM.StageClear();
+    }
+
+    // 死亡時に呼び出し
+    public void BigSpecialBGM()
+    {
+        _bigSpecialBGMflg = true;
+    }
+
+    public void smallSpecialBGM()
+    {
+        _smallSpecialBGMflg = true;
     }
 
     // BGMの進行具合をリセットする

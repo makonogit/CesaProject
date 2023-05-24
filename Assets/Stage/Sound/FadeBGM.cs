@@ -30,14 +30,16 @@ public class FadeBGM : MonoBehaviour
     [SerializeField] private AudioSource StageBGM_Intro;
     [SerializeField] private AudioSource StageBGM_Loop;
     [SerializeField] private AudioSource BossBGM;
+    [SerializeField] private AudioSource SpecialBGM; // 特殊BGM
 
     // クリアBGM用AudioClip
     [SerializeField] private AudioClip AC_Clear;
-    private bool _clearBGMflg = false; // クリアBGM再生開始時にtrue
+    [SerializeField] private bool _clearBGMflg = false; // クリアBGM再生開始時にtrue
 
     // BGMフェード用クラス
     public BGMstatus Stage; // ステージ 
     public BGMstatus Boss;  // ボス
+    public BGMstatus Special; // ゲームオーバー、クリア
 
     [SerializeField,Header("フェードの速度")] private float _speed = 1.0f;
 
@@ -47,6 +49,7 @@ public class FadeBGM : MonoBehaviour
         StageBGM_Intro.volume = 0f;
         StageBGM_Loop.volume = 0f;
         BossBGM.volume = 0f;
+        SpecialBGM.volume = 0f;
     }
 
     // Update is called once per frame
@@ -85,6 +88,23 @@ public class FadeBGM : MonoBehaviour
         {
             Boss.FadeIn = false;
             Boss.FadeOut = false;
+        }
+
+        //------------------------------------------
+        // 特殊BGM
+        if(Special.FadeOut == true)
+        {
+            SpecialBGMFadeOut();
+        }
+        if(Special.FadeIn == true)
+        {
+            SpecialBGMFadeIn();
+        }
+
+        if(Special.FadeIn == true && Special.FadeOut == true)
+        {
+            Special.FadeIn = false;
+            Special.FadeOut = false;
         }
 
         //------------------------------------------
@@ -147,6 +167,7 @@ public class FadeBGM : MonoBehaviour
         }
     }
 
+    // ボスBGMのフェードアウト
     private void BossBGMFadeOut()
     {
         // BGMの音量を0に近づけていく
@@ -162,6 +183,38 @@ public class FadeBGM : MonoBehaviour
         }
     }
 
+    // 特殊BGMのフェードイン
+    private void SpecialBGMFadeIn()
+    {
+        // BGMの音量を最大音量に近づけていく
+        if(SpecialBGM.volume < Special.MaxVolume)
+        {
+            SpecialBGM.volume += Time.unscaledTime * _speed;
+        }
+        else
+        {
+            SpecialBGM.volume = Special.MaxVolume;
+
+            Special.FadeIn = false;
+        }
+    }
+
+    // 特殊BGMのフェードアウト
+    private void SpecialBGMFadeOut()
+    {
+        // BGMの音量を0に近づけていく
+        if (SpecialBGM.volume > 0)
+        {
+            SpecialBGM.volume -= Time.unscaledTime * _speed;
+        }
+        else
+        {
+            SpecialBGM.volume = 0;
+
+            Special.FadeOut = false;
+        }
+    }
+
     //  セッター
     public void StageClear()
     {
@@ -172,11 +225,11 @@ public class FadeBGM : MonoBehaviour
     private void ChangeClearBGM()
     {
         // ステージBGMクリップをセット
-        StageBGM_Loop.clip = AC_Clear;
+        SpecialBGM.clip = AC_Clear;
         // BGM開始位置を初めにする
-        StageBGM_Loop.time = 0f;
+        SpecialBGM.Play();
         // BGMフェードインさせる
-        Stage.FadeIn = true;
+        Special.FadeIn = true;
         // クリアフラグおろす
         _clearBGMflg = false;
     }
@@ -188,7 +241,10 @@ public class FadeBGM : MonoBehaviour
         StageBGM_Intro.time = 0;
         StageBGM_Intro.Play();
 
+        // PlayIntroBGMでイントロが流れ終わったら勝手に再生されるようになっている
         StageBGM_Loop.Stop();
+
+        // ボスBGMの再生時間を初期化
         BossBGM.time = 0;
     }
 }

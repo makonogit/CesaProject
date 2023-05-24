@@ -34,11 +34,13 @@ public class GameOver : MonoBehaviour
     private Fade fade;
     [SerializeField] private BGMFadeManager _BGMFadeMana;
     private bool FadeBGMflg = false;
+    [SerializeField] private AudioSource _specialBGM;
 
     // 二宮追加
     private GameObject StageData;
     private GameObject StagePrefab;
     private RespawnObjManager _respawnObjManager;
+    [SerializeField] private PlayBgm _playBGM;
 
     //―追加担当者：中川直登―//
     [SerializeField, Header("パーティクル")]
@@ -117,6 +119,7 @@ public class GameOver : MonoBehaviour
 
         // フェード関係
         fade = GameObject.Find("SceneManager").GetComponent<Fade>();
+        _playBGM = cam.GetComponent<PlayBgm>();
     }
 
     // Update is called once per frame
@@ -196,6 +199,12 @@ public class GameOver : MonoBehaviour
                 // BGMフェードアウト
                 _BGMFadeMana.SmallStageBGM();
 
+                // 死亡BGMフェードイン
+                _BGMFadeMana.BigSpecialBGM();
+                _playBGM.Death = true;
+                // 再生開始
+                _specialBGM.Play();
+
                 FadeBGMflg = true;
             }
 
@@ -221,7 +230,7 @@ public class GameOver : MonoBehaviour
                 Fade.FadeState fadestate = fade.GetFadeState();
 
                 // フェードアウト
-                if (fadestate != Fade.FadeState.FadeOut && _fadeout == false)
+                if (fadestate != Fade.FadeState.FadeOut && _fadeout == false && _specialBGM.isPlaying == false) // 死亡BGMの再生終了
                 {
                     // 画面フェードアウト開始
                     fade.FadeOut();
@@ -277,6 +286,9 @@ public class GameOver : MonoBehaviour
                         // 再生位置リセット
                         _BGMFadeMana.ResetBGM();
 
+                        // 特殊BGMフェードアウト
+                        _BGMFadeMana.smallSpecialBGM();
+
                         // 生成したパーティクル削除
                         Destroy(_createdParticle);
                         //Debug.Log(playerStatus.respawnStatus.RespawnCrystalNum);
@@ -291,6 +303,7 @@ public class GameOver : MonoBehaviour
                         hell = false;
                         death = false;
                         FadeBGMflg = false;
+                        _playBGM.Death = false;
                     }
                 }
 

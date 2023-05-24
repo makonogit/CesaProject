@@ -25,6 +25,7 @@ public class PlayBgm : MonoBehaviour
     [SerializeField,Header("音が変化するスピード")] private float changeSpeed = 1f;
     // ボス戦が始まっていたらtrue
     public bool StartBossBattle = false;
+    public bool Death = false; 
 
     private bool Init = false;
 
@@ -72,8 +73,6 @@ public class PlayBgm : MonoBehaviour
             //Debug.Log("loop");
             Intro.Stop();
             Loop.Play();
-
-            Debug.Log("AAAAAAAAA");
         }
 
         if (_smallerBGM != null)
@@ -84,26 +83,16 @@ public class PlayBgm : MonoBehaviour
                 // ボスの通路に入ったら
                 if (_smallerBGM.GetInPassageArea() == true)
                 {
-                    // ループBGMのvolumeを徐々に0に近づける
-                    if (Loop.volume > 0f)
+                    if(Death == false)
                     {
-                        Loop.volume -= Time.deltaTime * changeSpeed;
-                    }
-                    else
-                    {
-                        Loop.volume = 0f;
+                        _BGMfadeMana.SmallStageBGM();
                     }
                 }
                 else
                 {
-                    // ループBGMのvolumeを徐々に0.2に近づける
-                    if (Loop.volume < 0.2f)
+                    if(Death == false)
                     {
-                        Loop.volume += Time.deltaTime * changeSpeed;
-                    }
-                    else
-                    {
-                        Loop.volume = 0.2f;
+                        _BGMfadeMana.BigStageBGM();
                     }
                 }
             }
