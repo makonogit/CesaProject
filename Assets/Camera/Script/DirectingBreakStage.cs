@@ -57,7 +57,11 @@ public class DirectingBreakStage : MonoBehaviour
     private BGMFadeManager _BGMFadeMana;
     private AudioSource SpecialBGM; // 特殊BGM
     private bool ClearBGMflg = false;
-    private Fade _fade; 
+    private Fade _fade;
+
+    GameObject Core;
+    [SerializeField, Header("ヒビ入りクリスタル管理")]
+    private CrystalCrackManager _crystalmanager;
 
     // Start is called before the first frame update
     void Start()
@@ -168,7 +172,9 @@ public class DirectingBreakStage : MonoBehaviour
 
             if (FaderRate <= 1f - CrystalNum_X * 2f)
             {
-
+                // コアを取得、消去
+                Core = GameObject.Find("Core").transform.GetChild(0).gameObject;
+                Destroy(Core);
 
                 for(int i = 0; i < Crystal.Count; i++)
                 {
@@ -223,6 +229,7 @@ public class DirectingBreakStage : MonoBehaviour
 
     public void StartBreak()
     {
+        _crystalmanager.clear = true;
         startBreak = true;
     }
 }
