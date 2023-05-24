@@ -121,6 +121,7 @@ public class TownBossMove : MonoBehaviour
     private GameObject mainCam;
     private CameraControl2 cameraControl;   //カメラ追従
     private VibrationCamera vibration;
+    private BGMFadeManager _BGMfadeMana;
 
     public void Init()
     {
@@ -179,6 +180,7 @@ public class TownBossMove : MonoBehaviour
 
         // ボス撃破用演出
         bossDirecting = transform.GetChild(3).gameObject.GetComponent<Directing_BossLight>();
+        _BGMfadeMana = mainCam.GetComponent<BGMFadeManager>();
     }
 
     // Update is called once per frame
@@ -583,6 +585,9 @@ public class TownBossMove : MonoBehaviour
             death = true;
 
             bossDirecting.Flash();
+
+            // ボスBGM小さく
+            _BGMfadeMana.SmallBossBGM();
 
             //// バリア透明にする
             //BariMat.color = new Color(1f, 1f, 1f, 0f);

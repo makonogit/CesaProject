@@ -54,9 +54,12 @@ public class PauseGame : MonoBehaviour
     private GameObject black;
     private Image blackImage;
 
-    private GameObject player;
-    private Transform playerTransform;
-    private PlayerStatas playerStatus;
+    //private GameObject player;
+    //private Transform playerTransform;
+    //private PlayerStatas playerStatus;
+
+    // BGM
+    [SerializeField] private BGMFadeManager _BGMFadeMana;
 
     // se関係
     private GameObject se;
@@ -112,9 +115,11 @@ public class PauseGame : MonoBehaviour
         seMana = se.GetComponent<SEManager_Pause>();
 
         // リスポーン関係
-        player = GameObject.Find("player");
-        playerTransform = player.GetComponent<Transform>();
-        playerStatus = player.GetComponent<PlayerStatas>();
+        //player = GameObject.Find("player");
+        //playerTransform = player.GetComponent<Transform>();
+        //playerStatus = player.GetComponent<PlayerStatas>();
+
+
 
         // フェード関係
         fade = sceneManager.GetComponent<Fade>();
@@ -428,6 +433,9 @@ public class PauseGame : MonoBehaviour
             // フェードアウト開始
             fade.FadeOut();
 
+            // BGMフェード開始
+            _BGMFadeMana.SmallStageBGM();
+
             fadeout = true;
         }
 
@@ -449,7 +457,11 @@ public class PauseGame : MonoBehaviour
 
     private void Retry_FadeIn()
     {
+        // 画面のフェードイン
         fade.FadeIn();
+        // BGMフェードイン(シーンのロードをするので必要はない)
+        //_BGMFadeMana.BigStageBGM();
+
         retry_In = false;
 
         // 通常再生にする

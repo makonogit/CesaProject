@@ -23,11 +23,15 @@ public class PlayBgm : MonoBehaviour
     [Header("ループに切り替わる時間")]
     public float LoopStartTime;
     [SerializeField,Header("音が変化するスピード")] private float changeSpeed = 1f;
+    // ボス戦が始まっていたらtrue
+    public bool StartBossBattle = false;
 
     private bool Init = false;
 
     private GameObject BossPassage;
     private GettingSmallerBGM _smallerBGM;
+    [SerializeField] private BGMFadeManager _BGMfadeMana;
+
 
     // Start is called before the first frame update
     void Start()
@@ -69,33 +73,38 @@ public class PlayBgm : MonoBehaviour
             Intro.Stop();
             Loop.Play();
 
+            Debug.Log("AAAAAAAAA");
         }
 
         if (_smallerBGM != null)
         {
-            // ボスの通路に入ったら
-            if (_smallerBGM.GetInPassageArea() == true)
+            // ボスとの戦闘が始まってなければ
+            if (StartBossBattle == false)
             {
-                // ループBGMのvolumeを徐々に0に近づける
-                if (Loop.volume > 0f)
+                // ボスの通路に入ったら
+                if (_smallerBGM.GetInPassageArea() == true)
                 {
-                    Loop.volume -= Time.deltaTime * changeSpeed;
+                    // ループBGMのvolumeを徐々に0に近づける
+                    if (Loop.volume > 0f)
+                    {
+                        Loop.volume -= Time.deltaTime * changeSpeed;
+                    }
+                    else
+                    {
+                        Loop.volume = 0f;
+                    }
                 }
                 else
                 {
-                    Loop.volume = 0f;
-                }
-            }
-            else
-            {
-                // ループBGMのvolumeを徐々に0.2に近づける
-                if (Loop.volume < 0.2f)
-                {
-                    Loop.volume += Time.deltaTime * changeSpeed;
-                }
-                else
-                {
-                    Loop.volume = 0.2f;
+                    // ループBGMのvolumeを徐々に0.2に近づける
+                    if (Loop.volume < 0.2f)
+                    {
+                        Loop.volume += Time.deltaTime * changeSpeed;
+                    }
+                    else
+                    {
+                        Loop.volume = 0.2f;
+                    }
                 }
             }
         }

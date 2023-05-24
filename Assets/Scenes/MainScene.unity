@@ -810,6 +810,8 @@ GameObject:
   - component: {fileID: 561533696}
   - component: {fileID: 561533703}
   - component: {fileID: 561533704}
+  - component: {fileID: 561533706}
+  - component: {fileID: 561533705}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -837,6 +839,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 09dc7c29212689c42b4e75bdc15364f2, type: 3}
   LoopStartTime: 11.5
   changeSpeed: 0.2
+  StartBossBattle: 0
+  _BGMfadeMana: {fileID: 0}
 --- !u!114 &561533697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1036,6 +1040,44 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &561533705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561533695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dced951456932eb45bc35a47c52a0d2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fadeBGM: {fileID: 561533706}
+--- !u!114 &561533706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561533695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a30bb75e16d67348a6a317e685131b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StageBGM_Intro: {fileID: 1798430739}
+  StageBGM_Loop: {fileID: 1152344733}
+  BossBGM: {fileID: 1706344628}
+  AC_Clear: {fileID: 8300000, guid: b4144d35a5f9283439307d5133adf891, type: 3}
+  Stage:
+    FadeIn: 0
+    FadeOut: 0
+    MaxVolume: 0.2
+  Boss:
+    FadeIn: 0
+    FadeOut: 0
+    MaxVolume: 0.2
+  _speed: 0.0002
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1606,6 +1648,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143664070}
   m_CullTransparentMesh: 1
+--- !u!82 &1152344733 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1391312667611003442, guid: 852b4e94a234ad64084fba4f25aa2e43, type: 3}
+  m_PrefabInstance: {fileID: 1391312667190893238}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1249075789
 GameObject:
   m_ObjectHideFlags: 0
@@ -2328,6 +2375,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8129867394506803745, guid: e38bfdfb5d5f0bb47b1f83d0c1aaa728, type: 3}
   m_PrefabInstance: {fileID: 4302193308320567638}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1706344628 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4646351111415901980, guid: e38bfdfb5d5f0bb47b1f83d0c1aaa728, type: 3}
+  m_PrefabInstance: {fileID: 4302193308320567638}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1749737638
 GameObject:
   m_ObjectHideFlags: 0
@@ -2427,6 +2479,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
   - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
   - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
+  _BGMfadeMana: {fileID: 561533705}
+--- !u!82 &1798430739 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7911027452607527267, guid: 021891527e0f9ba41ba3d597b3eba8a7, type: 3}
+  m_PrefabInstance: {fileID: 7911027453622514380}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1906644263
 GameObject:
   m_ObjectHideFlags: 0
@@ -3582,6 +3640,10 @@ PrefabInstance:
       propertyPath: ChangeSpeed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2213088983169423595, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: _BGMFadeMana
+      value: 
+      objectReference: {fileID: 561533705}
     - target: {fileID: 2213088983169423595, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
       propertyPath: sceneManager
       value: 
@@ -4977,6 +5039,10 @@ PrefabInstance:
       propertyPath: anim2
       value: 
       objectReference: {fileID: 724308335}
+    - target: {fileID: 8059579095247675383, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: _BGMFadeMana
+      value: 
+      objectReference: {fileID: 561533705}
     - target: {fileID: 8059579095247675410, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: _length
       value: 0.06

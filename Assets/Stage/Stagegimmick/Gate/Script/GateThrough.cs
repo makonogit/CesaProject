@@ -22,6 +22,10 @@ public class GateThrough : MonoBehaviour
 
     private CameraControl2 camera;
 
+    private GameObject MainCamera;
+    private BGMFadeManager _BGMfadeMana;
+    private PlayBgm _playBGM;
+
     private void Start()
     {
         // BGM再生システム取得
@@ -30,8 +34,13 @@ public class GateThrough : MonoBehaviour
 
         PlayerTrans = GameObject.Find("player").transform;
 
+        MainCamera = GameObject.Find("Main Camera");
+
         // カメラ制御取得
-        camera = GameObject.Find("Main Camera").GetComponent<CameraControl2>();
+        camera = MainCamera.GetComponent<CameraControl2>();
+        // BGMフェードマネージャー取得
+        _BGMfadeMana = MainCamera.GetComponent<BGMFadeManager>();
+        _playBGM = MainCamera.GetComponent<PlayBgm>();
 
     }
 
@@ -44,9 +53,17 @@ public class GateThrough : MonoBehaviour
         if (Throgh && PlayerTrans.position.x < transform.position.x)
         {
             Destroy(Gateobj);   //生成したゲートを削除
-            boss_bgm.Stop();    
+
+
+            boss_bgm.Stop();
+            boss_bgm.volume = 0f;
+
+            // ステージBGM再生開始
             stage_bgm.Play();
+
             stage_bgm.volume = 0f; // 二宮追加
+            _playBGM.StartBossBattle = false;
+
             camera.InitCamera();    //カメラ位置初期化
             Throgh = false;     //通り抜けフラグの初期化
 
@@ -61,8 +78,15 @@ public class GateThrough : MonoBehaviour
         {
             Throgh = true;
 
-            stage_bgm.GetComponent<AudioSource>().Stop();
+            // ステージBGMフェードアウト(もともと音量は0)
+            _BGMfadeMana.SmallStageBGM();
+            //stage_bgm.GetComponent<AudioSource>().Stop();
+
+            // ボスBGM再生開始&フェードイン
             boss_bgm.Play();
+            _BGMfadeMana.BigBossBGM();
+            _playBGM.StartBossBattle = true;
+
             Gateobj = Instantiate(GateBlock, transform);
             //Gateobj.transform.parent = null;
         }

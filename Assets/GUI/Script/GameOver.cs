@@ -32,6 +32,8 @@ public class GameOver : MonoBehaviour
     private Transform playerTransform;
     private PlayerStatas playerStatus;
     private Fade fade;
+    [SerializeField] private BGMFadeManager _BGMFadeMana;
+    private bool FadeBGMflg = false;
 
     // 二宮追加
     private GameObject StageData;
@@ -188,6 +190,14 @@ public class GameOver : MonoBehaviour
             //―追加担当者：中川直登―//
 
             //Deactivate();
+            // BGMのフェード開始
+            if(FadeBGMflg == false)
+            {
+                // BGMフェードアウト
+                _BGMFadeMana.SmallStageBGM();
+
+                FadeBGMflg = true;
+            }
 
             // パーティクルが生成されていないなら
             if (_createdParticle == null && _nowTime>_creatTime && Create == false) 
@@ -213,9 +223,9 @@ public class GameOver : MonoBehaviour
                 // フェードアウト
                 if (fadestate != Fade.FadeState.FadeOut && _fadeout == false)
                 {
-                    // フェードアウト開始
+                    // 画面フェードアウト開始
                     fade.FadeOut();
-
+                   
                     _fadeout = true;
                 }
 
@@ -260,8 +270,12 @@ public class GameOver : MonoBehaviour
                     OutInTimer += Time.deltaTime;
                     if(OutInTimer > OutInTime)
                     {
-                        // フェードイン開始
+                        // 画面フェードイン開始
                         fade.FadeIn();
+                        // BGMフェードイン開始
+                        _BGMFadeMana.BigStageBGM();
+                        // 再生位置リセット
+                        _BGMFadeMana.ResetBGM();
 
                         // 生成したパーティクル削除
                         Destroy(_createdParticle);
@@ -276,6 +290,7 @@ public class GameOver : MonoBehaviour
                         Create = false;
                         hell = false;
                         death = false;
+                        FadeBGMflg = false;
                     }
                 }
 

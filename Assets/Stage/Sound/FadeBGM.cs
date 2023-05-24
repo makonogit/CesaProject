@@ -1,0 +1,194 @@
+//---------------------------------------
+//担当：二宮怜
+//内容：現在再生しているBGMのフェード処理（あまり触らないでほしい）
+//---------------------------------------
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[System.Serializable]
+public class BGMstatus
+{
+    // フェード処理実行用のフラグ
+    public bool FadeIn = false;
+    public bool FadeOut = false;
+
+    // 最大音量
+    public float MaxVolume = 0f;
+
+    public BGMstatus(float volume)
+    {
+        MaxVolume = volume;
+    }
+}          
+
+public class FadeBGM : MonoBehaviour
+{
+    // 変数宣言
+
+    // MainSceneのBGM用AudioSource
+    [SerializeField] private AudioSource StageBGM_Intro;
+    [SerializeField] private AudioSource StageBGM_Loop;
+    [SerializeField] private AudioSource BossBGM;
+
+    // クリアBGM用AudioClip
+    [SerializeField] private AudioClip AC_Clear;
+    private bool _clearBGMflg = false; // クリアBGM再生開始時にtrue
+
+    // BGMフェード用クラス
+    public BGMstatus Stage; // ステージ 
+    public BGMstatus Boss;  // ボス
+
+    [SerializeField,Header("フェードの速度")] private float _speed = 1.0f;
+
+    private void Start()
+    {
+        // 各BGMの初期音量は0
+        StageBGM_Intro.volume = 0f;
+        StageBGM_Loop.volume = 0f;
+        BossBGM.volume = 0f;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //------------------------------------
+        // ステージ用
+        if (Stage.FadeOut == true)
+        {
+            StageBGMFadeOut();
+        }
+        if(Stage.FadeIn == true)
+        {
+            StageBGMFadeIn();
+        }
+
+        // フェードインとフェードアウトがかぶったらどちらも終了
+        if(Stage.FadeIn == true && Stage.FadeOut == true)
+        {
+            Stage.FadeIn = false;
+            Stage.FadeOut = false;
+        }
+
+        //-------------------------------------
+        // ボス用
+        if (Boss.FadeOut == true)
+        {
+            BossBGMFadeOut();
+        }
+        if (Boss.FadeIn == true)
+        {
+            BossBGMFadeIn();
+        }
+
+        if (Boss.FadeIn == true && Boss.FadeOut == true)
+        {
+            Boss.FadeIn = false;
+            Boss.FadeOut = false;
+        }
+
+        //------------------------------------------
+        // クリア時呼び出し
+        if(_clearBGMflg == true)
+        {
+            ChangeClearBGM();
+        }
+    }
+
+    // ステージBGMのフェードアウト
+    private void StageBGMFadeOut()
+    {
+        // BGMの音量を0に近づけていく
+        if(StageBGM_Intro.volume > 0f)
+        {
+            StageBGM_Intro.volume -= Time.unscaledTime * _speed;
+            StageBGM_Loop.volume -= Time.unscaledTime * _speed;
+        }
+        else
+        {
+            StageBGM_Intro.volume = 0f;
+            StageBGM_Loop.volume  = 0f;
+
+            Stage.FadeOut = false;
+        }
+    }
+
+    // ステージBGMのフェードイン
+    private void StageBGMFadeIn()
+    {
+        // BGMの音量を最大音量に近づけていく
+        if (StageBGM_Intro.volume < Stage.MaxVolume)
+        {
+            StageBGM_Intro.volume += Time.unscaledTime * _speed;
+            StageBGM_Loop.volume += Time.unscaledTime * _speed;
+        }
+        else
+        {
+            StageBGM_Intro.volume = Stage.MaxVolume;
+            StageBGM_Loop.volume = Stage.MaxVolume;
+
+            Stage.FadeIn = false;
+        }
+    }
+
+    // ボスBGMのフェードイン
+    private void BossBGMFadeIn()
+    {
+        // BGMの音量を最大音量に近づけていく
+        if (BossBGM.volume < Boss.MaxVolume)
+        {
+            BossBGM.volume += Time.unscaledTime * _speed;
+        }
+        else
+        {
+            BossBGM.volume = Boss.MaxVolume;
+
+            Boss.FadeIn = false;
+        }
+    }
+
+    private void BossBGMFadeOut()
+    {
+        // BGMの音量を0に近づけていく
+        if (BossBGM.volume > 0)
+        {
+            BossBGM.volume -= Time.unscaledTime * _speed;
+        }
+        else
+        {
+            BossBGM.volume = 0;
+
+            Boss.FadeOut = false;
+        }
+    }
+
+    //  セッター
+    public void StageClear()
+    {
+        _clearBGMflg = true;
+    }
+
+    // StageBGMをステージクリアBGMに切り替え
+    private void ChangeClearBGM()
+    {
+        // ステージBGMクリップをセット
+        StageBGM_Loop.clip = AC_Clear;
+        // BGM開始位置を初めにする
+        StageBGM_Loop.time = 0f;
+        // BGMフェードインさせる
+        Stage.FadeIn = true;
+        // クリアフラグおろす
+        _clearBGMflg = false;
+    }
+
+    // BGMの進行具合をリセットする
+    public void ResetBGM()
+    {
+        // イントロを最初から再生
+        StageBGM_Intro.time = 0;
+        StageBGM_Intro.Play();
+
+        StageBGM_Loop.Stop();
+        BossBGM.time = 0;
+    }
+}
