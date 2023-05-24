@@ -420,7 +420,7 @@ public class Hammer : MonoBehaviour
                             anim.speed = 0.02f;
                             stopTime = 0.0f;
 
-                            angle = 0.0f; //角度初期化
+                            //angle = 0.0f; //角度初期化
                             hammerstate = HammerState.HAMMER;
 
 
@@ -492,6 +492,7 @@ public class Hammer : MonoBehaviour
                                 AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
                                 Move.SetMovement(true);
                                 AddCrackFlg = false;
+                                angle = 0.0f; //角度の初期化
                                 hammerstate = HammerState.NONE;
 
                                 Debug.Log("ひびが見つかりません");
@@ -507,6 +508,7 @@ public class Hammer : MonoBehaviour
 
                             AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
                             Move.SetMovement(true);
+                            angle = 0.0f;   //角度の初期化
                             hammerstate = HammerState.NONE;
                         }
                     }
@@ -566,9 +568,11 @@ public class Hammer : MonoBehaviour
             // ためアニメーション
             anim.SetBool("angle", (hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION) && (angle >= 45 && angle <= 135));
             // ひびアニメーション
-            anim.SetBool("crack", hammerstate == HammerState.HAMMER);
+            anim.SetBool("crack", hammerstate == HammerState.HAMMER && (angle < 45 || angle > 135));
+            
+            anim.SetBool("backcrack", hammerstate == HammerState.HAMMER && (angle >= 45 && angle <= 135));
             // キャンセル
-            anim.SetBool("cansel", hammerstate == HammerState.NONE);
+            //anim.SetBool("cansel", hammerstate == HammerState.NONE);
 
         }
         //Debug.Log(hammerstate);
