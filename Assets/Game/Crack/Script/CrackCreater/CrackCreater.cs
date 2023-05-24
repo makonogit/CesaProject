@@ -322,7 +322,7 @@ public class CrackCreater : MonoBehaviour
         AddBack();
         // 頂点を再設定する
         //Edge2D.SetPoints(_edgePoints);
-        if (SandEdge != null) SandEdge.SetPoints(_edgePoints);
+        //if (SandEdge != null) SandEdge.SetPoints(_edgePoints);
     }
 
     //-------------------------------------------------------------------
@@ -337,7 +337,7 @@ public class CrackCreater : MonoBehaviour
 
         // 頂点を再設定する
         //Edge2D.SetPoints(_edgePoints);
-        SandEdge.SetPoints(_edgePoints);
+        //SandEdge.SetPoints(_edgePoints);
 
     }
 
@@ -353,7 +353,7 @@ public class CrackCreater : MonoBehaviour
 
         // 頂点を再設定する
         //Edge2D.SetPoints(_edgePoints);
-        if (SandEdge != null) SandEdge.SetPoints(_edgePoints);
+        //if (SandEdge != null) SandEdge.SetPoints(_edgePoints);
 
     }
     //-------------------------------------------------------

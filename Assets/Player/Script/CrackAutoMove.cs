@@ -50,6 +50,7 @@ public class CrackAutoMove : MonoBehaviour
     CapsuleCollider2D thiscol;          // このオブジェクトのあたり判定
     Vector2 colsize;                    // コライダーのサイズ
     Animator anim;                      // このオブジェクトのAnimator
+    PlayerStatas statas;                //　クリスタル所持数を取得
 
     float Line = 1.0f;                  // ひびに入るアニメーション用変数
     [SerializeField,Header("アニメーション速度")]
@@ -97,6 +98,8 @@ public class CrackAutoMove : MonoBehaviour
         Jump = this.gameObject.GetComponent<New_PlayerJump>();
         Move = this.gameObject.GetComponent<PlayerMove>();
         GroundCheck = this.gameObject.GetComponent<GroundCheck>();
+        statas = GetComponent<PlayerStatas>();
+
 
         // パーティクルシステムを取得
         ParticleSystemObj = GameObject.Find("Particle");
@@ -166,8 +169,12 @@ public class CrackAutoMove : MonoBehaviour
                         //終点まで移動したら終了
                         if (NowPointNum == PointNum - 1)
                         {
-                            // ひびを消す
-                          //  Destroy(NowMoveCrack);
+                            if (statas.GetCrystal() > 0)
+                            {
+                                // ひびを消す
+                                Destroy(NowMoveCrack);
+                                statas.SetCrystal(statas.GetCrystal() - 1); //クリスタル所持数を減らす
+                            }
                             HitFlg = false;
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
@@ -202,8 +209,12 @@ public class CrackAutoMove : MonoBehaviour
                         //終点まで移動したら終了
                         if (NowPointNum == 0)
                         {
-                            // ひびを消す
-                           // Destroy(NowMoveCrack);
+                            if (statas.GetCrystal() > 0)
+                            {
+                                // ひびを消す
+                                Destroy(NowMoveCrack);
+                                statas.SetCrystal(statas.GetCrystal() - 1); //クリスタル所持数を減らす
+                            }
                             HitFlg = false;
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
@@ -331,7 +342,7 @@ public class CrackAutoMove : MonoBehaviour
                 if (ScriptPIManager.GetCrackMove() == true && InCrack == false)
                 {
                     InCrack = true;
-
+                    
                     NowPointNum = MinPointNum;
                     
                     //　ひびのオブジェクトを取得
