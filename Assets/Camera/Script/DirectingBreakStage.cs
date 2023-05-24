@@ -27,6 +27,8 @@ public class DirectingBreakStage : MonoBehaviour
     private int CrystalNum_X; // 破壊するクリスタルが横に何枚並んでいるか
 
     private bool BreakStage; // ステージ破壊演出が終わったらtrue
+    [SerializeField] private float StartFadeOutTime = 5f;
+    private bool fadeOrder = false; // フェードアウトの命令を出していたらtrue
 
     // 外部取得
     private GameObject StageData; // 必要となるオブジェクトの親オブジェクト
@@ -55,6 +57,7 @@ public class DirectingBreakStage : MonoBehaviour
     private BGMFadeManager _BGMFadeMana;
     private AudioSource SpecialBGM; // 特殊BGM
     private bool ClearBGMflg = false;
+    private Fade _fade; 
 
     // Start is called before the first frame update
     void Start()
@@ -74,6 +77,8 @@ public class DirectingBreakStage : MonoBehaviour
 
         _BGMFadeMana = MainCamera.GetComponent<BGMFadeManager>();
         SpecialBGM = MainCamera.transform.Find("SpecialBGM").gameObject.GetComponent<AudioSource>();
+
+        _fade = GameObject.Find("SceneManager").GetComponent<Fade>();
     }
 
     // Update is called once per frame
@@ -193,6 +198,14 @@ public class DirectingBreakStage : MonoBehaviour
         }
         else
         {
+            // 一定時間経過した最初のフレームのみ入る
+            if (SpecialBGM.time > StartFadeOutTime && fadeOrder == false)
+            {
+                // 画面暗くしていく
+                _fade.FadeOut();
+
+                fadeOrder = true;
+            }
 
             thisTransform.position = InitPos;
             control.SetTarget(player);

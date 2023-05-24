@@ -10,19 +10,14 @@ using UnityEngine;
 public class PlayBgm : MonoBehaviour
 {
     //---------------------------------------
-    //それぞれのサウンドのAudioSourceを取得
-    AudioSource Intro;  // イントロ
-    AudioSource Loop;   // ループ
+    // AudioSourceを取得
+    [SerializeField] private AudioSource Loop;   // ループ
 
-   [SerializeField, Header("各エリアイントロBGM")]
+    [SerializeField, Header("各エリアBGM")]
     private List<AudioClip> Loop_Bgm;
 
     private SetStage Stage;
 
-    // 二宮追加
-    [Header("ループに切り替わる時間")]
-    public float LoopStartTime;
-    [SerializeField,Header("音が変化するスピード")] private float changeSpeed = 1f;
     // ボス戦が始まっていたらtrue
     public bool StartBossBattle = false;
     public bool Death = false; 
@@ -37,14 +32,10 @@ public class PlayBgm : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        //---------------------------------------------------------
-        // AudioSourceを取得
-        Intro = transform.GetChild(0).GetComponent<AudioSource>();
-        Loop = transform.GetChild(1).GetComponent<AudioSource>();
-
         Stage = new SetStage();
-        if (Stage.GetAreaNum() != 0) LoopStartTime = 0;
+
+        Loop.clip = Loop_Bgm[Stage.GetAreaNum()];
+        Loop.Play();
     }
 
     // Update is called once per frame
@@ -64,15 +55,6 @@ public class PlayBgm : MonoBehaviour
             //Debug.Log(_smallerBGM);
 
             Init = true;
-        }
-
-        // イントロが再生が終了したら
-        if (Intro.time > LoopStartTime && Intro.isPlaying)
-        {
-            Loop.clip = Loop_Bgm[Stage.GetAreaNum()];
-            //Debug.Log("loop");
-            Intro.Stop();
-            Loop.Play();
         }
 
         if (_smallerBGM != null)

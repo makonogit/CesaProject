@@ -27,9 +27,9 @@ public class FadeBGM : MonoBehaviour
     // 変数宣言
 
     // MainSceneのBGM用AudioSource
-    [SerializeField] private AudioSource StageBGM_Intro;
-    [SerializeField] private AudioSource StageBGM_Loop;
-    [SerializeField] private AudioSource BossBGM;
+    [SerializeField] private AudioSource StageBGM;
+    [SerializeField] private AudioSource BossBGM_Intro;
+    [SerializeField] private AudioSource BossBGM_Loop;
     [SerializeField] private AudioSource SpecialBGM; // 特殊BGM
 
     // クリアBGM用AudioClip
@@ -46,10 +46,13 @@ public class FadeBGM : MonoBehaviour
     private void Start()
     {
         // 各BGMの初期音量は0
-        StageBGM_Intro.volume = 0f;
-        StageBGM_Loop.volume = 0f;
-        BossBGM.volume = 0f;
+        //StageBGM_Intro.volume = 0f;
+        StageBGM.volume = 0f;
+        BossBGM_Intro.volume = 0f;
+        BossBGM_Loop.volume = 0f;
         SpecialBGM.volume = 0f;
+
+        Stage.FadeIn = true;
     }
 
     // Update is called once per frame
@@ -119,15 +122,13 @@ public class FadeBGM : MonoBehaviour
     private void StageBGMFadeOut()
     {
         // BGMの音量を0に近づけていく
-        if(StageBGM_Intro.volume > 0f)
+        if(StageBGM.volume > 0f)
         {
-            StageBGM_Intro.volume -= Time.unscaledTime * _speed;
-            StageBGM_Loop.volume -= Time.unscaledTime * _speed;
+            StageBGM.volume -= Time.unscaledTime * _speed;
         }
         else
         {
-            StageBGM_Intro.volume = 0f;
-            StageBGM_Loop.volume  = 0f;
+            StageBGM.volume  = 0f;
 
             Stage.FadeOut = false;
         }
@@ -137,15 +138,13 @@ public class FadeBGM : MonoBehaviour
     private void StageBGMFadeIn()
     {
         // BGMの音量を最大音量に近づけていく
-        if (StageBGM_Intro.volume < Stage.MaxVolume)
+        if (StageBGM.volume < Stage.MaxVolume)
         {
-            StageBGM_Intro.volume += Time.unscaledTime * _speed;
-            StageBGM_Loop.volume += Time.unscaledTime * _speed;
+            StageBGM.volume += Time.unscaledTime * _speed;
         }
         else
         {
-            StageBGM_Intro.volume = Stage.MaxVolume;
-            StageBGM_Loop.volume = Stage.MaxVolume;
+            StageBGM.volume = Stage.MaxVolume;
 
             Stage.FadeIn = false;
         }
@@ -155,13 +154,15 @@ public class FadeBGM : MonoBehaviour
     private void BossBGMFadeIn()
     {
         // BGMの音量を最大音量に近づけていく
-        if (BossBGM.volume < Boss.MaxVolume)
+        if (BossBGM_Loop.volume < Boss.MaxVolume)
         {
-            BossBGM.volume += Time.unscaledTime * _speed;
+            BossBGM_Intro.volume += Time.unscaledTime * _speed;
+            BossBGM_Loop.volume += Time.unscaledTime * _speed;
         }
         else
         {
-            BossBGM.volume = Boss.MaxVolume;
+            BossBGM_Intro.volume = Boss.MaxVolume;
+            BossBGM_Loop.volume = Boss.MaxVolume;
 
             Boss.FadeIn = false;
         }
@@ -171,13 +172,15 @@ public class FadeBGM : MonoBehaviour
     private void BossBGMFadeOut()
     {
         // BGMの音量を0に近づけていく
-        if (BossBGM.volume > 0)
+        if (BossBGM_Loop.volume > 0)
         {
-            BossBGM.volume -= Time.unscaledTime * _speed;
+            BossBGM_Intro.volume -= Time.unscaledTime * _speed;
+            BossBGM_Loop.volume -= Time.unscaledTime * _speed;
         }
         else
         {
-            BossBGM.volume = 0;
+            BossBGM_Intro.volume = 0;
+            BossBGM_Loop.volume = 0;
 
             Boss.FadeOut = false;
         }
@@ -224,7 +227,7 @@ public class FadeBGM : MonoBehaviour
     // StageBGMをステージクリアBGMに切り替え
     private void ChangeClearBGM()
     {
-        // ステージBGMクリップをセット
+        // クリアBGMクリップをセット
         SpecialBGM.clip = AC_Clear;
         // BGM開始位置を初めにする
         SpecialBGM.Play();
@@ -237,14 +240,10 @@ public class FadeBGM : MonoBehaviour
     // BGMの進行具合をリセットする
     public void ResetBGM()
     {
-        // イントロを最初から再生
-        StageBGM_Intro.time = 0;
-        StageBGM_Intro.Play();
-
-        // PlayIntroBGMでイントロが流れ終わったら勝手に再生されるようになっている
-        StageBGM_Loop.Stop();
+        // ステージBGMを最初から再生
+        StageBGM.Play();
 
         // ボスBGMの再生時間を初期化
-        BossBGM.time = 0;
+        BossBGM_Intro.time = 0f;
     }
 }

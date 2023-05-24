@@ -831,14 +831,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b745c3c0b4ff29448984d1be582bbb3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Loop: {fileID: 1152344733}
   Loop_Bgm:
-  - {fileID: 8300000, guid: 64d4adf7c14f00f4d8770e2e70011246, type: 3}
+  - {fileID: 8300000, guid: 3df43025cfff4ce4da75fab8367489cc, type: 3}
   - {fileID: 8300000, guid: 60bfbdfea1bdb1845874886e3406c674, type: 3}
   - {fileID: 8300000, guid: 9ee540534d357304498dd920d212497f, type: 3}
   - {fileID: 8300000, guid: 964450a039e5ab347a7571712e2b930b, type: 3}
   - {fileID: 8300000, guid: 09dc7c29212689c42b4e75bdc15364f2, type: 3}
-  LoopStartTime: 11.5
-  changeSpeed: 0.2
   StartBossBattle: 0
   Death: 0
   _BGMfadeMana: {fileID: 561533705}
@@ -1067,9 +1066,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a30bb75e16d67348a6a317e685131b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StageBGM_Intro: {fileID: 1798430739}
-  StageBGM_Loop: {fileID: 1152344733}
-  BossBGM: {fileID: 1706344628}
+  StageBGM: {fileID: 1152344733}
+  BossBGM_Intro: {fileID: 1798430739}
+  BossBGM_Loop: {fileID: 1706344628}
   SpecialBGM: {fileID: 696534083}
   AC_Clear: {fileID: 8300000, guid: b4144d35a5f9283439307d5133adf891, type: 3}
   _clearBGMflg: 0
@@ -1078,7 +1077,7 @@ MonoBehaviour:
     FadeOut: 0
     MaxVolume: 0.2
   Boss:
-    FadeIn: 0
+    FadeIn: 1
     FadeOut: 0
     MaxVolume: 0.2
   Special:
@@ -2609,12 +2608,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a73876d1df7b74eab0e6dc738fc141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Intro_Bgm:
-  - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
-  - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
-  - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
-  - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
-  - {fileID: 8300000, guid: 7d7947520ddf5af41a15e611aadd6b36, type: 3}
+  BossBGM_Intro: {fileID: 1798430739}
+  BossBGM_Loop: {fileID: 1706344628}
   _BGMfadeMana: {fileID: 561533705}
 --- !u!82 &1798430739 stripped
 AudioSource:
@@ -3472,6 +3467,10 @@ PrefabInstance:
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1391312667611003442, guid: 852b4e94a234ad64084fba4f25aa2e43, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3df43025cfff4ce4da75fab8367489cc, type: 3}
+    - target: {fileID: 1391312667611003442, guid: 852b4e94a234ad64084fba4f25aa2e43, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
       objectReference: {fileID: 24300002, guid: 6684589702ad9804980ccf2f574ea2e6, type: 2}
@@ -4138,6 +4137,14 @@ PrefabInstance:
     - target: {fileID: 4646351111415901980, guid: e38bfdfb5d5f0bb47b1f83d0c1aaa728, type: 3}
       propertyPath: m_Volume
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4646351111415901980, guid: e38bfdfb5d5f0bb47b1f83d0c1aaa728, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 88391f1138a46674785e4620120acba9, type: 3}
+    - target: {fileID: 4646351111415901980, guid: e38bfdfb5d5f0bb47b1f83d0c1aaa728, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5640974079181923785, guid: e38bfdfb5d5f0bb47b1f83d0c1aaa728, type: 3}
       propertyPath: m_Name
@@ -5020,7 +5027,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7911027452607527265, guid: 021891527e0f9ba41ba3d597b3eba8a7, type: 3}
       propertyPath: m_Name
-      value: BGM(Intro)
+      value: BossBGM(Intro)
       objectReference: {fileID: 0}
     - target: {fileID: 7911027452607527266, guid: 021891527e0f9ba41ba3d597b3eba8a7, type: 3}
       propertyPath: m_RootOrder
@@ -5070,6 +5077,10 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 7911027452607527267, guid: 021891527e0f9ba41ba3d597b3eba8a7, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7f51cfa53906d1c41966aa37be6e5033, type: 3}
     - target: {fileID: 7911027452607527267, guid: 021891527e0f9ba41ba3d597b3eba8a7, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0

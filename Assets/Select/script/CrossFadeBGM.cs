@@ -57,7 +57,7 @@ public class CrossFadeBGM : MonoBehaviour
             }
         }
 
-        Debug.Log(BGM_1.volume);
+        //Debug.Log(BGM_1.volume);
     }
 
     public void PreXFadeBGM()

@@ -16,7 +16,7 @@ public class GateThrough : MonoBehaviour
     private Transform PlayerTrans;  //　プレイヤーのTransform
 
     private AudioSource stage_bgm;  //ステージBGM
-    private AudioSource boss_bgm;   //ボスBGM
+    private AudioSource bossbgm_Intro;   //ボスBGM
     
     private GameObject Gateobj;     //生成したGate
 
@@ -30,7 +30,7 @@ public class GateThrough : MonoBehaviour
     {
         // BGM再生システム取得
         stage_bgm = GameObject.Find("BGM(Loop)").GetComponent<AudioSource>();
-        boss_bgm = GameObject.Find("BossBGM").GetComponent<AudioSource>();
+        bossbgm_Intro = GameObject.Find("BossBGM(Intro)").GetComponent<AudioSource>();
 
         PlayerTrans = GameObject.Find("player").transform;
 
@@ -55,8 +55,8 @@ public class GateThrough : MonoBehaviour
             Destroy(Gateobj);   //生成したゲートを削除
 
 
-            boss_bgm.Stop();
-            boss_bgm.volume = 0f;
+            bossbgm_Intro.Stop();
+            bossbgm_Intro.volume = 0f;
 
             // ステージBGM再生開始
             stage_bgm.Play();
@@ -83,7 +83,7 @@ public class GateThrough : MonoBehaviour
             //stage_bgm.GetComponent<AudioSource>().Stop();
 
             // ボスBGM再生開始&フェードイン
-            boss_bgm.Play();
+            bossbgm_Intro.Play();
             _BGMfadeMana.BigBossBGM();
             _playBGM.StartBossBattle = true;
 
