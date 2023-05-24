@@ -67,6 +67,8 @@ public class SelectArea : MonoBehaviour
     // Playerの移動
     [SerializeField] private Transform Playertrans;
 
+    [SerializeField] private CrossFadeBGM _crossFadeBGM;
+
     //-----------------------------------------------------------------
     //―スタート処理―
     void Start()
@@ -238,6 +240,10 @@ public class SelectArea : MonoBehaviour
             // 現在のエリアと次のエリアを同じにする。
             _nowArea = _nextArea;
             _start = true;
+
+            // 二宮追加
+            // クロスフェードの準備
+            _crossFadeBGM.PreXFadeBGM();
 
             //　カメラの端を調整
             if (LeftMove)

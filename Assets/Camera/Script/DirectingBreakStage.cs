@@ -52,6 +52,10 @@ public class DirectingBreakStage : MonoBehaviour
     [SerializeField, Header("背景クリスタル")]
     private List<GameObject> Crystal;
 
+    private BGMFadeManager _BGMFadeMana;
+    private AudioSource SpecialBGM; // 特殊BGM
+    private bool ClearBGMflg = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +71,9 @@ public class DirectingBreakStage : MonoBehaviour
         startInit = false;
         startBreak = false;
         BreakStage = false;
+
+        _BGMFadeMana = MainCamera.GetComponent<BGMFadeManager>();
+        SpecialBGM = MainCamera.transform.Find("SpecialBGM").gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -109,7 +116,10 @@ public class DirectingBreakStage : MonoBehaviour
                 //Debug.Log(control.GetTarget());
 
                 // このスクリプトを持つオブジェクトの子オブジェクトに
-               // ParticleObj = Instantiate(particle, this.gameObject.transform.GetChild(0).gameObject.transform);
+                // ParticleObj = Instantiate(particle, this.gameObject.transform.GetChild(0).gameObject.transform);
+
+                _BGMFadeMana.SmallStageBGM();
+                _BGMFadeMana.SmallBossBGM();
             }
 
             // カメラ追従ターゲットの位置を目標地点まで加速しながら移動させる
@@ -135,6 +145,15 @@ public class DirectingBreakStage : MonoBehaviour
                 thisTransform.position = new Vector3(Last_Transform.position.x,
                     thisTransform.position.y, 
                     thisTransform.position.z);
+
+                // 初めの一回のみ入る
+                if (ClearBGMflg == false)
+                {
+                    // ステージクリアBGM再生開始
+                    _BGMFadeMana.StageClear();
+
+                    ClearBGMflg = true;
+                }
             }
 
             // 背景クリスタルを消す割合
@@ -144,9 +163,7 @@ public class DirectingBreakStage : MonoBehaviour
 
             if (FaderRate <= 1f - CrystalNum_X * 2f)
             {
-                // ステージ破壊完了フラグ
-                BreakStage = true;
-                Debug.Log("ステージ破壊完了");
+
 
                 for(int i = 0; i < Crystal.Count; i++)
                 {
@@ -155,6 +172,20 @@ public class DirectingBreakStage : MonoBehaviour
 
                 // Destroy(ParticleObj);
                 _ScreenBreak.enabled = true;
+            }
+
+            if(ClearBGMflg == true)
+            {
+                if(SpecialBGM.time > 2.5f) // ←最低な決め打ちです
+                {
+                    // ステージ破壊完了フラグ
+                    BreakStage = true;
+
+                    ClearBGMflg = false;
+
+                    Debug.Log("ステージ破壊完了");
+
+                }
             }
 
             // カウント
