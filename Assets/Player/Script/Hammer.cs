@@ -548,13 +548,9 @@ public class Hammer : MonoBehaviour
 
             if (anim.GetBool("accumulate") || anim.GetBool("angle"))
             {
-                if (AngleLook)
-                {
-                    // Šp“x‚Ì‰ÂŽ‹‰»
-                    TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                    AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                }
-                
+                // Šp“x‚Ì‰ÂŽ‹‰»
+                TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
             }
             else
             {
@@ -730,6 +726,11 @@ public class Hammer : MonoBehaviour
         }
         stopTime = 0.0f;
 
+    }
+
+    public void AnimSpeed()
+    {
+        anim.speed = 1.0f;
     }
 
     public void TargetLook()
