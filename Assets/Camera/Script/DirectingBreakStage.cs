@@ -33,15 +33,13 @@ public class DirectingBreakStage : MonoBehaviour
     // 外部取得
     private GameObject StageData; // 必要となるオブジェクトの親オブジェクト
 
-    private GameObject CameraTarget_last; // カメラが移動する最終的な座標を持つオブジェクト
-    private Transform Last_Transform; // 目標オブジェクトの座標
-
     private GameObject StagePrefab; // ステージ情報プレハブ
     private CameraZoom sc_cameraZoom; // スクリプト
 
     private GameObject MainCamera;
     private CameraControl2 control;
     private GameObject player;
+    private Transform _playerTransform;
 
     [Header("各ステージごとに用意されたBorderLineマテリアルをセット")]private Material Mat;
 
@@ -83,6 +81,8 @@ public class DirectingBreakStage : MonoBehaviour
         SpecialBGM = MainCamera.transform.Find("SpecialBGM").gameObject.GetComponent<AudioSource>();
 
         _fade = GameObject.Find("SceneManager").GetComponent<Fade>();
+
+        _playerTransform = player.GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -91,10 +91,6 @@ public class DirectingBreakStage : MonoBehaviour
         if(startInit == false)
         {
             // 目標オブジェクト取得
-            CameraTarget_last = GameObject.Find("CameraTarget_Last");
-            Last_Transform = CameraTarget_last.GetComponent<Transform>();
-            //Debug.Log(CameraTarget_last);
-            //Debug.Log(Last_Transform);
 
             // ステージの情報を持つオブジェクト取得
             StageData = GameObject.Find("StageData");
@@ -132,7 +128,7 @@ public class DirectingBreakStage : MonoBehaviour
             }
 
             // カメラ追従ターゲットの位置を目標地点まで加速しながら移動させる
-            if (thisTransform.position.x < Last_Transform.position.x)
+            if (thisTransform.position.x < _playerTransform.position.x)
             {
                 // 座標を目標オブジェクトの方まで移動させる
                 // 後になればなるほど速くなる
@@ -151,7 +147,7 @@ public class DirectingBreakStage : MonoBehaviour
             }
             else
             {
-                thisTransform.position = new Vector3(Last_Transform.position.x,
+                thisTransform.position = new Vector3(_playerTransform.position.x,
                     thisTransform.position.y, 
                     thisTransform.position.z);
 

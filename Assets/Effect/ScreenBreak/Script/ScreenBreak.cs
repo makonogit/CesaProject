@@ -19,8 +19,11 @@ public class ScreenBreak : MonoBehaviour
     [Header("破片の生成数")]
     public int amount = 50;                        // 破片の生成数
     
-    [SerializeField,Header("画面端座標")]
+    //[SerializeField,Header("画面端座標")]
     private float screenedge;
+
+    // 二宮追加
+    private Transform _playerTransform;
 
     // 音関連
     [Header("効果音")]
@@ -35,6 +38,8 @@ public class ScreenBreak : MonoBehaviour
         BreakManager = GameObject.Find("BreakCrystal");
         // AudioSourceコンポーネントを取得
         audioSource = GetComponent<AudioSource>();
+
+        _playerTransform = GameObject.Find("player").GetComponent<Transform>();
 
         Break();
     }
@@ -67,10 +72,12 @@ public class ScreenBreak : MonoBehaviour
 
             Transform objTransform = obj.transform;
 
+            screenedge = _playerTransform.position.x;
+
             // 座標を変更
-            Vector3 pos = objTransform.localPosition;
-            pos.x = screenedge + 0.8f * rndX;
-            pos.y = -8.0f + 0.8f * rndY;
+            Vector3 pos = Vector3.zero;
+            pos.x = screenedge - 8f + 0.8f * rndX;
+            pos.y = objTransform.position.y -8.0f + 0.8f * rndY;
             pos.z = 0.0f;
 
             // 大きさを変更
