@@ -609,6 +609,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b0a4d6b39de019f4c8371e7b52ef0a0b, type: 2}
+    - target: {fileID: 8964623706478901819, guid: fcfe09827299fd64d86db651882fb8c6, type: 3}
+      propertyPath: acceleration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964623706478901819, guid: fcfe09827299fd64d86db651882fb8c6, type: 3}
+      propertyPath: move_speed.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964623706478901819, guid: fcfe09827299fd64d86db651882fb8c6, type: 3}
+      propertyPath: move_speed.y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8964623706478901821, guid: fcfe09827299fd64d86db651882fb8c6, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -3561,7 +3573,7 @@ PrefabInstance:
     - target: {fileID: 1391312667611003442, guid: 852b4e94a234ad64084fba4f25aa2e43, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
-      objectReference: {fileID: 24300002, guid: 6684589702ad9804980ccf2f574ea2e6, type: 2}
+      objectReference: {fileID: 510643474835002843, guid: 27d21958d7f11f84ab76ffd1ffab7a6f, type: 2}
     - target: {fileID: 1391312667611003444, guid: 852b4e94a234ad64084fba4f25aa2e43, type: 3}
       propertyPath: m_Name
       value: BGM(Loop)
@@ -5177,6 +5189,10 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7911027452607527267, guid: 021891527e0f9ba41ba3d597b3eba8a7, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 510643474835002843, guid: 27d21958d7f11f84ab76ffd1ffab7a6f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 021891527e0f9ba41ba3d597b3eba8a7, type: 3}
 --- !u!1001 &8059579095247675265
@@ -5280,11 +5296,15 @@ PrefabInstance:
       objectReference: {fileID: 724308335}
     - target: {fileID: 8059579095247675371, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: WaitHammer
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8059579095247675371, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: HitStopTime
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8059579095247675371, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: WaitDirection
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8059579095247675383, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: _rigid

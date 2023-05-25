@@ -56,6 +56,8 @@ public class PauseGame : MonoBehaviour
     private GameObject black;
     private Image blackImage;
 
+    [SerializeField] PauseSnap snap;    //ポーズ用に音声変換するためのスクリプト
+
     //private GameObject player;
     //private Transform playerTransform;
     //private PlayerStatas playerStatus;
@@ -158,6 +160,7 @@ public class PauseGame : MonoBehaviour
                     reduction = true;
                 }
 
+                snap.PauseSnapChange(); //音を籠らせる
                 ScriptPIManager.SetPause(false);
 
                 seMana.PlaySE_OK();
@@ -273,6 +276,7 @@ public class PauseGame : MonoBehaviour
                     //TimeOperate();
                     reduction = true;
 
+                    snap.NormalSnapChange();    //元の音に戻す
                     ScriptPIManager.SetPressB(false);
 
                     seMana.PlaySE_Cansel();
@@ -292,6 +296,7 @@ public class PauseGame : MonoBehaviour
                     {
                         // 続ける
                         case 0:
+                            snap.NormalSnapChange();    //元の音に戻す
                             // ポーズ終了
                             reduction = true;
                             break;

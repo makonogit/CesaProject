@@ -39,8 +39,10 @@ public class ScreenBreak : MonoBehaviour
         // AudioSourceコンポーネントを取得
         audioSource = GetComponent<AudioSource>();
 
-        _playerTransform = GameObject.Find("player").GetComponent<Transform>();
-
+        if (GameObject.Find("player"))
+        {
+            _playerTransform = GameObject.Find("player").GetComponent<Transform>();
+        }
         Break();
     }
 
@@ -51,8 +53,10 @@ public class ScreenBreak : MonoBehaviour
     {
         //--------------------------------------------------------
         // 音声ファイルを再生する
-      // audioSource.PlayOneShot(sound1);
-
+        if (_playerTransform != null)
+        {
+            audioSource.PlayOneShot(sound1);
+        }
         //--------------------------------------------------------
         // 破片を生成する
 

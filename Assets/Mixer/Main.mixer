@@ -82,6 +82,37 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!245 &-3238779731299546884
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Start
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: 2d99f3e398b86014e9baf7b57ce5b24b
+  m_FloatValues:
+    db0bcc21861ed6649b947cf7770ca8ed: 0
+    d855efb17d58d0348ac2e5a475dcb1db: 1
+    07f28a12b50e837488fef0d9f4004c31: 0.02
+    800ed1a2cad26b244957bc9722e7a787: -4.9766045
+    5812f4d2284606147b4e0b0ffb15f5e3: 2.7
+    15fec633496ff2d4e9cace2ce57e5155: 0.0276
+    ddcfe56525e940f4eb5655ded31a2a83: 5
+    3f557e85166625b47a26c30adb592bd4: 0.5633341
+    8db59ba59e21efd44a976fe326c7ca2d: 110
+    d3b35ba7a34f5154aa69607f83f25d21: 3463
+    b5afdcf79b113b24e894ea73fc441817: -985
+    8b2c26e97dde95a4cb16876aa7f01c17: 3269.3013
+    8991803a9c209da488ffc018d667d626: -8853
+    7da3977aa29d490428dc4a55184e4ea5: 0.7500002
+    807910ca38f029848acdcfd581542804: 5
+    75e792da338ec9c45aab1a3b1019daf0: 1
+    fd8268eb5edc7834c9de1c236fabad27: -637
+    04f0bb2cf0212dc40a84a824a4b823c3: 0
+    b6436e2d63c616241859ac0a25b3152b: 0
+    b70f447ec58a2a54f86e09982ea8480b: 27
+  m_TransitionOverrides: {}
 --- !u!243 &-1138398268576473207
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -112,7 +143,8 @@ AudioMixerController:
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
   - {fileID: 24500006}
-  m_StartSnapshot: {fileID: 24500006}
+  - {fileID: -3238779731299546884}
+  m_StartSnapshot: {fileID: -3238779731299546884}
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
@@ -124,7 +156,7 @@ AudioMixerController:
     - c08b510ab88035748b5ac0a559b8b944
     name: View
   m_CurrentViewIndex: 0
-  m_TargetSnapshot: {fileID: 24500006}
+  m_TargetSnapshot: {fileID: -3238779731299546884}
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -185,7 +217,7 @@ AudioMixerSnapshotController:
     8991803a9c209da488ffc018d667d626: -8853
     7da3977aa29d490428dc4a55184e4ea5: 0.7500002
     807910ca38f029848acdcfd581542804: 5
-    75e792da338ec9c45aab1a3b1019daf0: 1.11
+    75e792da338ec9c45aab1a3b1019daf0: 1
     fd8268eb5edc7834c9de1c236fabad27: -637
     04f0bb2cf0212dc40a84a824a4b823c3: 0
     b6436e2d63c616241859ac0a25b3152b: 0
