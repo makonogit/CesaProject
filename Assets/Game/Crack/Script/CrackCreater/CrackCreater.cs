@@ -412,9 +412,9 @@ public class CrackCreater : MonoBehaviour
         int Last = _edgePoints.Count - 1;
         // 方向決定(仮想釘の設定)
         Vector2 _vNailVec = _edgePoints[Last] - _edgePoints[_edgePoints.Count - 2];
-        Debug.DrawRay(_edgePoints[Last], _vNailVec.normalized, Color.blue, AddLength - 1.0f, false);
+        Debug.DrawRay(_edgePoints[Last], _vNailVec.normalized, Color.blue, AddLength - 0.125f, false);
         // 方向と距離でレイであたり判定
-        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last], _vNailVec.normalized, AddLength - 1.0f, layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[Last], _vNailVec.normalized, AddLength - 0.125f, layerMask);
         //if (hit) Debug.Log("後" + hit.collider.gameObject.tag);
         if (hit)
         {
