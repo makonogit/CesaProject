@@ -27,11 +27,12 @@ public class CrystalCrackManager : MonoBehaviour
                 {
                     crackcrystal[breakcrystal].StartCrack();    //‚Ð‚Ñ“ü‚êŠJŽn
                 }
-            }
-            
-            if(crackcrystal[breakcrystal].EndFlg)
-            {
-                breakcrystal++;
+
+
+                if (crackcrystal[breakcrystal].EndFlg)
+                {
+                    breakcrystal++;
+                }
             }
         }
     }
