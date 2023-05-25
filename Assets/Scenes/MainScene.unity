@@ -352,6 +352,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2026582388383939683, guid: a2c55f7665f152742b2854d5a881ba57, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2756047233683182569, guid: a2c55f7665f152742b2854d5a881ba57, type: 3}
       propertyPath: _fade
       value: 
@@ -1083,7 +1087,7 @@ MonoBehaviour:
   Special:
     FadeIn: 0
     FadeOut: 0
-    MaxVolume: 0.2
+    MaxVolume: 0.4
   _speed: 0.00015
 --- !u!1 &619394800
 GameObject:
@@ -3281,7 +3285,7 @@ MonoBehaviour:
     - StageObj: {fileID: 2483160076854475445, guid: c90e1b17e96a23943b3f17332953afa1, type: 3}
       PlayerPos: {x: -7.2, y: -1.7}
     - StageObj: {fileID: 2483160076854475445, guid: bdcc332b13331f24ab1573e9f6ad49dc, type: 3}
-      PlayerPos: {x: -7.2, y: 6}
+      PlayerPos: {x: -6.2, y: 6}
     - StageObj: {fileID: 2483160076854475445, guid: 2a07234ed64b7074e83a44960f002bcb, type: 3}
       PlayerPos: {x: -7.2, y: 3}
     - StageObj: {fileID: 2483160076854475445, guid: 4fbcf255381ada447bf29bd137f104fc, type: 3}
@@ -5283,6 +5287,10 @@ PrefabInstance:
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8059579095247675383, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: _rigid
+      value: 
+      objectReference: {fileID: 8059579095247675446}
+    - target: {fileID: 8059579095247675383, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: _playBGM
       value: 
       objectReference: {fileID: 561533696}
@@ -5330,6 +5338,10 @@ PrefabInstance:
       propertyPath: JumpPower
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+      propertyPath: _gameOver
+      value: 
+      objectReference: {fileID: 8059579095247675436}
     - target: {fileID: 8059579095247675422, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
       propertyPath: LowerLimit
       value: -10
@@ -5388,6 +5400,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9298083f3b353bb4dafd4e8d032d2e3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8059579095247675436 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8059579095247675383, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+  m_PrefabInstance: {fileID: 8059579095247675265}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8059579095247675266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47d6aa2a78eb7ce498b06dd076044e6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!50 &8059579095247675446 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6636130089559709831, guid: b8883a8003fdcc84d9914de9c6452fa5, type: 3}
+  m_PrefabInstance: {fileID: 8059579095247675265}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8074353046155381516
 PrefabInstance:
   m_ObjectHideFlags: 0

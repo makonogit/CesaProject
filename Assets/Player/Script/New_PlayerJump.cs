@@ -125,7 +125,7 @@ public class New_PlayerJump : MonoBehaviour
         // ヒットストップ中でないなら実行
         if (!_playerStatus.GetHitStop())
         {
-            if (1f / Time.deltaTime > 100)
+            if (1f / Time.deltaTime > 50)
             {
 
                 // 重力無効化

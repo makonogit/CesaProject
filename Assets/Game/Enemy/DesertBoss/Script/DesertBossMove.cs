@@ -68,6 +68,7 @@ public class DesertBossMove : MonoBehaviour
 
     private Animator anim;             //　ボスのアニメーション
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -108,7 +109,6 @@ public class DesertBossMove : MonoBehaviour
 
         // 何もしていない状態にする
         BossState = DesertBossState.NONE;
-
     }
 
 
