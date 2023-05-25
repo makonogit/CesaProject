@@ -38,6 +38,7 @@ public class TitleDirection : MonoBehaviour
     private Button PushA_Script;
 
     private Animator anim;          //アニメーション用
+    private Animator PlayerAnim;    //プレイヤーアニメーション
 
     private bool FlashFlg = false;  //フラッシュ用フラグ
     private int FlashNum = 0;       //フラッシュ回数
@@ -60,6 +61,8 @@ public class TitleDirection : MonoBehaviour
         volume.profile.TryGet(out bloom);
 
         anim = GetComponent<Animator>();    //Animatorを取得
+        PlayerAnim = GameObject.Find("UIPlayerWalk").GetComponent<Animator>();
+        PlayerAnim.SetBool("Work", true);
     }
 
     // Update is called once per frame
@@ -71,6 +74,7 @@ public class TitleDirection : MonoBehaviour
         }
         if (start)
         {
+           
             // 敵を移動させる
             if (thistrans.position.x > TargetPos.x && TimeMasure < WaitTime)
             {
@@ -78,6 +82,8 @@ public class TitleDirection : MonoBehaviour
             }
             else
             {
+                PlayerAnim.SetBool("Work", false);
+                PlayerAnim.SetInteger("Select", -1);
 
                 TimeMasure += Time.deltaTime;   //　時間計測用
 
@@ -100,7 +106,6 @@ public class TitleDirection : MonoBehaviour
                         }
                         else
                         {
-                            //Titleanim.enabled = true;
                             thistrans.position = Vector3.MoveTowards(thistrans.position, new Vector3(9.78f, -3.1f, 0.0f), 2.0f * Time.deltaTime);
                         }
 
