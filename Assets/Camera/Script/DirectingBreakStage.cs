@@ -172,17 +172,20 @@ public class DirectingBreakStage : MonoBehaviour
 
             if (FaderRate <= 1f - CrystalNum_X * 2f)
             {
-                // コアを取得、消去
-                Core = GameObject.Find("Core").transform.GetChild(0).gameObject;
-                Destroy(Core);
-
-                for(int i = 0; i < Crystal.Count; i++)
+                if (!_ScreenBreak.enabled)
                 {
-                    Destroy(Crystal[i]);
-                }
+                    // コアを取得、消去
+                    Core = GameObject.Find("Core").transform.GetChild(0).gameObject;
+                    Destroy(Core);
 
-                // Destroy(ParticleObj);
-                _ScreenBreak.enabled = true;
+                    for (int i = 0; i < Crystal.Count; i++)
+                    {
+                        Destroy(Crystal[i]);
+                    }
+
+                    // Destroy(ParticleObj);
+                    _ScreenBreak.enabled = true;
+                }
             }
 
             if(ClearBGMflg == true)
