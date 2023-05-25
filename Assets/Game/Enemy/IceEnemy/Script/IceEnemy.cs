@@ -214,6 +214,7 @@ public class IceEnemy : MonoBehaviour
         {
             _state = StateID.DROP;
             _anim.SetBool("isDrop", true);
+            _rb.velocity = new Vector2(0, 0);
         }
     }
     private void Drop()
