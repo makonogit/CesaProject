@@ -11,7 +11,8 @@ public class IceBossHealth : MonoBehaviour
     private int _maxHp;
     [SerializeField]
     private int _hp;
-
+    [SerializeField]
+    private Animator _anim;
 
     private CrackManager _manager;
 
@@ -20,7 +21,8 @@ public class IceBossHealth : MonoBehaviour
 
     private string _tag = "Crack";
 
-
+    private bool on;
+    private float nowTime;
 
     // Use this for initialization
     void Start()
@@ -30,10 +32,27 @@ public class IceBossHealth : MonoBehaviour
         if (_manager == null) Debug.LogError("CrackManagerコンポーネントを取得できませんでした。");
         Init();
     }
+
+    private void Update()
+    {
+        _anim.SetBool("IsDamage", on);
+        if (on) 
+        {
+            nowTime += Time.deltaTime;
+        }
+        if(nowTime > 2) 
+        {
+            on = false;
+            nowTime = 0.0f;
+        }
+    }
+
     public void Init()
     {
         _hp = _maxHp;
         _Damaged = false;
+        nowTime = 0.0f;
+        on = false;
     }
 
 
@@ -65,6 +84,8 @@ public class IceBossHealth : MonoBehaviour
         {
             _hp--;
             _Damaged = true;
+            on = true;
+            Destroy(collision.gameObject);
         }
     }
 }

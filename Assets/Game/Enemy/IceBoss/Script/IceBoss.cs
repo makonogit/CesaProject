@@ -288,6 +288,8 @@ public class IceBoss : MonoBehaviour
 
     private void Death() 
     {
+        // 走るアニメーションフラグ
+        _anim.SetBool("isDeath", true);
         bossDirecting.Flash();
         // ボスBGMフェードアウト
         _BGMfadeMana.SmallBossBGM();
