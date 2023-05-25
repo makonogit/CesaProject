@@ -125,171 +125,174 @@ public class New_PlayerJump : MonoBehaviour
         // ヒットストップ中でないなら実行
         if (!_playerStatus.GetHitStop())
         {
-
-            // 重力無効化
-            _thisRigidbody2d.gravityScale = 0.0f;
-
-            //--------------------------------------
-            // 接地判定
-
-            // 接地判定を得る
-            isGround = IsGroundCircle();
-            // 天井の衝突判定を得る
-            isOverhead = overhead.IsOverHead();
-
-            //-----------------------------------------
-            // 入力取得
-
-            // トリガー
-            TriggerJumpflg = _trigger.GetJumpTrigger(); // 押された瞬間か
-            // プレス
-            PressJumpflg = _playerInputManager.GetJump(); // 押されているか
-
-            if (ReleaseJumpflg == false)
+            if (1f / Time.deltaTime > 100)
             {
-                // リリース
-                ReleaseJumpflg = OldPressJumpflg == true && PressJumpflg == false; // 離された瞬間か
-            }
 
-            //----------------------------------------------------
-            // ジャンプボタンが押された瞬間
+                // 重力無効化
+                _thisRigidbody2d.gravityScale = 0.0f;
 
-            // 地面にいるときに
-            if (isGround == true)
-            {
-                // ジャンプ入力がされたら
-                if (TriggerJumpflg == true)
+                //--------------------------------------
+                // 接地判定
+
+                // 接地判定を得る
+                isGround = IsGroundCircle();
+                // 天井の衝突判定を得る
+                isOverhead = overhead.IsOverHead();
+
+                //-----------------------------------------
+                // 入力取得
+
+                // トリガー
+                TriggerJumpflg = _trigger.GetJumpTrigger(); // 押された瞬間か
+                                                            // プレス
+                PressJumpflg = _playerInputManager.GetJump(); // 押されているか
+
+                if (ReleaseJumpflg == false)
+                {
+                    // リリース
+                    ReleaseJumpflg = OldPressJumpflg == true && PressJumpflg == false; // 離された瞬間か
+                }
+
+                //----------------------------------------------------
+                // ジャンプボタンが押された瞬間
+
+                // 地面にいるときに
+                if (isGround == true)
+                {
+                    // ジャンプ入力がされたら
+                    if (TriggerJumpflg == true)
+                    {
+                        // 私は飛ぶ
+                        ImFly = true;
+
+                        // 1フレームのプレイヤーの移動量セット
+                        MoveY = JumpPower;
+
+                        // ジャンプse再生
+                        seMana.PlaySE_Jump();
+
+                        count = 0;
+
+                        //Debug.Log("トリガー");
+                    }
+                }
+
+                // トロッコに乗りながらジャンプ
+                if (RideOn == true && TriggerJumpflg == true)
                 {
                     // 私は飛ぶ
                     ImFly = true;
 
                     // 1フレームのプレイヤーの移動量セット
                     MoveY = JumpPower;
+                    if (RideOn == true)
+                    {
+                        MoveY = 1.2f * JumpPower;
+                    }
 
                     // ジャンプse再生
                     seMana.PlaySE_Jump();
 
                     count = 0;
-
-                    //Debug.Log("トリガー");
                 }
-            }
 
-            // トロッコに乗りながらジャンプ
-            if (RideOn == true && TriggerJumpflg == true)
-            {
-                // 私は飛ぶ
-                ImFly = true;
-
-                // 1フレームのプレイヤーの移動量セット
-                MoveY = JumpPower;
-                if (RideOn == true)
+                // 崖から落ちたら
+                if (ImFly == false && isGround == false && ImDrop == false)
                 {
-                    MoveY = 1.2f * JumpPower;
+                    // 私は落ちる
+                    ImDrop = true;
+
+                    // 落下していくだけ
+                    MoveY = 0f;
                 }
 
-                // ジャンプse再生
-                seMana.PlaySE_Jump();
-
-                count = 0;
-            }
-
-            // 崖から落ちたら
-            if (ImFly == false && isGround == false && ImDrop == false)
-            {
-                // 私は落ちる
-                ImDrop = true;
-
-                // 落下していくだけ
-                MoveY = 0f;
-            }
-
-            // ジャンプボタンが押されていたら
-            if (ImFly == true || ImDrop == true)
-            {
-                // プレイヤーY座標変化
-                _thisTransform.Translate(0f, MoveY * Time.deltaTime, 0f);
-
-                // 重力の影響を受けさせる
-                MoveY -= gravity * Time.deltaTime;
-
-                // 落下速度下限値より小さくなったらそれより下の値にならない
-                if(MoveY < LowerLimit)
+                // ジャンプボタンが押されていたら
+                if (ImFly == true || ImDrop == true)
                 {
-                    MoveY = LowerLimit;
+                    // プレイヤーY座標変化
+                    _thisTransform.Translate(0f, MoveY * Time.deltaTime, 0f);
+
+                    // 重力の影響を受けさせる
+                    MoveY -= gravity * Time.deltaTime;
+
+                    // 落下速度下限値より小さくなったらそれより下の値にならない
+                    if (MoveY < LowerLimit)
+                    {
+                        MoveY = LowerLimit;
+                    }
                 }
-            }
 
-            if (isGround == false && PressJumpflg == false)
-            {
-                // 落下
-
-                // ボタンが離された時のy移動量によって慣性を働かせる
-                if (MoveY > JumpPower / 100f * inertia)
+                if (isGround == false && PressJumpflg == false)
                 {
-                    // 慣性
-                    MoveY = JumpPower / 100f * inertia;
+                    // 落下
+
+                    // ボタンが離された時のy移動量によって慣性を働かせる
+                    if (MoveY > JumpPower / 100f * inertia)
+                    {
+                        // 慣性
+                        MoveY = JumpPower / 100f * inertia;
+                    }
                 }
+
+                // 天井に当たったら
+                if (MoveY > 0f && isOverhead == true && ImFly == true)
+                {
+                    // 落下開始
+                    MoveY = 0f;
+                }
+
+                // ジャンプの処理が終わって地面についたとき(ジャンプが入力されたフレームでは入らない)
+                if (isGround == true && ImFly == true && (TriggerJumpflg == false) && count > 30)
+                {
+                    // 一連のジャンプ終了                                          
+                    ImFly = false;
+                    MoveY = 0f;
+                    ReleaseJumpflg = false;
+                    //Debug.Log(count);                                            
+                }
+
+                // ジャンプを経由しない落下が終わる                                
+                if (isGround == true && ImDrop == true)
+                {
+                    // 落下終了                                                    
+                    ImDrop = false;
+                    MoveY = 0f;
+                }
+
+                if (RideOn == true && ImDrop == true)
+                {
+                    ImDrop = false;
+                    MoveY = 0f;
+                }
+
+                // バグ回避用 だけどできないいいいいいいいいいいいいいいいいいい
+                count++;
+
+                //if (TriggerJumpflg == true)
+                //{
+                //    Debug.Log("-----------------------------------------------------------------------------------");
+                //}
+                //if (count < 30/*MoveY != 0*/)
+                //{
+                //    Debug.Log(count);
+                //    Debug.Log(MoveY);
+                //}
+
+                //-------------------------------------------------------------------
+                // アニメーション関係
+                // 上昇アニメーション
+                anim.SetBool("jump", MoveY > 0f);
+                // 落下アニメーション
+                anim.SetBool("drop", MoveY < 0f);
+
+                // 前フレームの押下状況を保持
+                OldPressJumpflg = PressJumpflg;
+
+                // 重力もどす
+                _thisRigidbody2d.gravityScale = 1.0f;
+
+                //Debug.Log("ヒットストップ中でない");
             }
-
-            // 天井に当たったら
-            if(MoveY > 0f && isOverhead == true && ImFly == true)
-            {
-                // 落下開始
-                MoveY = 0f;
-            }
-
-            // ジャンプの処理が終わって地面についたとき(ジャンプが入力されたフレームでは入らない)
-            if (isGround == true && ImFly == true && (TriggerJumpflg == false) && count > 30)
-            {                                                                  
-                // 一連のジャンプ終了                                          
-                ImFly = false;                                                 
-                MoveY = 0f;
-                ReleaseJumpflg = false;
-                //Debug.Log(count);                                            
-            }                                                                  
-                                                                               
-            // ジャンプを経由しない落下が終わる                                
-            if (isGround == true && ImDrop == true)                            
-            {                                                                  
-                // 落下終了                                                    
-                ImDrop = false;                                                
-                MoveY = 0f;                                                    
-            }
-            
-            if(RideOn == true && ImDrop == true)
-            {
-                ImDrop = false;
-                MoveY = 0f;
-            }
-                                                                               
-            // バグ回避用 だけどできないいいいいいいいいいいいいいいいいいい
-            count++;
-
-            //if (TriggerJumpflg == true)
-            //{
-            //    Debug.Log("-----------------------------------------------------------------------------------");
-            //}
-            //if (count < 30/*MoveY != 0*/)
-            //{
-            //    Debug.Log(count);
-            //    Debug.Log(MoveY);
-            //}
-
-            //-------------------------------------------------------------------
-            // アニメーション関係
-            // 上昇アニメーション
-            anim.SetBool("jump", MoveY > 0f);
-            // 落下アニメーション
-            anim.SetBool("drop", MoveY < 0f);
-
-            // 前フレームの押下状況を保持
-            OldPressJumpflg = PressJumpflg;
-
-            // 重力もどす
-            _thisRigidbody2d.gravityScale = 1.0f;
-
-            //Debug.Log("ヒットストップ中でない");
         }
         else
         {

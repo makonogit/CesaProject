@@ -332,9 +332,9 @@ public class Hammer : MonoBehaviour
                         se.PlayHammer();
 
                         // ヒットストップ初期化
-                        playerStatus.SetHitStop(true);
-                        anim.speed = 0.02f;
-                        stopTime = 0.0f;
+                        //playerStatus.SetHitStop(true);
+                        //anim.speed = 0.02f;
+                        //stopTime = 0.0f;
 
                         MoveLength = CrackLength;   //　長さの初期化
                                                     //　離されたら打ち込み状態にする
@@ -415,10 +415,10 @@ public class Hammer : MonoBehaviour
                             se.PlayHammer();
 
 
-                            // ヒットストップ初期化
-                            playerStatus.SetHitStop(true);
-                            anim.speed = 0.02f;
-                            stopTime = 0.0f;
+                            //// ヒットストップ初期化
+                            //playerStatus.SetHitStop(true);
+                            //anim.speed = 0.02f;
+                            //stopTime = 0.0f;
 
                             //angle = 0.0f; //角度初期化
                             hammerstate = HammerState.HAMMER;
@@ -714,6 +714,15 @@ public class Hammer : MonoBehaviour
     public void SetAngleLook(bool _look)
     {
         AngleLook = _look;
+    }
+
+    public void HitStop()
+    {
+        // ヒットストップ初期化
+        playerStatus.SetHitStop(true);
+        anim.speed = 0.02f;
+        stopTime = 0.0f;
+
     }
 
 }

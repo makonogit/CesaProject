@@ -16,6 +16,7 @@ public class SEManager_Player : MonoBehaviour
     public AudioClip se_drop; // 着地
     public AudioClip se_jimp; // ジャンプ
     public AudioClip se_crackmove; // ひび移動中の音
+    public AudioClip se_dropAbyss; // 奈落に落ちていく
 
     // 走る
     public AudioClip se_town_run1;
@@ -207,6 +208,14 @@ public class SEManager_Player : MonoBehaviour
         audioSource.volume = 0.1f;
 
         audioSource.PlayOneShot(se_jimp);
+    }
+
+    public void PlaySE_DropAbyss()
+    {
+        // ボリューム調整
+        audioSource.volume = 0.5f;
+
+        audioSource.PlayOneShot(se_dropAbyss);
     }
 
     public void PlaySE_CrackMove()

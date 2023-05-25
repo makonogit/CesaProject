@@ -63,6 +63,8 @@ public class IceBoss : MonoBehaviour
     private bool _isFish;
     private Vector3 StartPos;
 
+    private BGMFadeManager _BGMfadeMana;
+
     //-----------------------------------------------------------------
     // Use this for initialization
     void Start()
@@ -86,6 +88,8 @@ public class IceBoss : MonoBehaviour
         _anim = GetComponent<Animator>();
         if (_anim == null) Debug.LogError("Animatorのコンポーネントを取得できませんでした。");
         Init();
+
+        _BGMfadeMana = GameObject.Find("Main Camera").GetComponent<BGMFadeManager>();
     }
 
     // Update is called once per frame
@@ -285,6 +289,8 @@ public class IceBoss : MonoBehaviour
     private void Death() 
     {
         bossDirecting.Flash();
+        // ボスBGMフェードアウト
+        _BGMfadeMana.SmallBossBGM();
     }
 
     private int Direction 

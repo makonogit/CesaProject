@@ -41,6 +41,7 @@ public class GameOver : MonoBehaviour
     private GameObject StagePrefab;
     private RespawnObjManager _respawnObjManager;
     [SerializeField] private PlayBgm _playBGM;
+    [SerializeField] private SEManager_Player _sePlayer;
 
     //―追加担当者：中川直登―//
     [SerializeField, Header("パーティクル")]
@@ -120,6 +121,9 @@ public class GameOver : MonoBehaviour
         // フェード関係
         fade = GameObject.Find("SceneManager").GetComponent<Fade>();
         _playBGM = cam.GetComponent<PlayBgm>();
+
+        // se
+        _sePlayer = cam.transform.Find("SE").GetComponent<SEManager_Player>();
     }
 
     // Update is called once per frame
@@ -175,9 +179,14 @@ public class GameOver : MonoBehaviour
         //奈落に落ちた
         if (transform.position.y < -15)
         {
+            if (hell == false)
+            {
+                _sePlayer.PlaySE_DropAbyss();
+            }
             hell = true;
             _isGameOver = true;
 
+            
         }
         // HPがなくなった
         if(HP <= 0)
@@ -198,6 +207,7 @@ public class GameOver : MonoBehaviour
             {
                 // BGMフェードアウト
                 _BGMFadeMana.SmallStageBGM();
+                _BGMFadeMana.SmallBossBGM();
 
                 // 死亡BGMフェードイン
                 _BGMFadeMana.BigSpecialBGM();
