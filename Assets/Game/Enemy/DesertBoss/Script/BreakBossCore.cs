@@ -10,9 +10,15 @@ public class BreakBossCore : MonoBehaviour
 {
     private Directing_BossLight LightEffect;  // 爆発エフェクト用
 
+    private BGMFadeManager _BGMfadeMana;
+
+
     private void Start()
     {
         LightEffect = GameObject.Find("Directing_BossLight").GetComponent<Directing_BossLight>();  //爆発用
+
+        _BGMfadeMana = GameObject.Find("Main Camera").GetComponent<BGMFadeManager>();
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -24,6 +30,7 @@ public class BreakBossCore : MonoBehaviour
         {
             //Destroy(GameObject.Find("BossEnemy").transform.GetChild(0).gameObject);
             LightEffect.Flash();
+            _BGMfadeMana.SmallBossBGM();
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }

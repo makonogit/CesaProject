@@ -718,9 +718,15 @@ public class Hammer : MonoBehaviour
 
     public void HitStop()
     {
-        // ヒットストップ初期化
-        playerStatus.SetHitStop(true);
-        anim.speed = 0.02f;
+        if (playerStatus != null)
+        {
+            // ヒットストップ初期化
+            playerStatus.SetHitStop(true);
+        }
+        if (anim != null)
+        {
+            anim.speed = 0.02f;
+        }
         stopTime = 0.0f;
 
     }
