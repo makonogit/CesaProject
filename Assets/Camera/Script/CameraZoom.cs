@@ -31,6 +31,7 @@ public class CameraZoom : MonoBehaviour
 
     private GameObject player;      // プレイヤー
     private Transform playertans;   // プレイヤーのTransform
+    private Animator PlayerAnim;    // プレイヤーのAnimator
     public StageStatas stagestatas;    // ステージのステータスを取得
     private ChangeResultScene resultScene;
     private PauseGame Pause;    //ポーズを開けないようにする
@@ -59,6 +60,7 @@ public class CameraZoom : MonoBehaviour
 
         player = GameObject.Find("player");
         playertans = player.transform;
+        PlayerAnim = player.GetComponent<Animator>();
 
         stagestatas = GetComponent<StageStatas>();
         resultScene = GameObject.Find("ChageResultScene").GetComponent<ChangeResultScene>();
@@ -101,6 +103,7 @@ public class CameraZoom : MonoBehaviour
                     }
                     else
                     {
+                        PlayerAnim.SetBool("Clear", true);
                         NowCameraSize = ZoomCameraSize;
                         ZoomEnd = true;
                     }
@@ -113,10 +116,7 @@ public class CameraZoom : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            Wait += Time.deltaTime; //なぜかステージ開始時に始まってしまう
-        }
+        Wait += Time.deltaTime; //なぜかステージ開始時に始まってしまう
     }
 
     public void RespawnInit()

@@ -370,7 +370,7 @@ public class PauseGame : MonoBehaviour
             // ˆêŽž’âŽ~‚·‚é
             Time.timeScale = 0f;
             //this.gameObject.GetComponent<CanvasGroup>().alpha = 1.0f;
-            blackImage.color = new Color(0.0f, 0.0f, 0.0f, 0.5f);
+            blackImage.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 
             IsPause = true;
         }

@@ -29,7 +29,6 @@ public class CrackStart : MonoBehaviour
     {
         if (StartFlg)
         {
-            Debug.Log("破壊");
             // ひび割れスクリプトを有効化
             for (int i = 0;i< _clearacks.Count;i++)
             {

@@ -187,7 +187,7 @@ public class ResultManager : MonoBehaviour
         // 現在のフレーム数を更新
         //----------------------------------------------
 
-        flameCnt++;
+        //flameCnt++;
 
         //----------------------------------------------
         // 破片を生成
@@ -256,7 +256,7 @@ public class ResultManager : MonoBehaviour
         // クリアテキストの挙動を制御する
         //----------------------------------------------
 
-        if ( start.x < distance.x * flameCnt)
+        if ( start.x > flameCnt)
         {
             // 横幅をtextScaleまで大きくする
             Transform textTransform = this.transform;  
@@ -288,6 +288,10 @@ public class ResultManager : MonoBehaviour
                         if (textTransform.localScale.x > textScale.x)
                         {
                             scale.x -= 0.06f + 0.00002f * flameCnt;
+                        }
+                        else
+                        {
+                            nextState = StateID.RESULT_END;
                         }
                     }
                     break;
@@ -344,7 +348,6 @@ public class ResultManager : MonoBehaviour
         //----------------------------------------------
         // 次の状態をRESULT_INITにセット
         //----------------------------------------------
-
         if (nowState == StateID.NULL)
         {
             nextState = StateID.RESULT_INIT;

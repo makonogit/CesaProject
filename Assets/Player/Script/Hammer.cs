@@ -84,8 +84,7 @@ public class Hammer : MonoBehaviour
     [SerializeField,Header("ハンマー打ち込むまでの待機時間")]
     private float WaitHammer;                  // ハンマーを打つまでの待ち時間
     private float WaitHammerMeasure = 0.0f;    // ハンマー打ち込み時間を計測する変数
-
-
+ 
     // Start is called before the first frame update
     void Start()
     {
@@ -243,16 +242,13 @@ public class Hammer : MonoBehaviour
                         //　スティックの入力があれば角度計算
                         if (LeftStick != Vector2.zero)
                         {
-                            if (!AngleLook)
-                            {
-                                angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
-                                //angle += LeftStick.y + 6.0f * Time.deltaTime;
+                            angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
+                            //angle += LeftStick.y + 6.0f * Time.deltaTime;
 
-                                // 角度を正規化
-                                if (angle < 0)
-                                {
-                                    angle += 360;
-                                }
+                            // 角度を正規化
+                            if (angle < 0)
+                            {
+                                angle += 360;
                             }
 
                             //　角度を45度ずつで管理
@@ -368,22 +364,19 @@ public class Hammer : MonoBehaviour
                         //　スティックの入力があれば角度計算
                         if (LeftStick != Vector2.zero)
                         {
-                            if (!AngleLook)
-                            {
-                                angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
-                                //angle += LeftStick.y + 6.0f * Time.deltaTime;
+                            angle = Mathf.Atan2(LeftStick.y, LeftStick.x) * Mathf.Rad2Deg;
+                            //angle += LeftStick.y + 6.0f * Time.deltaTime;
 
-                                // 角度を正規化
-                                if (angle < 0)
-                                {
-                                    angle += 360;
-                                }
-                                
+                            // 角度を正規化
+                            if (angle < 0)
+                            {
+                                angle += 360;
                             }
 
+
                             //　角度を45度ずつで管理
-                           // angle = ((int)(angle / 22.5f)) * 22.5f;
-                          
+                            // angle = ((int)(angle / 22.5f)) * 22.5f;
+
                         }
                         else
                         {
@@ -444,6 +437,8 @@ public class Hammer : MonoBehaviour
 
                     break;
                 case HammerState.HAMMER:
+
+                    AngleLook = false;
 
                     //　待機時間計測
                     WaitHammerMeasure += Time.deltaTime;
@@ -550,11 +545,16 @@ public class Hammer : MonoBehaviour
                 }
             }
 
+
             if (anim.GetBool("accumulate") || anim.GetBool("angle"))
             {
-                // 角度の可視化
-                TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                if (AngleLook)
+                {
+                    // 角度の可視化
+                    TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                }
+                
             }
             else
             {
@@ -562,6 +562,7 @@ public class Hammer : MonoBehaviour
                 TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                 AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
             }
+           
 
             // ためアニメーション
             anim.SetBool("accumulate",(hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION) && (angle < 45 || angle > 135));
@@ -572,7 +573,7 @@ public class Hammer : MonoBehaviour
             
             anim.SetBool("backcrack", hammerstate == HammerState.HAMMER && (angle >= 45 && angle <= 135));
             // キャンセル
-            //anim.SetBool("cansel", hammerstate == HammerState.NONE);
+            anim.SetBool("cansel", hammerstate == HammerState.NONE);
 
         }
         //Debug.Log(hammerstate);
@@ -729,6 +730,11 @@ public class Hammer : MonoBehaviour
         }
         stopTime = 0.0f;
 
+    }
+
+    public void TargetLook()
+    {
+        AngleLook = true;
     }
 
 }
