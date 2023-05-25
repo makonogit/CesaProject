@@ -18,18 +18,14 @@ public class TitleMove : MonoBehaviour
 
     [SerializeField, Header("TitleLogo")]
     private SpriteRenderer TitleLogo;
+    [SerializeField] private Transform _logoTransform;
 
     [SerializeField, Header("Button")]
     private SpriteRenderer _Button;
 
-    private float a = 1.0f;
-
-    SpriteRenderer MainSpriteRenderer;
-
     public List<Sprite> TitleBackSprite;
 
     private float BreakTime;        //画面が崩壊するまでの時間
-
 
     //----------------------------------------
     //追加：菅
@@ -50,6 +46,9 @@ public class TitleMove : MonoBehaviour
     public AudioClip se_start1; // 一回目
     public AudioClip se_start2; // 二回目
     public AudioClip se_startcrush; // 割れる
+
+    [SerializeField] private List<Sprite> SpriteList = new List<Sprite>();
+    [SerializeField] private GameObject _CreackEffect; // 割れるエフェクト
 
     private AudioClip[] se_crush = new AudioClip[4];
 
@@ -105,8 +104,11 @@ public class TitleMove : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0"))
         {
 
-            //Sesource.Play();
-            Sesource.PlayOneShot(se_crush[FallNum - 1]);
+            if (FallNum > 0)
+            {
+                //Sesource.Play();
+                Sesource.PlayOneShot(se_crush[FallNum - 1]);
+            }
             //-------------------------------------------------
             //スプライトを変更
             if (FallNum > 0)
@@ -117,6 +119,47 @@ public class TitleMove : MonoBehaviour
                 Instantiate(_particle);
                 //――――――――――――//
                 CrystalRenderer.sprite = TitleBackSprite[FallNum - 1];
+
+                if(FallNum == 3)
+                {
+                    // スプライト変更
+                    TitleLogo.sprite = SpriteList[1];
+                }
+                else if(FallNum == 2)
+                {
+                    // スプライト変更
+                    TitleLogo.sprite = SpriteList[0];
+
+                    // エフェクト生成
+                    var Obj = Instantiate(_CreackEffect, _logoTransform.transform);
+                    var Pos = Obj.transform.position;
+                    // Tの位置らへんにパーティクル生成
+                    Obj.transform.position = new Vector3(Pos.x + 2.83f, Pos.y - 0.86f, Pos.z);
+                }else if(FallNum == 1)
+                {
+                    // 残ったタイトルロゴ消す
+                    TitleLogo.enabled = false;
+                    // Press Keyを消す
+                    _Button.enabled = false;
+
+                    // エフェクト一つ目生成
+                    var Obj1 = Instantiate(_CreackEffect, _logoTransform.transform);
+                    var Pos1 = Obj1.transform.position;
+                    // Kの位置らへんにパーティクル生成
+                    Obj1.transform.position = new Vector3(Pos1.x, Pos1.y - 0.86f, Pos1.z);
+
+                    // エフェクト二つ目生成
+                    var Obj2 = Instantiate(_CreackEffect, _logoTransform.transform);
+                    var Pos2 = Obj2.transform.position;
+                    // Pの位置らへんにパーティクル生成
+                    Obj2.transform.position = new Vector3(Pos2.x - 2.4f, Pos2.y - 0.86f, Pos2.z);
+
+                    // エフェクト三つ目生成
+                    var Obj3 = Instantiate(_CreackEffect, _logoTransform.transform);
+                    var Pos3 = Obj3.transform.position;
+                    // Keyの位置らへんにパーティクル生成
+                    Obj3.transform.position = new Vector3(Pos3.x, Pos3.y - 3.82f, Pos3.z);
+                }
             }
             //-------------------------------------------------
             FallNum--;
@@ -133,18 +176,10 @@ public class TitleMove : MonoBehaviour
 
         if (_ScreenBreak.enabled)
         {
-            a -= 1.0f * Time.deltaTime;
-
-            _Button.color = new Color(1.0f, 1.0f, 1.0f, a);
-            TitleLogo.color = new Color(1.0f, 1.0f, 1.0f, a);
-
-            if (a < 0.0f)
-            {
-                anim.SetInteger("Select", 4);
-               
-                player.transform.position = Vector3.MoveTowards(player.transform.position,
-                    new Vector3(11.0f, player.transform.position.y, player.transform.position.z), 6.0f * Time.deltaTime);
-            }
+            anim.SetInteger("Select", 4);
+            // プレイヤーが右に移動していく
+            player.transform.position = Vector3.MoveTowards(player.transform.position,
+                new Vector3(11.0f, player.transform.position.y, player.transform.position.z), 6.0f * Time.deltaTime);
 
             if (player.transform.position.x > 10.7f)
             {

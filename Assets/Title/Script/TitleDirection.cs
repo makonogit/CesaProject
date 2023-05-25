@@ -29,8 +29,8 @@ public class TitleDirection : MonoBehaviour
     [SerializeField, Header("タイトルの演出用")]
     private TitleMove _titlemove;
 
-    [SerializeField, Header("TITLELOGO")]
-    private Animator Titleanim;             //TitleLogoのアニメーション
+    //[SerializeField, Header("TITLELOGO")]
+    //private Animator Titleanim;             //TitleLogoのアニメーション
 
     [SerializeField, Header("PushA_Renderer")]
     private SpriteRenderer PushA;               //PushA
@@ -45,6 +45,11 @@ public class TitleDirection : MonoBehaviour
     private float TimeMasure;   // 時間計測用
 
     private bool start = false;
+
+    // 二宮追加
+    [SerializeField] private SpriteRenderer _LogoRenderer;
+
+    private bool _setRendererflg = false;
 
     // Start is called before the first frame update
     void Start()
@@ -92,12 +97,10 @@ public class TitleDirection : MonoBehaviour
                             _titlemove.enabled = true;
                             thistrans.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
                             anim.enabled = true;
-                            PushA.color = new Color(1.0f, 1.0f, 1.0f);
-                            PushA_Script.enabled = true;
                         }
                         else
                         {
-                            Titleanim.enabled = true;
+                            //Titleanim.enabled = true;
                             thistrans.position = Vector3.MoveTowards(thistrans.position, new Vector3(9.78f, -3.1f, 0.0f), 2.0f * Time.deltaTime);
                         }
 
@@ -122,6 +125,17 @@ public class TitleDirection : MonoBehaviour
         }
         else
         {
+            if (FlashNum >= 1 && _setRendererflg == false)
+            {
+                PushA.color = new Color(1.0f, 1.0f, 1.0f);
+                PushA_Script.enabled = true;
+
+                // タイトルロゴ出現
+                _LogoRenderer.enabled = true;
+
+                _setRendererflg = true;
+            }
+
             FlashFlg = true;
         }
 
