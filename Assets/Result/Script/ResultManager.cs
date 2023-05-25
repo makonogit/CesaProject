@@ -81,6 +81,9 @@ public class ResultManager : MonoBehaviour
     [Header("・演出終了後の待機フレーム数")]
     public int standbyTim = 1000;// 演出終了後の待機フレーム数
 
+    // 二宮追加
+    private bool _goSelectScene = false;
+
     //=============================================
     // *** 初期化処理 ***
     //=============================================
@@ -330,7 +333,7 @@ public class ResultManager : MonoBehaviour
             isMoveFlg = true;
         }
 
-        if (standbyTim < flameCnt)
+        if (_goSelectScene == true)
         {
             SceneManager.LoadScene("newSelectScene");
             nowState = StateID.NULL;
@@ -358,5 +361,10 @@ public class ResultManager : MonoBehaviour
     public bool GetMoveFlg()
     {
         return isMoveFlg;
+    }
+
+    public void GoSelectScene()
+    {
+        _goSelectScene = true;
     }
 }
