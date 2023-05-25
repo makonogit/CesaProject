@@ -29,7 +29,6 @@ public class IceEnemy_Hit_Crack : MonoBehaviour
             crack = _collision.gameObject.GetComponent<CrackCreater>();
             if (_isDamage)
             {
-                Debug.Log("ｐ");
                 iceEnemy.State = IceEnemy.StateID.DEATH;
                 //this.gameObject.SetActive(false);
             }
