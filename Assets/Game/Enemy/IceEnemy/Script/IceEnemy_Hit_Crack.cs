@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public class IceEnemy_Hit_Crack : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject Parent;
     private IceEnemy iceEnemy;
     private Collider2D _collision;
     private CrackCreater crack;
@@ -14,7 +16,7 @@ public class IceEnemy_Hit_Crack : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        iceEnemy = GetComponentInParent<IceEnemy>();
+        iceEnemy = Parent.GetComponent<IceEnemy>();
         if (iceEnemy == null) Debug.LogError("IceEnemyのコンポーネントを取得できませんでした。");
         
     }
@@ -27,6 +29,7 @@ public class IceEnemy_Hit_Crack : MonoBehaviour
             crack = _collision.gameObject.GetComponent<CrackCreater>();
             if (_isDamage)
             {
+                Debug.Log("ｐ");
                 iceEnemy.State = IceEnemy.StateID.DEATH;
                 //this.gameObject.SetActive(false);
             }

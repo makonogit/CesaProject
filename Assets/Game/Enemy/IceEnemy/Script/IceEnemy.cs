@@ -54,6 +54,9 @@ public class IceEnemy : MonoBehaviour
 
     private PlayEnemySound enemyse; //死んだ音用
 
+
+    
+
     // Use this for initialization
     void Start()
     {
@@ -115,7 +118,7 @@ public class IceEnemy : MonoBehaviour
     {
         transform.position = StartPos;
         _direction = false;
-        _rb.simulated = false;
+        //_rb.simulated = false;
         //--------------------------------------
         // レイを飛ばして天井を探す
         // 上方向
@@ -133,7 +136,7 @@ public class IceEnemy : MonoBehaviour
         {
             //Debug.Log(_hit.transform.name);
             // めり込み防止用
-            Vector2 _offset = new Vector2(0, -1.25f * 0.25f);
+            Vector2 _offset = new Vector2(0, -1.25f * 0.5f);
             _pos = _hit.point + _offset;
             // 位置を設定
             transform.position = _pos;
@@ -149,8 +152,7 @@ public class IceEnemy : MonoBehaviour
         }
         set 
         {
-            if (value == StateID.DEATH)
-            { _state = value; }
+            _state = value;
         }
     }
     //-----------------------------------------------------------------
@@ -203,6 +205,7 @@ public class IceEnemy : MonoBehaviour
 
     private void Cling() 
     {
+        transform.position = StartPos;
         _anim.SetBool("isSurprised", _playerChecker.IsEnter);// 気づいたアニメーションを出す。
         //_anim.GetCurrentAnimatorClipInfo(0)[0].clip.name
         // もしdropAreaに入ったら
@@ -218,7 +221,7 @@ public class IceEnemy : MonoBehaviour
         // 重力を有効にする
         if(_anim.GetCurrentAnimatorClipInfo(0)[0].clip.name == "IE_FallingAnim") 
         {
-            _rb.simulated = true;
+            //_rb.simulated = true;
         }
         
         // 着地したら
