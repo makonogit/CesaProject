@@ -26,6 +26,7 @@ public class GripPlayer_CaveBoss : MonoBehaviour
         NULL,          // 状態なし
         ACCESS,        // 探索状態
         MOVE,          // 移動状態
+        APPEAR,        // 出現状態
         ATTACK,        // 攻撃状態
         GRIP,          // 捕まえた状態
         RETURN,        // 戻り状態
@@ -67,6 +68,12 @@ public class GripPlayer_CaveBoss : MonoBehaviour
     float radius = 0.25f;// 円の半径
 
     //-------------------------------------
+    // 出現状態
+
+    [Header("出現速度")]
+    public float appearSpeed = 0.01f;
+
+    //-------------------------------------
     // *** 外部オブジェクト ***
 
     GameObject objPlayer;// プレイヤー
@@ -74,12 +81,27 @@ public class GripPlayer_CaveBoss : MonoBehaviour
     Animator animLeft; // 左手のアニメーター
     Animator animRight;// 右手のアニメーター
 
+    //-------------------------------------
+    // マテリアル関連 
+
+    // 色
+    SpriteRenderer sr_boss;     // ボスの色
+    SpriteRenderer sr_lefthand; // 左手の色
+    SpriteRenderer sr_righthand;// 右手の色
+
+    float alpha = 0.0f;// 透明度
+
     //=====================================
     // *** 初期化処理 ***
     //=====================================
 
     void Start()
     {
+        // 色を取得
+        sr_boss = GetComponent<SpriteRenderer>();
+        sr_lefthand = GameObject.Find("LeftHand").GetComponent<SpriteRenderer>();
+        sr_righthand = GameObject.Find("RightHand").GetComponent<SpriteRenderer>();
+
 
         animLeft = GameObject.Find("LeftHand").GetComponent<Animator>();
         animRight = GameObject.Find("RightHand").GetComponent<Animator>();
@@ -125,6 +147,10 @@ public class GripPlayer_CaveBoss : MonoBehaviour
             case GripPlayerStateID.ACCESS:
                 Access();
                 break;
+            // 出現状態
+            case GripPlayerStateID.APPEAR:
+                Appear();
+                break;
             // 移動状態
             case GripPlayerStateID.MOVE:
                 Move();
@@ -143,8 +169,7 @@ public class GripPlayer_CaveBoss : MonoBehaviour
                 break;
             // 終了状態
             case GripPlayerStateID.END:
-                nextGripPlayerState = GripPlayerStateID.ACCESS;
-                return true;
+                return End();
                 break;
         }
 
@@ -176,9 +201,30 @@ public class GripPlayer_CaveBoss : MonoBehaviour
                     startPos_L = leftHand.transform.position;
 
                     // 手を移動状態に変更
-                    nextGripPlayerState = GripPlayerStateID.MOVE;
+                    nextGripPlayerState = GripPlayerStateID.APPEAR;
                 }
             }
+        }
+    }
+
+    //=====================================
+    // *** 出現状態 ***
+    //=====================================
+
+    void Appear()
+    {
+        // 透明度を加算
+        alpha += appearSpeed;
+
+        // 透明度を敵用
+        sr_boss.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+        sr_lefthand.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+        sr_righthand.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+
+        // 完全に出現したら攻撃状態に遷移
+        if (alpha >= 1.0f)
+        {
+            nextGripPlayerState = GripPlayerStateID.MOVE;
         }
     }
 
@@ -425,5 +471,29 @@ public class GripPlayer_CaveBoss : MonoBehaviour
         // 座標の変更を適用
         rightHand.transform.position = position_R;
         leftHand.transform.position = position_L;
+    }
+
+    //=====================================
+    // *** 終了処理 ***
+    //=====================================
+
+    bool End()
+    {
+        // 透明度を減算
+        alpha -= appearSpeed;
+
+        // 透明度を敵用
+        sr_boss.color = new Color(1.0f, 1.0f, 1.0f,alpha);
+        sr_lefthand.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+        sr_righthand.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+
+        // 完全に消えたら攻撃状態に遷移
+        if (alpha <= 0.0f)
+        {
+            nextGripPlayerState = GripPlayerStateID.ACCESS;
+            return true;
+        }
+
+        return false;
     }
 }

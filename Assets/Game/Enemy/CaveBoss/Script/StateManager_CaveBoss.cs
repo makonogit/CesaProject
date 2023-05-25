@@ -33,6 +33,7 @@ public class StateManager_CaveBoss : MonoBehaviour
     enum MainStateID   
     {
         NULL,          // 状態なし
+        STAND,         // 待機状態
         MOVE,          // 移動状態
         ATTACK,        // 攻撃状態
         DAMAGE,        // 被弾状態
@@ -94,7 +95,13 @@ public class StateManager_CaveBoss : MonoBehaviour
     Vector2 center;      // 回転の中心座標
     float angle;         // 回転角度
     float radius = 0.25f;// 円の半径
-   
+
+    //-------------------------------------
+    // 待機状態
+    //-------------------------------------
+
+    BossArea_CaveBoss bossArea;// この範囲内にプレイヤーが入ると行動開始
+
     //=====================================
     // *** 初期化 ***
     //=====================================
@@ -102,7 +109,7 @@ public class StateManager_CaveBoss : MonoBehaviour
     void Start()
     {
         // 現在の状態を移動状態に初期化
-        nowMainState = MainStateID.MOVE;
+        nowMainState = MainStateID.STAND;
 
         // 色を取得
         sr_boss = GetComponent<SpriteRenderer>();
@@ -116,6 +123,14 @@ public class StateManager_CaveBoss : MonoBehaviour
 
         // 初期HPを保存
         init_boss_hp = hp;
+
+        // 子オブジェクトを取得
+        bossArea = transform.Find("BossArea").gameObject.GetComponent<BossArea_CaveBoss>();
+
+        // 透明にする
+        sr_boss.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        sr_lefthand.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        sr_righthand.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
     }
 
     //=====================================
@@ -141,6 +156,10 @@ public class StateManager_CaveBoss : MonoBehaviour
 
         switch (nowMainState)
         {
+            // 待機状態
+            case MainStateID.STAND:
+                Stand();
+                break;
             // 移動状態
             case MainStateID.MOVE:
                 Move_CaveBoss.instance.Move();
@@ -171,7 +190,8 @@ public class StateManager_CaveBoss : MonoBehaviour
         // 被弾状態以外でひびと衝突したら被弾状態に遷移
         //--------------------------------------------------------
 
-        if (nowMainState != MainStateID.DAMAGE)
+        //if (nowMainState != MainStateID.DAMAGE)
+        if (nowAttackState == AttackStateID.GRIP_PLAYER)
         {
             if (collision.gameObject.tag == "Crack")
             {
@@ -368,6 +388,20 @@ public class StateManager_CaveBoss : MonoBehaviour
     }
 
     //===========================================
+    // 待機状態
+    //===========================================
+
+    void Stand()
+    {
+       
+        if (bossArea.hit)
+        {
+            nextMainState = MainStateID.MOVE;
+        }
+        
+    }
+
+    //===========================================
     // *** 初期化処理 ***
     //===========================================
 
@@ -382,9 +416,12 @@ public class StateManager_CaveBoss : MonoBehaviour
         transform.Find("RightHand").gameObject.transform.position = init_right_pos;
 
         // 現在の状態を移動状態に初期化
-        nowMainState = MainStateID.MOVE;
+        nowMainState = MainStateID.STAND;
 
         // 角度を初期化
         angle = 0.0f;
+
+        // ボスエリアの判定を初期化
+        bossArea.hit = false;
     }
 }
