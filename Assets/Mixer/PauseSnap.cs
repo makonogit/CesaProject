@@ -16,7 +16,6 @@ public class PauseSnap : MonoBehaviour
     [SerializeField]
     private AudioMixerSnapshot _StartSnap;   //開始時
 
-
     // ポーズ用に変更
     public void PauseSnapChange()
     {
