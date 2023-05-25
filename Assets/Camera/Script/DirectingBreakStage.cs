@@ -30,6 +30,11 @@ public class DirectingBreakStage : MonoBehaviour
     [SerializeField] private float StartFadeOutTime = 5f;
     private bool fadeOrder = false; // フェードアウトの命令を出していたらtrue
 
+    // クリアのフェードアウトが始まってからの経過時間
+    private float fadeTimer = 0f;
+    private ResultManager _resultManager;
+    private bool ResultFade = false;
+
     // 外部取得
     private GameObject StageData; // 必要となるオブジェクトの親オブジェクト
 
@@ -83,6 +88,8 @@ public class DirectingBreakStage : MonoBehaviour
         _fade = GameObject.Find("SceneManager").GetComponent<Fade>();
 
         _playerTransform = player.GetComponent<Transform>();
+
+        _resultManager = GameObject.Find("Result_StageClear").GetComponent<ResultManager>();
     }
 
     // Update is called once per frame
@@ -150,15 +157,6 @@ public class DirectingBreakStage : MonoBehaviour
                 thisTransform.position = new Vector3(_playerTransform.position.x,
                     thisTransform.position.y, 
                     thisTransform.position.z);
-
-                // 初めの一回のみ入る
-                if (ClearBGMflg == false)
-                {
-                    // ステージクリアBGM再生開始
-                    _BGMFadeMana.StageClear();
-
-                    ClearBGMflg = true;
-                }
             }
 
             // 背景クリスタルを消す割合
@@ -179,6 +177,16 @@ public class DirectingBreakStage : MonoBehaviour
                         Destroy(Crystal[i]);
                     }
 
+
+                    // 初めの一回のみ入る
+                    if (ClearBGMflg == false)
+                    {
+                        // ステージクリアBGM再生開始
+                        _BGMFadeMana.StageClear();
+
+                        ClearBGMflg = true;
+                    }
+
                     // Destroy(ParticleObj);
                     _ScreenBreak.enabled = true;
                 }
@@ -194,7 +202,6 @@ public class DirectingBreakStage : MonoBehaviour
                     ClearBGMflg = false;
 
                     Debug.Log("ステージ破壊完了");
-
                 }
             }
 
@@ -209,7 +216,22 @@ public class DirectingBreakStage : MonoBehaviour
                 // 画面暗くしていく
                 _fade.FadeOut();
 
+                // クリアBGM小さくしていく
+                _BGMFadeMana.smallSpecialBGM();
+
                 fadeOrder = true;
+
+                fadeTimer = 0.0f;
+                ResultFade = true;
+            }
+
+            if (ResultFade == true)
+            {
+                fadeTimer += Time.deltaTime;
+            }
+            if(fadeTimer > 0.5f)
+            {
+                _resultManager.GoSelectScene();
             }
 
             thisTransform.position = InitPos;
