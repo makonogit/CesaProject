@@ -147,6 +147,11 @@ public class CrackAutoMove : MonoBehaviour
                 break;
             case MoveState.CrackMove:
 
+                if(Edge == null)
+                {
+                    movestate = MoveState.CrackMoveEnd; 
+                }
+
                 // ˆÚ“®’†‚ÍŽ©•ª‚Ì‚ ‚½‚è”»’è‚ð–³Œø‰»
                 thiscol.size = new Vector2(1.0f,1.0f);
                 
