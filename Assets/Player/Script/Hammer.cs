@@ -155,7 +155,7 @@ public class Hammer : MonoBehaviour
     void FixedUpdate()
     {
         //　ひびの始点を常に自分の座標に指定
-        CrackPointList[0] = transform.position;
+        CrackPointList[0] = new Vector2(transform.position.x + (1.2f * Mathf.Cos(angle * (Mathf.PI / 180))), transform.position.y + (1.2f * Mathf.Sin(angle * (Mathf.PI / 180))));
 
         if (crackmove.movestate == CrackAutoMove.MoveState.Walk)
         {
@@ -268,12 +268,14 @@ public class Hammer : MonoBehaviour
 
                     }
 
-                        // 角度と距離からPoint座標を求める
-                        CrackPointList[1] = new Vector2(CrackPointList[0].x + (MoveLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (MoveLength * Mathf.Sin(angle * (Mathf.PI / 180))));
+                    // 角度と距離からPoint座標を求める
+                    CrackPointList[1] = new Vector2(CrackPointList[0].x + (MoveLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (MoveLength * Mathf.Sin(angle * (Mathf.PI / 180))));
 
-                        //デバッグ用
-                        //AngleTest.transform.position = new Vector3(CrackPointList[1].x, CrackPointList[1].y, 0.0f);
+                    Vector2 ArmPos = new Vector2(transform.position.x + (0.6f * Mathf.Cos(angle * (Mathf.PI / 180))), (transform.position.y- 0.25f) + (0.6f * Mathf.Sin(angle * (Mathf.PI / 180))));
 
+                    //デバッグ用
+                    AngleTest.transform.position = new Vector3(ArmPos.x, ArmPos.y, 0.0f);
+                    AngleTest.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
                     //----------------------------------------------
                     //　両方押されていたら長さを更新
@@ -389,7 +391,7 @@ public class Hammer : MonoBehaviour
 
                     // 角度と距離からPoint座標を求める
                     CrackPointList[1] = new Vector2(CrackPointList[0].x + (CrackLength * Mathf.Cos(angle * (Mathf.PI / 180))), CrackPointList[0].y + (CrackLength * Mathf.Sin(angle * (Mathf.PI / 180))));
-                    Vector2 ArmPos = new Vector2(CrackPointList[0].x + (0.6f * Mathf.Cos(angle * (Mathf.PI / 180))), (CrackPointList[0].y - 0.25f) + (0.6f * Mathf.Sin(angle * (Mathf.PI / 180))));
+                    ArmPos = new Vector2(transform.position.x + (0.6f * Mathf.Cos(angle * (Mathf.PI / 180))), (transform.position.y - 0.25f) + (0.6f * Mathf.Sin(angle * (Mathf.PI / 180))));
 
                     //デバッグ用
                     AngleTest.transform.position = new Vector3(ArmPos.x, ArmPos.y, 0.0f);
@@ -402,10 +404,10 @@ public class Hammer : MonoBehaviour
                         if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
                         {
 
-                            // SE再生
-                            vibration.SetVibration(0.5f);
-                            se.PlaySE_Crack1();
-                            se.PlayHammer();
+                            //// SE再生
+                            //vibration.SetVibration(0.5f);
+                            //se.PlaySE_Crack1();
+                            //se.PlayHammer();
 
 
                             //// ヒットストップ初期化
@@ -566,7 +568,8 @@ public class Hammer : MonoBehaviour
             anim.SetBool("angle", (hammerstate == HammerState.POWER || hammerstate == HammerState.DIRECTION) && (angle >= 45 && angle <= 135));
             // ひびアニメーション
             anim.SetBool("crack", hammerstate == HammerState.HAMMER && (angle < 45 || angle > 135));
-            
+            anim.SetBool("Add", AddCrackFlg);
+
             anim.SetBool("backcrack", hammerstate == HammerState.HAMMER && (angle >= 45 && angle <= 135));
             // キャンセル
             anim.SetBool("cansel", hammerstate == HammerState.NONE);
@@ -737,6 +740,14 @@ public class Hammer : MonoBehaviour
     {
         AngleLook = true;
     }
+
+    public void Crack()
+    {
+        // SE再生
+        vibration.SetVibration(0.5f);
+        se.PlaySE_Crack1();
+        se.PlayHammer();
+    } 
 
 }
 
