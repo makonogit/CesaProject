@@ -148,6 +148,9 @@ public class PauseGame : MonoBehaviour
                 if (IsPause == false)
                 {
                     magnification = true;
+
+                    snap.PauseSnapChange(); //‰¹‚ðâÄ‚ç‚¹‚é
+
                 }
                 else
                 {
@@ -158,9 +161,10 @@ public class PauseGame : MonoBehaviour
                         Manual.transform.GetChild(i).gameObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                     }
                     reduction = true;
+
+                    snap.NormalSnapChange(); // Œ³‚É–ß‚·
                 }
 
-                snap.PauseSnapChange(); //‰¹‚ðâÄ‚ç‚¹‚é
                 ScriptPIManager.SetPause(false);
 
                 seMana.PlaySE_OK();

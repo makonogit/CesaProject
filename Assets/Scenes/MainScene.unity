@@ -649,6 +649,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 760183939167922469, guid: 9c7b38324e095f742a6f05afab740107, type: 3}
   m_PrefabInstance: {fileID: 2011717126}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &412183744 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1391312667611003444, guid: 852b4e94a234ad64084fba4f25aa2e43, type: 3}
+  m_PrefabInstance: {fileID: 1391312667190893238}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &494912585
 GameObject:
   m_ObjectHideFlags: 0
@@ -1804,6 +1809,20 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 1391312667611003442, guid: 852b4e94a234ad64084fba4f25aa2e43, type: 3}
   m_PrefabInstance: {fileID: 1391312667190893238}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1152344734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412183744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5802fd2f6fc81eb458859c4e95796def, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _PauseSnap: {fileID: 24500006, guid: 27d21958d7f11f84ab76ffd1ffab7a6f, type: 2}
+  _StartSnap: {fileID: -3238779731299546884, guid: 27d21958d7f11f84ab76ffd1ffab7a6f, type: 2}
 --- !u!1 &1233716419
 GameObject:
   m_ObjectHideFlags: 0
@@ -3871,6 +3890,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -8.423645
       objectReference: {fileID: 0}
+    - target: {fileID: 2213088983169423595, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
+      propertyPath: snap
+      value: 
+      objectReference: {fileID: 1152344734}
     - target: {fileID: 2213088983169423595, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
       propertyPath: ChangeSpeed
       value: 4
