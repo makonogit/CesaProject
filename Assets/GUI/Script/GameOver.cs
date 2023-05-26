@@ -194,6 +194,15 @@ public class GameOver : MonoBehaviour
         // HPがなくなった
         if(HP <= 0)
         {
+
+            if (death == false)
+            {
+                // 死亡BGMフェードイン
+                _BGMFadeMana.BigSpecialBGM();
+                // 再生開始
+                _specialBGM.Play();
+            }
+
             death = true;
             _isGameOver = true;
         }
@@ -212,11 +221,9 @@ public class GameOver : MonoBehaviour
                 _BGMFadeMana.SmallStageBGM();
                 _BGMFadeMana.SmallBossBGM();
 
-                // 死亡BGMフェードイン
-                _BGMFadeMana.BigSpecialBGM();
+                
                 _playBGM.Death = true;
-                // 再生開始
-                _specialBGM.Play();
+                
 
                 FadeBGMflg = true;
             }
