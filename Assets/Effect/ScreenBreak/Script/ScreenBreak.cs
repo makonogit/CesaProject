@@ -23,6 +23,7 @@ public class ScreenBreak : MonoBehaviour
     private float screenedge;
 
     // 二宮追加
+    private GameObject player;
     private Transform _playerTransform;
 
     // 音関連
@@ -39,10 +40,16 @@ public class ScreenBreak : MonoBehaviour
         // AudioSourceコンポーネントを取得
         audioSource = GetComponent<AudioSource>();
 
-        if (GameObject.Find("player"))
+        player = GameObject.Find("player");
+        if (player == null)
         {
-            _playerTransform = GameObject.Find("player").GetComponent<Transform>();
+            player = GameObject.Find("UIPlayerWalk");
         }
+        if (player != null)
+        {
+            _playerTransform = player.GetComponent<Transform>();
+        }
+
         Break();
     }
 

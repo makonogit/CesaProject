@@ -1690,6 +1690,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Title",
+            "id": "4cb95e4a-e251-429d-9a39-2b73d24aa45b",
+            "actions": [
+                {
+                    "name": "Skip",
+                    "type": "Button",
+                    "id": "7a2c67ab-47b3-4e11-8e72-2718e67bbc15",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6928ecab-8d91-415c-9b9d-f23ca0b7f6cd",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Skip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

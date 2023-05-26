@@ -52,6 +52,9 @@ public class TitleDirection : MonoBehaviour
 
     private bool _setRendererflg = false;
 
+    public bool PushStartButton = false; // スキップボタンが押されたか
+    private bool Skipflg; // スキップ処理をしたか
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,50 +77,82 @@ public class TitleDirection : MonoBehaviour
         }
         if (start)
         {
-           
-            // 敵を移動させる
-            if (thistrans.position.x > TargetPos.x && TimeMasure < WaitTime)
-            {
-                thistrans.position = Vector3.MoveTowards(thistrans.position, TargetPos, 2.0f * Time.deltaTime);
-            }
-            else
-            {
-                PlayerAnim.SetBool("Work", false);
-                PlayerAnim.SetInteger("Select", -1);
 
-                TimeMasure += Time.deltaTime;   //　時間計測用
-
-                // 一定時間待ったらフラッシュさせる
-                if (TimeMasure > WaitTime)
+            if (Skipflg == false)
+            {
+                // 敵を移動させる
+                if (thistrans.position.x > TargetPos.x && TimeMasure < WaitTime)
                 {
-                    // フラッシュが終わったら
-                    if (!Flash())
-                    {
-                        if (FlashNum < 1)
-                        {
-                            FlashNum++;
-                            FlashFlg = false;
-
-                            // 演出用の設定
-                            CrystalPanel.SetActive(true);
-                            _titlemove.enabled = true;
-                            thistrans.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-                            anim.enabled = true;
-                        }
-                        else
-                        {
-                            thistrans.position = Vector3.MoveTowards(thistrans.position, new Vector3(9.78f, -3.1f, 0.0f), 2.0f * Time.deltaTime);
-                        }
-
-                    }
+                    thistrans.position = Vector3.MoveTowards(thistrans.position, TargetPos, 2.0f * Time.deltaTime);
                 }
                 else
                 {
-                    anim.enabled = false;
+                    PlayerAnim.SetBool("Work", false);
+                    PlayerAnim.SetInteger("Select", -1);
+
+                    TimeMasure += Time.deltaTime;   //　時間計測用
+
+                    // 一定時間待ったらフラッシュさせる
+                    if (TimeMasure > WaitTime)
+                    {
+                        // フラッシュが終わったら
+                        if (!Flash())
+                        {
+                            if (FlashNum < 1)
+                            {
+                                FlashNum++;
+                                FlashFlg = false;
+
+                                // 演出用の設定
+                                CrystalPanel.SetActive(true);
+                                _titlemove.enabled = true;
+                                thistrans.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                                anim.enabled = true;
+                            }
+                            else
+                            {
+                                thistrans.position = Vector3.MoveTowards(thistrans.position, new Vector3(9.78f, -3.1f, 0.0f), 2.0f * Time.deltaTime);
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        anim.enabled = false;
+                    }
                 }
             }
+
+            // 二宮追加
+            // スキップボタンが押されたら
+            if (PushStartButton == true && Skipflg == false)
+            {
+
+                // 敵を最後の位置に
+                thistrans.position = new Vector3(9.78f, -3.1f, 0.0f);
+
+                // Press ButtonUI出現
+                PushA.color = new Color(1.0f, 1.0f, 1.0f);
+                PushA_Script.enabled = true;
+
+                // タイトルロゴ出現
+                _LogoRenderer.enabled = true;
+
+                // クリスタル出現
+                CrystalPanel.SetActive(true);
+
+                // 割れる演出用スクリプトon
+                _titlemove.enabled = true;
+
+                _setRendererflg = true;
+
+                Skipflg = true;
+
+                // プレイヤーアニメーション変更
+                PlayerAnim.SetBool("Work", false);
+                PlayerAnim.SetInteger("Select", -1);
+            }
         }
-        
     }
 
     //------------------------------
