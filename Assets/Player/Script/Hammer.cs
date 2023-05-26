@@ -171,7 +171,8 @@ public class Hammer : MonoBehaviour
                     //AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
                     // 前回の座標との距離を求める
-                    float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
+                    float Distance = Vector3.Magnitude(OldFirstPoint - new Vector2(transform.position.x, transform.position.y));
+                    Debug.Log(Distance);
                     if (Distance < 0.5f)
                     {
                         if (CrackManager.transform.childCount > 0)
@@ -423,7 +424,7 @@ public class Hammer : MonoBehaviour
                         else
                         {
                             // Point座標を初期化
-                            AngleTest.transform.position = CrackPointList[0];
+                            //AngleTest.transform.position = CrackPointList[0];
                             // 照準非表示
                             //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                             //AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
@@ -453,6 +454,7 @@ public class Hammer : MonoBehaviour
                         //　前回の位置から移動していなかったらポイントを追加
                         if (AddCrackFlg)
                         {
+                            Debug.Log("ついか");
                             if (NowCrack != null)
                             {
                                 //　溜めた力分伸ばす(通常は1回)
@@ -472,10 +474,10 @@ public class Hammer : MonoBehaviour
 
                                     Power = 0;
                                     AddPower = 1;   //　力の初期化
-                                    OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
+                                    OldFirstPoint = transform.position;  // 生成時の座標を保存
                                     WaitHammerMeasure = 0.0f;       // 経過用変数初期化
 
-                                    AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
+                                    //AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
                                     //Move.SetMovement(true);
                                     AddCrackFlg = false;
                                     hammerstate = HammerState.NONE;
@@ -483,10 +485,10 @@ public class Hammer : MonoBehaviour
                             }
                             else
                             {
-                                OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
+                                OldFirstPoint = transform.position;  // 生成時の座標を保存
                                 WaitHammerMeasure = 0.0f;       // 経過用変数初期化
 
-                                AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
+                                //AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
                                 Move.SetMovement(true);
                                 AddCrackFlg = false;
                                 angle = 0.0f; //角度の初期化
@@ -500,10 +502,10 @@ public class Hammer : MonoBehaviour
                         {
                             CallCrackCreater();  //ひび生成
 
-                            OldFirstPoint = CrackPointList[0];  // 生成時の座標を保存
+                            OldFirstPoint = transform.position;  // 生成時の座標を保存
                             WaitHammerMeasure = 0.0f;       // 経過用変数初期化
 
-                            AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
+                            //AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
                             Move.SetMovement(true);
                             angle = 0.0f;   //角度の初期化
                             hammerstate = HammerState.NONE;
