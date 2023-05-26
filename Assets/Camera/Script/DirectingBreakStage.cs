@@ -45,6 +45,7 @@ public class DirectingBreakStage : MonoBehaviour
     private CameraControl2 control;
     private GameObject player;
     private Transform _playerTransform;
+    private PlayBgm bgm;
 
     [Header("各ステージごとに用意されたBorderLineマテリアルをセット")]private Material Mat;
 
@@ -84,6 +85,7 @@ public class DirectingBreakStage : MonoBehaviour
 
         _BGMFadeMana = MainCamera.GetComponent<BGMFadeManager>();
         SpecialBGM = MainCamera.transform.Find("SpecialBGM").gameObject.GetComponent<AudioSource>();
+        bgm = MainCamera.GetComponent<PlayBgm>();
 
         _fade = GameObject.Find("SceneManager").GetComponent<Fade>();
 
@@ -137,6 +139,7 @@ public class DirectingBreakStage : MonoBehaviour
             // カメラ追従ターゲットの位置を目標地点まで加速しながら移動させる
             if (thisTransform.position.x < _playerTransform.position.x)
             {
+                bgm.CrackLoop();
                 // 座標を目標オブジェクトの方まで移動させる
                 // 後になればなるほど速くなる
                 // 加速するなら

@@ -16,6 +16,9 @@ public class PlayBgm : MonoBehaviour
     [SerializeField, Header("各エリアBGM")]
     private List<AudioClip> Loop_Bgm;
 
+    [SerializeField, Header("ひびの音")]
+    private AudioClip crack;
+
     private SetStage Stage;
 
     // ボス戦が始まっていたらtrue
@@ -80,4 +83,22 @@ public class PlayBgm : MonoBehaviour
             }
         }
     }
+
+    //---------------------------
+    // ひび入れ
+    public void CrackLoop()
+    {
+        Loop.clip = crack;
+        Loop.volume = 0.8f;
+        if (!Loop.isPlaying)
+        {
+            Loop.Play();
+        }
+
+        if(Loop.time > 0.25f)
+        {
+            Loop.time = 0.0f;
+        }
+    }
+
 }

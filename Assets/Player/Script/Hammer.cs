@@ -155,7 +155,7 @@ public class Hammer : MonoBehaviour
     void FixedUpdate()
     {
         //　ひびの始点を常に自分の座標に指定
-        CrackPointList[0] = new Vector2(transform.position.x + (1.2f * Mathf.Cos(angle * (Mathf.PI / 180))), transform.position.y + (1.2f * Mathf.Sin(angle * (Mathf.PI / 180))));
+        CrackPointList[0] = new Vector2(transform.position.x + (1.0f * Mathf.Cos(angle * (Mathf.PI / 180))), transform.position.y + (1.0f * Mathf.Sin(angle * (Mathf.PI / 180))));
 
         if (crackmove.movestate == CrackAutoMove.MoveState.Walk)
         {
