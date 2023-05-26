@@ -194,6 +194,7 @@ public class Hammer : MonoBehaviour
 
                     if(LeftStick == Vector2.zero)
                     {
+                        angle = 0.0f;   //Šp“x‚Ì‰Šú‰»
                         Move.SetMovement(true);
                     }
 
@@ -434,7 +435,7 @@ public class Hammer : MonoBehaviour
                                 //@—­‚ß‚½—Í•ªL‚Î‚·(’Êí‚Í1‰ñ)
                                 if (Power < AddPower)
                                 {
-
+                                   // Debug.Log(angle);
                                     if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
                                     {
                                         //Move.SetMovement(true);
@@ -481,7 +482,7 @@ public class Hammer : MonoBehaviour
 
                             //AngleTest.transform.position = CrackPointList[0];   // PointÀ•W‚ğ‰Šú‰»
                             //Move.SetMovement(true);
-                            angle = 0.0f;   //Šp“x‚Ì‰Šú‰»
+                            //angle = 0.0f;   //Šp“x‚Ì‰Šú‰»
                             hammerstate = HammerState.NONE;
                         }
                     }
