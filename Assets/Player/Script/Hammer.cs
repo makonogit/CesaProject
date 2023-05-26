@@ -165,14 +165,12 @@ public class Hammer : MonoBehaviour
             {
                 case HammerState.NONE:
 
-                    Move.SetMovement(true);
                     // 角度の可視化
                     //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                     //AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
                     // 前回の座標との距離を求める
                     float Distance = Vector3.Magnitude(OldFirstPoint - new Vector2(transform.position.x, transform.position.y));
-                    Debug.Log(Distance);
                     if (Distance < 0.5f)
                     {
                         if (CrackManager.transform.childCount > 0)
@@ -191,32 +189,23 @@ public class Hammer : MonoBehaviour
                         AddCrackFlg = false;
                     }
 
+                    // 左スティックの入力から角度を取得する
+                    Vector2 LeftStick = InputManager.GetMovement();
+
+                    if(LeftStick == Vector2.zero)
+                    {
+                        Move.SetMovement(true);
+                    }
+
                     //　両方押しで溜め技
-                    if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
+                    if (InputManager.GetNail_Left() && InputManager.GetNail_Right() && LeftStick != Vector2.zero)
                     {
                         hammerstate = HammerState.POWER;
                     }
 
                     //トリガーを押したら方向決定状態
-                    if (InputManager.GetNail_Right() && !InputManager.GetNail_Left())
+                    if (InputManager.GetNail_Right() && !InputManager.GetNail_Left() && LeftStick != Vector2.zero)
                     {
-                        // 前回の座標との距離を求める
-                        //float Distance = Vector3.Magnitude(CrackPointList[0] - OldFirstPoint);
-                        //-----------------------------------------------------------------------
-                        // 前回の位置とあまり移動していなかくて、前のひびが残ってたらポイント追加
-                        if (Distance < 0.5f && CrackManager.transform.childCount > 0)
-                        {
-                            ////　ひびを取得
-                            //NowCrack = CrackManager.transform.GetChild(CrackManager.transform.childCount - 1).GetComponent<CrackCreater>();
-
-                            //AddCrackFlg = true;
-
-                        }
-                        else
-                        {
-                            // 角度の可視化
-                            //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                        }
 
                         //　照準(仮)が壁にめりこんでなかったら
                         if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
@@ -237,7 +226,7 @@ public class Hammer : MonoBehaviour
                     // 角度と距離から座標を計算
                     {
                         // 左スティックの入力から角度を取得する
-                        Vector2 LeftStick = InputManager.GetMovement();
+                        LeftStick = InputManager.GetMovement();
 
                         //----------------------------------------
                         //　スティックの入力があれば角度計算
@@ -262,6 +251,7 @@ public class Hammer : MonoBehaviour
                         }
                         else
                         {
+                            hammerstate = HammerState.NONE;
                             // なければ
                             angle = angle;
 
@@ -282,10 +272,6 @@ public class Hammer : MonoBehaviour
                     //　両方押されていたら長さを更新
                     if (InputManager.GetNail_Left() && InputManager.GetNail_Right())
                     {
-                        // 照準の非表示
-                        //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                        //AngleTest.transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-
                         vibration.SetControlerVibration();
                         
                         if (!AddCrackFlg)
@@ -325,10 +311,10 @@ public class Hammer : MonoBehaviour
 
                         }
 
-                        // SE再生
-                        vibration.SetVibration(0.5f);
-                        se.PlaySE_Crack1();
-                        se.PlayHammer();
+                        //// SE再生
+                        //vibration.SetVibration(0.5f);
+                        //se.PlaySE_Crack1();
+                        //se.PlayHammer();
 
                         // ヒットストップ初期化
                         //playerStatus.SetHitStop(true);
@@ -361,7 +347,7 @@ public class Hammer : MonoBehaviour
                     // 角度と距離から座標を計算
                     {
                         // 左スティックの入力から角度を取得する
-                        Vector2 LeftStick = InputManager.GetMovement();
+                        LeftStick = InputManager.GetMovement();
 
                         //----------------------------------------
                         //　スティックの入力があれば角度計算
@@ -383,6 +369,7 @@ public class Hammer : MonoBehaviour
                         }
                         else
                         {
+                            hammerstate = HammerState.NONE;
                             // なければ
                             angle = angle;
 
@@ -405,17 +392,6 @@ public class Hammer : MonoBehaviour
                         if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
                         {
 
-                            //// SE再生
-                            //vibration.SetVibration(0.5f);
-                            //se.PlaySE_Crack1();
-                            //se.PlayHammer();
-
-
-                            //// ヒットストップ初期化
-                            //playerStatus.SetHitStop(true);
-                            //anim.speed = 0.02f;
-                            //stopTime = 0.0f;
-
                             //angle = 0.0f; //角度初期化
                             hammerstate = HammerState.HAMMER;
 
@@ -431,7 +407,7 @@ public class Hammer : MonoBehaviour
                             //// Point座標を初期化
                             //AngleTest.transform.position = CrackPointList[0];
                             //　移動制限解除
-                            Move.SetMovement(true);
+                            //Move.SetMovement(true);
                             hammerstate = HammerState.NONE;
                         }
 
@@ -442,7 +418,6 @@ public class Hammer : MonoBehaviour
                 case HammerState.HAMMER:
 
                     AngleLook = false;
-
                     //　待機時間計測
                     WaitHammerMeasure += Time.deltaTime;
 
@@ -454,7 +429,6 @@ public class Hammer : MonoBehaviour
                         //　前回の位置から移動していなかったらポイントを追加
                         if (AddCrackFlg)
                         {
-                            Debug.Log("ついか");
                             if (NowCrack != null)
                             {
                                 //　溜めた力分伸ばす(通常は1回)
@@ -463,7 +437,7 @@ public class Hammer : MonoBehaviour
 
                                     if (NowCrack.GetState() == CrackCreater.CrackCreaterState.CRAETED)
                                     {
-                                        Move.SetMovement(true);
+                                        //Move.SetMovement(true);
                                         NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
                                         Power++;
                                     }
@@ -489,7 +463,7 @@ public class Hammer : MonoBehaviour
                                 WaitHammerMeasure = 0.0f;       // 経過用変数初期化
 
                                 //AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
-                                Move.SetMovement(true);
+                                //Move.SetMovement(true);
                                 AddCrackFlg = false;
                                 angle = 0.0f; //角度の初期化
                                 hammerstate = HammerState.NONE;
@@ -506,7 +480,7 @@ public class Hammer : MonoBehaviour
                             WaitHammerMeasure = 0.0f;       // 経過用変数初期化
 
                             //AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
-                            Move.SetMovement(true);
+                            //Move.SetMovement(true);
                             angle = 0.0f;   //角度の初期化
                             hammerstate = HammerState.NONE;
                         }
