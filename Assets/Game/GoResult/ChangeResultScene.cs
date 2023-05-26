@@ -33,6 +33,8 @@ public class ChangeResultScene : MonoBehaviour
     private Hammer hammer;
     private CrackAutoMove crackmove;
 
+    SetStage _setstage = new SetStage();
+
     //----追加者：中川直登----
     private Clear clear;// クリアしたかどうかをセレクトに持っていく
     //------------------------
@@ -115,7 +117,16 @@ public class ChangeResultScene : MonoBehaviour
     {
         var gamepad = Gamepad.current;
         GameObject stage = GameObject.Find("StageData").transform.GetChild(0).gameObject;
-        CameraZoom zoom = stage.GetComponent<CameraZoom>();
+        CameraZoom zoom = null;
+        DirectingBreakStage breakStage = null;
+        if (_setstage.GetStageNum() != 4) 
+        {
+            zoom = stage.GetComponent<CameraZoom>();
+        }
+        else 
+        {
+            breakStage = GameObject.Find("CameraTarget_Start").GetComponent<DirectingBreakStage>();
+        }
         move.SetMovement(false);
         jump.enabled = false;
         crackmove.enabled = false;
@@ -130,7 +141,11 @@ public class ChangeResultScene : MonoBehaviour
             //　振動停止
             gamepad.SetMotorSpeeds(0.0f, 0.0f);
         }
-        if (zoom.ZoomEnd)
+        if (zoom != null && zoom.ZoomEnd)
+        {
+            resultmanager.PlayResult();
+        }
+        if(breakStage != null && breakStage.GetBreakStage())
         {
             resultmanager.PlayResult();
         }
