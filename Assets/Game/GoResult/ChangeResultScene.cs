@@ -77,7 +77,7 @@ public class ChangeResultScene : MonoBehaviour
                 if (GameObject.Find("BossEnemy").transform.childCount == 0)
                 {
                     //コアを破壊してリザルト
-                    if (Stagestatus.GetStageCrystal() == 0 && WaitFlame > 0.2f)
+                    if (Stagestatus.GetStageCrystal() == 0 && WaitFlame > 0.5f)
                     {
                         Result();
                     }
@@ -117,11 +117,11 @@ public class ChangeResultScene : MonoBehaviour
     {
         var gamepad = Gamepad.current;
         GameObject stage = GameObject.Find("StageData").transform.GetChild(0).gameObject;
-        CameraZoom zoom = null;
+        CameraZoom zoom = stage.GetComponent<CameraZoom>();
         DirectingBreakStage breakStage = null;
         if (_setstage.GetStageNum() != 4) 
         {
-            zoom = stage.GetComponent<CameraZoom>();
+            
         }
         else 
         {
@@ -141,14 +141,14 @@ public class ChangeResultScene : MonoBehaviour
             //　振動停止
             gamepad.SetMotorSpeeds(0.0f, 0.0f);
         }
-        if (zoom != null && zoom.ZoomEnd)
+        if (zoom.ZoomEnd)
         {
             resultmanager.PlayResult();
         }
-        if(breakStage != null && breakStage.GetBreakStage())
-        {
-            resultmanager.PlayResult();
-        }
+        //if(breakStage != null && breakStage.GetBreakStage())
+        //{
+        //    resultmanager.PlayResult();
+        //}
         //----追加者：中川直登----
         clear.GameClear();// クリアした
                           //------------------------
