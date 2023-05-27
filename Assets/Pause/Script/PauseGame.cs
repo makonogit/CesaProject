@@ -58,6 +58,12 @@ public class PauseGame : MonoBehaviour
 
     [SerializeField] PauseSnap snap;    //ポーズ用に音声変換するためのスクリプト
 
+    // *** 追記 ***
+    // 担当：藤原昂祐
+    // 用途：背景用パネル
+    [Header("背景用パネル")]
+    public GameObject panel;
+
     //private GameObject player;
     //private Transform playerTransform;
     //private PlayerStatas playerStatus;
@@ -369,7 +375,12 @@ public class PauseGame : MonoBehaviour
             // 通常再生にする
             Time.timeScale = 1f;
             //this.gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
-            blackImage.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+            //blackImage.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+
+            // *** 追記 ***
+            // 担当：藤原昂祐
+            // 内容：パネルを非表示
+            panel.SetActive(false);
 
             IsPause = false;
         }
@@ -379,7 +390,12 @@ public class PauseGame : MonoBehaviour
             // 一時停止する
             Time.timeScale = 0f;
             //this.gameObject.GetComponent<CanvasGroup>().alpha = 1.0f;
-            blackImage.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+            //blackImage.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+
+            // *** 追記 ***
+            // 担当：藤原昂祐
+            // 内容：パネルを表示
+            panel.SetActive(true);
 
             IsPause = true;
         }
