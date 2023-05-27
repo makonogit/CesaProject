@@ -56,6 +56,7 @@ public class SandControl : MonoBehaviour
         }
         else
         {
+            Debug.Log("add");
             // 移動などで無くなれば再度設定状態に
             Destroy(ReleasedSand);
             HitTrigger = false;
@@ -99,11 +100,11 @@ public class SandControl : MonoBehaviour
 
         //------------------------------------------------
         //　プレイヤーと衝突したら押し返す
-        if(other.tag == "Player")
-        {
-            PlayerMove move = other.GetComponent<PlayerMove>();
-            other.transform.Translate(-6.0f * (move.GetMovement().x * move.BaseSpeed * Time.deltaTime), 0.0f, 0.0f);
-        }
+        //if(other.tag == "Player")
+        //{
+        //    PlayerMove move = other.GetComponent<PlayerMove>();
+        //    other.transform.Translate(-6.0f * (move.GetMovement().x * move.BaseSpeed * Time.deltaTime), 0.0f, 0.0f);
+        //}
 
         if(other.tag == "SandLine")
         {
