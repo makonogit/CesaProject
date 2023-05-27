@@ -633,6 +633,7 @@ public class CrackCreater : MonoBehaviour
                 _cracks[_addCrackNow.y].SetActive(true);// 表示
                 _nowEdgePoints.Add(_edgePoints[_addCrackNow.y]);
                 Edge2D.SetPoints(_nowEdgePoints);
+                if (SandEdge != null) SandEdge.SetPoints(_nowEdgePoints);
                 _addCrackCount--;// カウントを減らす
                 _addCrackNow = new Vector2Int(_addCrackNow.x, _addCrackNow.y + 1);// カウントを減らす
             }

@@ -25,6 +25,8 @@ public class SandSE : MonoBehaviour
         //@SE‚ğÄ¶
         if(collision.tag == "Player")
         {
+            SEobj = GameObject.Find("GimmickSE");
+            PlaySE = SEobj.GetComponent<GimmickPlaySound>();
             //@Ä¶‚³‚ê‚Ä‚¢‚È‚©‚Á‚½‚ç
             if (!PlaySE.IsPlay())
             {
