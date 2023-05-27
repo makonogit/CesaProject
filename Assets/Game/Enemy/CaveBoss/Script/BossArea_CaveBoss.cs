@@ -10,14 +10,14 @@ using UnityEngine;
 public class BossArea_CaveBoss : MonoBehaviour
 {
     //===========================
-    // •Ï”éŒ¾
+    // •Ï”éŒ¾                  
     //===========================
 
     [Header("Õ“Ëó‘Ô")]
     public bool hit = false;
 
     //============================================================
-    // *** Õ“Ë”»’è ***
+    // *** Õ“Ë”»’è ***                                           
     //============================================================
 
     void OnTriggerEnter2D(Collider2D collision)

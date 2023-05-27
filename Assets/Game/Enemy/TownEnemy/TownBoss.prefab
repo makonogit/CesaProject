@@ -276,6 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxBossHealth: 3
   bossMove: {fileID: 763984895660101168}
+  _renderOnOff: {fileID: 899676689}
 --- !u!114 &11445009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +304,7 @@ GameObject:
   - component: {fileID: 763984895660101168}
   - component: {fileID: 1357279458}
   - component: {fileID: 3222818699117534690}
+  - component: {fileID: 899676689}
   m_Layer: 7
   m_Name: TownBoss
   m_TagString: BossEnemy
@@ -473,6 +475,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48cbd37dfe98da549bcb1b0433ec25cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &899676689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3007114840224502459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e80924acd5dce114bba31857bbad5dac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cycle: 0.3
+  isFlashing: 0
+  dutyRate: 0.5
+  spriteRenderer: {fileID: 101093799277991122}
+  _hitEnemy: {fileID: 0}
 --- !u!1001 &7760445790230040836
 PrefabInstance:
   m_ObjectHideFlags: 0

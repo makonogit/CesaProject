@@ -19,6 +19,7 @@ public class TownBossHealth : MonoBehaviour
 
     // 外部取得
     [SerializeField] private TownBossMove bossMove;
+    [SerializeField] private RenderOnOff _renderOnOff;
 
     // SE関係
     private GameObject SE;
@@ -78,6 +79,10 @@ public class TownBossHealth : MonoBehaviour
                         {
                             // SEならす
                             enemySE.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
+
+                            // 点滅させる
+                            // 第二引数：点滅時間
+                            _renderOnOff.SetFlash(true,1.5f);
                         }
                     }
                 }

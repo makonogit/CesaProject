@@ -93,7 +93,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 404610440369885425}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.3456743, y: 2.3472774, z: 0}
   m_LocalScale: {x: 1.0049076, y: 0.9178813, z: 1}
   m_ConstrainProportionsScale: 0
@@ -282,7 +282,14 @@ MonoBehaviour:
   mainStateDelay: 500
   hp: 3
   effect: {fileID: 7052504874363746491, guid: 8b8f8be0fd2e7b84691bdc107780e038, type: 3}
-  invincible_time: 100
+  _defaultMat: {fileID: 2100000, guid: 3a3642a7ce370b84aab2c095b95e3be2, type: 2}
+  _shineMatBody: {fileID: 2100000, guid: 7725df8af715a9949b7a601b65f5f934, type: 2}
+  _shineMatLeftHand: {fileID: 2100000, guid: 8247b989d70a3904c9783845001117f1, type: 2}
+  _shineMatRightHand: {fileID: 2100000, guid: 3571afb5e7c5cd841a71bdd613cd7141, type: 2}
+  SR_Body: {fileID: 404610440369885386}
+  SR_LeftHand: {fileID: 404610440639067252}
+  SR_RightHand: {fileID: 404610440671481466}
+  _BGMFadeManager: {fileID: 0}
 --- !u!58 &404610440369885426
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -574,6 +581,7 @@ GameObject:
   - component: {fileID: 404610440895923306}
   - component: {fileID: 404610440895923307}
   - component: {fileID: 404610440895923300}
+  - component: {fileID: 816192570995118053}
   m_Layer: 0
   m_Name: BossArea
   m_TagString: Untagged
@@ -635,3 +643,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hit: 0
+--- !u!50 &816192570995118053
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404610440895923305}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

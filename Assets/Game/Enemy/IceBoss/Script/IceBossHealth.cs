@@ -24,6 +24,9 @@ public class IceBossHealth : MonoBehaviour
     private bool on;
     private float nowTime;
 
+    // 二宮追加
+    [SerializeField] RenderOnOff _renderOnOff;
+
     // Use this for initialization
     void Start()
     {
@@ -86,6 +89,9 @@ public class IceBossHealth : MonoBehaviour
             _Damaged = true;
             on = true;
             Destroy(collision.gameObject);
+
+            // 点滅
+            _renderOnOff.SetFlash(true, 1.5f);
         }
     }
 }

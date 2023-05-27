@@ -419,9 +419,6 @@ public class TownBossMove : MonoBehaviour
         }
     }
 
-    //Vector3 CreatePos;
-    //Quaternion CreateRotate;
-    //GameObject effect;
     private void ThrowShardsInit()
     {
         // ‚©‚¯‚ç€”õ

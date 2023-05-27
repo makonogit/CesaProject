@@ -45,8 +45,12 @@ public class RenderOnOff : MonoBehaviour
     {
         if(Init == false)
         {
-            // 無敵時間と点滅時間を結びつけ
-            flashTime = _hitEnemy.NoDamageTime;
+            // プレイヤー以外のオブジェクトにも利用できるように
+            if (_hitEnemy != null)
+            {
+                // 無敵時間と点滅時間を結びつけ
+                flashTime = _hitEnemy.NoDamageTime;
+            }
 
             // 初期サイクルを保持
             initCycle = cycle;

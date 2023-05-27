@@ -84,8 +84,9 @@ public class StateManager_CaveBoss : MonoBehaviour
     [Header("・撃破時エフェクト")]
     public GameObject effect;        // エフェクト
     [Header("・無敵時間")]
-    public int invincible_time = 100;// 無敵時間
-    int invincible_time_cnt;         // 無敵時間カウント
+    private float invincible_time = 1.5f;// 無敵時間
+    private float invincible_time_cnt = 0f;         // 無敵時間カウント
+    private bool damageInit = false;
 
     //-------------------------------------
     // 移動関連 
@@ -101,6 +102,25 @@ public class StateManager_CaveBoss : MonoBehaviour
     //-------------------------------------
 
     BossArea_CaveBoss bossArea;// この範囲内にプレイヤーが入ると行動開始
+
+    // 二宮追加
+    // マテリアル
+    [SerializeField] private Material _defaultMat; // デフォルトのマテリアル
+    [SerializeField] private Material _shineMatBody; // 被ダメ時に光らせる 体
+    [SerializeField] private Material _shineMatLeftHand; // 被ダメ時に光らせる 左手
+    [SerializeField] private Material _shineMatRightHand; // 被ダメ時に光らせる 右手
+    private float MatTimer = 0f; // マテリアルを変更するときに指標となるタイマー
+    private bool DefaultMat = true;
+    // spriterenderer
+    [SerializeField] private SpriteRenderer SR_Body;       // 体
+    [SerializeField] private SpriteRenderer SR_LeftHand;   // 左手
+    [SerializeField] private SpriteRenderer SR_RightHand;  // 右手
+
+    // ダメージを受けた
+    private bool _damage = false;
+
+    // BGM系
+    private BGMFadeManager _BGMFadeManager; // ボス撃破時にBGMフェードアウトする
 
     //=====================================
     // *** 初期化 ***
@@ -131,6 +151,8 @@ public class StateManager_CaveBoss : MonoBehaviour
         sr_boss.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
         sr_lefthand.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
         sr_righthand.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+
+        _BGMFadeManager = GameObject.Find("Main Camera").GetComponent<BGMFadeManager>();
     }
 
     //=====================================
@@ -139,44 +161,52 @@ public class StateManager_CaveBoss : MonoBehaviour
 
     void Update()
     {
-        //---------------------------------------
-        // 状態を更新
-        //--------------------------------------
-
-        if (nextMainState != MainStateID.NULL)
+        if (Time.timeScale != 0f)
         {
-            oldMainState = nowMainState;
-            nowMainState = nextMainState;
-            nextMainState = MainStateID.NULL;
-        }
+            //---------------------------------------
+            // 状態を更新
+            //--------------------------------------
 
-        //---------------------------------------
-        // 現在の状態によって処理を分岐
-        //---------------------------------------
+            if (nextMainState != MainStateID.NULL)
+            {
+                oldMainState = nowMainState;
+                nowMainState = nextMainState;
+                nextMainState = MainStateID.NULL;
+            }
 
-        switch (nowMainState)
-        {
-            // 待機状態
-            case MainStateID.STAND:
-                Stand();
-                break;
-            // 移動状態
-            case MainStateID.MOVE:
-                Move_CaveBoss.instance.Move();
-                RandomMainState();
-                break;
-            // 攻撃状態
-            case MainStateID.ATTACK:
-                Attack();
-                break;
-            // 被弾状態
-            case MainStateID.DAMAGE:
+            //---------------------------------------
+            // 現在の状態によって処理を分岐
+            //---------------------------------------
+
+            switch (nowMainState)
+            {
+                // 待機状態
+                case MainStateID.STAND:
+                    Stand();
+                    break;
+                // 移動状態
+                case MainStateID.MOVE:
+                    Move_CaveBoss.instance.Move();
+                    RandomMainState();
+                    break;
+                // 攻撃状態
+                case MainStateID.ATTACK:
+                    Attack();
+                    break;
+                // 被弾状態
+                //case MainStateID.DAMAGE:
+                //    Damage();
+                //    break;
+                // 戦闘不能
+                case MainStateID.DEATH:
+                    Death();
+                    break;
+            }
+
+            if(_damage == true)
+            {
                 Damage();
-                break;
-            // 戦闘不能
-            case MainStateID.DEATH:
-                Death();
-                break;
+            }
         }
     }
 
@@ -195,11 +225,23 @@ public class StateManager_CaveBoss : MonoBehaviour
         {
             if (collision.gameObject.tag == "Crack")
             {
-                // 被弾状態に遷移
-                nextMainState = MainStateID.DAMAGE;
+                // 当たったひびのCrackOrderを取得
+                var order = collision.gameObject.GetComponent<CrackCreater>();
 
-                // 衝突したひびを破棄
-                Destroy(collision.gameObject);
+                //生成中なら
+                if (order != null)
+                {
+                    if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                    {
+                        // 被弾状態に遷移
+                        //nextMainState = MainStateID.DAMAGE;
+
+                        _damage = true;
+
+                        // 衝突したひびを破棄
+                        Destroy(collision.gameObject);
+                    }
+                }
             }
         }
     }
@@ -323,18 +365,21 @@ public class StateManager_CaveBoss : MonoBehaviour
 
     void Damage()
     {
-       
+
         // 無敵時間をカウント
-        invincible_time_cnt++;
+        invincible_time_cnt += Time.deltaTime;
+        MatTimer += Time.deltaTime;
 
         //---------------------------------------
         // HPを1減らす。0なら戦闘不能状態に遷移
         //---------------------------------------
 
-        if (invincible_time_cnt == 1)
+        if (invincible_time_cnt > 0 && damageInit == false)
         {
             // HPを1減らす
             hp--;
+
+            damageInit = true;
 
             // 0なら戦闘不能状態に遷移
             if (hp <= 0)
@@ -352,6 +397,9 @@ public class StateManager_CaveBoss : MonoBehaviour
 
                 // 回転の中心座標に現在位置を保存
                 center = transform.position;
+
+                // ボスBGMフェードアウト
+                _BGMFadeManager.SmallBossBGM();
             }
         }
 
@@ -361,10 +409,37 @@ public class StateManager_CaveBoss : MonoBehaviour
 
         if (invincible_time_cnt < invincible_time)
         {
-            // 赤色に変更
-            sr_boss.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
-            sr_lefthand.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
-            sr_righthand.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+            //// 赤色に変更
+            //sr_boss.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+            //sr_lefthand.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+            //sr_righthand.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+
+            //一定時間ごとにマテリアルを交互に変更
+            if (MatTimer >= 0.2f)
+            {
+                // デフォルトのマテリアルなら
+                if (DefaultMat == true)
+                {
+                    // 光る
+                    SR_Body.material = _shineMatBody;
+                    SR_LeftHand.material = _shineMatLeftHand;
+                    SR_RightHand.material = _shineMatRightHand;
+
+                    DefaultMat = false;
+                }
+                // 光ってる
+                else
+                {
+                    // デフォルト
+                    SR_Body.material = _defaultMat;
+                    SR_LeftHand.material = _defaultMat;
+                    SR_RightHand.material = _defaultMat;
+
+                    DefaultMat = true;
+                }
+
+                MatTimer = 0f;
+            }
         }
 
         //--------------------------------------------
@@ -374,15 +449,27 @@ public class StateManager_CaveBoss : MonoBehaviour
         else
         {
             // 無敵時間のカウントをリセット
-            invincible_time_cnt = 0;
+            invincible_time_cnt = 0f;
 
             // 色をデフォルトに戻す
-            sr_boss.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            sr_lefthand.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            sr_righthand.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            //sr_boss.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            //sr_lefthand.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            //sr_righthand.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+            // マテリアルデフォルト
+            SR_Body.material = _defaultMat;
+            SR_LeftHand.material = _defaultMat;
+            SR_RightHand.material = _defaultMat;
+
+            DefaultMat = true;
 
             // ダメージを受ける前の状態に戻す
-            nextMainState = oldMainState;
+            //nextMainState = oldMainState;
+
+            // 初期化
+            MatTimer = 0f;
+            damageInit = false;
+            _damage = false;
         }
 
     }
