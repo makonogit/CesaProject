@@ -75,6 +75,7 @@ public class EnemyMove : MonoBehaviour
     // 死亡時の処理が終わったかを持つ変数
     private bool death = false;
 
+    // 
 
     [Header("プレイヤーを追いかける速度")]
     public float TrackingSpeed = 3.0f; // 追跡スピード
@@ -96,6 +97,8 @@ public class EnemyMove : MonoBehaviour
 
     private CircleCollider2D circleCol;
     private float ColRadius;
+
+    [SerializeField] private GameObject BreakParticle; // 敵を倒したときのパーティクル
 
     // 外部取得
     private Transform thisTransform; // このオブジェクトの座標を持つ変数
@@ -469,9 +472,12 @@ public class EnemyMove : MonoBehaviour
         if (death == false) 
         {
             // プレイヤーとの当たり判定を
-            Child.GetComponent<CircleCollider2D>().enabled = false;
+            //Child.GetComponent<CircleCollider2D>().enabled = false;
 
             death = true;
+
+            Instantiate(BreakParticle, transform.position, Quaternion.identity);   //　割れる演出をする
+            Destroy(gameObject);    //自分を消す
         }
     }
 

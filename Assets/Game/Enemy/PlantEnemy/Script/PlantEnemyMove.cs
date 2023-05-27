@@ -94,6 +94,9 @@ public class PlantEnemyMove : MonoBehaviour
     private GameObject Pipe_2; // パイプ2
     private GameObject Child; // 敵自身の子オブジェクト
 
+    [SerializeField] private GameObject BreakParticle; // 敵撃破パーティクル
+    private PlayEnemySound _playEnemySound; // 敵の撃破音
+
     private void Init()
     {
         // 初期化
@@ -142,6 +145,8 @@ public class PlantEnemyMove : MonoBehaviour
 
         // マテリアル取得
         mat = GetComponent<SpriteRenderer>().material;
+
+        _playEnemySound = GameObject.Find("EnemySE").GetComponent<PlayEnemySound>();
     }
 
     // Update is called once per frame
@@ -443,6 +448,15 @@ public class PlantEnemyMove : MonoBehaviour
         {
             rigid2D.gravityScale = 1f;
         }
+
+        // 撃破音
+        _playEnemySound.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);     // 死んだ音を再生
+
+        // パーティクル
+        Instantiate(BreakParticle, transform.position, Quaternion.identity);   // 割れる演出をする
+
+        // 削除
+        Destroy(gameObject);
     }
 
     private void SetDirection()

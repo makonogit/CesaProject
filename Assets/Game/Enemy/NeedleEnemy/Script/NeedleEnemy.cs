@@ -78,6 +78,9 @@ public class NeedleEnemy : MonoBehaviour
     SpriteRenderer sr;         // 色
     GameObject obj_hitcollider;// プレイヤーとの当たり判定
 
+    // 二宮追加
+    private PlayEnemySound _playEnemySound;
+
     //=====================================
     // 初期化処理
 
@@ -103,6 +106,9 @@ public class NeedleEnemy : MonoBehaviour
 
         // 重力による移動量を初期化
         g = gravity;
+
+        // 敵se取得
+        _playEnemySound = GameObject.Find("EnemySE").GetComponent<PlayEnemySound>();
     }
 
     //=====================================
@@ -158,7 +164,7 @@ public class NeedleEnemy : MonoBehaviour
     //============================================================
     // *** 衝突判定 ***
     //============================================================
-    
+
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -168,13 +174,27 @@ public class NeedleEnemy : MonoBehaviour
 
         if (collision.gameObject.tag == "Crack")
         {
-            nextState = StateID.DEATH;
-            Instantiate(effect, transform.position, Quaternion.identity);
-            // 回転の中心座標に初期位置を保存
-            center = transform.position;
-            obj_hitcollider.SetActive(false);
-        }
+            // 当たったひびのCrackOrderを取得
+            var order = collision.gameObject.GetComponent<CrackCreater>();
 
+            //生成中なら
+            if (order != null)
+            {
+                if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                {
+                    nextState = StateID.DEATH;
+                    Instantiate(effect, transform.position, Quaternion.identity);
+                    // 回転の中心座標に初期位置を保存
+                    center = transform.position;
+                    obj_hitcollider.SetActive(false);
+
+                    // 音鳴らす
+                    _playEnemySound.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
+                    // 敵消す
+                    Destroy(gameObject);
+                }
+            }
+        }
     }
 
     //=====================================

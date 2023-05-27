@@ -124,9 +124,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.011298835, y: -0.09366536}
+  m_Offset: {x: 0.0006817579, y: -0.087675095}
   serializedVersion: 2
-  m_Radius: 0.6016361
+  m_Radius: 0.6375781
 --- !u!114 &5577780168638756866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +153,7 @@ MonoBehaviour:
   RageArea: 0.0001
   JumpInterval: 1
   Parent: {fileID: 0}
+  BreakParticle: {fileID: 0}
 --- !u!95 &8969639731599257915
 Animator:
   serializedVersion: 4
@@ -234,9 +235,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.15187335, y: -0.18880153}
+  m_Offset: {x: 0.15187335, y: -0.17981601}
   serializedVersion: 2
-  m_Radius: 0.5473883
+  m_Radius: 0.64023805
 --- !u!114 &3157584333802900497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,8 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9962016d3b145084a9bda383e07eb12e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitTime: 0
-  Damage: 1
 --- !u!114 &405029867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,4 +263,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyMove: {fileID: 5577780168638756866}
-  enemyse: {fileID: 0}

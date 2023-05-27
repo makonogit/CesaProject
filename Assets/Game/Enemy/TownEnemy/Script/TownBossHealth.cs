@@ -84,6 +84,11 @@ public class TownBossHealth : MonoBehaviour
                             // ‘æ“ñˆø”F“_–ÅŠÔ
                             _renderOnOff.SetFlash(true,1.5f);
                         }
+
+                        if (bossMove.EnemyAI == TownBossMove.AIState.Ramming)
+                        {
+                            bossMove.EnemyAI = TownBossMove.AIState.Walk;
+                        }
                     }
                 }
             }

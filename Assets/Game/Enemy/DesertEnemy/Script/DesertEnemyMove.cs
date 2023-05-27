@@ -48,6 +48,11 @@ public class DesertEnemyMove : MonoBehaviour
         EnemyState = DesertEnemyState.NONE;     //何もしていない状態に設定
     }
 
+    // 壊れるパーティクル
+    [SerializeField] private GameObject BreakParticle;
+
+    private PlayEnemySound _playEnemySound; // 敵の撃破音
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,6 +66,7 @@ public class DesertEnemyMove : MonoBehaviour
         ThisAnim = GetComponent<Animator>();            //自身のAnimatorを取得
         ThisCol = GetComponent<CircleCollider2D>();    // 自身のColliderを取得
 
+        _playEnemySound = GameObject.Find("EnemySE").GetComponent<PlayEnemySound>();
     }
 
     // Update is called once per frame
@@ -105,10 +111,7 @@ public class DesertEnemyMove : MonoBehaviour
             {
                 //Attack();
             }
-
         }
-
-
     }
 
     //-------------------------
@@ -164,9 +167,11 @@ public class DesertEnemyMove : MonoBehaviour
             Destroy(collision.gameObject);
             GetComponent<CircleCollider2D>().enabled = false;
             EnemyState = DesertEnemyState.DATH;
+
+            // 壊れる
+            _playEnemySound.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);     //死んだ音を再生
+            Instantiate(BreakParticle, transform.position, Quaternion.identity);   //　割れる演出をする
+            Destroy(gameObject);    //自分を消す
         }
     }
-
-
-
 }
