@@ -144,8 +144,11 @@ public class TitleDirection : MonoBehaviour
                 // 割れる演出用スクリプトon
                 _titlemove.enabled = true;
 
-                _setRendererflg = true;
+                // ライトが初期化
+                bloom.intensity.value = 0f;
 
+                // フラグ系
+                _setRendererflg = true;
                 Skipflg = true;
 
                 // プレイヤーアニメーション変更
