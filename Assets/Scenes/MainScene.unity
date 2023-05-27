@@ -2500,7 +2500,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8303352847904300615, guid: 404ef7234e5d1044e9e4c59c72067986, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 404ef7234e5d1044e9e4c59c72067986, type: 3}
 --- !u!1 &1637342180
 GameObject:
@@ -3226,11 +3227,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: RenderCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 762584528093831207, guid: ff3c97622a8556a40b52e0732cc7e8fa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8364886352038607748, guid: ff3c97622a8556a40b52e0732cc7e8fa, type: 3}
       propertyPath: m_RenderPostProcessing
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3395726929926027965, guid: ff3c97622a8556a40b52e0732cc7e8fa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ff3c97622a8556a40b52e0732cc7e8fa, type: 3}
 --- !u!1 &2131348610
 GameObject:

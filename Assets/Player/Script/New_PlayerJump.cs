@@ -48,7 +48,7 @@ public class New_PlayerJump : MonoBehaviour
     [Header("落下スピードの下限値"), SerializeField] private float LowerLimit = -100f; // 落下速度が速くなりすぎないように
 
     // デバッグ用変数
-    private int count = 0;
+    private float count = 0f;
 
     // トロッコ用
     public bool RideOn = false;
@@ -242,7 +242,7 @@ public class New_PlayerJump : MonoBehaviour
                 }
 
                 // ジャンプの処理が終わって地面についたとき(ジャンプが入力されたフレームでは入らない)
-                if (isGround == true && ImFly == true && (TriggerJumpflg == false) && count > 30)
+                if (isGround == true && ImFly == true && (TriggerJumpflg == false) && count > 0.2f)
                 {
                     // 一連のジャンプ終了                                          
                     ImFly = false;
@@ -266,7 +266,7 @@ public class New_PlayerJump : MonoBehaviour
                 }
 
                 // バグ回避用 だけどできないいいいいいいいいいいいいいいいいいい
-                count++;
+                count += Time.deltaTime;
 
                 //if (TriggerJumpflg == true)
                 //{

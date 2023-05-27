@@ -53,8 +53,8 @@ public class PauseGame : MonoBehaviour
     private GameObject Manual;
     private RectTransform manualTransform;
     private Image manualImage;
-    private GameObject black;
-    private Image blackImage;
+    //private GameObject black;
+    //private Image blackImage;
 
     [SerializeField] PauseSnap snap;    //ポーズ用に音声変換するためのスクリプト
 
@@ -115,9 +115,9 @@ public class PauseGame : MonoBehaviour
         manualImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
         // 背景暗くする
-        black = GameObject.Find("Black");
-        blackImage = black.GetComponent<Image>();
-        blackImage.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+        //black = GameObject.Find("Black");
+        //blackImage = black.GetComponent<Image>();
+        //blackImage.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 
         // サウンド関係
         se = GameObject.Find("SE");
