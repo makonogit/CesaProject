@@ -32,6 +32,9 @@ public class AreaCrack : MonoBehaviour
     [SerializeField]
     private ParticleSystem particle;
 
+    [SerializeField]
+    private ScreenBreak Break;
+
     private bool _isAnimation;
 
     [SerializeField]
@@ -171,6 +174,9 @@ public class AreaCrack : MonoBehaviour
         // パーティクル生成
         for (int i = 0; i < 2; i++) Instantiate(particle, this.transform.position, quat);
         for (int i = 0; i < 2; i++) Instantiate(particle, this.transform.position + new Vector3(transform.position.x + 19.2f,transform.position.y), quat);
+
+        //nstantiate(Break, this.transform.position, Quaternion.identity);
+        Break.enabled = true;
 
         _isBreaked = true;
     }

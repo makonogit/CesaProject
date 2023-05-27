@@ -56,20 +56,20 @@ public class BraekCrystal : MonoBehaviour
 
     private void Update()
     {
-        if (breakblock != null)
-        {
-            if (breakblock.Break == true && Add == false)
-            {
-                ParentBreakTime = Time.time;
+        //if (breakblock != null)
+        //{
+        //    if (breakblock.Break == true && Add == false)
+        //    {
+        //        ParentBreakTime = Time.time;
 
-                // コライダー追加
-                var col = this.gameObject.AddComponent<CircleCollider2D>();
-                col.radius = 12.5f;
-                col.isTrigger = true;
+        //        // コライダー追加
+        //        var col = this.gameObject.AddComponent<CircleCollider2D>();
+        //        col.radius = 12.5f;
+        //        col.isTrigger = true;
 
-                Add = true;
-            }
-        }
+        //        Add = true;
+        //    }
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -77,18 +77,19 @@ public class BraekCrystal : MonoBehaviour
         // ひびに当たったら
         if (collision.tag == "Crack" && !Break)
         {
-          
-            if (Time.time > ParentBreakTime)
-            {
-                render.sprite = Crack;  //　スプライトの変更
 
-                Destroy(collision.gameObject);
-                stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
+            render.sprite = Crack;  //　スプライトの変更
 
-                // クリスタル破壊数増加
-                playerStatus.AddBreakCrystal();
-                Break = true;
-            }
+            Destroy(collision.gameObject);
+            stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
+
+            // クリスタル破壊数増加
+            //playerStatus.AddBreakCrystal();
+            Break = true;
+            //if (Time.time > ParentBreakTime)
+            //{
+               
+            //}
         }
     }
 

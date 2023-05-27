@@ -87,7 +87,7 @@ public class ScreenBreak : MonoBehaviour
 
             // ç¿ïWÇïœçX
             Vector3 pos = Vector3.zero;
-            pos.x = screenedge - 8f + 0.8f * rndX;
+            pos.x = screenedge - 8.0f + 0.8f * rndX;
             pos.y = objTransform.position.y -8.0f + 0.8f * rndY;
             pos.z = 0.0f;
 
@@ -110,6 +110,7 @@ public class ScreenBreak : MonoBehaviour
 
             obj.transform.parent = BreakManager.transform;
         }
+
     }
     //============================================================
 }
