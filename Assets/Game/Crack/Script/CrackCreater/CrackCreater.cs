@@ -560,7 +560,8 @@ public class CrackCreater : MonoBehaviour
             Vector3 _point = new Vector3(_center.x, _center.y, 0);
 
             // ステージに当たったら終了する
-            if (ways == Ways.NORMAL&&i != _edgePoints.Count - 2)
+            if (ways == Ways.NORMAL)
+                if(i != _edgePoints.Count - 2)
             {
                 if ( RayHit(i, true))
                 {

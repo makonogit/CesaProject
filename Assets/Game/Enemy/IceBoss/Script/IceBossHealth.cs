@@ -11,8 +11,7 @@ public class IceBossHealth : MonoBehaviour
     private int _maxHp;
     [SerializeField]
     private int _hp;
-    [SerializeField]
-    private Animator _anim;
+    
 
     private CrackManager _manager;
 
@@ -21,8 +20,7 @@ public class IceBossHealth : MonoBehaviour
 
     private string _tag = "Crack";
 
-    private bool on;
-    private float nowTime;
+    
 
     // 二宮追加
     [SerializeField] RenderOnOff _renderOnOff;
@@ -36,26 +34,13 @@ public class IceBossHealth : MonoBehaviour
         Init();
     }
 
-    private void Update()
-    {
-        _anim.SetBool("IsDamage", on);
-        if (on) 
-        {
-            nowTime += Time.deltaTime;
-        }
-        if(nowTime > 2) 
-        {
-            on = false;
-            nowTime = 0.0f;
-        }
-    }
+    
 
     public void Init()
     {
         _hp = _maxHp;
         _Damaged = false;
-        nowTime = 0.0f;
-        on = false;
+        
     }
 
 
@@ -87,7 +72,6 @@ public class IceBossHealth : MonoBehaviour
         {
             _hp--;
             _Damaged = true;
-            on = true;
             Destroy(collision.gameObject);
 
             // 点滅

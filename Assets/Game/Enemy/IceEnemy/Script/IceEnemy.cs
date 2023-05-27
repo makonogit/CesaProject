@@ -206,6 +206,7 @@ public class IceEnemy : MonoBehaviour
     private void Cling() 
     {
         transform.position = StartPos;
+        _rb.velocity = new Vector2(0, 0);
         _anim.SetBool("isSurprised", _playerChecker.IsEnter);// 気づいたアニメーションを出す。
         //_anim.GetCurrentAnimatorClipInfo(0)[0].clip.name
         // もしdropAreaに入ったら
@@ -214,7 +215,6 @@ public class IceEnemy : MonoBehaviour
         {
             _state = StateID.DROP;
             _anim.SetBool("isDrop", true);
-            _rb.velocity = new Vector2(0, 0);
         }
     }
     private void Drop()
