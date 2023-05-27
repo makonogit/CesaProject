@@ -23,8 +23,8 @@ public class ScreenBreak : MonoBehaviour
     private float screenedge;
 
     // 二宮追加
-    private GameObject player;
-    private Transform _playerTransform;
+    private GameObject camera;
+    private Transform _cameraTransform;
 
     // 音関連
     [Header("効果音")]
@@ -40,15 +40,17 @@ public class ScreenBreak : MonoBehaviour
         // AudioSourceコンポーネントを取得
         audioSource = GetComponent<AudioSource>();
 
-        player = GameObject.Find("player");
-        if (player == null)
-        {
-            player = GameObject.Find("UIPlayerWalk");
-        }
-        if (player != null)
-        {
-            _playerTransform = player.GetComponent<Transform>();
-        }
+        camera = GameObject.Find("Main Camera");
+        //if (camera == null)
+        //{
+        //    camera = GameObject.Find("UIcameraWalk");
+        //}
+        //if (camera != null)
+        //{
+        //   
+        //}
+
+        _cameraTransform = camera.GetComponent<Transform>();
 
         Break();
     }
@@ -60,7 +62,7 @@ public class ScreenBreak : MonoBehaviour
     {
         //--------------------------------------------------------
         // 音声ファイルを再生する
-        if (_playerTransform != null)
+        if (_cameraTransform != null)
         {
             audioSource.PlayOneShot(sound1);
         }
@@ -83,7 +85,7 @@ public class ScreenBreak : MonoBehaviour
 
             Transform objTransform = obj.transform;
 
-            screenedge = _playerTransform.position.x;
+            screenedge = _cameraTransform.position.x;
 
             // 座標を変更
             Vector3 pos = Vector3.zero;
