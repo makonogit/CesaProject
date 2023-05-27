@@ -18,6 +18,8 @@ public class BossDefeat : MonoBehaviour
 
     private StageStatas statas;     //　ステージステータス用
 
+    private bool Create = false;    //生成フラグ 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,13 +31,14 @@ public class BossDefeat : MonoBehaviour
     void Update()
     {
         // ボスが消えたら
-        if(transform.childCount == 0 && CoreManager.transform.childCount == 0)
+        if(transform.childCount == 0 && CoreManager.transform.childCount == 0 && !Create)
         {
             //　ひび生成
             GameObject obj = Instantiate(CoreCrack, CrackTrans);
             obj.GetComponent<SpriteRenderer>().sortingOrder = 2;
             obj.transform.parent = CoreManager.transform;   // Coreオブジェクトの子オブジェクトにする
             statas.SetStageCrystal(1);
+            Create = true;
         }
         
     }
