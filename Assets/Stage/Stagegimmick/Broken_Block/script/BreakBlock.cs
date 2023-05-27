@@ -32,7 +32,7 @@ public class BreakBlock : MonoBehaviour
     private CrackCreater order = null;
     private ParticleSystem BreakParticle;   //壊れるエフェクト
     //private ParticleSystem CrystalParticle; //クリスタルをゲットしたパーティクル
-    private GameObject CrystalPoint;        //クリスタルが集まる座標
+    //private GameObject CrystalPoint;        //クリスタルが集まる座標
 
     [SerializeField,Header("ないならいらない")] private BoxCollider2D _boxCollider; // 氷についてる
     [SerializeField,Header("ないならいらない")] private PolygonCollider2D _polygonCollider; // 岩についてる
@@ -44,7 +44,7 @@ public class BreakBlock : MonoBehaviour
 
     [SerializeField] private Animator anim; // アニメーター
 
-    [SerializeField] private Material defaultMat;
+    [SerializeField,Header("氷ブロックのみ必要")] private Material defaultMat;
 
     private GetCrystal getCrystal; // クリスタル取得時のパーティクル出現用
 
@@ -59,7 +59,7 @@ public class BreakBlock : MonoBehaviour
         statas = Player.GetComponent<PlayerStatas>();
         BreakParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
         //CrystalParticle = transform.GetChild(1).GetComponent<ParticleSystem>();
-        CrystalPoint = transform.GetChild(2).gameObject;
+        //CrystalPoint = transform.GetChild(2).gameObject;
 
         _boxCollider = GetComponent<BoxCollider2D>();
         _polygonCollider = GetComponent<PolygonCollider2D>();
@@ -185,11 +185,6 @@ public class BreakBlock : MonoBehaviour
         {
             GetComponent<PolygonCollider2D>().enabled = false;
         }
-        //Destroy(GetComponent<PolygonCollider2D>());
-        //Destroy(GetComponent<BoxCollider2D>());
-
-        ////クリスタルを付与
-        //statas.SetCrystal(statas.GetCrystal() + CrystalNum);
 
         Break = true;
     }

@@ -15,11 +15,13 @@ public class RespawnObjManager : MonoBehaviour
     private CameraZoom _cameraZoom; // リザルト用
     [SerializeField] private InitScoreCrystal _initScoreCrystal; // スコアクリスタル初期化用スクリプト
     [SerializeField] private RespawnBossInit _initBoss; // ボスの初期化用スクリプト
+    private CrackManager _crackManager; // ひび管理スクリプト
 
     // Start is called before the first frame update
     void Start()
     {
         _cameraZoom = GetComponent<CameraZoom>();
+        _crackManager = GameObject.Find("CrackManager").GetComponent<CrackManager>();
     }
 
     // Update is called once per frame
@@ -39,7 +41,11 @@ public class RespawnObjManager : MonoBehaviour
                 _initBoss.RespawnInit(); // ボス
             }
 
+            // カメラ関係初期化
             _cameraZoom.RespawnInit();
+
+            // ひび全消去
+            _crackManager.Init();
 
             Respawn = false;
         }

@@ -168,7 +168,7 @@ public class Fade : MonoBehaviour
     {
         if (RunTime == false)
         {
-            Debug.Log("フェードアウト開始");
+            //Debug.Log("フェードアウト開始");
 
             _fadeOut = true;
             RunTime = true;
