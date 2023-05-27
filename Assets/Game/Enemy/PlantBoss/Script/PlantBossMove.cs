@@ -48,6 +48,10 @@ public class PlantBossMove : MonoBehaviour
     [SerializeField,Header("攻撃間隔")]
     private float AttackTime;
 
+    [SerializeField, Header("死亡時のスプライト")]
+    private Sprite DethBoss;
+
+
     private float AttackTimeMesure = 0.0f;    //攻撃時間計測用
 
     private GameObject EnemyManager;          //生成した敵管理用
@@ -281,6 +285,7 @@ public class PlantBossMove : MonoBehaviour
             GameObject rfoot = transform.Find("RightFoot1").gameObject;
             core.GetComponent<BoxCollider2D>().isTrigger = false;
             Head.GetComponent<BoxCollider2D>().isTrigger = false;
+            Head.GetComponent<SpriteRenderer>().sprite = DethBoss;
             core.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
             lfoot.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
             rfoot.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
