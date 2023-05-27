@@ -56,6 +56,8 @@ public class BreakUnionCrystal : MonoBehaviour
                     Func_BreakBlock();
                 }
             }
+
+            Debug.Log("order‚ªnull");
         }
     }
 
@@ -68,7 +70,7 @@ public class BreakUnionCrystal : MonoBehaviour
         Obj.transform.position = thisTransform.position;
 
         // “–‚½‚è”»’è‚ğÁ‚·
-        Destroy(GetComponent<CapsuleCollider2D>());
+        Destroy(GetComponent<BoxCollider2D>());
 
         Break = true;
     }

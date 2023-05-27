@@ -256,31 +256,31 @@ public class FallPipe : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        // 地面かパイプに当たったら
-        if (collision.gameObject.tag == GroundTag ||
-            collision.gameObject.tag == PipeTag)
-        {
-            // パイプの状態が落下する状態なら
-            if (pipeStatus == PIPESTATUS.AllBroken || pipeStatus == PIPESTATUS.LeftBroken || pipeStatus == PIPESTATUS.RightBroken)
-            {
-                pipeStatus = PIPESTATUS.Fell;
-            }
-        }
+    //private void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    // 地面かパイプに当たったら
+    //    if (collision.gameObject.tag == GroundTag ||
+    //        collision.gameObject.tag == PipeTag)
+    //    {
+    //        // パイプの状態が落下する状態なら
+    //        if (pipeStatus == PIPESTATUS.AllBroken || pipeStatus == PIPESTATUS.LeftBroken || pipeStatus == PIPESTATUS.RightBroken)
+    //        {
+    //            pipeStatus = PIPESTATUS.Fell;
+    //        }
+    //    }
 
-        // プレイヤーがパイプより上にいるときに当たったら
-        if (collision.gameObject.tag == PlayerTag)
-        {
-            if (pipeStatus == PIPESTATUS.LeftBroken || pipeStatus == PIPESTATUS.RightBroken)
-            {
-                // プレイヤーの脚の部分がパイプの上表面より上なら
-                if (playerTransform.position.y - playerTransform.localScale.y / 2.0f > thisTransform.position.y + thisTransform.localScale.y / 2.0f)
-                {
-                    // 待ち時間を設けるためフラグ立てるだけ
-                    OnThePipe = true;
-                }
-            }
-        }
-    }
+    //    // プレイヤーがパイプより上にいるときに当たったら
+    //    if (collision.gameObject.tag == PlayerTag)
+    //    {
+    //        if (pipeStatus == PIPESTATUS.LeftBroken || pipeStatus == PIPESTATUS.RightBroken)
+    //        {
+    //            // プレイヤーの脚の部分がパイプの上表面より上なら
+    //            if (playerTransform.position.y - playerTransform.localScale.y / 2.0f > thisTransform.position.y + thisTransform.localScale.y / 2.0f)
+    //            {
+    //                // 待ち時間を設けるためフラグ立てるだけ
+    //                OnThePipe = true;
+    //            }
+    //        }
+    //    }
+    //}
 }
