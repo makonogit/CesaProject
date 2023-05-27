@@ -54,6 +54,7 @@ public class BreakCore : MonoBehaviour
                 else
                 {
                     Destroy(gameObject);
+                    Destroy(collision.gameObject);
                 }
             }
         }
