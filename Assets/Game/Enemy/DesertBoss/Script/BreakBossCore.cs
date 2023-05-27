@@ -12,6 +12,8 @@ public class BreakBossCore : MonoBehaviour
 
     private BGMFadeManager _BGMfadeMana;
 
+    [SerializeField]
+    private Sprite DethBoss;    //死亡時のスプライト
 
     private void Start()
     {
@@ -23,16 +25,21 @@ public class BreakBossCore : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        CrackCreater creater = collision.GetComponent<CrackCreater>();
-        if (collision.tag == "Crack" &&
-            (creater.GetState() == CrackCreater.CrackCreaterState.CREATING ||
-            creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING))
+        if (collision.tag == "Crack")
         {
-            //Destroy(GameObject.Find("BossEnemy").transform.GetChild(0).gameObject);
-            LightEffect.Flash();
-            _BGMfadeMana.SmallBossBGM();
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
+            CrackCreater creater = collision.GetComponent<CrackCreater>();
+            if((creater.GetState() == CrackCreater.CrackCreaterState.CREATING ||
+                creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING))
+            {
+                GameObject boss = GameObject.Find("BossEnemy").transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+                boss.GetComponent<Animator>().enabled = false;
+                boss.GetComponent<SpriteRenderer>().sprite = DethBoss;
+
+                LightEffect.Flash();
+                _BGMfadeMana.SmallBossBGM();
+                Destroy(collision.gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 

@@ -308,7 +308,7 @@ public class DesertBossMove : MonoBehaviour
         } while ( (PyramidList.transform.GetChild(Appearance[0]).gameObject.GetComponent<PyramidData>().Breaked && 
                    PyramidList.transform.GetChild(Appearance[1]).gameObject.GetComponent<PyramidData>().Breaked &&
                    PyramidList.transform.GetChild(Appearance[2]).gameObject.GetComponent<PyramidData>().Breaked)||
-                   (Appearance_probability < 2 &&
+                   (Appearance_probability < 1 &&
                    (PyramidList.transform.GetChild(Appearance[0]).gameObject.GetComponent<PyramidData>().InsideNum == 1 ||
                    PyramidList.transform.GetChild(Appearance[1]).gameObject.GetComponent<PyramidData>().InsideNum == 1 ||
                    PyramidList.transform.GetChild(Appearance[2]).gameObject.GetComponent<PyramidData>().InsideNum == 1)));
