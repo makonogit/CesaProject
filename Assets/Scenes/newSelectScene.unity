@@ -425,11 +425,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c93c5af64e471814c813f13e4a3cb1d8, type: 3}
---- !u!1 &61191818 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6769527214484631835, guid: c6949f9701aaa4747960846eda66cc3a, type: 3}
-  m_PrefabInstance: {fileID: 6703420372516175183}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &71007999
 GameObject:
   m_ObjectHideFlags: 0
@@ -10101,7 +10096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stage:
   - stage:
-    - StageObj: {fileID: 61191818}
+    - StageObj: {fileID: 2483160076854475445, guid: 6ddd4fa17a71a29429633e81e877722a, type: 3}
       PlayerPos: {x: 0, y: 0}
     - StageObj: {fileID: 1667226418}
       PlayerPos: {x: 0, y: 0}
@@ -12642,5 +12637,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: AreaGroup
       objectReference: {fileID: 0}
+    - target: {fileID: 8361952647470840030, guid: c6949f9701aaa4747960846eda66cc3a, type: 3}
+      propertyPath: Break
+      value: 
+      objectReference: {fileID: 2944586343739425994, guid: dc2707b01c60ae7448aa5f11e7f107b3, type: 3}
+    - target: {fileID: 8361952647640892467, guid: c6949f9701aaa4747960846eda66cc3a, type: 3}
+      propertyPath: Break
+      value: 
+      objectReference: {fileID: 2944586343739425994, guid: dc2707b01c60ae7448aa5f11e7f107b3, type: 3}
+    - target: {fileID: 8361952648291059254, guid: c6949f9701aaa4747960846eda66cc3a, type: 3}
+      propertyPath: Break
+      value: 
+      objectReference: {fileID: 2944586343739425994, guid: dc2707b01c60ae7448aa5f11e7f107b3, type: 3}
+    - target: {fileID: 8361952648303063856, guid: c6949f9701aaa4747960846eda66cc3a, type: 3}
+      propertyPath: Break
+      value: 
+      objectReference: {fileID: 2944586343739425994, guid: dc2707b01c60ae7448aa5f11e7f107b3, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6949f9701aaa4747960846eda66cc3a, type: 3}

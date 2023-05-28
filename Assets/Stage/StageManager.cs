@@ -62,10 +62,12 @@ public class StageManager : MonoBehaviour
             if (StageData.ClearFlg[StageData.AreaNum, StageData.StageNum])
             {
                 obj = Instantiate(clearstage[StageData.AreaNum].stage[StageData.StageNum].StageObj);
+                Debug.Log("クリアステージ");
             }
             else
             {
                 obj = Instantiate(stage[StageData.AreaNum].stage[StageData.StageNum].StageObj);
+                Debug.Log("未クリアステージ");
             }
 
             obj.transform.parent = this.transform;                  //子オブジェクトにする

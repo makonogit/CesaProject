@@ -61,6 +61,14 @@ public class ClearStageManager : MonoBehaviour
         clear.StartGame();
     }
 
+    // 二宮追加
+    // ゲームを開始してシーンのロードを挟んでも最初の一回しか呼び出さない
+    // 関数のフラグを持つクラス
+    public static class TheVeryFirst
+    {
+        public static bool Init = false;
+    };
+
     //
     // 関数；SetClearStageNum()
     //
@@ -75,6 +83,32 @@ public class ClearStageManager : MonoBehaviour
         int _stageNum = _data._data.ClearStages - (_areaNum * 5);
 
         //Debug.Log(_data._data.ClearStages);
+        //Debug.Log(_areaNum);
+        //Debug.Log(_stageNum);
+
+
+        // 二宮追加
+        // セーブデータを取得してきて、ステージをクリア済みと未クリアで分ける
+        // 最初の一回のみ実行
+        if (TheVeryFirst.Init == false)
+        {
+            // 一番進んでいるエリアのひとつ前のエリアまでのクリアフラグを立てる
+            for (int i = 0; i < _areaNum; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    setmanager.SetClearFlg(i, j);
+                }
+            }
+
+            // 一番進んでいるエリアのステージのクリアフラグを立てる
+            for (int i = 0; i < _stageNum; i++)
+            {
+                setmanager.SetClearFlg(_areaNum, i);
+            }
+
+            TheVeryFirst.Init = true;
+        }
 
         // クリアしたステージの設定
         _areas[_areaNum].LoadStage(_stageNum);
