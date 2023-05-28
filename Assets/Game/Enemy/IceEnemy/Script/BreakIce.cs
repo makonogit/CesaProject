@@ -14,5 +14,17 @@ public class BreakIce : MonoBehaviour
             BreakBlock Ice = collision.GetComponent<BreakBlock>();
             if (Ice != null) Ice.Func_BreakBlock();
         }
+        // 敵に当たる
+        if (collision.tag == "Enemy")
+        {
+            EnemyMove enemyMove = collision.gameObject.GetComponent<EnemyMove>();
+            if (enemyMove != null)
+            {
+                // 敵撃破状態にする
+                enemyMove.EnemyAI = EnemyMove.AIState.DEATH; // 撃破音、パーティクル、デストロイ
+            }
+
+        }
+
     }
 }
