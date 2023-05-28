@@ -92,7 +92,7 @@ public class SelectZoom : MonoBehaviour
             }
 
             // カメラの位置はプレイヤーの中心に固定
-            cameraTransform.position = new Vector3(TargetTrans.position.x, TargetTrans.position.y,-1.0f);
+            cameraTransform.position = new Vector3(TargetTrans.position.x,cameraTransform.position.y);
 
             //カメラサイズ変更
             Cam.orthographicSize = NowCameraSize;
@@ -106,7 +106,7 @@ public class SelectZoom : MonoBehaviour
         if (!_selectarea.LeftMove && !_selectarea.RightMove && !_selectarea.PlayerLeftMove)
         {
             // カメラの座標をターゲットを基に更新
-            cameraTransform.position = new Vector3(NowPos.x, NowPos.y, cameraTransform.position.z);
+            cameraTransform.position = new Vector3(NowPos.x, cameraTransform.position.y, cameraTransform.position.z);
 
             //----------------------------------------------------------------------
             // 画面端の座標を取得
@@ -123,7 +123,7 @@ public class SelectZoom : MonoBehaviour
             NowPos.y = Mathf.Clamp(NowPos.y, Min_y, Max_y);
 
             // カメラの座標をターゲットを基に更新
-            cameraTransform.position = new Vector3(NowPos.x, NowPos.y, cameraTransform.position.z);
+            cameraTransform.position = new Vector3(NowPos.x, cameraTransform.position.y, cameraTransform.position.z);
 
         }
         
