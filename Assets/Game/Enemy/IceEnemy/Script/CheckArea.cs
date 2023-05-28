@@ -16,6 +16,9 @@ public class CheckArea : MonoBehaviour
     private GameObject player;
     private New_PlayerJump _playerJump;
     private bool ride;
+    private bool _isStay;
+    private float nowTime;
+    private float limtTime = 0.25f;
     private void Start()
     {
         if (_name == null && _tag == null) Debug.LogError("名前かタグの設定をしてください。");
@@ -25,7 +28,22 @@ public class CheckArea : MonoBehaviour
         _playerJump = player.GetComponent<New_PlayerJump>();
 
         ride = (name == "PlayerOnArea");
+        _isStay = false;
     }
+    private void Update()
+    {
+        if (_isEnter) nowTime += Time.deltaTime;
+        if (limtTime < nowTime)
+        {
+            if (!_isStay) 
+            {
+                _isEnter = false;
+                nowTime = 0.0f;
+            }
+            nowTime = 0.0f;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Debug.Log(name + ":" + collision.name);
@@ -37,7 +55,19 @@ public class CheckArea : MonoBehaviour
         if (_tag != null&& collision.tag == _tag) 
         {
             _isEnter = true;
+            //Debug.Log(collision.gameObject.name);
             RideOn(true);
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (_name != null && collision.name == _name)
+        {
+            _isStay = true;
+        }
+        if (_tag != null && collision.tag == _tag)
+        {
+            _isStay = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -47,11 +77,13 @@ public class CheckArea : MonoBehaviour
         {
             _isEnter = false;
             RideOn(false);
+            _isStay = false;
         }
         if (_tag != null && collision.tag == _tag)
         {
             _isEnter = false;
             RideOn(false);
+            _isStay = false;
         }
     }
     private void RideOn(bool value) 

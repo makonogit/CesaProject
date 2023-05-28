@@ -143,7 +143,7 @@ public class Trolleys_Move : MonoBehaviour
         //    _oldpos = transform.position;
         //    _movetime = 0.0f;
         //}
-        //_oldState = _hammer.hammerstate;// 状態を保存
+        _oldState = _hammer.hammerstate;// 状態を保存
        
 
     }
@@ -196,13 +196,13 @@ public class Trolleys_Move : MonoBehaviour
     private void Move()
     {
         // 移動力を設定
-        Vector2 move = new Vector2(_normalPower * _direction, 0);
+        Vector2 move = new Vector2(_normalPower * _direction , _rb2d.velocity.y);
 
         // ダッシュ時の移動力を設定
-        if (_dashFlag) move = new Vector2(_dashPower * _direction, 0);
+        if (_dashFlag) move = new Vector2(_dashPower * _direction , _rb2d.velocity.y);
 
         // 移動する
-        if (isMove) _rb2d.AddForce(move);
+        if (isMove) _rb2d.velocity = move;
         
     }
 
@@ -307,12 +307,10 @@ public class Trolleys_Move : MonoBehaviour
     {
         get 
         {
-            // 乗っていないなら
-            if (!_onPlayer.IsEnter) return false;
             // 現在の状態が HAMMERではないなら
             if (!isStateHammer) return false;
             // 前の状態が POWER ではないなら
-            if (_oldState == Hammer.HammerState.POWER) return false;
+            if (_oldState != Hammer.HammerState.POWER) return false;
             return true;
         }
     }
