@@ -30,16 +30,27 @@ public class KnockBack : MonoBehaviour
     {
         if(knockback == true)
         {
-            //KnockBack_Func();
-
             knockback = false;
         }
     }
 
     public void KnockBack_Func(Transform hittrans)
     {
-         // オブジェクトの向きを割り出す
-         direction = hittrans.localScale.x / Mathf.Abs(hittrans.localScale.x); // 現在の自分のスケールをその値の絶対値で割って符号を入手
+        // オブジェクトの向きを割り出す
+        //direction = hittrans.localScale.x / Mathf.Abs(hittrans.localScale.x); // 現在の自分のスケールをその値の絶対値で割って符号を入手
+
+        var hitX = hittrans.position.x;
+        var playerX = thisTransform.position.x;
+
+        // 左にノックバックさせる
+        if(hitX >= playerX)
+        {
+            direction = -1f;
+        }
+        else
+        {
+            direction = 1;
+        }
 
         StartCoroutine(KnockBack_Coroutine());
     }
@@ -57,8 +68,8 @@ public class KnockBack : MonoBehaviour
 
             // 指定時間経過したので処理再開
             // ノックバック処理
-            // プレイヤーの向いている方向と逆方向にノックバック
-            thisTransform.Translate(-direction * KnockBackPower.x * WaitTime, KnockBackPower.y * WaitTime,0f);
+            // プレイヤーと対象の位置関係で吹っ飛ぶ方向を決定
+            thisTransform.Translate(direction * KnockBackPower.x * WaitTime, KnockBackPower.y * WaitTime,0f);
 
             //カウント
             i++;

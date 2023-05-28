@@ -16,7 +16,6 @@ public class EnemyCrackHit : MonoBehaviour
     private CrackCreater order = null;
     private GameObject ParentEnemy; // 親オブジェクトの敵;
     private EnemyMove enemyMove; // EnemyMoveスクリプト取得用変数
-    private PlayEnemySound enemyse; //死んだ音用
 
     private void Start()
     {
@@ -24,7 +23,6 @@ public class EnemyCrackHit : MonoBehaviour
         //Debug.Log(ParentEnemy);
         // 敵の基本AI処理スクリプト取得
         enemyMove = ParentEnemy.GetComponent<EnemyMove>();
-        enemyse = GameObject.Find("EnemySE").GetComponent<PlayEnemySound>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -48,8 +46,6 @@ public class EnemyCrackHit : MonoBehaviour
                     {
                         if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
                         {
-                            //SE再生
-                            enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
                             // 死亡状態にする
                             enemyMove.EnemyAI = EnemyMove.AIState.DEATH;
                         }

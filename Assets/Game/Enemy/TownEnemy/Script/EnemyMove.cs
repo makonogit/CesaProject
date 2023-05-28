@@ -106,6 +106,7 @@ public class EnemyMove : MonoBehaviour
     private Transform playerTransform;
     private HammerNail hammer; // HammerNailを取得
     private GameObject Child; // 敵自身の子オブジェクト
+    private PlayEnemySound enemyse;
 
 
     // Start is called before the first frame update
@@ -132,6 +133,8 @@ public class EnemyMove : MonoBehaviour
         circleCol = GetComponent<CircleCollider2D>();
         ColRadius = circleCol.radius;
         AdjustX = ColRadius;
+
+        enemyse = GameObject.Find("EnemySE").GetComponent<PlayEnemySound>();
     }
 
     // Update is called once per frame
@@ -472,10 +475,12 @@ public class EnemyMove : MonoBehaviour
         if (death == false) 
         {
             // プレイヤーとの当たり判定を
-            //Child.GetComponent<CircleCollider2D>().enabled = false;
+            Child.GetComponent<CircleCollider2D>().enabled = false;
 
             death = true;
 
+            //SE再生
+            enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);
             Instantiate(BreakParticle, transform.position, Quaternion.identity);   //　割れる演出をする
             Destroy(gameObject);    //自分を消す
         }

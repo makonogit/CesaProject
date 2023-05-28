@@ -148,7 +148,16 @@ public class Fall_Icicle : MonoBehaviour
                 //_anim.SetBool("BreakIcicle", true);
 
                 // 敵消滅
-                Destroy(collision.gameObject);
+                //Destroy(collision.gameObject);
+
+                EnemyMove enemyMove = collision.gameObject.GetComponent<EnemyMove>();
+                //Debug.Log(enemyMove);
+                if (enemyMove != null)
+                {
+                    // 敵撃破状態にする
+                    enemyMove.EnemyAI = EnemyMove.AIState.DEATH; // 撃破音、パーティクル、デストロイ
+                }
+
             }
 
             // 氷に当たる
