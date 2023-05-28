@@ -607,7 +607,7 @@ public class CrackCreater : MonoBehaviour
         if (edge) _vNailVec = _edgePoints[i + 1] - _edgePoints[i];
         else _vNailVec = _nailPoints[i + 1] - _nailPoints[i];
         // 方向と距離でレイであたり判定
-        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[i], _vNailVec.normalized, _vNailVec.magnitude, layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(_edgePoints[i] + (_vNailVec.normalized * 0.1f), _vNailVec.normalized, _vNailVec.magnitude, layerMask);
         Debug.DrawRay(_edgePoints[i] + new Vector2(0.01f, 0.01f), _vNailVec.normalized, Color.red, _vNailVec.magnitude, false);
         return hit;
     }
