@@ -11,24 +11,31 @@ public class fishCreater : MonoBehaviour
     private GameObject fishObj;
     [SerializeField]
     private IceBoss boss;
-    private string _tag = "Crack";
+
+    private SpriteRenderer renderer;
 
     // Use this for initialization
     void Start()
     {
+        boss = GameObject.Find("IceBoss").GetComponent<IceBoss>();
         if (boss == null) Debug.LogError("IceBossのコンポーネントを取得できませんでした。");
+        renderer = GetComponent<SpriteRenderer>();
+        if (renderer == null) Debug.LogError("SpriteRendererのコンポーネントを取得できませんでした。");
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Update()
     {
-        // ひびなら
-        if (collision.tag == _tag)
+        if (!renderer.enabled) 
         {
-            if (boss.fish == null)
-            {
-                Vector2 pos = collision.ClosestPoint(transform.position);
-                boss.fish = Instantiate(fishObj, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
-            }
+            Destroy(this.gameObject);
+        }
+    }
+    private void OnDestroy()
+    {
+        if (boss.fish == null)
+        {
+            Vector3 pos = this.transform.position;
+            pos = new Vector3(pos.x, -1, 0);
+            boss.fish = Instantiate(fishObj, pos, Quaternion.identity);
         }
     }
 }

@@ -47,6 +47,8 @@ public class IceBoss : MonoBehaviour
     private CheckArea _isWall;// 壁
     [SerializeField]
     private GameObject _HitBox;
+    [SerializeField]
+    private CheckArea _isIceBlock;// 
     [SerializeField, Header("体力")]
     private IceBossHealth _health;
 
@@ -82,7 +84,8 @@ public class IceBoss : MonoBehaviour
         if (_isWall == null) Debug.LogError("IsWallが設定されてません。");
 
         if (_HitBox == null) Debug.LogError("HitBoxが設定されてません。");
-        if(bossDirecting ==null) Debug.LogError("bossDirectingが設定されてません。");
+        if (_isIceBlock == null) Debug.LogError("_isIceBlockが設定されてません。");
+        if (bossDirecting ==null) Debug.LogError("bossDirectingが設定されてません。");
         //--------------------------------------
         // Animatorのコンポーネント取得
         _anim = GetComponent<Animator>();
@@ -167,7 +170,7 @@ public class IceBoss : MonoBehaviour
             _nowTime = 0.0f;
         }
         // 壁に当たったら
-        if (_isWall.IsEnter)
+        if (_isWall.IsEnter || _isIceBlock.IsEnter)
         {
             // 反転する
             _direction = !_direction;
@@ -199,7 +202,7 @@ public class IceBoss : MonoBehaviour
         }
 
         // 壁に当たったら
-        if (_isWall.IsEnter)
+        if (_isWall.IsEnter || _isIceBlock.IsEnter)
         {
             // 状態変更：混乱
             _state = StateID.CONFUSE;
