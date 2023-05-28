@@ -40,9 +40,14 @@ public class GiveScene : MonoBehaviour
     private StateID _state;
     [SerializeField]
     private GameObject _crystal;
-    [SerializeField,Header("クリア後画像")]
-    private Sprite sprite;
+    [SerializeField, Header("ステージ入る前画像")] private Sprite beforeInStage;
+    [SerializeField, Header("ステージ入る時の画像")] private Sprite enteringStage;
+    [SerializeField, Header("ステージクリア画像")] private Sprite clearStage;
+    [SerializeField,Header("エリアクリア後画像")] private Sprite clearArea;
     private SpriteRenderer _renderer;
+
+    // 二宮追加
+    private SelectedScene _selectedScene;
 
     private void Start()
     {
@@ -63,6 +68,8 @@ public class GiveScene : MonoBehaviour
         _renderer = GetComponent<SpriteRenderer>();
         if (_renderer == null) Debug.LogError("SpriteRendererのコンポーネントを取得できませんでした。");
         //setStage = _Stagemanager.GetComponent<SetStage>();
+
+        _selectedScene = GameObject.Find("player").GetComponent<SelectedScene>();
     }
     private void Update()
     {
@@ -70,9 +77,41 @@ public class GiveScene : MonoBehaviour
         {
             _crystal.SetActive(false);
         }
-        if(State == StateID.CLEAR) 
+
+        // ステージの状態によってスプライトを変更
+        switch (State)
         {
-            _renderer.sprite = sprite;
+            case StateID.UNPLAYABLE:
+                // 全体が結晶化した建物スプライト
+                _renderer.sprite = beforeInStage;
+                break;
+
+            case StateID.PLAYABLE:
+                if (_selectedScene.GetInStage() == true)
+                {
+                    // ひびが入った建物スプライト
+                    _renderer.sprite = enteringStage;
+                }
+                else
+                {
+                    // 全体が結晶化した建物スプライト
+                    _renderer.sprite = beforeInStage;
+                }
+
+                break;
+
+            case StateID.CLEAR:
+                if (true)
+                {
+                    // エリア解放前のステージクリアスプライト
+                    _renderer.sprite = clearStage;
+                }
+                else
+                {
+                    // エリア解放後のエリアクリアスプライト
+                    _renderer.sprite = clearArea;
+                }
+                break;
         }
     }
 

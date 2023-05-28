@@ -16,7 +16,9 @@ public class SelectedScene : MonoBehaviour
 
     // 二宮追加
     private GameObject se;
-    private AudioSource Audio;
+    // ステージに入る動作をしたか
+    private bool InStage = false;
+    Vector3 TargetPos;
 
     // 菅追加
     private SetStage setmanager;
@@ -65,7 +67,7 @@ public class SelectedScene : MonoBehaviour
         _isChanging = false;
 
         se = GameObject.Find("SE");
-        Audio = se.GetComponent<AudioSource>();
+        //Audio = se.GetComponent<AudioSource>();
 
         main = GameObject.Find("Main Camera").GetComponent<VibrationCamera>();
 
@@ -92,10 +94,16 @@ public class SelectedScene : MonoBehaviour
             if (!Create)
             {
                 // ひびを生成する
-                CrackObj = Instantiate(Crack,
-                    AreaPos.position, Quaternion.identity);
-                CrackObj.transform.localScale = new Vector3(0.08f, 0.08f, 1.0f);
-                CrackObj.GetComponent<SpriteRenderer>().sortingOrder = 12;
+                //CrackObj = Instantiate(Crack,
+                //    AreaPos.position, Quaternion.identity);
+                //CrackObj.transform.localScale = new Vector3(0.08f, 0.08f, 1.0f);
+                //CrackObj.GetComponent<SpriteRenderer>().sortingOrder = 12;
+
+                TargetPos = AreaPos.position;
+
+                // ひびの入った建物スプライトに変更
+                InStage = true;
+
                 se.GetComponent<SEManager_Select>().PlayHammer();
                 
                 //　パーティクルを生成
@@ -124,7 +132,7 @@ public class SelectedScene : MonoBehaviour
                     if (Line < 0.0f)
                     {
                         //　ヒビに入る
-                        transform.position = Vector3.MoveTowards(transform.position, CrackObj.transform.position, 3.0f * Time.deltaTime);
+                        transform.position = Vector3.MoveTowards(transform.position, TargetPos, 3.0f * Time.deltaTime);
 
 
                         //　パーティクルを消していく
@@ -170,5 +178,11 @@ public class SelectedScene : MonoBehaviour
             }
 
         }
+    }
+
+    // ステージに入ったかをGiveSceneで取得
+    public bool GetInStage()
+    {
+        return InStage;
     }
 }
