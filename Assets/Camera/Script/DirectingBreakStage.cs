@@ -232,7 +232,7 @@ public class DirectingBreakStage : MonoBehaviour
             {
                 fadeTimer += Time.deltaTime;
             }
-            if(fadeTimer > 0.5f)
+            if(/*fadeTimer > 0.5f && */_fade.GetFadeState() == Fade.FadeState.FadeOut_Finish)
             {
                 _resultManager.GoSelectScene();
             }

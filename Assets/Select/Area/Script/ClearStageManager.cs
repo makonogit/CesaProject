@@ -74,6 +74,8 @@ public class ClearStageManager : MonoBehaviour
         // ステージ番号
         int _stageNum = _data._data.ClearStages - (_areaNum * 5);
 
+        //Debug.Log(_data._data.ClearStages);
+
         // クリアしたステージの設定
         _areas[_areaNum].LoadStage(_stageNum);
 

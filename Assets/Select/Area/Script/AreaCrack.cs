@@ -245,6 +245,9 @@ public class AreaCrack : MonoBehaviour
         //Debug.Log("クリアした数"+_clearNum);
         // 配列に合わせるため値を一個ずらす
         int Num = _clearNum - 1;
+
+        //Debug.Log(Num);
+
         if(Num >= 0)// ステージ１以上クリアしているなら
         {
             // ひびの表示
