@@ -60,7 +60,7 @@ public class SelectedScene : MonoBehaviour
         move = GetComponent<PlayerMove>();
 
         transform.position = stagemanager.stage[setmanager.GetAreaNum()].stage[setmanager.GetStageNum()].StageObj.transform.position;
-
+       
         _selectScene = null;
         sceneChange = GameObject.Find("SceneManager").GetComponent<SceneChange>();
         if (sceneChange == null) Debug.LogError("SceneChangeのコンポーネントを取得できませんでした。");
