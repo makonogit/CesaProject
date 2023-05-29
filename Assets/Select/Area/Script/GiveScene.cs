@@ -48,6 +48,7 @@ public class GiveScene : MonoBehaviour
 
     // 二宮追加
     private SelectedScene _selectedScene;
+    private AreaCrack _areaCrack; // 自身の親オブジェクトが持つエリアクリア情報を取得する
 
     private void Start()
     {
@@ -70,6 +71,8 @@ public class GiveScene : MonoBehaviour
         //setStage = _Stagemanager.GetComponent<SetStage>();
 
         _selectedScene = GameObject.Find("player").GetComponent<SelectedScene>();
+
+        _areaCrack = transform.parent.GetComponent<AreaCrack>();
     }
     private void Update()
     {
@@ -101,15 +104,16 @@ public class GiveScene : MonoBehaviour
                 break;
 
             case StateID.CLEAR:
-                if (true)
-                {
-                    // エリア解放前のステージクリアスプライト
-                    _renderer.sprite = clearStage;
-                }
-                else
+                // エリアをクリアしているかしてないか
+                if (_areaCrack.IsAreaClear)
                 {
                     // エリア解放後のエリアクリアスプライト
                     _renderer.sprite = clearArea;
+                }
+                else
+                {
+                    // エリア解放前のステージクリアスプライト
+                    _renderer.sprite = clearStage;
                 }
                 break;
         }

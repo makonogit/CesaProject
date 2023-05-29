@@ -99,6 +99,9 @@ public class ClearStageManager : MonoBehaviour
                 {
                     setmanager.SetClearFlg(i, j);
                 }
+
+                // セーブデータによるエリアのクリア
+                _areas[i].SetSaveDataClearArea();
             }
 
             // 一番進んでいるエリアのステージのクリアフラグを立てる

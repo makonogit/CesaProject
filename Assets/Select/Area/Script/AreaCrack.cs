@@ -44,6 +44,9 @@ public class AreaCrack : MonoBehaviour
 
     private bool _isAreClear;
 
+    // 二宮追加
+    private  bool _savedataClearArea; // セーブデータを取得したときに既にエリアをクリアしていた時、背景が壊れる演出をしないようにする
+
     // Use this for initialization
     void Start()
     {
@@ -70,8 +73,7 @@ public class AreaCrack : MonoBehaviour
     void Update()
     {
         if (_isAnimation) CrackAnimetion();
-        if (isBreak) BreakCrystal();
-        
+        if (isBreak && _savedataClearArea == false) BreakCrystal();      
     }
 
     //=====================================================
@@ -233,6 +235,10 @@ public class AreaCrack : MonoBehaviour
         
         // 全ステージの状態をクリアにする
         for (int i = 0; i < _stages.Count; i++) _stages[i].State = GiveScene.StateID.CLEAR;
+
+        // エリアクリアの割れる演出をゲームスタート時にしなくていいように
+        _isBreaked = true;
+        _isAreClear = true;
     }
 
     //
@@ -314,5 +320,10 @@ public class AreaCrack : MonoBehaviour
         {
             return _isAreClear;
         } 
+    }
+
+    public void SetSaveDataClearArea()
+    {
+        _savedataClearArea = true;
     }
 }

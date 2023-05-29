@@ -25,6 +25,7 @@ public class ScreenBreak : MonoBehaviour
     // 二宮追加
     private GameObject camera;
     private Transform _cameraTransform;
+    [SerializeField] private bool StartBreak = true; // スタート関数が呼ばれた時にBreak関数を実行するか
 
     // 音関連
     [Header("効果音")]
@@ -52,7 +53,10 @@ public class ScreenBreak : MonoBehaviour
 
         _cameraTransform = camera.GetComponent<Transform>();
 
-        Break();
+        if (StartBreak == true)
+        {
+            Break();
+        }
     }
 
     //============================================================
