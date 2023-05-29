@@ -317,10 +317,10 @@ public class IceBoss : MonoBehaviour
     {
         get 
         {
-            if (_isWall) return true;
-            if (_isIceBlock) return true;
+            //if (_isWall) return true;
+            //if (_isIceBlock) return true;
 
-            Vector2 pos = new Vector2(transform.position.x, transform.position.y-0.9f);
+            Vector2 pos = new Vector2(transform.position.x, transform.position.y-0.8f);
             Vector2 rayDirection = new Vector2(1, 0);
             int layerMask = 1 << 10 | 1 << 14 ;    //Rayのレイヤーマスク
             RaycastHit2D hit = Physics2D.Raycast(pos, rayDirection*Direction, 1.5f, layerMask);
