@@ -52,6 +52,7 @@ public class TitleDirection : MonoBehaviour
 
     public bool PushStartButton = false; // スキップボタンが押されたか
     private bool Skipflg; // スキップ処理をしたか
+    [SerializeField] private SpriteRenderer _skipSpriteRenderer; // Skipスプライトレンダラー
 
     // Start is called before the first frame update
     void Start()
@@ -118,7 +119,6 @@ public class TitleDirection : MonoBehaviour
         // スキップボタンが押されたら
         if (PushStartButton == true && Skipflg == false)
         {
-
             // 敵を最後の位置に
             thistrans.position = new Vector3(9.78f, -3.1f, 0.0f);
 
@@ -135,8 +135,11 @@ public class TitleDirection : MonoBehaviour
             // 割れる演出用スクリプトon
             _titlemove.enabled = true;
 
-            // ライトが初期化
+            // ライトを初期化
             bloom.intensity.value = 0f;
+
+            // スキップスプライトを非表示
+            _skipSpriteRenderer.enabled = false;
 
             // フラグ系
             _setRendererflg = true;
