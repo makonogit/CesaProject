@@ -37,8 +37,10 @@ public class CrossFadeBGM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        BGM_1.clip = AudioClipList[_selectArea._nextArea];
         BGM_1.volume = MaxVolume;
         BGM_2.volume = 0f;
+        BGM_1.Play();
     }
 
     // Update is called once per frame
