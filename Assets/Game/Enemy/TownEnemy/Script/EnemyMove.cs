@@ -75,8 +75,6 @@ public class EnemyMove : MonoBehaviour
     // 死亡時の処理が終わったかを持つ変数
     private bool death = false;
 
-    // 
-
     [Header("プレイヤーを追いかける速度")]
     public float TrackingSpeed = 3.0f; // 追跡スピード
 
@@ -104,7 +102,6 @@ public class EnemyMove : MonoBehaviour
     private Transform thisTransform; // このオブジェクトの座標を持つ変数
     private GameObject player; // プレイヤーのゲームオブジェクト探す用
     private Transform playerTransform;
-    private HammerNail hammer; // HammerNailを取得
     private GameObject Child; // 敵自身の子オブジェクト
     private PlayEnemySound enemyse;
 
@@ -121,10 +118,6 @@ public class EnemyMove : MonoBehaviour
         playerTransform = player.GetComponent<Transform>();
 
         sizeX = thisTransform.localScale.x;
-
-        // Hammerスクリプト取得
-        hammer = player.GetComponent<HammerNail>();
-
 
         // 子オブジェクト取得
         Child = transform.Find("HitCollider").gameObject;
@@ -525,7 +518,7 @@ public class EnemyMove : MonoBehaviour
         // 特定のレイヤーのモノとだけ衝突判定をとる
         // レイヤーマスクは二進数を利用
         // 例:layerMask = 1 << 2 は二進数表示で100。上から三つ目のレイヤーとだけという意味
-        LayerMask layerMask = 1 << 10; // 左シフト演算、1を<<の右の数だけ左にシフト
+        LayerMask layerMask =1 << 9 | 1 << 10 | 1 << 14 | 1 << 17 | 1 << 18 | 1 << 21 | 1 << 22; // 左シフト演算、1を<<の右の数だけ左にシフト
 
         // レイ飛ばしてステージとぶつかったら生成やめる
         hit = Physics2D.Raycast(origin, RayDirection, length, layerMask); // 第三引数 レイ長さ 、第四引数 レイヤー -1は全てのレイヤー
@@ -542,13 +535,13 @@ public class EnemyMove : MonoBehaviour
         {
             // 左向き
             thisTransform.localScale = new Vector3(-sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
-            AdjustX = -ColRadius * 0.5f;
+            AdjustX = -ColRadius * 0.9f;
         }
         else
         {
             // 右向き
             thisTransform.localScale = new Vector3(sizeX, thisTransform.localScale.y, thisTransform.localScale.z);
-            AdjustX = ColRadius * 0.5f;
+            AdjustX = ColRadius * 0.9f;
         }
     }
 }

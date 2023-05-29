@@ -720,10 +720,16 @@ public class Hammer : MonoBehaviour
 
     public void Crack()
     {
-        // SEçƒê∂
-        vibration.SetVibration(0.5f);
-        se.PlaySE_Crack1();
-        se.PlayHammer();
+        if (vibration != null)
+        {
+            // SEçƒê∂
+            vibration.SetVibration(0.5f);
+        }
+        if (se != null)
+        {
+            se.PlaySE_Crack1();
+            se.PlayHammer();
+        }
     } 
 
 }

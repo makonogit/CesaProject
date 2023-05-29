@@ -25,6 +25,8 @@ public class Fall_Icicle : MonoBehaviour
     private bool Vibration = false;
     // 振動後のアニメーションが再生されたか
     private bool fallAnimFinish = false;
+    // 壊れているときは当たり判定なくす
+    private bool Break = false;
 
     [SerializeField] private Rigidbody2D _rigid2D; // rigidbody
     private Vector3 initTransform; // 初期座標
@@ -135,7 +137,10 @@ public class Fall_Icicle : MonoBehaviour
 
                 // 割れるアニメーション
                 _anim.SetBool("BreakIcicle", true);
-                //Debug.Log("壊れる");
+                Debug.Log("地面");
+
+                // 壊れる
+                Break = true;
             }
 
             // 敵に当たる
@@ -150,14 +155,17 @@ public class Fall_Icicle : MonoBehaviour
                 // 敵消滅
                 //Destroy(collision.gameObject);
 
-                EnemyMove enemyMove = collision.gameObject.GetComponent<EnemyMove>();
-                //Debug.Log(enemyMove);
-                if (enemyMove != null)
+                // まだ割れるアニメーションが再生されていない状態だったら
+                if (Break == false)
                 {
-                    // 敵撃破状態にする
-                    enemyMove.EnemyAI = EnemyMove.AIState.DEATH; // 撃破音、パーティクル、デストロイ
+                    EnemyMove enemyMove = collision.gameObject.GetComponent<EnemyMove>();
+                    //Debug.Log(enemyMove);
+                    if (enemyMove != null)
+                    {
+                        // 敵撃破状態にする
+                        enemyMove.EnemyAI = EnemyMove.AIState.DEATH; // 撃破音、パーティクル、デストロイ
+                    }
                 }
-
             }
 
             // 氷に当たる
@@ -179,17 +187,22 @@ public class Fall_Icicle : MonoBehaviour
             // プレイヤーに当たる
             if(collision.gameObject.tag == PlayerTag)
             {
-                //// つらら消滅
-                //Destroy(this.gameObject);
+                // まだ割れるアニメーションが再生されていない状態だったら
+                if (Break == false)
+                {
+                    //// つらら消滅
+                    //Destroy(this.gameObject);
 
-                // 割れるアニメーション
-                _anim.SetBool("BreakIcicle", true);
+                    // 割れるアニメーション
+                    _anim.SetBool("BreakIcicle", true);
 
-                _hitEnemy.HitPlayer(transform);
+                    _hitEnemy.HitPlayer(transform);
+                }
             }
         }
     }
 
+    // 多分アニメーションのイベントから読んでる
     private void AnimFinish()
     {
         fallAnimFinish = true;
