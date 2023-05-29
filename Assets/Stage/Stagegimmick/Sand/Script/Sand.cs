@@ -164,5 +164,14 @@ public class Sand : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        //Å@Ç–Ç—Çè¡Ç∑
+        if(collision.gameObject.tag == "Crack")
+        {
+            Destroy(collision.gameObject);
+        }
+    }
+
 
 }
