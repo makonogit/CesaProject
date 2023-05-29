@@ -41,11 +41,9 @@ public class IceEnemy : MonoBehaviour
     private bool _direction;
     private Transform _trans;
 
-    [SerializeField]
-    private EdgeCollider2D _edge;
-    private int _max;
-    [SerializeField]
-    private int _num;
+    //[SerializeField]private EdgeCollider2D _edge;
+    //private int _max;
+    //[SerializeField]private int _num;
 
     private Vector3 StartPos;
 
@@ -66,7 +64,7 @@ public class IceEnemy : MonoBehaviour
         if (_playerChecker == null) Debug.LogError("PlayerChecker設定されていません。");
         if (_dropChecker == null) Debug.LogError("DropChecker設定されていません。");
         if (_floorChecker == null) Debug.LogError("FloorChecker設定されていません。");
-        if(_edge ==null) Debug.LogError("Edge設定されていません。");
+        //if(_edge ==null) Debug.LogError("Edge設定されていません。");
         
         //--------------------------------------
         // Animatorのコンポーネントを取得
@@ -81,7 +79,7 @@ public class IceEnemy : MonoBehaviour
         //_rb.velocity = new Vector2(0, 0);
         _trans = GetComponent<Transform>();
         if(_trans ==null) Debug.LogError("Transformのコンポーネントを取得できませんでした。");
-        _max = _edge.pointCount;
+        //_max = _edge.pointCount;
 
         enemyse = GameObject.Find("EnemySE").GetComponent<PlayEnemySound>();
 
@@ -167,32 +165,37 @@ public class IceEnemy : MonoBehaviour
         }
     }
 
-    private bool SetDirection 
-    {
-        get 
-        {
-            return (_edge.points[_num].x + _edge.offset.x) - _trans.position.x > 0;
-        }
-    }
+    //private bool SetDirection 
+    //{
+    //    get 
+    //    {
+    //        return /*(_edge.points[_num].x + _edge.offset.x) - _trans.position.x > 0*/;
+    //    }
+    //}
     private bool Nexst
     {
         get 
         {
-            float distans = (_edge.points[_num].x + _edge.offset.x) - _trans.position.x;
-            if (Mathf.Abs(distans) < 0.1f) return true;
+            //float distans = (_edge.points[_num].x + _edge.offset.x) - _trans.position.x;
+            //if (Mathf.Abs(distans) < 0.1f) return true;
             return false;
         }
     }
 
     private void Fell()
     {
-        if (Nexst) 
-        {
-            _num++;
-            _num = _num % _max;
-            _direction = SetDirection;
-        }
-        
+        //if (Nexst) 
+        //{
+        //    _num++;
+        //    _num = _num % _max;
+        //    _direction = SetDirection;
+        //}
+        Vector2 rayDirection = new Vector2(1, 0);
+        int layerMask = 1 << 10 | 1 << 14 ;    //Rayのレイヤーマスク
+        if (!_direction) rayDirection *= -1f;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDirection , 1, layerMask);
+        if (hit) _direction = !_direction;
+
         float _move = _moveSpeed * Time.deltaTime;
         Vector3 Scale = _trans.localScale;
         if (!_direction) _move *= -1f;
@@ -230,8 +233,8 @@ public class IceEnemy : MonoBehaviour
         {
             _state = StateID.FELL;
             _anim.SetBool("isFell", true);
-            _num = Random.Range(0, _edge.pointCount - 1);
-            _direction = SetDirection;
+            //_num = Random.Range(0, _edge.pointCount - 1);
+            //_direction = SetDirection;
         }
     }
 

@@ -170,7 +170,7 @@ public class IceBoss : MonoBehaviour
             _nowTime = 0.0f;
         }
         // 壁に当たったら
-        if (_isWall.IsEnter || _isIceBlock.IsEnter)
+        if (Wall)
         {
             // 反転する
             _direction = !_direction;
@@ -202,7 +202,7 @@ public class IceBoss : MonoBehaviour
         }
 
         // 壁に当たったら
-        if (_isWall.IsEnter || _isIceBlock.IsEnter)
+        if (Wall)
         {
             // 状態変更：混乱
             _state = StateID.CONFUSE;
@@ -312,6 +312,24 @@ public class IceBoss : MonoBehaviour
             }
         }
     }
+
+    private bool Wall 
+    {
+        get 
+        {
+            if (_isWall) return true;
+            if (_isIceBlock) return true;
+
+            Vector2 pos = new Vector2(transform.position.x, transform.position.y-0.9f);
+            Vector2 rayDirection = new Vector2(1, 0);
+            int layerMask = 1 << 10 | 1 << 14 ;    //Rayのレイヤーマスク
+            RaycastHit2D hit = Physics2D.Raycast(pos, rayDirection*Direction, 1.5f, layerMask);
+            Debug.DrawRay(pos, rayDirection * Direction*1.5f, Color.blue, 0.2f, false);
+            if (hit) return true;
+            return false;
+        }
+    }
+
     private void AttackIsEnd() 
     {
         // 状態変更：歩く
