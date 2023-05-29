@@ -57,7 +57,7 @@ public class BreakUnionCrystal : MonoBehaviour
                 }
             }
 
-            Debug.Log("order‚ªnull");
+            //Debug.Log("order‚ªnull");
         }
     }
 

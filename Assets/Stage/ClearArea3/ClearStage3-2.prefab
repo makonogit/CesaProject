@@ -24518,9 +24518,9 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {r: 3.17753e-40, g: 3.17753e-40, b: 3.17753e-40, a: 3.17753e-40}
   - m_RefCount: 0
-    m_Data: {r: 8.68589e-40, g: 8.68589e-40, b: 8.68589e-40, a: 8.68589e-40}
+    m_Data: {r: 9.50139e-40, g: 9.50139e-40, b: 9.50139e-40, a: 9.50139e-40}
   - m_RefCount: 9
-    m_Data: {r: 0.7982445, g: 0.37093168, b: 0.5091387, a: 1}
+    m_Data: {r: 0.9142613, g: 0.4165272, b: 0.49410522, a: 1}
   - m_RefCount: 2351
     m_Data: {r: 0.45490196, g: 0.45490196, b: 0.45490196, a: 1}
   m_TileObjectToInstantiateArray: []
@@ -24996,6 +24996,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6393486929848489018}
+  - component: {fileID: 8190561552005397426}
+  - component: {fileID: 2619987221315964805}
+  - component: {fileID: 2595667381136618525}
   m_Layer: 0
   m_Name: ClearStage3-2
   m_TagString: Untagged
@@ -25030,6 +25033,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8190561552005397426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300918010988407577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad9c7d1465e6a442ab3c9008460345c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initScoreCrystal: {fileID: 6919324793547742688}
+  _initBoss: {fileID: 0}
+--- !u!114 &2619987221315964805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300918010988407577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec55c6faa87523540981e928f6a09174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChangeVolume: 3
+  ZoomCameraSize: 2.5
+  DefaultCameraSize: 5
+  NowCameraSize: 5
+  stagestatas: {fileID: 0}
+  ZoomEnd: 0
+  SetBreak: 0
+--- !u!114 &2595667381136618525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300918010988407577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bab6f0749b096845a2c5cb40c8791a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StageCrystal: 0
 --- !u!1 &4320451560516883175
 GameObject:
   m_ObjectHideFlags: 0
@@ -28457,7 +28506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7509586742502144523, guid: c62e1c9fb56b8f04cb8cf50ad4cae66e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.6
+      value: -8.2
       objectReference: {fileID: 0}
     - target: {fileID: 7509586742502144523, guid: c62e1c9fb56b8f04cb8cf50ad4cae66e, type: 3}
       propertyPath: m_LocalPosition.y
