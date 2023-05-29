@@ -396,6 +396,7 @@ public class PauseGame : MonoBehaviour
             // 担当：藤原昂祐
             // 内容：パネルを表示
             panel.SetActive(true);
+            panel.GetComponent<GaussianBlur>().OnBlur();
 
             IsPause = true;
         }

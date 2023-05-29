@@ -31,7 +31,8 @@ public class GaussianBlur : MonoBehaviour
     }
 
     //private void OnValidate()
-    private void Update()
+    //private void Update()
+    public void OnBlur()
     {
         if (!Application.isPlaying)
         {
