@@ -15,12 +15,14 @@ public class BranchCreater : MonoBehaviour
     private CrackCreater branchcreater; //分岐ひびのCrackCreater
     private CrackCreater creater;       //このオブジェクトのCrackCreater
 
+    [SerializeField, Header("ひびのTexture")]
+    private Material Crack;
 
-    [SerializeField,Header("ひびのテクスチャ")]
-    private Texture CrackSprite;
+    [SerializeField, Header("ひびの先端Material")]
+    private Material Crackend;
 
-    [SerializeField, Header("ひびの先端テクスチャ")]
-    private Texture CrackEndSprite;
+    [SerializeField, Header("ひびの先端Material(発光)")]
+    private Material CrackendFlash;
 
     private Hammer hammer;      //Hammerスクリプト
 
@@ -46,22 +48,29 @@ public class BranchCreater : MonoBehaviour
     {
         if(creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATE)
         {
-            //　先端のスプライトを変更
-            if (transform.childCount > 0)
-            {
-                for (int i = transform.childCount - 1; transform.GetChild(i).name != "Point(Clone)"; i--)
-                {
-                    transform.GetChild(i).GetComponent<PointMatControl>().
-                     NormalMat.SetTexture("_MainTexture", CrackSprite);
-                }
-            }
-
+           
         }
 
         if (creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING)
         {
+            //Debug.Log("aaaaaaaaaaaaaaaa");
             if (Branch)
             {
+
+                //　先端のスプライトを変更
+                if (transform.childCount > 0)
+                {
+                    for (int i = transform.childCount - 1; i<transform.childCount; i--)
+                    {
+
+                        if (transform.GetChild(i).name == "Point(Clone)")
+                        {
+                            transform.GetChild(i).GetComponent<SpriteRenderer>().material = Crack;
+                            break;
+                        }
+                    }
+                }
+
                 StartBranch++;
                 Branch = false;
             }
@@ -76,11 +85,15 @@ public class BranchCreater : MonoBehaviour
                 //　先端のスプライトを変更
                 if (transform.childCount > 1)
                 {
-                    for (int i = transform.childCount - 1; transform.GetChild(i).name != "Point(Clone)"; i--)
+                    for (int i = transform.childCount - 1; i < transform.childCount; i--)
                     {
-                        transform.GetChild(i).GetComponent<PointMatControl>().
-                           NormalMat.SetTexture("_MainTexture", CrackEndSprite);
+                        if (transform.GetChild(i).name == "Point(Clone)")
+                        {
+                            transform.GetChild(i).GetComponent<SpriteRenderer>().material = Crackend;
+                            break;
+                        }
                     }
+
                     //　分岐ひび生成
                     StartBranch = hammer.CreateBranch(BranchObj, gameObject, branchcreater, StartBranch);
                 }

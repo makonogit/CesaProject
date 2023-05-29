@@ -17,10 +17,14 @@ public class BranchCrack : MonoBehaviour
     private CrackCreater branchcreater;
 
     [SerializeField, Header("ひびのTexture")]
-    private Texture Crack;
+    private Material Crack;
 
-    [SerializeField, Header("ひびの先端Texture")]
-    private Texture Crackend;
+    [SerializeField, Header("ひびの先端Material")]
+    private Material Crackend;
+
+    [SerializeField, Header("ひびの先端Material(発光)")]
+    private Material CrackendFlash;
+
 
     private Hammer hammer;  //Hammerスクリプト、ひび生成用
 
@@ -79,8 +83,7 @@ public class BranchCrack : MonoBehaviour
         {
             if (transform.childCount > 0)
             {
-                transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
-                    NormalMat.SetTexture("_MainTexture", Crack);
+                transform.GetChild(transform.childCount - 1).GetComponent<SpriteRenderer>().material = Crack;
             }
             GetComponent<EdgeCollider2D>().enabled = true;
         }
@@ -88,8 +91,7 @@ public class BranchCrack : MonoBehaviour
         // 生成終了したらスプライトの変更
         if (creater.GetState() == CrackCreater.CrackCreaterState.CRAETED && transform.childCount > 0)
         {
-            transform.GetChild(transform.childCount - 1).GetComponent<PointMatControl>().
-                   NormalMat.SetTexture("_MainTexture", Crackend);
+            transform.GetChild(transform.childCount - 1).GetComponent<SpriteRenderer>().material = Crackend;
             GetComponent<EdgeCollider2D>().enabled = false;
         }
     }

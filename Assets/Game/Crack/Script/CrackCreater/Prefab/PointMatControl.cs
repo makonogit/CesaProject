@@ -8,13 +8,15 @@ using UnityEngine;
 
 public class PointMatControl : MonoBehaviour
 {
-    public Material NormalMat; //　通常のMaterial
-    public Material FlashMat;  //  発光Material
+    public Material NormalMat;      //　通常のMaterial
+    public Material NormalEndMat;   //　通常の先端Material
+    public Material FlashMat;       //  発光Material
+    public Material FlashEndMat;    //  発光先端Material
 
     [SerializeField, Header("SpeiteRenderer")]
     private SpriteRenderer thisrenderer;
 
-    float Wait = 0.0f;
+    //float Wait = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,16 +28,12 @@ public class PointMatControl : MonoBehaviour
 
     private void Update()
     {
-        if (Wait < 0.1f)
-        {
-            Wait += Time.deltaTime;
-        }
     }
 
     // ひびを発光させる関数
     public void FlashCrack()
     {
-        if(Wait > 0.1f)
+
         thisrenderer.material = FlashMat;
     }
 
