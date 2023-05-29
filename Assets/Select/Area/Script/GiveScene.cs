@@ -131,7 +131,7 @@ public class GiveScene : MonoBehaviour
         }
     }
     //―当たった時の関数―(公)
-    public void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerStay2D(Collider2D collision)
     {
         // もしプレイヤーに当たったなら
         if (collision.tag == "Player")
