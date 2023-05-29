@@ -2104,6 +2104,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6002148294480662070}
+  - component: {fileID: 8065297284529052907}
+  - component: {fileID: 3371115406754804991}
+  - component: {fileID: 7666769159646435004}
   m_Layer: 0
   m_Name: ClearStage4-2
   m_TagString: Untagged
@@ -2139,6 +2142,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8065297284529052907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8194347930666145802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bab6f0749b096845a2c5cb40c8791a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StageCrystal: 0
+--- !u!114 &3371115406754804991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8194347930666145802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec55c6faa87523540981e928f6a09174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChangeVolume: 3
+  ZoomCameraSize: 2.5
+  DefaultCameraSize: 5
+  NowCameraSize: 5
+  stagestatas: {fileID: 0}
+  ZoomEnd: 0
+  SetBreak: 0
+--- !u!114 &7666769159646435004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8194347930666145802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad9c7d1465e6a442ab3c9008460345c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initScoreCrystal: {fileID: 5853752703811029313}
+  _initBoss: {fileID: 0}
 --- !u!1 &8284090873423863672
 GameObject:
   m_ObjectHideFlags: 0

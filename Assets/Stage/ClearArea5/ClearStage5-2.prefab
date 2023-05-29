@@ -377,6 +377,7 @@ GameObject:
   - component: {fileID: 792364252362759126}
   - component: {fileID: 8195983447846348291}
   - component: {fileID: 1573038651164361692}
+  - component: {fileID: 6679386579575729419}
   m_Layer: 0
   m_Name: ClearStage5-2
   m_TagString: Untagged
@@ -443,6 +444,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StageCrystal: 0
+--- !u!114 &6679386579575729419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027305737493785971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad9c7d1465e6a442ab3c9008460345c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initScoreCrystal: {fileID: 6830543075119757808}
+  _initBoss: {fileID: 0}
 --- !u!1 &3080057187802310255
 GameObject:
   m_ObjectHideFlags: 0
@@ -50651,7 +50666,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7509586742502144523, guid: c62e1c9fb56b8f04cb8cf50ad4cae66e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.9
+      value: -7.18
       objectReference: {fileID: 0}
     - target: {fileID: 7509586742502144523, guid: c62e1c9fb56b8f04cb8cf50ad4cae66e, type: 3}
       propertyPath: m_LocalPosition.y

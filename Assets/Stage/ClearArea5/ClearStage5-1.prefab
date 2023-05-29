@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 6584575340743448673}
   - component: {fileID: 3322740314335559911}
   - component: {fileID: 8618297923399916311}
+  - component: {fileID: 7751351271329368058}
   m_Layer: 0
   m_Name: ClearStage5-1
   m_TagString: Untagged
@@ -196,6 +197,20 @@ MonoBehaviour:
   stagestatas: {fileID: 0}
   ZoomEnd: 0
   SetBreak: 0
+--- !u!114 &7751351271329368058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874906502172175025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad9c7d1465e6a442ab3c9008460345c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initScoreCrystal: {fileID: 2802966104571674284}
+  _initBoss: {fileID: 0}
 --- !u!1 &1964985986361074143
 GameObject:
   m_ObjectHideFlags: 0

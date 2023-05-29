@@ -548,6 +548,7 @@ GameObject:
   - component: {fileID: 9198032936905751949}
   - component: {fileID: 5962136271701486689}
   - component: {fileID: 4801228080438701195}
+  - component: {fileID: 2753829891411647677}
   m_Layer: 0
   m_Name: ClearStage1-1
   m_TagString: Untagged
@@ -604,6 +605,20 @@ MonoBehaviour:
   stagestatas: {fileID: 0}
   ZoomEnd: 0
   SetBreak: 0
+--- !u!114 &2753829891411647677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905463117708137046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad9c7d1465e6a442ab3c9008460345c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initScoreCrystal: {fileID: 6690759679153412792}
+  _initBoss: {fileID: 0}
 --- !u!1 &952436470374978352
 GameObject:
   m_ObjectHideFlags: 0
@@ -11306,9 +11321,9 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {r: 1.2485e-40, g: 1.2485e-40, b: 1.2485e-40, a: 1.2485e-40}
   - m_RefCount: 13
-    m_Data: {r: 0.73193586, g: 0.45673504, b: 0.5240986, a: 1}
+    m_Data: {r: 0.9658745, g: 0.5664813, b: 0.64370507, a: 1}
   - m_RefCount: 0
-    m_Data: {r: 8.20942e-40, g: 8.20942e-40, b: 8.20942e-40, a: 8.20942e-40}
+    m_Data: {r: 8.40387e-40, g: 8.40387e-40, b: 8.40387e-40, a: 8.40387e-40}
   - m_RefCount: 1018
     m_Data: {r: 0.45490196, g: 0.45490196, b: 0.45490196, a: 1}
   m_TileObjectToInstantiateArray: []

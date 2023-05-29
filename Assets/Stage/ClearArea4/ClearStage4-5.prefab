@@ -2691,6 +2691,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2880386315960740285}
+  - component: {fileID: 2037310757636708190}
+  - component: {fileID: 2744486599057552497}
+  - component: {fileID: 8627695122001143326}
   m_Layer: 0
   m_Name: ClearStage4-5
   m_TagString: Untagged
@@ -2731,6 +2734,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2037310757636708190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430799110913378183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad9c7d1465e6a442ab3c9008460345c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initScoreCrystal: {fileID: 9107925601774908951}
+  _initBoss: {fileID: 229505816207240930}
+--- !u!114 &2744486599057552497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430799110913378183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec55c6faa87523540981e928f6a09174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChangeVolume: 3
+  ZoomCameraSize: 2.5
+  DefaultCameraSize: 5
+  NowCameraSize: 5
+  stagestatas: {fileID: 0}
+  ZoomEnd: 0
+  SetBreak: 0
+--- !u!114 &8627695122001143326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430799110913378183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bab6f0749b096845a2c5cb40c8791a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StageCrystal: 0
 --- !u!1 &6431865660389083590
 GameObject:
   m_ObjectHideFlags: 0
@@ -4226,7 +4275,7 @@ MonoBehaviour:
   _townMove: {fileID: 0}
   _iceMove: {fileID: 0}
   _desertMove: {fileID: 0}
-  _caveMove: {fileID: 0}
+  _caveMove: {fileID: 4180544079517452904}
   _plantInit: {fileID: 0}
 --- !u!114 &8310746393723176516
 MonoBehaviour:
@@ -8046,7 +8095,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 460079232527434548, guid: 052dc7f0538889042a7056924fbcbc3e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.272
+      value: -0.19
       objectReference: {fileID: 0}
     - target: {fileID: 8689107997110445474, guid: 052dc7f0538889042a7056924fbcbc3e, type: 3}
       propertyPath: RespawnNumber
@@ -44813,6 +44862,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 404610440369885387, guid: 028fce71b1c3e974aabeecf5534f5c71, type: 3}
   m_PrefabInstance: {fileID: 4582748786214394523}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4180544079517452904 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 404610440369885427, guid: 028fce71b1c3e974aabeecf5534f5c71, type: 3}
+  m_PrefabInstance: {fileID: 4582748786214394523}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eb26d1948d5fa441824406f801e7e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4649797070494795798
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48200,7 +48260,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 460079232527434548, guid: 052dc7f0538889042a7056924fbcbc3e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.351
+      value: -0.266
       objectReference: {fileID: 0}
     - target: {fileID: 8689107997110445474, guid: 052dc7f0538889042a7056924fbcbc3e, type: 3}
       propertyPath: RespawnNumber
