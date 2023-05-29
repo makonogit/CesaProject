@@ -45,8 +45,6 @@ public class TitleDirection : MonoBehaviour
 
     private float TimeMasure;   // 時間計測用
 
-    private bool start = false;
-
     // 二宮追加
     [SerializeField] private SpriteRenderer _LogoRenderer;
 
@@ -71,90 +69,82 @@ public class TitleDirection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (Skipflg == false)
         {
-            start = true;
-        }
-        if (start)
-        {
-
-            if (Skipflg == false)
+            // 敵を移動させる
+            if (thistrans.position.x > TargetPos.x && TimeMasure < WaitTime)
             {
-                // 敵を移動させる
-                if (thistrans.position.x > TargetPos.x && TimeMasure < WaitTime)
+                thistrans.position = Vector3.MoveTowards(thistrans.position, TargetPos, 2.0f * Time.deltaTime);
+            }
+            else
+            {
+                PlayerAnim.SetBool("Work", false);
+                PlayerAnim.SetInteger("Select", -1);
+
+                TimeMasure += Time.deltaTime;   //　時間計測用
+
+                // 一定時間待ったらフラッシュさせる
+                if (TimeMasure > WaitTime)
                 {
-                    thistrans.position = Vector3.MoveTowards(thistrans.position, TargetPos, 2.0f * Time.deltaTime);
+                    // フラッシュが終わったら
+                    if (!Flash())
+                    {
+                        if (FlashNum < 1)
+                        {
+                            FlashNum++;
+                            FlashFlg = false;
+
+                            // 演出用の設定
+                            CrystalPanel.SetActive(true);
+                            _titlemove.enabled = true;
+                            thistrans.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                            anim.enabled = true;
+                        }
+                        else
+                        {
+                            thistrans.position = Vector3.MoveTowards(thistrans.position, new Vector3(9.78f, -3.1f, 0.0f), 2.0f * Time.deltaTime);
+                        }
+
+                    }
                 }
                 else
                 {
-                    PlayerAnim.SetBool("Work", false);
-                    PlayerAnim.SetInteger("Select", -1);
-
-                    TimeMasure += Time.deltaTime;   //　時間計測用
-
-                    // 一定時間待ったらフラッシュさせる
-                    if (TimeMasure > WaitTime)
-                    {
-                        // フラッシュが終わったら
-                        if (!Flash())
-                        {
-                            if (FlashNum < 1)
-                            {
-                                FlashNum++;
-                                FlashFlg = false;
-
-                                // 演出用の設定
-                                CrystalPanel.SetActive(true);
-                                _titlemove.enabled = true;
-                                thistrans.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-                                anim.enabled = true;
-                            }
-                            else
-                            {
-                                thistrans.position = Vector3.MoveTowards(thistrans.position, new Vector3(9.78f, -3.1f, 0.0f), 2.0f * Time.deltaTime);
-                            }
-
-                        }
-                    }
-                    else
-                    {
-                        anim.enabled = false;
-                    }
+                    anim.enabled = false;
                 }
             }
+        }
 
-            // 二宮追加
-            // スキップボタンが押されたら
-            if (PushStartButton == true && Skipflg == false)
-            {
+        // 二宮追加
+        // スキップボタンが押されたら
+        if (PushStartButton == true && Skipflg == false)
+        {
 
-                // 敵を最後の位置に
-                thistrans.position = new Vector3(9.78f, -3.1f, 0.0f);
+            // 敵を最後の位置に
+            thistrans.position = new Vector3(9.78f, -3.1f, 0.0f);
 
-                // Press ButtonUI出現
-                PushA.color = new Color(1.0f, 1.0f, 1.0f);
-                PushA_Script.enabled = true;
+            // Press ButtonUI出現
+            PushA.color = new Color(1.0f, 1.0f, 1.0f);
+            PushA_Script.enabled = true;
 
-                // タイトルロゴ出現
-                _LogoRenderer.enabled = true;
+            // タイトルロゴ出現
+            _LogoRenderer.enabled = true;
 
-                // クリスタル出現
-                CrystalPanel.SetActive(true);
+            // クリスタル出現
+            CrystalPanel.SetActive(true);
 
-                // 割れる演出用スクリプトon
-                _titlemove.enabled = true;
+            // 割れる演出用スクリプトon
+            _titlemove.enabled = true;
 
-                // ライトが初期化
-                bloom.intensity.value = 0f;
+            // ライトが初期化
+            bloom.intensity.value = 0f;
 
-                // フラグ系
-                _setRendererflg = true;
-                Skipflg = true;
+            // フラグ系
+            _setRendererflg = true;
+            Skipflg = true;
 
-                // プレイヤーアニメーション変更
-                PlayerAnim.SetBool("Work", false);
-                PlayerAnim.SetInteger("Select", -1);
-            }
+            // プレイヤーアニメーション変更
+            PlayerAnim.SetBool("Work", false);
+            PlayerAnim.SetInteger("Select", -1);
         }
     }
 
