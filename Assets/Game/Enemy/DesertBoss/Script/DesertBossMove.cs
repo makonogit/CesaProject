@@ -138,15 +138,15 @@ public class DesertBossMove : MonoBehaviour
 
         //---------------------------------------------
         // ボスエリア内のひびを消去
-        GameObject CrackManager = GameObject.Find("CrackManager");
-        for(int i = 0; i < CrackManager.transform.childCount; i++)
-        {
-            GameObject Crack = CrackManager.transform.GetChild(i).gameObject;
-            if (Crack.transform.childCount > 1 && Crack.transform.GetChild(2).transform.position.x > gatepos.position.x)
-            {
-                Destroy(Crack);
-            }
-        }
+        //GameObject CrackManager = GameObject.Find("CrackManager");
+        //for(int i = 0; i < CrackManager.transform.childCount; i++)
+        //{
+        //    GameObject Crack = CrackManager.transform.GetChild(i).gameObject;
+        //    if (Crack.transform.childCount > 1 && Crack.transform.GetChild(2).transform.position.x > gatepos.position.x)
+        //    {
+        //        Destroy(Crack);
+        //    }
+        //}
 
         //--------------------------------------------
         // コアを消去
