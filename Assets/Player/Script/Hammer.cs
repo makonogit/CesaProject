@@ -208,11 +208,8 @@ public class Hammer : MonoBehaviour
                     if (InputManager.GetNail_Right() && !InputManager.GetNail_Left() && LeftStick != Vector2.zero)
                     {
 
-                        //Å@è∆èÄ(âº)Ç™ï«Ç…ÇﬂÇËÇ±ÇÒÇ≈Ç»Ç©Ç¡ÇΩÇÁ
-                        if (!Targetstate.CheeckGround || (AddCrackFlg && Targetstate.CheeckGround))
-                        {
-                            hammerstate = HammerState.DIRECTION;
-                        }
+                        hammerstate = HammerState.DIRECTION;
+                       
                     }
 
                     break;
