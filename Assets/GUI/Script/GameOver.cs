@@ -22,7 +22,7 @@ public class GameOver : MonoBehaviour
     private DrawHpUI drawHpUI; // HP描画スクリプト
 
     // フェード関係
-    [Header("フェードアウトとフェードインの間隔")]public float OutInTime = 0.5f;
+    [Header("フェードアウトとフェードインの間隔")] public float OutInTime = 0.5f;
     private float OutInTimer = 0; // タイマー
     private bool _fadeout = false; // フェードアウト中
     private bool WaitTime = false; // フェードインとアウトの待ち時間中
@@ -35,6 +35,7 @@ public class GameOver : MonoBehaviour
     [SerializeField] private BGMFadeManager _BGMFadeMana;
     private bool FadeBGMflg = false;
     [SerializeField] private AudioSource _specialBGM;
+    [SerializeField] private float GameOverBGMTime = 1.2f;
 
     // 二宮追加
     private GameObject StageData;
@@ -43,6 +44,7 @@ public class GameOver : MonoBehaviour
     [SerializeField] private PlayBgm _playBGM;
     [SerializeField] private SEManager_Player _sePlayer;
     private bool FuncOff = false;
+    [SerializeField] private Animator _playerAnim;
 
     //―追加担当者：中川直登―//
     [SerializeField, Header("パーティクル")]
@@ -64,12 +66,13 @@ public class GameOver : MonoBehaviour
     private New_PlayerJump _playerJump;
     private CrackAutoMove _crackAuto;
     private SmashScript _smashScript;
-    private Hammer _hammer;
+    [SerializeField] private Hammer _hammer;
     //[SerializeField,Header("ゴールエリアのオブジェ")]
     //private GameObject _goalArea;
     // GameOverCameraEventと少し干渉するので止めるため
     //private CameraZoom _cameraZoom;
     private CameraControl2 _cameraControl2;
+    [SerializeField] private HitEnemy _hitEnemy;
     //――――――――――――//
 
     [SerializeField] private Rigidbody2D _rigid;
@@ -91,7 +94,7 @@ public class GameOver : MonoBehaviour
         cam = GameObject.Find("Main Camera");
         if (cam == null) Debug.LogError("Main Cameraが見つかりませんでした。");
         //_goalArea = GameObject.Find("StageData").transform.GetChild(0).gameObject;
-        
+
 
         _playerMove = GetComponent<PlayerMove>();
         if (_playerMove == null) Debug.LogError("PlayerMoveのコンポーネントを取得できませんでした。");
@@ -99,9 +102,6 @@ public class GameOver : MonoBehaviour
         if (_playerJump == null) Debug.LogError("PlayerJumpのコンポーネントを取得できませんでした。");
         _crackAuto = GetComponent<CrackAutoMove>();
         if (_crackAuto == null) Debug.LogError("CrackAutoMoveのコンポーネントを取得できませんでした。");
-        _hammer = GetComponent<Hammer>();
-        if (_hammer == null) Debug.LogError("hammerのコンポーネントを取得できませんでした。");
-
 
         _smashScript = GetComponent<SmashScript>();
         if (_smashScript == null) Debug.LogError("SmashScripteのコンポーネントを取得できませんでした。");
@@ -189,18 +189,19 @@ public class GameOver : MonoBehaviour
             if (hell == false)
             {
                 _sePlayer.PlaySE_DropAbyss();
+
+                _playerMove.enabled = false;
+                _playerJump.enabled = false;
+                _hammer.enabled = false;
             }
-            _playerJump.enabled = false;
-            _playerMove.enabled = false;
-            _hammer.enabled = false;
-            
+
             hell = true;
             _isGameOver = true;
 
-            
+
         }
         // HPがなくなった
-        if(HP <= 0)
+        if (HP <= 0)
         {
 
             if (death == false)
@@ -209,6 +210,11 @@ public class GameOver : MonoBehaviour
                 _BGMFadeMana.BigSpecialBGM();
                 // 再生開始
                 _specialBGM.Play();
+                // BGMのピッチ上げる
+                //_specialBGM.pitch = gameOverPitch;
+
+                _hitEnemy.SetDeath(true);
+
             }
 
             death = true;
@@ -223,21 +229,21 @@ public class GameOver : MonoBehaviour
 
             //Deactivate();
             // BGMのフェード開始
-            if(FadeBGMflg == false)
+            if (FadeBGMflg == false)
             {
                 // BGMフェードアウト
                 _BGMFadeMana.SmallStageBGM();
                 _BGMFadeMana.SmallBossBGM();
 
-                
+
                 _playBGM.Death = true;
-                
+
 
                 FadeBGMflg = true;
             }
 
             // パーティクルが生成されていないなら
-            if (_createdParticle == null && _nowTime>_creatTime && Create == false) 
+            if (_createdParticle == null && _nowTime > _creatTime && Create == false)
             {
                 Vector3 pos = cam.transform.position;
                 pos = new Vector3(pos.x, pos.y, 0);
@@ -247,17 +253,20 @@ public class GameOver : MonoBehaviour
             }
 
             // 各機能を無効か
-            if(FuncOff == false)
+            if (FuncOff == false)
             {
                 _playerJump.enabled = false; // ジャンプ
                 _playerMove.enabled = false; // 移動
-                _hammer.enabled = false;
+                // 死亡時のアニメーションないためフリーズアニメーション
+                _playerAnim.SetBool("death", true);
+                // アニメーションが動かないように
+                _playerAnim.speed = 0f;
 
                 FuncOff = true;
             }
-           
+
             // 一定時間経過したら
-            if (_nowTime >_waitTime)
+            if (_nowTime > _waitTime)
             {
                 //---------------------------------------------------------
                 // "GameOver"シーンに遷移
@@ -268,19 +277,25 @@ public class GameOver : MonoBehaviour
                 Fade.FadeState fadestate = fade.GetFadeState();
 
                 // フェードアウト
-                if (fadestate != Fade.FadeState.FadeOut && _fadeout == false && _specialBGM.isPlaying == false) // 死亡BGMの再生終了
+                if (fadestate != Fade.FadeState.FadeOut && _fadeout == false && _specialBGM.time > GameOverBGMTime) // 死亡BGMの再生終了
                 {
                     // 画面フェードアウト開始
                     fade.FadeOut();
-                   
+
                     _fadeout = true;
                 }
 
+                if (_specialBGM.time > GameOverBGMTime + 0.8f)
+                {
+                    // 特殊BGMフェードアウト
+                    _BGMFadeMana.smallSpecialBGM();
+                }
+
                 // 待ち時間中にリスポーンと巻き戻し処理
-                if(fadestate == Fade.FadeState.FadeOut_Finish || WaitTime)
+                if (fadestate == Fade.FadeState.FadeOut_Finish || WaitTime)
                 {
                     // 初回のみ
-                    if(OutInTimer == 0f)
+                    if (OutInTimer == 0f)
                     {
                         // リスポーン
 
@@ -289,9 +304,11 @@ public class GameOver : MonoBehaviour
 
                         //Debug.Log("リスポーン");
 
+
                         // 落下速度があがりすぎて床を貫通しないようにするため
                         _playerJump.MoveY = 0f;
 
+                        // ダイナミックだと落下速度が加算され続けてバグるため
                         _rigid.bodyType = RigidbodyType2D.Static;
 
                         // 保存されているリスポーン座標をプレイヤーに代入
@@ -317,7 +334,7 @@ public class GameOver : MonoBehaviour
                     }
 
                     OutInTimer += Time.deltaTime;
-                    if(OutInTimer > OutInTime)
+                    if (OutInTimer > OutInTime)
                     {
                         // 画面フェードイン開始
                         fade.FadeIn();
@@ -325,8 +342,6 @@ public class GameOver : MonoBehaviour
                         _BGMFadeMana.BigStageBGM();
                         // 再生位置リセット
                         _BGMFadeMana.ResetBGM();
-                        // 特殊BGMフェードアウト
-                        _BGMFadeMana.smallSpecialBGM();
 
                         _rigid.bodyType = RigidbodyType2D.Dynamic;
                         // 生成したパーティクル削除
@@ -334,11 +349,14 @@ public class GameOver : MonoBehaviour
                         //Debug.Log(playerStatus.respawnStatus.RespawnCrystalNum);
                         // クリスタル所持数もセット
                         playerStatus.SetCrystal(playerStatus.respawnStatus.RespawnCrystalNum);
-                    
+
                         // 各機能のスクリプトをもとに戻す
                         _playerJump.enabled = true;
                         _playerMove.enabled = true;
                         _hammer.enabled = true;
+                        _playerAnim.SetBool("death", false);
+                        _hitEnemy.SetDeath(false);
+
                         FuncOff = false;
 
                         // 初期化
@@ -350,13 +368,16 @@ public class GameOver : MonoBehaviour
                         death = false;
                         FadeBGMflg = false;
                         _playBGM.Death = false;
+
+                        _specialBGM.Stop();
+                        _specialBGM.time = 0f;
                     }
                 }
 
             }
             _nowTime += Time.deltaTime;
             //――――――――――――//
-           
+
         }
     }
 
@@ -368,14 +389,14 @@ public class GameOver : MonoBehaviour
     public void DecreaseHP(float _hp)
     {
         HP = HP - (int)_hp;
-        if(HP < 0)
+        if (HP < 0)
         {
             HP = 0;
         }
 
 
     }
-    
+
     //―追加担当者：中川直登―//
     public bool IsGameOver // 外部閲覧用―外部からの設定変更なし
     {
@@ -386,12 +407,12 @@ public class GameOver : MonoBehaviour
     }
 
     // プレイヤーの行動系スクリプトを非アクティブ化
-    private void Deactivate() 
+    private void Deactivate()
     {
         _playerMove.enabled = false;
         _playerJump.enabled = false;
         _crackAuto.enabled = false;
-        //_smashScript.enabled = false;
+        _smashScript.enabled = false;
         //_goalArea.SetActive(false);
         //_cameraZoom.enabled = false;
         _cameraControl2.enabled = false;
@@ -402,7 +423,7 @@ public class GameOver : MonoBehaviour
         _playerMove.enabled = true;
         _playerJump.enabled = true;
         _crackAuto.enabled = true;
-        //_smashScript.enabled = true;
+        _smashScript.enabled = true;
         //_goalArea.SetActive(true);
         //_cameraZoom.enabled = true;
         _cameraControl2.enabled = true;

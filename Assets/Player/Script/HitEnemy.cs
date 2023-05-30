@@ -14,6 +14,8 @@ public class HitEnemy : MonoBehaviour
     public float NoDamageTime = 2f; //無敵時間
     [SerializeField] private float HitTime = 0.0f; // 前回ダメージを受けた時からの経過時間
 
+    private bool Death = false; // 死んでいるか
+
     [SerializeField] private GameOver gameOver; // ゲームオーバー画面遷移用スクリプト取得用変数
     [SerializeField] private KnockBack knocback; // ノックバックスクリプト取得用変数
     [SerializeField] private RenderOnOff _renderer; // 点滅スクリプト取得用変数
@@ -38,31 +40,39 @@ public class HitEnemy : MonoBehaviour
     // 主にHitColliderスクリプトから呼び出し
     public void HitPlayer(Transform _trans)
     {
-        // 接触時間が無敵時間より大きいならHP減らす
-        if (HitTime > NoDamageTime)
+        if (Death == false)
         {
-            //---------------------------------------------------------
-            //　SEを再生
-            enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Attack);
+            // 接触時間が無敵時間より大きいならHP減らす
+            if (HitTime > NoDamageTime)
+            {
+                //---------------------------------------------------------
+                //　SEを再生
+                enemyse.PlayEnemySE(PlayEnemySound.EnemySoundList.Attack);
 
-            //---------------------------------------------------------
-            
+                //---------------------------------------------------------
 
-            // ノックバック
-            knocback.KnockBack_Func(_trans);
+                // ノックバック
+                knocback.KnockBack_Func(_trans);
 
-            // 点滅
-            _renderer.SetFlash(true);
+                // 点滅
+                _renderer.SetFlash(true);
 
-            // 画面効果
-            _postEffectMana.Damage();
+                // 画面効果
+                _postEffectMana.Damage();
 
-            // ハンマーが飛ぶ
-            _effectSystem.Creat();
+                // ハンマーが飛ぶ
+                _effectSystem.Creat();
 
-            //---------------------------------------------------------
-            // 接触時間リセット
-            HitTime = 0.0f;
+                //---------------------------------------------------------
+                // 接触時間リセット
+                HitTime = 0.0f;
+            }
         }
+    }
+
+    // GameOverから呼び出し
+    public void SetDeath(bool _death)
+    {
+        Death = _death;
     }
 }
