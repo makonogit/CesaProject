@@ -170,6 +170,9 @@ public class TitleDirection : MonoBehaviour
                 _LogoRenderer.enabled = true;
 
                 _setRendererflg = true;
+
+                // スキップスプライトを非表示
+                _skipSpriteRenderer.enabled = false;
             }
 
             FlashFlg = true;
