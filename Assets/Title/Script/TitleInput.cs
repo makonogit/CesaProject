@@ -13,6 +13,8 @@ public class TitleInput : MonoBehaviour
 
     [SerializeField] private TitleDirection _titleDirection;
 
+    [SerializeField] private TitleMove _titlemove; 
+
     public void OnSkipDirection(InputAction.CallbackContext context)
     {
         // ボタンが押されたら
@@ -24,6 +26,20 @@ public class TitleInput : MonoBehaviour
         if(context.phase == InputActionPhase.Canceled)
         {
             _titleDirection.PushStartButton = false;
+        }
+    }
+
+    public void OnApush(InputAction.CallbackContext context)
+    {
+        // ボタンが押されたら
+        if (context.phase == InputActionPhase.Started)
+        {
+            _titlemove.APush = true;
+        }
+
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            _titlemove.APush = false;
         }
     }
 

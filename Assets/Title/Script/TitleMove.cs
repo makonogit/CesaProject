@@ -23,6 +23,8 @@ public class TitleMove : MonoBehaviour
     [SerializeField, Header("Button")]
     private SpriteRenderer _Button;
 
+    public bool APush = false; //Abutton
+
     public List<Sprite> TitleBackSprite;
 
     private float BreakTime;        //‰æ–Ê‚ª•ö‰ó‚·‚é‚Ü‚Å‚ÌŽžŠÔ
@@ -101,7 +103,7 @@ public class TitleMove : MonoBehaviour
     void Update()
     {
         //  ƒL[“ü—Í
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0"))
+        if (APush)
         {
 
             if (FallNum > 0)
@@ -163,7 +165,7 @@ public class TitleMove : MonoBehaviour
             }
             //-------------------------------------------------
             FallNum--;
-
+            APush = false;
         }
 
         //---------------------------------------------------
