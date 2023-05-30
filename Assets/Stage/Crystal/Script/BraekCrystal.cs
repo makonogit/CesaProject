@@ -72,15 +72,14 @@ public class BraekCrystal : MonoBehaviour
         //}
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         // ひびに当たったら
         if (collision.tag == "Crack" && !Break)
         {
-
-            render.sprite = Crack;  //　スプライトの変更
-
             Destroy(collision.gameObject);
+            render.sprite = Crack;  //　スプライトの変更
+            
             stageStatas.SetStageCrystal(stageStatas.GetStageCrystal() - 1);
 
             // クリスタル破壊数増加
