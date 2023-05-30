@@ -183,6 +183,7 @@ public class CrackAutoMove : MonoBehaviour
                             HitFlg = false;
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
+                            ScriptPIManager.SetCrackMove(false);
                             movestate = MoveState.CrackMoveEnd;
                         }
 
@@ -223,6 +224,7 @@ public class CrackAutoMove : MonoBehaviour
                             HitFlg = false;
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
+                            ScriptPIManager.SetCrackMove(false);
                             movestate = MoveState.CrackMoveEnd;
                         }
 
@@ -344,8 +346,9 @@ public class CrackAutoMove : MonoBehaviour
                     }
                 }
                 // Aƒ{ƒ^ƒ“‚Å“ü‚é
-                if (ScriptPIManager.GetCrackMove() == true && InCrack == false)
+                if (ScriptPIManager.GetCrackMove() && InCrack == false)
                 {
+                    ScriptPIManager.SetCrackMove(false);
                     InCrack = true;
                     
                     NowPointNum = MinPointNum;
@@ -360,7 +363,6 @@ public class CrackAutoMove : MonoBehaviour
                     //Jump.JumpHeight = 0.0f;
                     Jump.enabled = false;
                     Move.SetMovement(false);
-                    ScriptPIManager.SetCrackMove(false);
                 }
             }
             else

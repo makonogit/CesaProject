@@ -229,14 +229,14 @@ public class PlayerInput : MonoBehaviour
                 }
             }
 
-            if (context.phase == InputActionPhase.Performed)
-            {
+            //if (context.phase == InputActionPhase.Performed)
+            //{
 
-                if (ScriptPIManager.GetCrackMove() == false)
-                {
-                    ScriptPIManager.SetCrackMove(true);
-                }
-            }
+            //    if (ScriptPIManager.GetCrackMove() == false)
+            //    {
+            //        ScriptPIManager.SetCrackMove(true);
+            //    }
+            //}
 
             if (context.phase == InputActionPhase.Canceled)
             {
