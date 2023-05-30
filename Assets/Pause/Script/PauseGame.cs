@@ -258,7 +258,7 @@ public class PauseGame : MonoBehaviour
             if (manual == true)
             {
                 // キャンセルボタンが入力された
-                if (ScriptPIManager.GetPressB() == true)
+                if (ScriptPIManager.GetPressA() == true)
                 {
                     //manualTransform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
                     manualImage.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
@@ -280,14 +280,14 @@ public class PauseGame : MonoBehaviour
             else
             {
                 // キャンセルボタンが入力された
-                if (ScriptPIManager.GetPressB() == true)
+                if (ScriptPIManager.GetPressA() == true)
                 {
                     // ポーズ終了
                     //TimeOperate();
                     reduction = true;
 
                     snap.NormalSnapChange();    //元の音に戻す
-                    ScriptPIManager.SetPressB(false);
+                    ScriptPIManager.SetPressA(false);
 
                     seMana.PlaySE_Cansel();
 
@@ -297,7 +297,7 @@ public class PauseGame : MonoBehaviour
             if (manual == false)
             {
                 // 決定ボタンが押された
-                if (ScriptPIManager.GetPressA() == true)
+                if (ScriptPIManager.GetPressB() == true)
                 {
                     seMana.PlaySE_OK();
 
@@ -339,7 +339,7 @@ public class PauseGame : MonoBehaviour
                             
                             break;
                     }
-                    ScriptPIManager.SetPressA(false);
+                    ScriptPIManager.SetPressB(false);
                 }
             }
         }
