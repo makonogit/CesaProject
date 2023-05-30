@@ -47,16 +47,19 @@ public class HaveCrystal : MonoBehaviour
             //Debug.Log(Crystal.Get);
 
             // 取得済みでないなら
-            if (Crystal.Get == false)
+            if (Crystal != null)
             {
+                if (Crystal.Get == false)
+                {
 
-                // 取得済みフラグ
-                collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                Crystal.Get = true;
+                    // 取得済みフラグ
+                    collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                    Crystal.Get = true;
 
-                getCrystal.Creat();
+                    getCrystal.Creat();
 
-                //Debug.Log("クリスタル取得");
+                    //Debug.Log("クリスタル取得");
+                }
             }
         }
     }
