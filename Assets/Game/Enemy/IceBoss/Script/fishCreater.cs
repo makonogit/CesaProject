@@ -26,10 +26,11 @@ public class fishCreater : MonoBehaviour
     {
         if (!renderer.enabled) 
         {
-            Destroy(this.gameObject);
+            createFish();
         }
     }
-    private void OnDestroy()
+
+    private void createFish() 
     {
         if (boss.fish == null)
         {
@@ -37,5 +38,6 @@ public class fishCreater : MonoBehaviour
             pos = new Vector3(pos.x, -1, 0);
             boss.fish = Instantiate(fishObj, pos, Quaternion.identity);
         }
+        Destroy(this.gameObject);
     }
 }
