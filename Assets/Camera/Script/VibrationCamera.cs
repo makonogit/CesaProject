@@ -88,6 +88,7 @@ public class VibrationCamera : MonoBehaviour
 
     // 外部取得
     private CameraControl2 _CameraControl;   //カメラ追従
+    private SelectZoom _SelectCamera;        //セレクト画面のカメラ処理
 
     Gamepad gamepad;
     private float vibration_speed = 0.0f;   // 振動速度
@@ -108,6 +109,11 @@ public class VibrationCamera : MonoBehaviour
         //ScriptPIManager = PlayerInputMana.GetComponent<PlayerInputManager>();
         //trigger = PlayerInputMana.GetComponent<InputTrigger>();
         _CameraControl = GetComponent<CameraControl2>();
+        if(_CameraControl == null)
+        {
+            _SelectCamera = GameObject.Find("CameraControl").GetComponent<SelectZoom>();
+        }
+
     }
 
     // Update is called once per frame
@@ -141,8 +147,12 @@ public class VibrationCamera : MonoBehaviour
 
                 if (_CameraControl != null)
                 {
-                    _CameraControl.enabled = true;
-
+                    //_CameraControl.enabled = true;
+                    _CameraControl.VibrationStart(false); 
+                }
+                if(_SelectCamera != null)
+                {
+                    _SelectCamera._vibration = false;
                 }
                 // 振動が終わったら初期位置に戻す
                 //thisTransform.localPosition = initLocalPosition;
@@ -183,7 +193,11 @@ public class VibrationCamera : MonoBehaviour
         StartVibrationTime = Time.time; // 振動開始時間をセット
         if (_CameraControl != null)
         {
-            _CameraControl.enabled = false; //追従停止
+            _CameraControl.VibrationStart(true); //追従停止
+        }
+        if (_SelectCamera != null)
+        {
+            _SelectCamera._vibration = true;
         }
         if (gamepad != null)
         {

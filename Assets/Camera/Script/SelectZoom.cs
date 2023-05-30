@@ -43,9 +43,10 @@ public class SelectZoom : MonoBehaviour
     [SerializeField]
     private SelectArea _selectarea; //　エリア移動用スクリプト取得
 
-   // private GameObject player;      // プレイヤー
-   // private Transform playertans;   // プレイヤーのTransform
+    // private GameObject player;      // プレイヤー
+    // private Transform playertans;   // プレイヤーのTransform
 
+    public bool _vibration = false;         // 振動しているか
     public bool Select = false;     // ステージを選択しているか
     public bool ZoomEnd = false;
 
@@ -74,7 +75,7 @@ public class SelectZoom : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         // ステージ選択したらズーム
         if (Select)
@@ -100,33 +101,63 @@ public class SelectZoom : MonoBehaviour
            
         }
 
-        // 現在の座標を取得
-        Vector3 NowPos = new Vector3(TargetTrans.position.x, TargetTrans.position.y, transform.position.z);
-
-        if (!_selectarea.LeftMove && !_selectarea.RightMove && !_selectarea.PlayerLeftMove)
+        if (!_vibration)
         {
-            // カメラの座標をターゲットを基に更新
-            cameraTransform.position = new Vector3(NowPos.x, cameraTransform.position.y, cameraTransform.position.z);
+            // 現在の座標を取得
+            Vector3 NowPos = new Vector3(TargetTrans.position.x, TargetTrans.position.y, transform.position.z);
 
-            //----------------------------------------------------------------------
-            // 画面端の座標を取得
-            float Max_x = HorizonLimit.points[1].x - Cam.orthographicSize * 1.78f;
-            float Min_x = HorizonLimit.points[0].x + Cam.orthographicSize * 1.78f;
-            float Max_y = VerticalLimit.points[0].y - Cam.orthographicSize;
-            float Min_y = VerticalLimit.points[1].y + Cam.orthographicSize;
+            if (!_selectarea.LeftMove && !_selectarea.RightMove && !_selectarea.PlayerLeftMove)
+            {
+                // カメラの座標をターゲットを基に更新
+                cameraTransform.position = new Vector3(NowPos.x, cameraTransform.position.y, cameraTransform.position.z);
 
-            //Vector2 CameraPos = cameraTransform.position;
+                //----------------------------------------------------------------------
+                // 画面端の座標を取得
+                float Max_x = HorizonLimit.points[1].x - Cam.orthographicSize * 1.78f;
+                float Min_x = HorizonLimit.points[0].x + Cam.orthographicSize * 1.78f;
+                float Max_y = VerticalLimit.points[0].y - Cam.orthographicSize;
+                float Min_y = VerticalLimit.points[1].y + Cam.orthographicSize;
 
-            // カメラの移動制限
+                //Vector2 CameraPos = cameraTransform.position;
 
-            NowPos.x = Mathf.Clamp(NowPos.x, Min_x, Max_x);
-            NowPos.y = Mathf.Clamp(NowPos.y, Min_y, Max_y);
+                // カメラの移動制限
 
-            // カメラの座標をターゲットを基に更新
-            cameraTransform.position = new Vector3(NowPos.x, cameraTransform.position.y, cameraTransform.position.z);
+                NowPos.x = Mathf.Clamp(NowPos.x, Min_x, Max_x);
+                NowPos.y = Mathf.Clamp(NowPos.y, Min_y, Max_y);
+
+                // カメラの座標をターゲットを基に更新
+                cameraTransform.position = new Vector3(NowPos.x, cameraTransform.position.y, cameraTransform.position.z);
+
+            }
 
         }
-        
+        else
+        {
+            // 現在の座標を取得
+            Vector3 NowPos = cameraTransform.position;
 
+            if (!_selectarea.LeftMove && !_selectarea.RightMove && !_selectarea.PlayerLeftMove)
+            {
+
+                //----------------------------------------------------------------------
+                // 画面端の座標を取得
+                float Max_x = HorizonLimit.points[1].x - Cam.orthographicSize * 1.78f;
+                float Min_x = HorizonLimit.points[0].x + Cam.orthographicSize * 1.78f;
+                float Max_y = VerticalLimit.points[0].y - Cam.orthographicSize;
+                float Min_y = VerticalLimit.points[1].y + Cam.orthographicSize;
+
+                //Vector2 CameraPos = cameraTransform.position;
+
+                // カメラの移動制限
+
+                NowPos.x = Mathf.Clamp(NowPos.x, Min_x, Max_x);
+                NowPos.y = Mathf.Clamp(NowPos.y, Min_y, Max_y);
+
+                // カメラの座標をターゲットを基に更新
+                cameraTransform.position = new Vector3(NowPos.x, NowPos.y, cameraTransform.position.z);
+
+
+            }
+        }
     }
 }

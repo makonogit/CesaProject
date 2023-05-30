@@ -38,6 +38,7 @@ public class CameraControl2 : MonoBehaviour
 
     private Camera MainCam;                 // メインカメラ
 
+    private bool Vibration = false;         // 振動中か
 
     // Start is called before the first frame update
     void Start()
@@ -116,115 +117,123 @@ public class CameraControl2 : MonoBehaviour
 
     private void LateUpdate()
     {
-        // ズームエリアにいたら追従ターゲットを変更する
-        //if (zoom.InArea)
-        //{
-        //    if (Target.name == "player")
-        //    {
-        //        // ターゲットを変更
-        //        Target = GameObject.Find("GoalArea");
-        //        TargetTrans = Target.transform;
-        //    }
-        //}
-        //else
-        //{
-        //    // エリア外でターゲットがゴールエリアなら
-        //    if (Target.name == "GoalArea")
-        //    {
-        //        // ターゲットを変更
-        //        Target = GameObject.Find("player");
-        //        TargetTrans = Target.transform;
-        //    }
-
-        //}
-
-       
-        // 現在の座標を取得
-        Vector3 NowPos = new Vector3(TargetTrans.position.x, TargetTrans.position.y,transform.position.z);
-
-        //----------------------------------------------------------------------
-        // コライダーの情報から画面端の座標を取得(Xだけなんかずれあるから1.77f)
-        float Max_x = (AreaCollider.points[0].x + AreaCollider.offset.x) - MainCam.orthographicSize * 1.65f;
-        float Min_x = (AreaCollider.points[1].x + AreaCollider.offset.x) + MainCam.orthographicSize * 1.65f;
-        float Max_y = (AreaCollider.points[1].y + AreaCollider.offset.y) - MainCam.orthographicSize;
-        float Min_y = (AreaCollider.points[2].y + AreaCollider.offset.y) + MainCam.orthographicSize;
-
-        // ステージのPorigonColliderを基に移動制限
-        NowPos.x = Mathf.Clamp(NowPos.x, Min_x, Max_x);
-        NowPos.y = Mathf.Clamp(NowPos.y, Min_y, Max_y);
 
 
-        // ひびの移動中はカメラの追従を緩やかにする
-        if (_AutoMove.movestate == CrackAutoMove.MoveState.CrackMove)
+        if (!Vibration)
         {
-            transform.position = Vector3.Lerp(transform.position, NowPos, 2.0f * Time.deltaTime);
-        }
-        else
-        {
-            // カメラの座標をターゲットを基に更新
-            transform.position = new Vector3(NowPos.x, NowPos.y, transform.position.z);
-        }
+            // 現在の座標を取得
+            Vector3 NowPos = new Vector3(TargetTrans.position.x, TargetTrans.position.y, transform.position.z);
 
-        //----------------------------------------------------------------------
-        // エリアの情報からコライダーをリサイズ
-        //Vector2[] points = AreaCollider.points;
-        //points[0].x = points[1].x + _AreaSize;
-        //points[3].x = points[1].x + _AreaSize;
-        //AreaCollider.SetPath(0, points);
+            //----------------------------------------------------------------------
+            // コライダーの情報から画面端の座標を取得(Xだけなんかずれあるから1.77f)
+            float Max_x = (AreaCollider.points[0].x + AreaCollider.offset.x) - MainCam.orthographicSize * 1.65f;
+            float Min_x = (AreaCollider.points[1].x + AreaCollider.offset.x) + MainCam.orthographicSize * 1.65f;
+            float Max_y = (AreaCollider.points[1].y + AreaCollider.offset.y) - MainCam.orthographicSize;
+            float Min_y = (AreaCollider.points[2].y + AreaCollider.offset.y) + MainCam.orthographicSize;
 
-        //----------------------------------------------
-        //プレイヤーがエリア外に出たら次のエリアを指定
-        if (TargetTrans.position.x > AreaCollider.points[0].x + AreaCollider.offset.x)
-        {
-            if (!AreaMove)
+            // ステージのPorigonColliderを基に移動制限
+            NowPos.x = Mathf.Clamp(NowPos.x, Min_x, Max_x);
+            NowPos.y = Mathf.Clamp(NowPos.y, Min_y, Max_y);
+
+
+            // ひびの移動中はカメラの追従を緩やかにする
+            if (_AutoMove.movestate == CrackAutoMove.MoveState.CrackMove)
             {
-                Debug.Log("エリア更新");
-                NextAreaPos[0].x = AreaCollider.points[0].x + _AreaSize / 5 - 2.0f;
-                NextAreaPos[3].x = AreaCollider.points[0].x + _AreaSize / 5 - 2.0f;
-                NextAreaPos[1].x = AreaCollider.points[1].x + _AreaSize; //+ 2.0f;
-                NextAreaPos[2].x = AreaCollider.points[2].x + _AreaSize;// + 2.0f;
-                NowAreaNum++;
-                AreaMove = true;
-            }
-        }
-        else
-        {
-            //AreaMove = false;
-        }
-
-        if (AreaMove)
-        {
-            Vector2[] points = AreaCollider.points;
-
-            points[1].x = NextAreaPos[1].x;
-            points[2].x = NextAreaPos[2].x;
-
-            //次のエリアに到達するまで右端座標を更新
-            if (NowMax_x <= NextAreaPos[0].x)
-            {
-                NowMax_x += CameraMoveSpeed * Time.deltaTime;
-                points[0].x = NowMax_x;
-                points[3].x = NowMax_x;
-                AreaCollider.SetPath(0, points);
+                transform.position = Vector3.Lerp(transform.position, NowPos, 2.0f * Time.deltaTime);
             }
             else
             {
-                //到達したら移動を終了
-                AreaMove = false;
+                // カメラの座標をターゲットを基に更新
+                transform.position = new Vector3(NowPos.x, NowPos.y, transform.position.z);
             }
-        }
+
+            //----------------------------------------------------------------------
+            // エリアの情報からコライダーをリサイズ
+            //Vector2[] points = AreaCollider.points;
+            //points[0].x = points[1].x + _AreaSize;
+            //points[3].x = points[1].x + _AreaSize;
+            //AreaCollider.SetPath(0, points);
+
+            //----------------------------------------------
+            //プレイヤーがエリア外に出たら次のエリアを指定
+            if (TargetTrans.position.x > AreaCollider.points[0].x + AreaCollider.offset.x)
+            {
+                if (!AreaMove)
+                {
+                    Debug.Log("エリア更新");
+                    NextAreaPos[0].x = AreaCollider.points[0].x + _AreaSize / 5 - 2.0f;
+                    NextAreaPos[3].x = AreaCollider.points[0].x + _AreaSize / 5 - 2.0f;
+                    NextAreaPos[1].x = AreaCollider.points[1].x + _AreaSize; //+ 2.0f;
+                    NextAreaPos[2].x = AreaCollider.points[2].x + _AreaSize;// + 2.0f;
+                    NowAreaNum++;
+                    AreaMove = true;
+                }
+            }
+            else
+            {
+                //AreaMove = false;
+            }
+
+            if (AreaMove)
+            {
+                Vector2[] points = AreaCollider.points;
+
+                points[1].x = NextAreaPos[1].x;
+                points[2].x = NextAreaPos[2].x;
+
+                //次のエリアに到達するまで右端座標を更新
+                if (NowMax_x <= NextAreaPos[0].x)
+                {
+                    NowMax_x += CameraMoveSpeed * Time.deltaTime;
+                    points[0].x = NowMax_x;
+                    points[3].x = NowMax_x;
+                    AreaCollider.SetPath(0, points);
+                }
+                else
+                {
+                    //到達したら移動を終了
+                    AreaMove = false;
+                }
+            }
 
 
-        if (_AutoMove.movestate == CrackAutoMove.MoveState.CrackMove)
-        {
-            transform.position = Vector3.Lerp(transform.position,NowPos, 2.0f * Time.deltaTime);
+            if (_AutoMove.movestate == CrackAutoMove.MoveState.CrackMove)
+            {
+                transform.position = Vector3.Lerp(transform.position, NowPos, 2.0f * Time.deltaTime);
+            }
+            else
+            {
+                //　カメラの座標を更新
+                transform.position = new Vector3(NowPos.x, NowPos.y, transform.position.z);
+            }
         }
         else
         {
-            //　カメラの座標を更新
-            transform.position = new Vector3(NowPos.x, NowPos.y, transform.position.z);
-        }
+            // 現在の座標を取得
+            Vector3 NowPos = transform.position;
 
+            //----------------------------------------------------------------------
+            // コライダーの情報から画面端の座標を取得(Xだけなんかずれあるから1.77f)
+            float Max_x = (AreaCollider.points[0].x + AreaCollider.offset.x) - MainCam.orthographicSize * 1.65f;
+            float Min_x = (AreaCollider.points[1].x + AreaCollider.offset.x) + MainCam.orthographicSize * 1.65f;
+            float Max_y = (AreaCollider.points[1].y + AreaCollider.offset.y) - MainCam.orthographicSize;
+            float Min_y = (AreaCollider.points[2].y + AreaCollider.offset.y) + MainCam.orthographicSize;
+
+            // ステージのPorigonColliderを基に移動制限
+            NowPos.x = Mathf.Clamp(NowPos.x, Min_x, Max_x);
+            NowPos.y = Mathf.Clamp(NowPos.y, Min_y, Max_y);
+
+            if (_AutoMove.movestate == CrackAutoMove.MoveState.CrackMove)
+            {
+                transform.position = Vector3.Lerp(transform.position, NowPos, 2.0f * Time.deltaTime);
+            }
+            else
+            {
+                //　カメラの座標を更新
+                transform.position = new Vector3(NowPos.x, NowPos.y, transform.position.z);
+            }
+
+        }
     }
 
     // 追従するターゲットを設定する
@@ -238,4 +247,11 @@ public class CameraControl2 : MonoBehaviour
     {
         return Target;
     }
+
+    // 振動開始フラグセット関数
+    public void VibrationStart(bool _vibration)
+    {
+        Vibration = _vibration;
+    }
+
 }
