@@ -258,7 +258,7 @@ public class PlayerMove : MonoBehaviour
     // 目的：走った時のエフェクトのオンオフ
     private void RunDust() 
     {
-        _runDust.IsMove = (MoveSta != MOVESTATUS.FRIEZE);
+        _runDust.IsMove = (MoveSta != MOVESTATUS.FRIEZE && MoveSta != MOVESTATUS.NONE);
     }
     //--------------------------------------
 }
