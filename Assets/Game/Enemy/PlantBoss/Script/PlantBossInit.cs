@@ -42,16 +42,16 @@ public class PlantBossInit : MonoBehaviour
 
 
         //@‚Ğ‚Ñ‚ğæ“¾
-        GameObject CrackManager = GameObject.Find("CrackManager");
-        //  ‚Ğ‚Ñ‚Ì‰Šú‰»
-        for (int i = 0; i < CrackManager.transform.childCount; i++)
-        {
-            GameObject Crack = CrackManager.transform.GetChild(i).gameObject;
-            if (Crack.transform.GetChild(2).transform.position.x > gatepos.position.x)
-            {
-                Destroy(Crack);
-            }
-        }
+        //GameObject CrackManager = GameObject.Find("CrackManager");
+        ////  ‚Ğ‚Ñ‚Ì‰Šú‰»
+        //for (int i = 0; i < CrackManager.transform.childCount; i++)
+        //{
+        //    GameObject Crack = CrackManager.transform.GetChild(i).gameObject;
+        //    if (Crack.transform.GetChild(2).transform.position.x > gatepos.position.x)
+        //    {
+        //        Destroy(Crack);
+        //    }
+        //}
 
     }
 }
