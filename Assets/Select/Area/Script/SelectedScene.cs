@@ -81,13 +81,15 @@ public class SelectedScene : MonoBehaviour
 
             if (SelectObject != null)
             {
-                SelectObject.transform.Rotate(0.0f, 5.0f, 0.0f, Space.World);
+                SelectObject.transform.Rotate(0.0f, 5.0f * Time.deltaTime, 0.0f, Space.World);
             }
 
-            if (WaitTime > 1.0f)
+            if (WaitTime > 0.2f)
             {
                 anim.SetBool("accumulate", false);
+                anim.SetBool("Add", true);
                 anim.SetBool("crack", true);
+                //anim.SetBool("crack", true);
             }
             //------------------------------------
             // ヒビに入るアニメーション
@@ -168,7 +170,7 @@ public class SelectedScene : MonoBehaviour
             {
                 main.SetVibration(1.0f);
                 anim.SetBool("accumulate", true);
-
+                
                 AnimStart = true;
 
              }
