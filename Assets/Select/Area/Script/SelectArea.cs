@@ -125,7 +125,6 @@ public class SelectArea : MonoBehaviour
             _nextArea++;
             // 予期しない値にならないよう制限する
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
-            _next.SetBool("isPush", true);
             //_nowNextUiTime = 0;
 
             
@@ -143,7 +142,6 @@ public class SelectArea : MonoBehaviour
             _nextArea--;
             // 予期しない値にならないよう制限する
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
-            _prev.SetBool("isPush", true);
             //_nowPrevUiTime = 0;
 
             if (Playertrans.position.x < HorizonLimit.points[0].x)
@@ -166,6 +164,7 @@ public class SelectArea : MonoBehaviour
         if(_context.phase == InputActionPhase.Started) 
         {
             NextArea();
+            _next.SetBool("isPush", true);
             if (_nowArea != _nextArea && !RightMove && !LeftMove && !PlayerLeftMove)
             {
                 RightMove = true;
@@ -185,6 +184,7 @@ public class SelectArea : MonoBehaviour
         if (_context.phase == InputActionPhase.Started)
         {
             PrevArea();
+            _prev.SetBool("isPush", true);
             if (_nowArea != _nextArea && !LeftMove && !RightMove && !PlayerLeftMove)
             {
                 LeftMove = true;
@@ -222,32 +222,22 @@ public class SelectArea : MonoBehaviour
         // エリアを移動す時
         if (_nowArea != _nextArea)// 現在と次のエリアが違うとき
         {
-            if (!PlayerLeftMove)
-            {
-                // 現在地と目標地の間の座標を求める。
-                Vector3 _pos = transform.position * 0.95f;
-                _pos += new Vector3(_positions[_nextArea].position.x, _positions[_nextArea].position.y, transform.position.z) * (1.0f - 0.95f);
+            float speed = 4.5f;
+            float offset = 0.0f;
+            if (PlayerLeftMove) offset = 18.0f;
+            // 現在地と目標地の間の座標を求める。
+            Vector3 _pos = new Vector3(_positions[_nextArea].position.x+ offset, _positions[_nextArea].position.y, transform.position.z);
+            _pos -= transform.position;
 
-                // 現在地の更新
-                this.transform.position = _pos;
-                // 現在地と目標地の距離を入れる。
-                Distance = _pos - new Vector3(_positions[_nextArea].position.x,_positions[_nextArea].position.y, transform.position.z);
-            }
-            else
-            {
-                // 現在地と目標地の間の座標を求める。
-                Vector3 _pos = transform.position * 0.95f;
-                _pos += new Vector3(_positions[_nextArea].position.x + 18.0f, _positions[_nextArea].position.y, transform.position.z) * (1.0f - 0.95f);
+            // 現在地の更新
+            this.transform.position += _pos * speed * Time.deltaTime;
+            // 現在地と目標地の距離を入れる。
+            Distance = this.transform.position - new Vector3(_positions[_nextArea].position.x + offset, _positions[_nextArea].position.y, transform.position.z);
 
-                // 現在地の更新
-                this.transform.position = _pos;
-                // 現在地と目標地の距離を入れる。
-                Distance = _pos - new Vector3(_positions[_nextArea].position.x + 18.0f, _positions[_nextArea].position.y, transform.position.z);
-            }
+            
         }
-        
-        // エリア移動完了
-        if (Distance.magnitude <= 0.01f) // 距離が近かったら
+            // エリア移動完了
+            if (Distance.magnitude <= 0.01f) // 距離が近かったら
         {
             _next.SetBool("isPush", false);
             _prev.SetBool("isPush", false);
@@ -296,6 +286,8 @@ public class SelectArea : MonoBehaviour
         }
         //_nowNextUiTime += Time.deltaTime;        _nowPrevUiTime += Time.deltaTime;
     }
+    
+
 
     private void DisplayIcon() 
     {
