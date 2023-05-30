@@ -28,17 +28,20 @@ public class BreakBossCore : MonoBehaviour
         if (collision.tag == "Crack")
         {
             CrackCreater creater = collision.GetComponent<CrackCreater>();
-            if((creater.GetState() == CrackCreater.CrackCreaterState.CREATING ||
-                creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING))
+            if (creater != null)
             {
-                GameObject boss = GameObject.Find("BossEnemy").transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
-                boss.GetComponent<Animator>().enabled = false;
-                boss.GetComponent<SpriteRenderer>().sprite = DethBoss;
+                if ((creater.GetState() == CrackCreater.CrackCreaterState.CREATING ||
+                    creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING))
+                {
+                    GameObject boss = GameObject.Find("BossEnemy").transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+                    boss.GetComponent<Animator>().enabled = false;
+                    boss.GetComponent<SpriteRenderer>().sprite = DethBoss;
 
-                LightEffect.Flash();
-                _BGMfadeMana.SmallBossBGM();
-                Destroy(collision.gameObject);
-                Destroy(gameObject);
+                    LightEffect.Flash();
+                    _BGMfadeMana.SmallBossBGM();
+                    Destroy(collision.gameObject);
+                    Destroy(gameObject);
+                }
             }
         }
     }
