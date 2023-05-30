@@ -92,8 +92,11 @@ public class GiveScene : MonoBehaviour
             case StateID.PLAYABLE:
                 if (_selectedScene.GetInStage() == true)
                 {
-                    // ひびが入った建物スプライト
-                    _renderer.sprite = enteringStage;
+                    if (_Stagemanager.GetAreaNum() == _Areanumber - 1&& _Stagemanager.GetStageNum() == _number - 1)
+                    {
+                        // ひびが入った建物スプライト
+                        _renderer.sprite = enteringStage;
+                    }
                 }
                 else
                 {
