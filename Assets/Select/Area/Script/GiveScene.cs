@@ -139,13 +139,13 @@ public class GiveScene : MonoBehaviour
             _selected.AreaPos = transform;  //　自身のTransformをセット
             _selected.SelectObject = transform.GetChild(0).gameObject;
 
-            if(_selected != null) 
+            if(_selected != null && State != StateID.UNPLAYABLE) 
             {
                 _Stagemanager.SetStageData(_Areanumber, _number);
                 _selected.SelectScene(GetScene);
             }
             // 状態がエリア移動じゃなければ
-            if (_selectMove != null && _selectMove.State != SelectMove.SelectPlayerState.AREA_CHANGE)
+            if (_selectMove != null && _selectMove.State != SelectMove.SelectPlayerState.AREA_CHANGE&&State != StateID.UNPLAYABLE)
             {
                 _selectMove.State = SelectMove.SelectPlayerState.STOP;
                 _selectMove.SelectScene(GetScene);

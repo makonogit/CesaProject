@@ -191,7 +191,7 @@ public class IceEnemy : MonoBehaviour
         //    _direction = SetDirection;
         //}
         Vector2 rayDirection = new Vector2(1, 0);
-        int layerMask = 1 << 10 | 1 << 14 ;    //Rayのレイヤーマスク
+        int layerMask = 1 << 10 | 1 << 14 | 1 << 9;    //Rayのレイヤーマスク
         if (!_direction) rayDirection *= -1f;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDirection , 1, layerMask);
         if (hit) _direction = !_direction;
