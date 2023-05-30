@@ -54,6 +54,7 @@ public class SelectArea : MonoBehaviour
     private Vector3 _endPos;
 
     private SetStage setmanager;
+    [SerializeField] StageManager stageManager;
 
     private EdgeCollider2D HorizonLimit;
     private Vector2 OldLimitpoint;
@@ -126,6 +127,9 @@ public class SelectArea : MonoBehaviour
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
             _next.SetBool("isPush", true);
             //_nowNextUiTime = 0;
+
+            //プレイヤーの座標変更
+            GameObject.Find("player").transform.position = stageManager.stage[_nextArea].stage[0].StageObj.transform.position;         
         }
     }
 
@@ -139,6 +143,8 @@ public class SelectArea : MonoBehaviour
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
             _prev.SetBool("isPush", true);
             //_nowPrevUiTime = 0;
+            //プレイヤーの座標変更
+            GameObject.Find("player").transform.position = stageManager.stage[_nextArea].stage[0].StageObj.transform.position;
         }
     }
 
@@ -253,11 +259,6 @@ public class SelectArea : MonoBehaviour
                 point.Add(new Vector2(OldLimitpoint.x, HorizonLimit.points[1].y));
                 HorizonLimit.SetPoints(point);
 
-                if (HorizonLimit.points[1].x < GameObject.Find("player").transform.position.x)
-                {
-                    //プレイヤーの座標変更
-                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 2.0f, HorizonLimit.points[1].y - 0.5f, 1.0f);
-                }
                 LeftMove = false;
             }
             
@@ -278,11 +279,6 @@ public class SelectArea : MonoBehaviour
                 HorizonLimit.SetPoints(point);
                 OldLimitpoint = Vector2.zero;
 
-                if (HorizonLimit.points[0].x > GameObject.Find("player").transform.position.x)
-                {
-                    //プレイヤーの座標変更
-                    GameObject.Find("player").transform.position = new Vector3(HorizonLimit.points[0].x + 2.0f, HorizonLimit.points[1].y - 0.5f, 1.0f);
-                }
                 RightMove = false;
             }
         
