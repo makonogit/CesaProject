@@ -128,8 +128,10 @@ public class SelectArea : MonoBehaviour
             _next.SetBool("isPush", true);
             //_nowNextUiTime = 0;
 
+            
             //プレイヤーの座標変更
-            GameObject.Find("player").transform.position = stageManager.stage[_nextArea].stage[0].StageObj.transform.position;         
+            GameObject.Find("player").transform.position = stageManager.stage[_nextArea].stage[0].StageObj.transform.position;
+            
         }
     }
 
@@ -143,8 +145,17 @@ public class SelectArea : MonoBehaviour
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
             _prev.SetBool("isPush", true);
             //_nowPrevUiTime = 0;
-            //プレイヤーの座標変更
-            GameObject.Find("player").transform.position = stageManager.stage[_nextArea].stage[0].StageObj.transform.position;
+
+            if (Playertrans.position.x < HorizonLimit.points[0].x)
+            {
+                //プレイヤーの座標変更
+                GameObject.Find("player").transform.position = stageManager.stage[_nextArea].stage[4].StageObj.transform.position;
+            }
+            else
+            {
+                //プレイヤーの座標変更
+                GameObject.Find("player").transform.position = stageManager.stage[_nextArea].stage[0].StageObj.transform.position;
+            }
         }
     }
 
