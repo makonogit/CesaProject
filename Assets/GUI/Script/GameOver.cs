@@ -64,6 +64,7 @@ public class GameOver : MonoBehaviour
     private New_PlayerJump _playerJump;
     private CrackAutoMove _crackAuto;
     private SmashScript _smashScript;
+    private Hammer _hammer;
     //[SerializeField,Header("ゴールエリアのオブジェ")]
     //private GameObject _goalArea;
     // GameOverCameraEventと少し干渉するので止めるため
@@ -98,6 +99,9 @@ public class GameOver : MonoBehaviour
         if (_playerJump == null) Debug.LogError("PlayerJumpのコンポーネントを取得できませんでした。");
         _crackAuto = GetComponent<CrackAutoMove>();
         if (_crackAuto == null) Debug.LogError("CrackAutoMoveのコンポーネントを取得できませんでした。");
+        _hammer = GetComponent<Hammer>();
+        if (_hammer == null) Debug.LogError("hammerのコンポーネントを取得できませんでした。");
+
 
         _smashScript = GetComponent<SmashScript>();
         if (_smashScript == null) Debug.LogError("SmashScripteのコンポーネントを取得できませんでした。");
@@ -186,6 +190,10 @@ public class GameOver : MonoBehaviour
             {
                 _sePlayer.PlaySE_DropAbyss();
             }
+            _playerJump.enabled = false;
+            _playerMove.enabled = false;
+            _hammer.enabled = false;
+            
             hell = true;
             _isGameOver = true;
 
@@ -243,6 +251,7 @@ public class GameOver : MonoBehaviour
             {
                 _playerJump.enabled = false; // ジャンプ
                 _playerMove.enabled = false; // 移動
+                _hammer.enabled = false;
 
                 FuncOff = true;
             }
@@ -329,6 +338,7 @@ public class GameOver : MonoBehaviour
                         // 各機能のスクリプトをもとに戻す
                         _playerJump.enabled = true;
                         _playerMove.enabled = true;
+                        _hammer.enabled = true;
                         FuncOff = false;
 
                         // 初期化
@@ -381,7 +391,7 @@ public class GameOver : MonoBehaviour
         _playerMove.enabled = false;
         _playerJump.enabled = false;
         _crackAuto.enabled = false;
-        _smashScript.enabled = false;
+        //_smashScript.enabled = false;
         //_goalArea.SetActive(false);
         //_cameraZoom.enabled = false;
         _cameraControl2.enabled = false;
@@ -392,7 +402,7 @@ public class GameOver : MonoBehaviour
         _playerMove.enabled = true;
         _playerJump.enabled = true;
         _crackAuto.enabled = true;
-        _smashScript.enabled = true;
+        //_smashScript.enabled = true;
         //_goalArea.SetActive(true);
         //_cameraZoom.enabled = true;
         _cameraControl2.enabled = true;
