@@ -277,7 +277,7 @@ public class GameOver : MonoBehaviour
                 Fade.FadeState fadestate = fade.GetFadeState();
 
                 // フェードアウト
-                if (fadestate != Fade.FadeState.FadeOut && _fadeout == false && _specialBGM.time > GameOverBGMTime) // 死亡BGMの再生終了
+                if (fadestate != Fade.FadeState.FadeOut && _fadeout == false && (_specialBGM.time > GameOverBGMTime || hell == true)) // 死亡BGMの再生終了
                 {
                     // 画面フェードアウト開始
                     fade.FadeOut();
