@@ -20,20 +20,18 @@ public class PointMatControl : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        // 通常マテリアルを設定
+    {   // 通常マテリアルを設定
         NormalMat = GetComponent<SpriteRenderer>().material;
         //FirstCheck = true;
     }
 
     private void Update()
-    {
+    {  
     }
 
     // ひびを発光させる関数
     public void FlashCrack()
     {
-
         thisrenderer.material = FlashMat;
     }
 
