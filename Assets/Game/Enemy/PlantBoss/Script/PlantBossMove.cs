@@ -246,8 +246,9 @@ public class PlantBossMove : MonoBehaviour
             case PlantBossMoveState.DETH:
 
                 //　リザルトに移行
-                if (!transform.Find("core").GetComponent<BreakCore>())
+                if (!transform.Find("core"))
                 {
+                    Destroy(gameObject);
                    // transform.Find("core").gameObject.layer = 15;
                    // transform.Find("core").gameObject.AddComponent<BreakCore>();
                 }
@@ -276,6 +277,7 @@ public class PlantBossMove : MonoBehaviour
         if (LeftArm.transform.childCount == 0 && RightArm.transform.childCount == 0 &&
             LeftFoot == null && RightFoot == null && State != PlantBossMoveState.DETH)
         {
+            Destroy(transform.Find("CoreConect").gameObject);
             Destroy(BodyColl);  //体のコライダーを消去
             //Destroy(LeftFoot);
             //Destroy(RightFoot);

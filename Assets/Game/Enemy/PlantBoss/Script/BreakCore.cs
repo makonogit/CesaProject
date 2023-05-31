@@ -50,6 +50,7 @@ public class BreakCore : MonoBehaviour
                     {
                         light.Flash();
                     }
+                    Destroy(collision.gameObject);
                 }
                 else
                 {
