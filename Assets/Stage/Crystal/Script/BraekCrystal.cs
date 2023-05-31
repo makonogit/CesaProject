@@ -75,7 +75,7 @@ public class BraekCrystal : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // ‚Ð‚Ñ‚É“–‚½‚Á‚½‚ç
-        if (collision.tag == "Crack")
+        if (collision.name == "CrackCreaterObject(Clone)")
         {
             Destroy(collision.gameObject);
             if (!Break)
