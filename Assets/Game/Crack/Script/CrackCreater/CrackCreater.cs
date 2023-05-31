@@ -438,7 +438,7 @@ public class CrackCreater : MonoBehaviour
             int _division = Random.Range(_divisionNum.x, _divisionNum.y);
             //--------------------------------------
             // 分割する頂点分繰り返す
-            SubdivisionVertex(_division, _verticalVec, Last, Ways.BACK);
+            SubdivisionVertex(_division, _verticalVec, Last-1, Ways.BACK);
 
             //--------------------------------------
             // 2つ頂点の間にポイントを置く// Last～Cont - 1
