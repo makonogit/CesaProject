@@ -445,7 +445,7 @@ public class Hammer : MonoBehaviour
                                         NowCrack.SetState(CrackCreater.CrackCreaterState.ADD_CREATEBACK);
                                         Power++;
                                     }
-
+                                    //Debug.Log("aaaaaaaa");
                                 }
                                 else
                                 {
@@ -466,6 +466,8 @@ public class Hammer : MonoBehaviour
                                 OldFirstPoint = transform.position;  // 生成時の座標を保存
                                 WaitHammerMeasure = 0.0f;       // 経過用変数初期化
 
+                                Power = 0;
+                                AddPower = 1;   //　力の初期化
                                 //AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
                                 //Move.SetMovement(true);
                                 AddCrackFlg = false;
@@ -585,10 +587,10 @@ public class Hammer : MonoBehaviour
         }
 
         //　ポイントが2つより多かったら削除
-        //if(CrackPointList.Count > 2)
-        //{
-        //    CrackPointList.RemoveRange(2, CrackPointList.Count - 2);
-        //}
+        if (CrackPointList.Count > 2)
+        {
+            CrackPointList.RemoveRange(2, CrackPointList.Count - 2);
+        }
 
     }
 
