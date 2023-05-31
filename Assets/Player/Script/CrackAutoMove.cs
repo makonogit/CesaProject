@@ -185,7 +185,7 @@ public class CrackAutoMove : MonoBehaviour
                             HitFlg = false;
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
-                            ScriptPIManager.SetCrackMove(false);
+                            CrackTrigger = false;
                             movestate = MoveState.CrackMoveEnd;
                         }
 
@@ -226,7 +226,7 @@ public class CrackAutoMove : MonoBehaviour
                             HitFlg = false;
                             NowCrackspeed = CrackMoveSpeed;
                             MoveFlg = false;
-                            ScriptPIManager.SetCrackMove(false);
+                            CrackTrigger = false;
                             movestate = MoveState.CrackMoveEnd;
                         }
 
@@ -256,7 +256,7 @@ public class CrackAutoMove : MonoBehaviour
                 // アニメーション終了していたらMove,Jumpを再開
                 Jump.enabled = true;
                 InCrack = false;
-                CrackTrigger = false;
+                
                 Move.SetMovement(true);
                 HitFlg = false;
 
@@ -287,6 +287,7 @@ public class CrackAutoMove : MonoBehaviour
                 seMana.StopSE_crackMove();
                 break;
             case MoveState.Walk:
+                
                 //ScriptPIManager.SetCrackMove(false);
                 break;
         }
@@ -300,11 +301,6 @@ public class CrackAutoMove : MonoBehaviour
         //ひびとぶつかったら
         if(collision.tag == "Crack" && movestate == MoveState.Walk)
         {
-            if (ScriptPIManager.GetCrackMove() && !CrackTrigger)
-            {
-                ScriptPIManager.SetCrackMove(false);
-                CrackTrigger = true;
-            }
             //----------------------------------
             //ひびの情報を取得
             GameObject crackobj = collision.gameObject;
@@ -366,7 +362,6 @@ public class CrackAutoMove : MonoBehaviour
                 // Aボタンで入る
                 if (ScriptPIManager.GetCrackMove() && InCrack == false)
                 {
-                    ScriptPIManager.SetCrackMove(false);
                     InCrack = true;
                     
                     NowPointNum = MinPointNum;
@@ -381,6 +376,8 @@ public class CrackAutoMove : MonoBehaviour
                     //Jump.JumpHeight = 0.0f;
                     Jump.enabled = false;
                     Move.SetMovement(false);
+                    ScriptPIManager.SetCrackMove(false);
+
                 }
             }
             else
@@ -390,6 +387,18 @@ public class CrackAutoMove : MonoBehaviour
 
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Crack")
+        {
+            if (ScriptPIManager.GetCrackMove())
+            {
+                ScriptPIManager.SetCrackMove(false);
+            //    CrackTrigger = true;
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
