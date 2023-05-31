@@ -249,6 +249,7 @@ public class Hammer : MonoBehaviour
                         }
                         else
                         {
+                            EndHaloAnimation();//←追加者:中川直登 アニメーション停止
                             hammerstate = HammerState.NONE;
                             // なければ
                             angle = angle;
@@ -285,6 +286,7 @@ public class Hammer : MonoBehaviour
                     }
                     else
                     {
+                        EndHaloAnimation();//←追加者:中川直登 アニメーション停止
                         if (!AddCrackFlg) {
                             if (MoveLength > CrackLength)
                             {
@@ -323,7 +325,7 @@ public class Hammer : MonoBehaviour
                                                     //　離されたら打ち込み状態にする
                         hammerstate = HammerState.HAMMER;
 
-                        EndHaloAnimation();//←追加者:中川直登 アニメーション停止
+                        
                     }
 
                     
