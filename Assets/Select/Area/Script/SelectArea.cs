@@ -127,9 +127,11 @@ public class SelectArea : MonoBehaviour
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
             //_nowNextUiTime = 0;
 
-
-            //プレイヤーの座標変更
-            Playertrans.position = new Vector3(stageManager.stage[_nextArea].stage[0].StageObj.transform.position.x, Playertrans.position.y, Playertrans.position.z);
+            if (_nextArea < 4)
+            {
+                //プレイヤーの座標変更
+                Playertrans.position = new Vector3(stageManager.stage[_nextArea].stage[0].StageObj.transform.position.x, Playertrans.position.y, Playertrans.position.z);
+            }
 
         }
     }
@@ -144,15 +146,18 @@ public class SelectArea : MonoBehaviour
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
             //_nowPrevUiTime = 0;
 
-            if (Playertrans.position.x < HorizonLimit.points[0].x)
+            if (_nextArea > 0)
             {
-                //プレイヤーの座標変更
-                Playertrans.transform.position = new Vector3(stageManager.stage[_nextArea].stage[4].StageObj.transform.position.x, Playertrans.position.y, Playertrans.position.z);
-            }
-            else
-            {
-                //プレイヤーの座標変更
-                Playertrans.position = new Vector3(stageManager.stage[_nextArea].stage[0].StageObj.transform.position.x,Playertrans.position.y,Playertrans.position.z);
+                if (Playertrans.position.x < HorizonLimit.points[0].x)
+                {
+                    //プレイヤーの座標変更
+                    Playertrans.transform.position = new Vector3(stageManager.stage[_nextArea].stage[4].StageObj.transform.position.x, Playertrans.position.y, Playertrans.position.z);
+                }
+                else
+                {
+                    //プレイヤーの座標変更
+                    Playertrans.position = new Vector3(stageManager.stage[_nextArea].stage[0].StageObj.transform.position.x, Playertrans.position.y, Playertrans.position.z);
+                }
             }
         }
     }
