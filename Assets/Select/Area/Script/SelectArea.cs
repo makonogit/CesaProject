@@ -147,7 +147,7 @@ public class SelectArea : MonoBehaviour
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
             //_nowPrevUiTime = 0;
 
-            if (_nextArea > 0)
+            if (_nextArea >= 0 && Playertrans.position.x > 26.5f)
             {
                 if (Playertrans.position.x < HorizonLimit.points[0].x)
                 {
