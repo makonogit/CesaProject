@@ -297,7 +297,7 @@ public class PlantBossMove : MonoBehaviour
             //ちび敵の初期化
             for (int i = 0; i < PipeEnemyManager.transform.childCount; i++)
             {
-                PipeEnemyManager.transform.GetChild(i).transform.FindChild("PlantEnemy").GetComponent<PlantEnemyMove>().EnemyAI = PlantEnemyMove.AIState.Death;
+                PipeEnemyManager.transform.GetChild(i).transform.Find("PlantEnemy").GetComponent<PlantEnemyMove>().EnemyAI = PlantEnemyMove.AIState.Death;
             }
 
             State = PlantBossMoveState.DETH;

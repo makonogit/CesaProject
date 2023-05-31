@@ -65,7 +65,7 @@ public class BranchCreater : MonoBehaviour
 
                         if (transform.GetChild(i).name == "Point(Clone)")
                         {
-                            transform.GetChild(i).GetComponent<SpriteRenderer>().material = Crack;
+                            transform.GetChild(i).GetComponent<PointMatControl>().NomalCrack();
                             break;
                         }
                     }
@@ -89,7 +89,7 @@ public class BranchCreater : MonoBehaviour
                     {
                         if (transform.GetChild(i).name == "Point(Clone)")
                         {
-                            transform.GetChild(i).GetComponent<SpriteRenderer>().material = Crackend;
+                            transform.GetChild(i).GetComponent<PointMatControl>().NormalCrackEnd();
                             break;
                         }
                     }

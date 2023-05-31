@@ -42,4 +42,14 @@ public class PointMatControl : MonoBehaviour
         thisrenderer.material = NormalMat;
     }
 
+    public void NormalCrackEnd()
+    {
+        thisrenderer.material = NormalEndMat;
+    }
+
+    public void FlashCrackEnd()
+    {
+        thisrenderer.material = FlashEndMat;
+    }
+
 }
