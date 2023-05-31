@@ -32,6 +32,7 @@ public class ChangeResultScene : MonoBehaviour
     private PlayerMove move;
     private Hammer hammer;
     private CrackAutoMove crackmove;
+    [SerializeField] CrackManager _crackmanager;
 
     SetStage _setstage = new SetStage();
 
@@ -135,6 +136,7 @@ public class ChangeResultScene : MonoBehaviour
         }
         if (zoom.ZoomEnd)
         {
+            _crackmanager.Init();
             resultmanager.PlayResult();
         }
      
