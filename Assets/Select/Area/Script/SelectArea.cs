@@ -228,7 +228,7 @@ public class SelectArea : MonoBehaviour
         // エリアを移動す時
         if (_nowArea != _nextArea)// 現在と次のエリアが違うとき
         {
-            float speed = 4.5f;
+            float speed = 6.5f;
             float offset = 0.0f;
             if (PlayerLeftMove) offset = 18.0f;
             // 現在地と目標地の間の座標を求める。
