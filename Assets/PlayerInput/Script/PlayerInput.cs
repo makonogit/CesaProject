@@ -222,11 +222,7 @@ public class PlayerInput : MonoBehaviour
             //«««ver.‚Ğ‚Ñ‚É‚Í‚¢‚é‚Ìˆ—
             if (context.phase == InputActionPhase.Started)
             {
-
-                if (ScriptPIManager.GetCrackMove() == false)
-                {
-                    ScriptPIManager.SetCrackMove(true);
-                }
+                ScriptPIManager.SetCrackMove(true);
             }
 
             //if (context.phase == InputActionPhase.Performed)
@@ -240,10 +236,7 @@ public class PlayerInput : MonoBehaviour
 
             if (context.phase == InputActionPhase.Canceled)
             {
-                if (ScriptPIManager.GetCrackMove() == true)
-                {
-                    ScriptPIManager.SetCrackMove(false);
-                }
+                ScriptPIManager.SetCrackMove(false);
             }
         }
     }

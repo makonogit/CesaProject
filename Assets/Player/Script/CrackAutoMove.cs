@@ -78,6 +78,8 @@ public class CrackAutoMove : MonoBehaviour
     // パーティクルシステム
     GameObject ParticleSystemObj;         
    
+    private bool CrackTrigger = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -254,6 +256,7 @@ public class CrackAutoMove : MonoBehaviour
                 // アニメーション終了していたらMove,Jumpを再開
                 Jump.enabled = true;
                 InCrack = false;
+                CrackTrigger = false;
                 Move.SetMovement(true);
                 HitFlg = false;
 
@@ -284,7 +287,7 @@ public class CrackAutoMove : MonoBehaviour
                 seMana.StopSE_crackMove();
                 break;
             case MoveState.Walk:
-                ScriptPIManager.SetCrackMove(false);
+                //ScriptPIManager.SetCrackMove(false);
                 break;
         }
     }
@@ -297,6 +300,11 @@ public class CrackAutoMove : MonoBehaviour
         //ひびとぶつかったら
         if(collision.tag == "Crack" && movestate == MoveState.Walk)
         {
+            if (ScriptPIManager.GetCrackMove() && !CrackTrigger)
+            {
+                ScriptPIManager.SetCrackMove(false);
+                CrackTrigger = true;
+            }
             //----------------------------------
             //ひびの情報を取得
             GameObject crackobj = collision.gameObject;
