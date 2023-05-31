@@ -75,6 +75,8 @@ public class PlantBossMove : MonoBehaviour
     [SerializeField]private GameObject LeftFoot;    // 左足
     [SerializeField]private GameObject RightFoot;   // 右足
 
+    [SerializeField] private GameObject PipeEnemyManager;
+
     EdgeCollider2D WalkSpeace;  // 移動距離用EdgeCollider
     private float[] Limit = new float[2];
     private int WalkDirection;  // 歩く向き　0:左　1:右
@@ -291,6 +293,13 @@ public class PlantBossMove : MonoBehaviour
             rfoot.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
             core.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
             Head.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+
+            //ちび敵の初期化
+            for (int i = 0; i < PipeEnemyManager.transform.childCount; i++)
+            {
+                PipeEnemyManager.transform.GetChild(i).transform.FindChild("PlantEnemy").GetComponent<PlantEnemyMove>().EnemyAI = PlantEnemyMove.AIState.Death;
+            }
+
             State = PlantBossMoveState.DETH;
         }
 
