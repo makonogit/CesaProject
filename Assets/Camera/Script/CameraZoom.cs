@@ -100,6 +100,10 @@ public class CameraZoom : MonoBehaviour
                     breakstage.StartBreak();
 
                     hammer.hammerstate = Hammer.HammerState.NONE;   //強制的に状態を修正
+                    if (PlayerAnim.GetBool("angle")) PlayerAnim.SetBool("angle", false);
+                    if (PlayerAnim.GetBool("crack")) PlayerAnim.SetBool("crack", false);
+                    if (PlayerAnim.GetBool("accumulate")) PlayerAnim.SetBool("accumulate", false);
+
                     Pause.Clear = true;　//クリア状態をセットしてポーズを開けないようにする
                     // フラグ
                     SetBreak = true;
