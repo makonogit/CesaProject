@@ -13,6 +13,7 @@ public class IceBoss : MonoBehaviour
     public enum StateID
     {
         NULL,
+        NONE,
         WALK,       // 移動
         RUN,        // 突進
         CONFUSE,    // 混乱
@@ -67,6 +68,8 @@ public class IceBoss : MonoBehaviour
 
     private BGMFadeManager _BGMfadeMana;
 
+    private GameObject _player;
+
     //-----------------------------------------------------------------
     // Use this for initialization
     void Start()
@@ -92,6 +95,8 @@ public class IceBoss : MonoBehaviour
         if (_anim == null) Debug.LogError("Animatorのコンポーネントを取得できませんでした。");
         Init();
 
+        _player = GameObject.Find("player");
+
         _BGMfadeMana = GameObject.Find("Main Camera").GetComponent<BGMFadeManager>();
     }
 
@@ -101,6 +106,9 @@ public class IceBoss : MonoBehaviour
         
         switch (State) 
         {
+            case StateID.NONE:
+                Stay();
+                break;
             case StateID.WALK:
                 Walk();
                 break;
@@ -127,7 +135,7 @@ public class IceBoss : MonoBehaviour
     {
         transform.position = StartPos;
         // 初期化処理
-        _state = StateID.WALK;
+        _state = StateID.NONE;
         _direction = false;
         _nowTime = 0.0f;
         _health.Init();
@@ -142,6 +150,17 @@ public class IceBoss : MonoBehaviour
 
     //-----------------------------------------------------------------
     //☆☆秘匿関数☆☆(私)
+
+    //
+    // 関数：Stay()
+    //
+    // 内容：
+    //
+    private void Stay()
+    {
+        Vector3 distans = this.transform.position - _player.transform.position;
+        if (distans.magnitude <= 10) _state = StateID.WALK;
+    }
 
     //
     // 関数：Walk() 
