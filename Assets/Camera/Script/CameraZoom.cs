@@ -48,6 +48,7 @@ public class CameraZoom : MonoBehaviour
     public bool SetBreak = false; // 破壊演出呼び出ししたか
    
     private Hammer hammer;        //　ハンマー
+    private PolygonCollider2D camerarea;  //　カメラの移動制限
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +57,9 @@ public class CameraZoom : MonoBehaviour
         Camera = GameObject.Find("Main Camera");
         // カメラスクリプトを取得
         Cam = Camera.GetComponent<Camera>();
+
+        // カメラの制限用コライダー
+        camerarea = GameObject.Find("CameraArea").GetComponent<PolygonCollider2D>();
 
         Pause = GameObject.Find("PausePanel").GetComponent<PauseGame>();    //ポーズスクリプト取得
 
@@ -85,6 +89,12 @@ public class CameraZoom : MonoBehaviour
                 // 演出開始させていなければ
                 if (SetBreak == false)
                 {
+                    // コライダーの初期化
+                    Vector2[] points = camerarea.points;
+                    points[1].x = -28.7f;
+                    points[2].x = -28.7f;
+                    camerarea.SetPath(0, points);
+
                     Debug.Log("背景クリスタル破壊開始");
                     // 破壊演出開始
                     breakstage.StartBreak();
