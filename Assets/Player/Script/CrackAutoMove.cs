@@ -282,9 +282,10 @@ public class CrackAutoMove : MonoBehaviour
                 //thisRenderer.enabled = true;
                 // ƒTƒEƒ“ƒhŠÖŒW
                 seMana.StopSE_crackMove();
-
                 break;
-
+            case MoveState.Walk:
+                ScriptPIManager.SetCrackMove(false);
+                break;
         }
     }
 
