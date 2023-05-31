@@ -254,7 +254,10 @@ public class Hammer : MonoBehaviour
                         }
                         else
                         {
-                           
+
+                            MoveLength = CrackLength;   //　長さの初期化
+                            Power = 0;
+                            AddPower = 1;   //　力の初期化  
                             hammerstate = HammerState.NONE;
                             // なければ
                             angle = angle;
@@ -412,6 +415,7 @@ public class Hammer : MonoBehaviour
                             //AngleTest.transform.position = CrackPointList[0];
                             //　移動制限解除
                             //Move.SetMovement(true);
+
                             hammerstate = HammerState.NONE;
                         }
 
@@ -466,8 +470,7 @@ public class Hammer : MonoBehaviour
                                 OldFirstPoint = transform.position;  // 生成時の座標を保存
                                 WaitHammerMeasure = 0.0f;       // 経過用変数初期化
 
-                                Power = 0;
-                                AddPower = 1;   //　力の初期化
+                             
                                 //AngleTest.transform.position = CrackPointList[0];   // Point座標を初期化
                                 //Move.SetMovement(true);
                                 AddCrackFlg = false;
@@ -505,9 +508,12 @@ public class Hammer : MonoBehaviour
             if (stopTime < HitStopTime)
             {
                 stopTime += Time.deltaTime;
+                Power = 0;
+                AddPower = 1;   //　力の初期化
             }
             else
             {
+
                 // ヒットストップ終了
                 anim.speed = 1f;
                 playerStatus.SetHitStop(false);
