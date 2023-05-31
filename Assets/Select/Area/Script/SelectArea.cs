@@ -127,7 +127,8 @@ public class SelectArea : MonoBehaviour
             _nextArea = Mathf.Clamp(_nextArea, _min, _max);
             //_nowNextUiTime = 0;
 
-            if (_nextArea < 4)
+            //　ごり押し
+            if (_nextArea < 5 && Playertrans.position.x < 134.5f)
             {
                 //プレイヤーの座標変更
                 Playertrans.position = new Vector3(stageManager.stage[_nextArea].stage[0].StageObj.transform.position.x, Playertrans.position.y, Playertrans.position.z);
