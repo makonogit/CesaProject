@@ -464,6 +464,7 @@ public class Hammer : MonoBehaviour
                                 //Move.SetMovement(true);
                                 AddCrackFlg = false;
                                 angle = 0.0f; //角度の初期化
+
                                 hammerstate = HammerState.NONE;
 
                                 Debug.Log("ひびが見つかりません");
@@ -482,6 +483,7 @@ public class Hammer : MonoBehaviour
                             //angle = 0.0f;   //角度の初期化
                             hammerstate = HammerState.NONE;
                         }
+                        //hammerstate = HammerState.NONE;
                     }
 
                     break;
@@ -577,10 +579,10 @@ public class Hammer : MonoBehaviour
         }
 
         //　ポイントが2つより多かったら削除
-        if(CrackPointList.Count > 2)
-        {
-            CrackPointList.RemoveRange(2, CrackPointList.Count - 2);
-        }
+        //if(CrackPointList.Count > 2)
+        //{
+        //    CrackPointList.RemoveRange(2, CrackPointList.Count - 2);
+        //}
 
     }
 
