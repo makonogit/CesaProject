@@ -84,7 +84,10 @@ public class Hammer : MonoBehaviour
     [SerializeField,Header("ハンマー打ち込むまでの待機時間")]
     private float WaitHammer;                  // ハンマーを打つまでの待ち時間
     private float WaitHammerMeasure = 0.0f;    // ハンマー打ち込み時間を計測する変数
- 
+
+
+    private bool animflg = false;   //溜め技エフェクト
+
     // Start is called before the first frame update
     void Start()
     {
@@ -164,6 +167,9 @@ public class Hammer : MonoBehaviour
             switch (hammerstate)
             {
                 case HammerState.NONE:
+
+                    EndHaloAnimation();//←追加者:中川直登 アニメーション停止
+                    vibration.StopControlerVibration();
 
                     // 角度の可視化
                     //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
@@ -249,7 +255,7 @@ public class Hammer : MonoBehaviour
                         }
                         else
                         {
-                            EndHaloAnimation();//←追加者:中川直登 アニメーション停止
+                           
                             hammerstate = HammerState.NONE;
                             // なければ
                             angle = angle;
@@ -296,7 +302,6 @@ public class Hammer : MonoBehaviour
                                 //　前方の分割
                                 for (int i = 0; i < segment / 2; i++)
                                 {
-
                                     CrackPointList.Insert(1, Vector2.Lerp(CrackPointList[0], CrackPointList[1], 0.5f));
                                     //Debug.Log(CrackPointList[1]);
                                 }
@@ -596,7 +601,7 @@ public class Hammer : MonoBehaviour
     private void StartHaloAnimation()
     {
 
-        if (_isStartHaloAnimation != true)
+        if (_isStartHaloAnimation == false)
         {
             _haloEffect.Play();
             _isStartHaloAnimation = true;

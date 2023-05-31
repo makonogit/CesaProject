@@ -229,6 +229,12 @@ public class VibrationCamera : MonoBehaviour
       
     }
 
+    public void StopControlerVibration()
+    {
+        // コントローラー振動
+        if (gamepad != null) gamepad.SetMotorSpeeds(0.0f,0.0f);
+    }
+
     public bool GetVibration()
     {
         return Vibration;
