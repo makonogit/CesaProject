@@ -113,8 +113,11 @@ public class ClearStageManager : MonoBehaviour
             TheVeryFirst.Init = true;
         }
 
-        // クリアしたステージの設定
-        _areas[_areaNum].LoadStage(_stageNum);
+        if (_areaNum < 5)
+        {
+            // クリアしたステージの設定
+            _areas[_areaNum].LoadStage(_stageNum);
+        }
 
         // クリアしたエリアの設定
         for (int i = 0; i < _areaNum; i++) _areas[i].AreaClear();

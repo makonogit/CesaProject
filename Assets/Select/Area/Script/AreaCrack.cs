@@ -46,6 +46,7 @@ public class AreaCrack : MonoBehaviour
 
     // 二宮追加
     private  bool _savedataClearArea; // セーブデータを取得したときに既にエリアをクリアしていた時、背景が壊れる演出をしないようにする
+    [SerializeField] private float _areaNumber;
 
     // Use this for initialization
     void Start()
@@ -251,17 +252,35 @@ public class AreaCrack : MonoBehaviour
         //Debug.Log("クリアした数"+_clearNum);
         // 配列に合わせるため値を一個ずらす
         int Num = _clearNum - 1;
+        int stageNum;
+        if (_clearNum / 5 + 1 == _areaNumber)
+        {
+            stageNum = _clearNum % 5;
+        }
+        else
+        {
+            stageNum = 5;
+        }
 
         //Debug.Log(Num);
 
-        if(Num >= 0)// ステージ１以上クリアしているなら
+        if (Num >= 0)// ステージ１以上クリアしているなら
         {
             // ひびの表示
             for (; _displayedNum <= _point[Num]; _displayedNum++) _cracks[_displayedNum].SetActive(true);
             // ステージの状態をクリアにする
-            for (int i = 0; i <= Num; i++) _stages[i].State = GiveScene.StateID.CLEAR;
-            //次のステージをプレイ可能にする
-            _stages[Num+1].State = GiveScene.StateID.PLAYABLE;
+            for (int i = 0; i < stageNum; i++)
+            {
+                _stages[i].State = GiveScene.StateID.CLEAR;
+                //Debug.Log(_areaNumber);
+                //Debug.Log(stageNum);
+            }
+            // 配列の外に出ないようにする
+            if (Num < 24)
+            {
+                // 次のステージをプレイ可能にする
+                _stages[Num + 1].State = GiveScene.StateID.PLAYABLE;
+            }
         }
         else if (Num < 0) // まだステージをクリアしてないなら
         {

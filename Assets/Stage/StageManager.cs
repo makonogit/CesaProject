@@ -159,6 +159,9 @@ public class SetStage {
     //@–ß‚è’lF‚È‚µ
     public void SetClearFlg(int _area, int _stage)
     {
+
+        //Debug.Log(_area);
+        //Debug.Log(_stage);
         StageData.ClearFlg[_area,_stage] = true;
     }
 
