@@ -124,8 +124,7 @@ public class BreakBlock : MonoBehaviour
             if (order != null)
             {
                 // Ç–Ç—ê∂ê¨íÜÇ»ÇÁ
-                if (order.State == CrackCreater.CrackCreaterState.CREATING ||
-                    order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                if (order.State != CrackCreater.CrackCreaterState.CRAETED)
                 {
                     if (Break == false)
                     {
