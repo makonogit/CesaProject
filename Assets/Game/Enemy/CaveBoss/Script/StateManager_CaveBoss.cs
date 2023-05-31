@@ -231,7 +231,7 @@ public class StateManager_CaveBoss : MonoBehaviour
                 //¶¬’†‚È‚ç
                 if (order != null)
                 {
-                    if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                    if (order.State != CrackCreater.CrackCreaterState.CRAETED)
                     {
                         // ”í’eó‘Ô‚É‘JˆÚ
                         //nextMainState = MainStateID.DAMAGE;

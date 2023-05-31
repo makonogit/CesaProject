@@ -43,7 +43,7 @@ public class PlantEnemyCrackHit : MonoBehaviour
                 //ê∂ê¨íÜÇ»ÇÁ
                 if (order != null)
                 {
-                    if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                    if (order.State != CrackCreater.CrackCreaterState.CRAETED)
                     {
                         if (enemyMove.EnemyAI == PlantEnemyMove.AIState.Attack || enemyMove.EnemyAI == PlantEnemyMove.AIState.Confusion || enemyMove.EnemyAI == PlantEnemyMove.AIState.Rage)
                         {

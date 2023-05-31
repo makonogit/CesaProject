@@ -17,8 +17,7 @@ public class BreakCore : MonoBehaviour
         //Å@Ç–Ç—Ç™ìñÇΩÇ¡ÇΩÇÁè¡ãé
         if (collision.gameObject.tag == "Crack")
         {
-            if (collision.gameObject.GetComponent<CrackCreater>() && (collision.gameObject.GetComponent<CrackCreater>().GetState() == CrackCreater.CrackCreaterState.CREATING ||
-            collision.gameObject.GetComponent<CrackCreater>().GetState() == CrackCreater.CrackCreaterState.ADD_CREATING))
+            if (collision.gameObject.GetComponent<CrackCreater>().State != CrackCreater.CrackCreaterState.CRAETED)
             {
                 if (light != null)
                 {
@@ -41,8 +40,7 @@ public class BreakCore : MonoBehaviour
         //Å@Ç–Ç—Ç™ìñÇΩÇ¡ÇΩÇÁè¡ãé
         if(collision.tag == "Crack")
         {
-            if (collision.GetComponent<CrackCreater>() && (collision.GetComponent<CrackCreater>().GetState() == CrackCreater.CrackCreaterState.CREATING ||
-            collision.GetComponent<CrackCreater>().GetState() == CrackCreater.CrackCreaterState.ADD_CREATING))
+            if (collision.gameObject.GetComponent<CrackCreater>().State != CrackCreater.CrackCreaterState.CRAETED)
             {
                 if (light != null)
                 {

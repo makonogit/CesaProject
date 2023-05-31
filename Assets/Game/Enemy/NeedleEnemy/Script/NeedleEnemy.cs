@@ -180,7 +180,7 @@ public class NeedleEnemy : MonoBehaviour
             //ê∂ê¨íÜÇ»ÇÁ
             if (order != null)
             {
-                if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                if (order.State != CrackCreater.CrackCreaterState.CRAETED)
                 {
                     nextState = StateID.DEATH;
                     Instantiate(effect, transform.position, Quaternion.identity);

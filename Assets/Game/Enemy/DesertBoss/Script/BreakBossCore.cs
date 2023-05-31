@@ -30,8 +30,7 @@ public class BreakBossCore : MonoBehaviour
             CrackCreater creater = collision.GetComponent<CrackCreater>();
             if (creater != null)
             {
-                if ((creater.GetState() == CrackCreater.CrackCreaterState.CREATING ||
-                    creater.GetState() == CrackCreater.CrackCreaterState.ADD_CREATING))
+                if (creater.State != CrackCreater.CrackCreaterState.CRAETED)
                 {
                     GameObject boss = GameObject.Find("BossEnemy").transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
                     boss.GetComponent<Animator>().enabled = false;

@@ -57,7 +57,7 @@ public class TownBossHealth : MonoBehaviour
             //ê∂ê¨íÜÇ»ÇÁ
             if (order != null)
             {
-                if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                if (order.State != CrackCreater.CrackCreaterState.CRAETED)
                 {
                     // ÉvÉåÉCÉÑÅ[ñ¢î≠å©èÛë‘Ç≈Ç»Ç¢Ç»ÇÁ
                     if (bossMove.EnemyAI != TownBossMove.AIState.None)

@@ -44,7 +44,13 @@ public class EnemyCrackHit : MonoBehaviour
                     //ê∂ê¨íÜÇ»ÇÁ
                     if (order != null)
                     {
-                        if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                        //if (order.State == CrackCreater.CrackCreaterState.CREATING || order.State == CrackCreater.CrackCreaterState.ADD_CREATING)
+                        //{
+                        //    // éÄñSèÛë‘Ç…Ç∑ÇÈ
+                        //    enemyMove.EnemyAI = EnemyMove.AIState.DEATH;
+                        //}
+
+                        if(order.State != CrackCreater.CrackCreaterState.CRAETED)
                         {
                             // éÄñSèÛë‘Ç…Ç∑ÇÈ
                             enemyMove.EnemyAI = EnemyMove.AIState.DEATH;

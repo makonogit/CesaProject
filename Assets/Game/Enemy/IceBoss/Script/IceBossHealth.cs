@@ -68,7 +68,7 @@ public class IceBossHealth : MonoBehaviour
     {
         CrackCreater.CrackCreaterState _state= _manager.GetHitCrackState(collision);
         // 生成中なら
-        if (_state == CrackCreater.CrackCreaterState.CREATING && !_Damaged)
+        if (_state != CrackCreater.CrackCreaterState.CRAETED && !_Damaged)
         {
             _hp--;
             _Damaged = true;

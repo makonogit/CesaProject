@@ -163,15 +163,21 @@ public class DesertEnemyMove : MonoBehaviour
         //　ひびに当たったら状態をDETHに
         if (collision.gameObject.tag == "Crack")
         {
-            ThisAnim.SetBool("Deth", true);
-            Destroy(collision.gameObject);
-            GetComponent<CircleCollider2D>().enabled = false;
-            EnemyState = DesertEnemyState.DATH;
+            if (collision.gameObject.GetComponent<CrackCreater>() != null)
+            {
+                if (collision.gameObject.GetComponent<CrackCreater>().State != CrackCreater.CrackCreaterState.CRAETED)
+                {
+                    ThisAnim.SetBool("Deth", true);
+                    Destroy(collision.gameObject);
+                    GetComponent<CircleCollider2D>().enabled = false;
+                    EnemyState = DesertEnemyState.DATH;
 
-            // 壊れる
-            _playEnemySound.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);     //死んだ音を再生
-            Instantiate(BreakParticle, transform.position, Quaternion.identity);   //　割れる演出をする
-            Destroy(gameObject);    //自分を消す
+                    // 壊れる
+                    _playEnemySound.PlayEnemySE(PlayEnemySound.EnemySoundList.Destroy);     //死んだ音を再生
+                    Instantiate(BreakParticle, transform.position, Quaternion.identity);   //　割れる演出をする
+                    Destroy(gameObject);    //自分を消す
+                }
+            }
         }
     }
 }

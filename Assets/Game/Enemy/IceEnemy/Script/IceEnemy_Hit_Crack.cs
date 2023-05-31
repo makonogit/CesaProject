@@ -56,8 +56,7 @@ public class IceEnemy_Hit_Crack : MonoBehaviour
     { 
         get 
         {
-            if (crack.State == CrackCreater.CrackCreaterState.CREATING) return true;
-            if (crack.State == CrackCreater.CrackCreaterState.ADD_CREATING) return true;
+            if(crack.State != CrackCreater.CrackCreaterState.CRAETED) return true;
             return false;
         }
     }
