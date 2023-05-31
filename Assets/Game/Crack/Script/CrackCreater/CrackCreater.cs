@@ -438,7 +438,7 @@ public class CrackCreater : MonoBehaviour
             int _division = Random.Range(_divisionNum.x, _divisionNum.y);
             //--------------------------------------
             // 分割する頂点分繰り返す
-            SubdivisionVertex(_division, _verticalVec, Last-1, Ways.BACK);
+            SubdivisionVertex(_division, _verticalVec, Last, Ways.BACK);
 
             //--------------------------------------
             // 2つ頂点の間にポイントを置く// Last～Cont - 1
@@ -484,7 +484,6 @@ public class CrackCreater : MonoBehaviour
             AddBetween(num, j, _pos, ways);
 
         }
-
     }
 
     //
@@ -570,29 +569,31 @@ public class CrackCreater : MonoBehaviour
                 }
             }
 
-            // リストに追加
-            // 呼び出し
-            if (ways == Ways.FORWARD) // 前方向
-            {
-                _cracks.Insert(i, Instantiate(_crackObject, _point, Quaternion.identity, transform));// 間に追加
-            }
-            if (ways != Ways.FORWARD)
-            {
-                _cracks.Add(Instantiate(_crackObject, _point, Quaternion.identity, transform));
-            }
-
+            GameObject game = Instantiate(_crackObject, _point, Quaternion.identity, transform);
             // 非表示
-            _cracks[i].SetActive(false);
+            game.SetActive(false);
             // 二つの釘から垂直な角度を求める
             Vector2 _vector = _edgePoints[i] - _edgePoints[i + 1];
             float _angle2 = Mathf.Atan2(_vector.y, _vector.x) * Mathf.Rad2Deg;
 
 
             // 角度設定
-            _cracks[i].transform.eulerAngles = new Vector3(0, 0, _angle2);
+            game.transform.eulerAngles = new Vector3(0, 0, _angle2);
             // サイズ設定
-            _cracks[i].transform.localScale = new Vector3(_vector.magnitude, _cracks[i].transform.localScale.y, _cracks[i].transform.localScale.z);
+            game.transform.localScale = new Vector3(_vector.magnitude, game.transform.localScale.y, game.transform.localScale.z);
+            // リストに追加
+            // 呼び出し
+            if (ways == Ways.FORWARD) // 前方向
+            {
+                _cracks.Insert(i, game);// 間に追加
+            }
+            if (ways != Ways.FORWARD)
+            {
+                
+                _cracks.Add(game);
+            }
             if (ways != Ways.NORMAL) _addCrackCount++;
+
         }
     }
     //
