@@ -42,7 +42,7 @@ public class AreaCrack : MonoBehaviour
 
     private bool _isBreaked;
 
-    private bool _isAreClear;
+    public bool _isAreClear = false;
 
     // 二宮追加
     private  bool _savedataClearArea; // セーブデータを取得したときに既にエリアをクリアしていた時、背景が壊れる演出をしないようにする
@@ -182,6 +182,7 @@ public class AreaCrack : MonoBehaviour
         Break.enabled = true;
 
         _isBreaked = true;
+        _isAreClear = true;
     }
 
     //
@@ -334,12 +335,6 @@ public class AreaCrack : MonoBehaviour
     // 
     // 内容：エリアがクリアしたか
     //
-    public bool IsAreaClear 
-    { get 
-        {
-            return _isAreClear;
-        } 
-    }
 
     public void SetSaveDataClearArea()
     {

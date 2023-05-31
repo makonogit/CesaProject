@@ -108,7 +108,7 @@ public class GiveScene : MonoBehaviour
 
             case StateID.CLEAR:
                 // エリアをクリアしているかしてないか
-                if (_areaCrack.IsAreaClear)
+                if (_areaCrack._isAreClear == true)
                 {
                     // エリア解放後のエリアクリアスプライト
                     _renderer.sprite = clearArea;

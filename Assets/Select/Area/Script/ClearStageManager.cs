@@ -47,7 +47,7 @@ public class ClearStageManager : MonoBehaviour
             //Debug.Log(_data._data.ClearStages);
             _data.Save(_data._data);
             // エリアをクリアしたか
-            if (_areas[areaNum].IsAreaClear && areaNum + 1 < 5)
+            if (_areas[areaNum]._isAreClear == true && areaNum + 1 < 5)
             {
                 _areas[areaNum+1].AreaStart();//新エリア解放
                     
@@ -102,6 +102,7 @@ public class ClearStageManager : MonoBehaviour
 
                 // セーブデータによるエリアのクリア
                 _areas[i].SetSaveDataClearArea();
+                _areas[i]._isAreClear = true;
             }
 
             // 一番進んでいるエリアのステージのクリアフラグを立てる
