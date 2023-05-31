@@ -56,7 +56,7 @@ public class SandControl : MonoBehaviour
         }
         else
         {
-            Debug.Log("add");
+           // Debug.Log("add");
             // ˆÚ“®‚È‚Ç‚Å–³‚­‚È‚ê‚ÎÄ“xİ’èó‘Ô‚É
             Destroy(ReleasedSand);
             HitTrigger = false;
