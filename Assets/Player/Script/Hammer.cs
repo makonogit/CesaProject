@@ -169,7 +169,6 @@ public class Hammer : MonoBehaviour
                 case HammerState.NONE:
 
                     EndHaloAnimation();//←追加者:中川直登 アニメーション停止
-                    vibration.StopControlerVibration();
 
                     // 角度の可視化
                     //TargtRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
@@ -617,6 +616,7 @@ public class Hammer : MonoBehaviour
         if(_isStartHaloAnimation == true) 
         {
             _haloEffect.End();
+            vibration.StopControlerVibration();
             _isStartHaloAnimation = false;
         }
     }
