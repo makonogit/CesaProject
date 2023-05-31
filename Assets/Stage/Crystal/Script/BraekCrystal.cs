@@ -5,6 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class BraekCrystal : MonoBehaviour
 {
@@ -77,6 +78,8 @@ public class BraekCrystal : MonoBehaviour
         // ひびに当たったら
         if (collision.name == "CrackCreaterObject(Clone)")
         {
+            SetStage stage = new SetStage();    //ステージを取得
+
             Destroy(collision.gameObject);
             if (!Break)
             {
@@ -88,6 +91,13 @@ public class BraekCrystal : MonoBehaviour
                 //playerStatus.AddBreakCrystal();
                 Break = true;
             }
+
+            // 洞窟ステージならライトを明るくする
+            if(stage.GetAreaNum() == 3)
+            {
+                GameObject.Find("Global Light 2D").GetComponent<Light2D>().intensity = 1.0f;
+            }
+
             //if (Time.time > ParentBreakTime)
             //{
                
