@@ -201,8 +201,9 @@ public class VibrationCamera : MonoBehaviour
         }
         if (gamepad != null)
         {
+            gamepad.SetMotorSpeeds(0.0f, 0.0f);
             // コントローラー振動
-            gamepad.SetMotorSpeeds(0.0f, 0.5f);
+            gamepad.SetMotorSpeeds(time,time);
         }
 
     }

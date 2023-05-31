@@ -57,7 +57,7 @@ public class ResultManager : MonoBehaviour
     public float acceleration = 0.0002f;
     [Header("・破片のオブジェクト")]
     public GameObject[] debris = new GameObject[3];// 破片用オブジェクト
-   
+
     bool isMoveFlg;                         // 破片の集まるフラグ
 
     //---------------------------------------------

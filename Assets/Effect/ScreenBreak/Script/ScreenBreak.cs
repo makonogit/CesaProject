@@ -32,6 +32,8 @@ public class ScreenBreak : MonoBehaviour
     public AudioClip sound1;// 音声ファイル
     AudioSource audioSource;// 取得したAudioSourceコンポーネント
 
+    private VibrationCamera vibration;
+
     //============================================================
     // - 初期化処理 -
 
@@ -42,6 +44,8 @@ public class ScreenBreak : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         camera = GameObject.Find("Main Camera");
+        vibration = camera.GetComponent<VibrationCamera>();
+
         //if (camera == null)
         //{
         //    camera = GameObject.Find("UIcameraWalk");
@@ -55,6 +59,7 @@ public class ScreenBreak : MonoBehaviour
 
         if (StartBreak == true)
         {
+            vibration.SetVibration(1.0f);
             Break();
         }
     }
