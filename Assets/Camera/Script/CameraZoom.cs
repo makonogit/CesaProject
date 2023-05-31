@@ -46,7 +46,8 @@ public class CameraZoom : MonoBehaviour
     private GameObject lastCameraTarget;
     private DirectingBreakStage breakstage;
     public bool SetBreak = false; // 破壊演出呼び出ししたか
-
+   
+    private Hammer hammer;        //　ハンマー
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +62,7 @@ public class CameraZoom : MonoBehaviour
         player = GameObject.Find("player");
         playertans = player.transform;
         PlayerAnim = player.GetComponent<Animator>();
+        hammer = player.GetComponent<Hammer>();
 
         stagestatas = GetComponent<StageStatas>();
         resultScene = GameObject.Find("ChageResultScene").GetComponent<ChangeResultScene>();
@@ -87,6 +89,7 @@ public class CameraZoom : MonoBehaviour
                     // 破壊演出開始
                     breakstage.StartBreak();
 
+                    hammer.hammerstate = Hammer.HammerState.NONE;   //強制的に状態を修正
                     Pause.Clear = true;　//クリア状態をセットしてポーズを開けないようにする
                     // フラグ
                     SetBreak = true;
