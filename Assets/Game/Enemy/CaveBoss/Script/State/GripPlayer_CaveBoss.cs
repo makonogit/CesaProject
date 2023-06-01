@@ -44,7 +44,9 @@ public class GripPlayer_CaveBoss : MonoBehaviour
     [Header("左手")]
     public GameObject leftHand; // 左手
     [Header("捕まえる時間")]
-    public int gripTim = 1000;  // 拘束時間
+    public int gripTim = 1000;     // 拘束時間
+    [Header("拘束ダメージを受けるまでの時間")]
+    public int gripDamageTim = 500;// 拘束ダメージを受けるまでの時間
 
     int gripTimCnt;             // 拘束時間をカウント
     Vector2 playerGripPos;      // プレイヤーを拘束する座標
@@ -76,7 +78,8 @@ public class GripPlayer_CaveBoss : MonoBehaviour
     //-------------------------------------
     // *** 外部オブジェクト ***
 
-    GameObject objPlayer;// プレイヤー
+    GameObject objPlayer;      // プレイヤー
+    private HitEnemy _hitEnemy;// 無敵時間関係スクリプト
 
     Animator animLeft; // 左手のアニメーター
     Animator animRight;// 右手のアニメーター
@@ -97,6 +100,7 @@ public class GripPlayer_CaveBoss : MonoBehaviour
 
     void Start()
     {
+
         // 色を取得
         sr_boss = GetComponent<SpriteRenderer>();
         sr_lefthand = GameObject.Find("LeftHand").GetComponent<SpriteRenderer>();
@@ -117,6 +121,7 @@ public class GripPlayer_CaveBoss : MonoBehaviour
 
         // プレイヤーのオブジェクトを取得
         objPlayer = GameObject.Find("player");
+        _hitEnemy = objPlayer.GetComponent<HitEnemy>();
 
         startScale = rightHand.transform.localScale;
     }
@@ -350,7 +355,6 @@ public class GripPlayer_CaveBoss : MonoBehaviour
         // 捕まえた座標を保存
         if (gripTimCnt == 1)
         {
-
             animLeft.SetTrigger("Trigger");
             animRight.SetTrigger("Trigger");
 
@@ -384,11 +388,18 @@ public class GripPlayer_CaveBoss : MonoBehaviour
         // 角度を加算
         angle += 0.2f;
 
-        // 移動ステックが動いたらカウントを早める
+        // 移動ステックが動いたらダメージを受けるまでの時間を延長
         if (playerGripPos.x != objPlayer.transform.position.x)
         {
-            gripTimCnt++;
+            //gripTimCnt++;
+            gripDamageTim++;
+        }
 
+        // ダメージを受けるまでの時間が過ぎたらダメージを与える
+        if (gripDamageTim < gripTimCnt)
+        {
+            // 敵とプレイヤーが接触したときの処理関数呼び出し
+            _hitEnemy.HitPlayer(objPlayer.transform);
         }
 
         // 時間が経ったらRETURN状態にする
