@@ -189,10 +189,6 @@ public class GameOver : MonoBehaviour
             if (hell == false)
             {
                 _sePlayer.PlaySE_DropAbyss();
-
-                _playerMove.enabled = false;
-                _playerJump.enabled = false;
-                _hammer.enabled = false;
             }
 
             hell = true;
@@ -257,6 +253,7 @@ public class GameOver : MonoBehaviour
             {
                 _playerJump.enabled = false; // ジャンプ
                 _playerMove.enabled = false; // 移動
+                _hammer.enabled = false; // ハンマー
                 // 死亡時のアニメーションないためフリーズアニメーション
                 _playerAnim.SetBool("death", true);
                 // アニメーションが動かないように
@@ -304,7 +301,6 @@ public class GameOver : MonoBehaviour
 
                         //Debug.Log("リスポーン");
 
-
                         // 落下速度があがりすぎて床を貫通しないようにするため
                         _playerJump.MoveY = 0f;
 
@@ -318,13 +314,8 @@ public class GameOver : MonoBehaviour
                         drawHpUI.NowHPAnimationNumber = 0;
                         drawHpUI.InitImage();
 
-                        //Debug.Log("SSS");
-
                         // 巻き戻し処理
                         _respawnObjManager.RespawnInit();
-
-                        //Debug.Log("SSS");
-                        //Debug.Log(playerStatus.respawnStatus.RespawnCrystalNum);
 
                         // HP回復
                         HP = maxHp;
