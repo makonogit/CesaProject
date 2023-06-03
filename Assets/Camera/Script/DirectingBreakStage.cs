@@ -31,9 +31,7 @@ public class DirectingBreakStage : MonoBehaviour
     private bool fadeOrder = false; // フェードアウトの命令を出していたらtrue
 
     // クリアのフェードアウトが始まってからの経過時間
-    private float fadeTimer = 0f;
     private ResultManager _resultManager;
-    private bool ResultFade = false;
 
     // 外部取得
     private GameObject StageData; // 必要となるオブジェクトの親オブジェクト
@@ -213,36 +211,34 @@ public class DirectingBreakStage : MonoBehaviour
         }
         else
         {
-            // 一定時間経過した最初のフレームのみ入る
-            if (SpecialBGM.time > StartFadeOutTime && fadeOrder == false)
+            // 演出が始まってないと入らない 演出の途中でセレクトに戻ってしまうバグ解消
+            if (startBreak == true)
             {
-                // 画面暗くしていく
-                _fade.FadeOut();
+                // 一定時間経過した最初のフレームのみ入る
+                if (SpecialBGM.time > StartFadeOutTime && fadeOrder == false)
+                {
+                    // 画面暗くしていく
+                    _fade.FadeOut();
 
-                // クリアBGM小さくしていく
-                _BGMFadeMana.smallSpecialBGM();
+                    // クリアBGM小さくしていく
+                    _BGMFadeMana.smallSpecialBGM();
 
-                fadeOrder = true;
+                    fadeOrder = true;
+                }
 
-                fadeTimer = 0.0f;
-                ResultFade = true;
+                // フェードアウトが終了していたらセレクトに遷移するための関数呼び出し
+                if (_fade.GetFadeState() == Fade.FadeState.FadeOut_Finish)
+                {
+                    _resultManager.GoSelectScene();
+                }
+
+                thisTransform.position = InitPos;
+                control.SetTarget(player);
+                timer = 0f;
+
+                FaderRate = 1f;
+                //Mat.SetFloat("_Fader", FaderRate);
             }
-
-            if (ResultFade == true)
-            {
-                fadeTimer += Time.deltaTime;
-            }
-            if(/*fadeTimer > 0.5f && */_fade.GetFadeState() == Fade.FadeState.FadeOut_Finish)
-            {
-                _resultManager.GoSelectScene();
-            }
-
-            thisTransform.position = InitPos;
-            control.SetTarget(player);
-            timer = 0f;
-
-            FaderRate = 1f;
-            //Mat.SetFloat("_Fader", FaderRate);
         }
     }
 
